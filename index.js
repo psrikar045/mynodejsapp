@@ -926,7 +926,9 @@ const getImageFromBanner = () => {
         };
     }
 }
-
+const extraction = require('./extraction');
+const scraperLink = require('./scrapeLinkedIn');
+const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
     const startTime = Date.now();
     console.log(`[Performance] Starting extraction for ${url}`);
@@ -1671,8 +1673,13 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
             console.log(`[extractCompanyDetailsFromPage] Found LinkedIn URL: ${linkedInUrl}. Starting parallel extraction...`);
             
             // Start LinkedIn extraction in parallel with reduced timeout
+            await fss.writeFile('urls.txt', linkedInUrl);
+            const newLogicData = scraperLink.main();
+            console.log('[extractCompanyDetailsFromPage] New logic data:', newLogicData);
             linkedInDataPromise = Promise.race([
-                extractCompanyDataFromLinkedIn(linkedInUrl),
+                // extractCompanyDataFromLinkedIn(linkedInUrl),
+                // extraction.scrapeLinkedInCompany(linkedInUrl),
+                scraperLink.main(),
                 new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('LinkedIn extraction timeout after 2 minutes')), 120000) // Reduced from 5 minutes to 2 minutes
                 )
@@ -1706,6 +1713,9 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
                 // Potentially add LinkedIn banner to Logo object if found and not already present
                 if (linkedInData.bannerUrl) {
                     logoData.LinkedInBanner = linkedInData.bannerUrl; // Add as a new property or replace
+                }
+                if (linkedInData.logoUrl) {
+                    logoData.LinkedInLogo = linkedInData.logoUrl; // Add as a new property or replace
                 }
             } else if (linkedInData && linkedInData.error) {
                 console.warn(`[extractCompanyDetailsFromPage] LinkedIn extraction failed: ${linkedInData.error}`);
