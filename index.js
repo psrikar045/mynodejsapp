@@ -953,6 +953,42 @@ function isGreyscale(hex) {
   const diff = Math.max(r, g, b) - Math.min(r, g, b);
   return diff < 10; // Threshold for greyscale detection
 }
+// Add this new helper function
+async function cleanUpTempImageFile(filePath, shouldCleanUp) {
+    if (shouldCleanUp && filePath) {
+        const MAX_RETRIES = 3;
+        const RETRY_DELAY_MS = 200; // Wait 100ms between retries
+
+        for (let i = 0; i < MAX_RETRIES; i++) {
+            try {
+                // Add a small delay before attempting to unlink
+                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS));
+                await fss.unlink(filePath);
+                console.info(`Cleaned up temporary file: ${filePath}`);
+                return; // Successfully deleted, exit the helper function
+            } catch (cleanupError) {
+                // Check for common error codes indicating file is locked/in use/permission denied
+                if (cleanupError.code === 'EBUSY' || cleanupError.code === 'EPERM' || cleanupError.code === 'EMFILE' || cleanupError.code === 'ENOENT') {
+                    if (cleanupError.code === 'ENOENT' && i === 0) {
+                        // If file doesn't exist on first try, maybe it was never created or already deleted
+                        console.warn(`Temporary file ${filePath} not found for cleanup (might be already gone).`);
+                        return; // No need to retry if it doesn't exist
+                    }
+                    if (i < MAX_RETRIES - 1) {
+                        console.warn(`Attempt ${i + 1}/${MAX_RETRIES}: File ${filePath} busy, permission issue, or missing. Retrying...`);
+                    } else {
+                        // Last attempt failed
+                        console.error(`Failed to clean up temporary file ${filePath} after ${MAX_RETRIES} attempts:`, cleanupError);
+                    }
+                } else {
+                    // Another type of error, no need to retry
+                    console.error(`Unexpected error during temporary file cleanup ${filePath}:`, cleanupError);
+                    return; // Other error, exit the helper function
+                }
+            }
+        }
+    }
+}
   /**
    * Extract dominant colors from image using node-vibrant
    */
@@ -962,7 +998,7 @@ function isGreyscale(hex) {
 
     try {
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-            cleanupTempFile = true;
+            // cleanupTempFile = true;
             const response = await axios({
                 method: 'get',
                 url: imagePath,
@@ -1021,16 +1057,10 @@ function isGreyscale(hex) {
       height: null,
       colors: []
     }; // Return null or appropriate defaults on error
-    }finally { // This block always executes, regardless of success or error
-        // Clean up the temporary file if it was downloaded
-        // if (cleanupTempFile && localImagePath) { // 'cleanupTempFile' flag indicates if a temp file was created
-            try {
-                await fs.unlink(localImagePath); // This is the line that deletes the file
-                console.log(`Cleaned up temporary file: ${localImagePath}`);
-            } catch (cleanupError) {
-                console.log(`Failed to clean up temporary file ${localImagePath}:`, cleanupError);
-            }
-        // }
+    }finally {
+        // Step 4: Guarantee cleanup using the helper method
+        // This will run reliably regardless of success or failure in the try block
+        await cleanUpTempImageFile(localImagePath, cleanupTempFile);
     }
   }
 const extraction = require('./extraction');
