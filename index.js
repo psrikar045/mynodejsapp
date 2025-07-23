@@ -1,3 +1,6 @@
+const Vibrant = require('node-vibrant');
+const sharp = require('sharp');
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
@@ -926,6 +929,110 @@ const getImageFromBanner = () => {
         };
     }
 }
+
+/**
+ * Convert hex to RGB
+ */
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+/**
+ * Check if color is greyscale
+ */
+function isGreyscale(hex) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return true;
+  
+  const { r, g, b } = rgb;
+  const diff = Math.max(r, g, b) - Math.min(r, g, b);
+  return diff < 10; // Threshold for greyscale detection
+}
+  /**
+   * Extract dominant colors from image using node-vibrant
+   */
+  async function extractColorsFromImage(imagePath) {
+     let localImagePath = imagePath; // Assume it's a path initially
+    let cleanupTempFile = false; // Flag to indicate if we need to delete a temp file
+
+    try {
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            cleanupTempFile = true;
+            const response = await axios({
+                method: 'get',
+                url: imagePath,
+                responseType: 'arraybuffer' // Get image data as a buffer
+            });
+
+            // Create a temporary file path
+            const tempDir = os.tmpdir();
+            const fileName = `temp_image_${Date.now()}${path.extname(new URL(imagePath).pathname) || '.jpg'}`; // Use actual extension or default to .jpg
+            localImagePath = path.join(tempDir, fileName);
+
+            // Write the image data to the temporary file
+            await fss.writeFile(localImagePath, response.data);
+        }
+      const metadata = await sharp(localImagePath).metadata();
+    const imageWidth = metadata.width;
+    const imageHeight = metadata.height;
+      const palette = await Vibrant.from(localImagePath).getPalette();
+      const colors = [];
+      
+      // Extract colors from vibrant palette
+      for (const [name, swatch] of Object.entries(palette)) {
+        if (swatch) {
+          const hex = swatch.getHex();
+          if (hex && !isGreyscale(hex)) {
+            colors.push({
+              hex: hex,
+              population: swatch.getPopulation(),
+              rgb: hexToRgb(hex),
+              name: name
+            });
+          }
+        }
+      }
+       // Sort by population and return top 5
+    const topColors = colors
+      .sort((a, b) => b.population - a.population)
+      .slice(0, 5)
+      .map(color => color.hex);
+      // Sort by population and return top 5
+      // return colors
+      //   .sort((a, b) => b.population - a.population)
+      //   .slice(0, 5)
+      //   .map(color => color.hex);
+      cleanupTempFile = true; // Set cleanup flag to true if we downloaded a temp file
+      return {
+      width: imageWidth,
+      height: imageHeight,
+      colors: topColors
+    };
+        
+    } catch (error) {
+      console.error(`Error extracting colors from image ${imagePath}:`, error);
+      return {
+      width: null,
+      height: null,
+      colors: []
+    }; // Return null or appropriate defaults on error
+    }finally { // This block always executes, regardless of success or error
+        // Clean up the temporary file if it was downloaded
+        // if (cleanupTempFile && localImagePath) { // 'cleanupTempFile' flag indicates if a temp file was created
+            try {
+                await fs.unlink(localImagePath); // This is the line that deletes the file
+                console.log(`Cleaned up temporary file: ${localImagePath}`);
+            } catch (cleanupError) {
+                console.log(`Failed to clean up temporary file ${localImagePath}:`, cleanupError);
+            }
+        // }
+    }
+  }
 const extraction = require('./extraction');
 const scraperLink = require('./scrapeLinkedIn');
 const fss = require('fs').promises;
@@ -1631,7 +1738,9 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
 
     // Execute logo details first as its output is needed by getGeneralImages
     const logoData = await getLogoDetails(page, url);
-
+    let colorAnalysis ={};
+    let logoColors = {};
+    let bannerColors = {};
     // Execute remaining extraction functions in parallel with timeout for each
     console.log('[Extraction] Starting parallel data extraction...');
     const [colorData, fontData, imageData, companyInfoData, socialLinkData] = await Promise.all([
@@ -1661,11 +1770,12 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
         ]).catch(err => { console.warn('[Social Links] Extraction failed:', err.message); return {}; })
     ]);
     console.log('[Extraction] Parallel data extraction completed');
-
+colorAnalysis = colorData; // Use the colorData directly, no need to merge with logo colors
     let finalCompanyInfo = { ...companyInfoData, SocialLinks: socialLinkData };
 
     // Smart LinkedIn data extraction - run in parallel with main extraction, with timeout
     let linkedInDataPromise = null;
+    let linkedInData = null;
     if (socialLinkData && socialLinkData.LinkedIn) {
         const linkedInUrl = socialLinkData.LinkedIn;
         // Basic validation for a LinkedIn company URL structure
@@ -1674,8 +1784,8 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
             
             // Start LinkedIn extraction in parallel with reduced timeout
             await fss.writeFile('urls.txt', linkedInUrl);
-            const newLogicData = scraperLink.main();
-            console.log('[extractCompanyDetailsFromPage] New logic data:', newLogicData);
+            // const newLogicData = scraperLink.main();
+            // console.log('[extractCompanyDetailsFromPage] New logic data:', newLogicData);
             linkedInDataPromise = Promise.race([
                 // extractCompanyDataFromLinkedIn(linkedInUrl),
                 // extraction.scrapeLinkedInCompany(linkedInUrl),
@@ -1694,12 +1804,15 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
     if (linkedInDataPromise) {
         try {
             console.log('[LinkedIn] Waiting for LinkedIn data extraction to complete...');
-            const linkedInData = await linkedInDataPromise;
+            // const linkedInData = await linkedInDataPromise;
+            // AWAIT this promise to get its resolved value.
+        // Execution will pause here until the promise settles.
+        linkedInData = await linkedInDataPromise;
 
             if (linkedInData && !linkedInData.error) {
                 console.log("[extractCompanyDetailsFromPage] Merging LinkedIn data:", linkedInData);
                 // Merge LinkedIn data, giving precedence to LinkedIn for specified fields
-                finalCompanyInfo.Name = linkedInData.description ? finalCompanyInfo.Name : (linkedInData.Name || finalCompanyInfo.Name); // Name usually better from site
+                finalCompanyInfo.Name = linkedInData.Name|| linkedInData.name || finalCompanyInfo.Name; // Name usually better from linkedIn
                 finalCompanyInfo.Description = linkedInData.description || finalCompanyInfo.Description;
                 finalCompanyInfo.Industry = linkedInData.industry || finalCompanyInfo.Industry;
                 finalCompanyInfo.CompanySize = linkedInData.companySize || finalCompanyInfo.Employees; // mapping companySize to Employees
@@ -1709,14 +1822,35 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
                 finalCompanyInfo.Founded = linkedInData.founded || finalCompanyInfo.Founded;
                 finalCompanyInfo.Specialties = linkedInData.specialties || finalCompanyInfo.Specialties; // New field
                 finalCompanyInfo.Locations = linkedInData.locations || finalCompanyInfo.Locations; // New field, might overwrite Location if only one
-
+                finalCompanyInfo.Employees = linkedInData.employees || finalCompanyInfo.Employees; // mapping employees to Employees
                 // Potentially add LinkedIn banner to Logo object if found and not already present
                 if (linkedInData.bannerUrl) {
                     logoData.LinkedInBanner = linkedInData.bannerUrl; // Add as a new property or replace
+                    bannerColors = await extractColorsFromImage(logoData.LinkedInBanner);
+                    // colorData.LinkedInBannerColors = logoColors; // Store colors for LinkedIn banner
+                    console.log("[extractCompanyDetailsFromPage] LinkedIn banner colors extracted:", bannerColors);
+                    colorData.LinkedInBannerData = {
+                        width: bannerColors.width,
+                        height: bannerColors.height,
+                        colors: bannerColors.colors // This is the array of hex colors
+                    };
                 }
                 if (linkedInData.logoUrl) {
                     logoData.LinkedInLogo = linkedInData.logoUrl; // Add as a new property or replace
+                    logoColors = await extractColorsFromImage(logoData.LinkedInLogo);
+                    // colorData.LinkedInLogoColors = logoColors; // Store colors for LinkedIn logo
+                    console.log("[extractCompanyDetailsFromPage] LinkedIn logo colors extracted:", logoColors);
+                     colorData.LinkedInLogoData = {
+                        width: logoColors.width,
+                        height: logoColors.height,
+                        colors: logoColors.colors
+                    };
                 }
+                const colorAnalysis2 = [
+                    bannerColors,
+                     logoColors
+                ]
+                colorAnalysis = [...colorData, ...colorAnalysis2];
             } else if (linkedInData && linkedInData.error) {
                 console.warn(`[extractCompanyDetailsFromPage] LinkedIn extraction failed: ${linkedInData.error}`);
                 finalCompanyInfo.LinkedInError = linkedInData.error; // Add error info for debugging
@@ -1734,7 +1868,7 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
 
     return {
         Logo: logoData, 
-        Colors: colorData, 
+        Colors: colorAnalysis,  // New field for color analysis
         Fonts: fontData, 
         Images: imageData,
         Company: finalCompanyInfo, // Use the potentially updated finalCompanyInfo

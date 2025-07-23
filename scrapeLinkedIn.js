@@ -88,7 +88,19 @@ async function scrapeLinkedInCompany(url, browser) {
     const companyData = {
       url,
       status: 'Success',
-      name: $('meta[property="og:title"]').attr('content') || $('h1').first().text().trim() || null,
+      name: (() => {
+                const ogTitle = $('meta[property="og:title"]').attr('content');
+                const h1Text = $('h1').first().text().trim();
+
+                let extractedName = ogTitle || h1Text || null;
+
+                if (extractedName) {
+                    // Remove '| LinkedIn' or similar patterns from the end
+                    // This regex handles ' | LinkedIn', '|LinkedIn', ' - LinkedIn', etc.
+                    extractedName = extractedName.replace(/\s*[|─-]?\s*(LinkedIn|linkedin|LINKEDIN)\s*$/i, '').trim();
+                }
+                return extractedName;
+            })(),
       logoUrl: await page.evaluate(() => {
         const logoElement = document.querySelector('.top-card-layout__entity-image');
         return logoElement ? logoElement.src : null;
