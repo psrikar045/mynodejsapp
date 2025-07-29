@@ -130,14 +130,50 @@ const utils = {
      * @param {string} url - The URL string to validate.
      * @returns {boolean} True if the URL is valid, false otherwise.
      */
-    isValidUrl(url) {
-        try {
-            new URL(url);
-            return true;
-        } catch (e) {
+ normalizeUrl(url) {
+    if (!url || typeof url !== 'string') {
+        return null;
+    }
+    
+    url = url.trim();
+    
+    // Handle empty string after trimming
+    if (!url) {
+        return null;
+    }
+    
+    // Handle incomplete protocol URLs
+    if (url === 'http://' || url === 'https://') {
+        return null;
+    }
+    
+    // Remove trailing slash if present (except for root domain)
+    if (url.endsWith('/') && url.length > 1) {
+        url = url.slice(0, -1);
+    }
+    
+    // Add https:// if not already present
+    if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+    }
+    
+    return url;
+},
+
+ isValidUrl(url) {
+    try {
+        const normalized = utils.normalizeUrl(url);
+        if (!normalized) {
             return false;
         }
-    },
+        new URL(normalized);
+        return true;
+    } catch (e) {
+        return false;
+    }
+},
+
+
 
     /**
      * Checks if the domain of a given URL is resolvable via DNS.
@@ -1914,17 +1950,42 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
 // New endpoint for extracting specific company details
 app.post('/api/extract-company-details', async (req, res) => {
     const { url } = req.body;
-
-    if (!url) {
-        return res.status(400).json({ error: 'URL is required' });
+    
+    // Check if URL is provided
+    if (!url || typeof url !== 'string') {
+        return res.status(400).json({ error: 'URL is required and must be a string' });
     }
-
-    if (!utils.isValidUrl(url)) {
-        return res.status(400).json({ error: 'Invalid URL format' });
+    
+    const originalUrl = url.trim();
+    
+    // Check if URL is empty after trimming
+    if (!originalUrl) {
+        return res.status(400).json({ error: 'URL cannot be empty' });
+    }
+    
+    // Normalize the URL (adds https:// if missing)
+    const normalizedUrl = utils.normalizeUrl(originalUrl);
+    
+    // Check if normalization failed
+    if (!normalizedUrl) {
+        return res.status(400).json({ 
+            error: 'Invalid URL format - unable to normalize',
+            provided: originalUrl
+        });
+    }
+    
+    // Validate the normalized URL
+    if (!utils.isValidUrl(normalizedUrl)) {
+        console.log(`[DEBUG] URL validation failed for: "${originalUrl}" -> "${normalizedUrl}"`);
+        return res.status(400).json({ 
+            error: 'Invalid URL format',
+            provided: originalUrl,
+            normalized: normalizedUrl
+        });
     }
 
     // Check cache first for performance
-    const cacheKey = url.toLowerCase().trim();
+    const cacheKey = normalizedUrl.toLowerCase().trim();
     const cachedResult = extractionCache.get(cacheKey);
     if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_DURATION) {
         console.log(`[Cache] Returning cached result for ${url}`);
@@ -1935,20 +1996,20 @@ app.post('/api/extract-company-details', async (req, res) => {
         });
     }
 
-    const isResolvable = await utils.isDomainResolvable(url);
+    const isResolvable = await utils.isDomainResolvable(normalizedUrl);
     if (!isResolvable) {
         return res.status(400).json({ error: 'Domain name could not be resolved' });
     }
 
     let browser;
     try {
-        const { browser: launchedBrowser, page } = await setupPuppeteerPageForCompanyDetails(url);
+        const { browser: launchedBrowser, page } = await setupPuppeteerPageForCompanyDetails(normalizedUrl);
         browser = launchedBrowser;
 
         // Add timeout wrapper for the entire extraction process with smart timeout
         console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
         const companyDetails = await Promise.race([
-            extractCompanyDetailsFromPage(page, url, browser),
+            extractCompanyDetailsFromPage(page, normalizedUrl, browser),
             new Promise((_, reject) => 
                 setTimeout(() => reject(new Error('Company extraction timeout after 4 minutes')), 240000) // Balanced timeout - allows LinkedIn extraction but not too long
             )
@@ -1972,7 +2033,7 @@ app.post('/api/extract-company-details', async (req, res) => {
         res.status(200).json(companyDetails);
 
     } catch (error) {
-        console.error(`[Error extracting company details for URL: ${url}]`, error);
+        console.error(`[Error extracting company details for URL: ${normalizedUrl}]`, error);
         // Basic error handling, will be refined
         let errorMessage = 'Failed to extract company details. An unexpected error occurred.';
         let statusCode = 500;
