@@ -89,8 +89,17 @@ async function scrapeLinkedInCompany(url, browser) {
       }
     }
     
-    // Wait for page to load and add human-like delay
+    // **ENHANCED: Anti-bot measures during initial page load**
     await delay(Math.random() * 4000 + 3000); // Random delay between 3-7 seconds
+    
+    // **NEW: Add random mouse movements to appear more human**
+    try {
+      await page.mouse.move(Math.random() * 800 + 100, Math.random() * 600 + 100);
+      await delay(Math.random() * 1000 + 500);
+      await page.mouse.move(Math.random() * 800 + 100, Math.random() * 600 + 100);
+    } catch (e) {
+      // Ignore mouse movement errors
+    }
 
     // **CRUCIAL: Handle login popup first**
     console.log('Checking for login popup...');
@@ -297,36 +306,97 @@ async function scrapeLinkedInCompany(url, browser) {
       url,
       status: 'Success',
       name: await page.evaluate(() => {
-        // Try multiple selectors for company name
-        const selectors = [
+        // **ENHANCED: Smart name extraction with bot detection**
+        
+        // First, check if we're on a login/signup page (bot detection triggered)
+        const loginIndicators = [
+          'Join now', 'Sign in', 'Sign up', 'Log in', 'Login', 'Register',
+          'Create account', 'Get started', 'Welcome to LinkedIn'
+        ];
+        
+        const pageTitle = document.title;
+        const h1Element = document.querySelector('h1');
+        const h1Text = h1Element ? h1Element.textContent.trim() : '';
+        
+        // Check if we're clearly on a login page
+        const isLoginPage = loginIndicators.some(indicator => 
+          pageTitle.toLowerCase().includes(indicator.toLowerCase()) ||
+          h1Text.toLowerCase().includes(indicator.toLowerCase()) ||
+          h1Text === 'Join' || h1Text === 'Sign in' || h1Text === 'Sign up'
+        );
+        
+        if (isLoginPage) {
+          console.log('🚨 Bot detection triggered - detected login page with H1:', h1Text);
+          return null; // Return null to trigger retry logic
+        }
+        
+        // Try multiple selectors for company name with validation
+        const companyNameSelectors = [
           'h1.top-card-layout__title',
-          'h1[data-test-id="company-name"]',
+          'h1[data-test-id="company-name"]', 
           '.top-card-layout__entity-info h1',
           'h1.org-top-card-summary__title',
           'h1.top-card__title',
-          'h1',
           '[data-test-id="org-name"] h1',
-          '.org-page-details__company-name'
+          '.org-page-details__company-name',
+          '.org-top-card-summary-info-list__title h1'
         ];
         
-        for (const selector of selectors) {
+        for (const selector of companyNameSelectors) {
           const element = document.querySelector(selector);
           if (element && element.textContent.trim()) {
             let name = element.textContent.trim();
-            // Remove LinkedIn suffix if present
+            
+            // Clean up the name
             name = name.replace(/\s*[|─-]?\s*(LinkedIn|linkedin|LINKEDIN)\s*$/i, '').trim();
-            if (name) return name;
+            name = name.replace(/\s*\|\s*LinkedIn.*$/i, '').trim();
+            
+            // Validate that this is likely a real company name, not a login prompt
+            if (name && 
+                name.length > 1 && 
+                !loginIndicators.some(indicator => name.toLowerCase().includes(indicator.toLowerCase())) &&
+                !['join', 'sign in', 'sign up', 'login', 'register', 'welcome'].includes(name.toLowerCase())) {
+              console.log('✅ Found valid company name:', name);
+              return name;
+            }
           }
         }
         
-        // Fallback to meta tag
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle && ogTitle.content) {
-          let name = ogTitle.content.trim();
-          name = name.replace(/\s*[|─-]?\s*(LinkedIn|linkedin|LINKEDIN)\s*$/i, '').trim();
-          return name;
+        // Fallback to meta tags with validation
+        const metaSelectors = [
+          'meta[property="og:title"]',
+          'meta[name="twitter:title"]',
+          'meta[property="al:ios:app_name"]'
+        ];
+        
+        for (const selector of metaSelectors) {
+          const meta = document.querySelector(selector);
+          if (meta && meta.content) {
+            let name = meta.content.trim();
+            name = name.replace(/\s*[|─-]?\s*(LinkedIn|linkedin|LINKEDIN).*$/i, '').trim();
+            name = name.replace(/\s*-\s*LinkedIn.*$/i, '').trim();
+            
+            if (name && 
+                name.length > 1 && 
+                !loginIndicators.some(indicator => name.toLowerCase().includes(indicator.toLowerCase()))) {
+              console.log('✅ Found company name from meta:', name);
+              return name;
+            }
+          }
         }
         
+        // Last resort: try to extract from URL or other elements
+        const url = window.location.href;
+        const urlMatch = url.match(/\/company\/([^\/\?]+)/);
+        if (urlMatch && urlMatch[1]) {
+          let nameFromUrl = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          if (nameFromUrl !== 'Mycompany') {
+            console.log('⚠️ Using name from URL as fallback:', nameFromUrl);
+            return nameFromUrl;
+          }
+        }
+        
+        console.log('❌ Could not find valid company name');
         return null;
       }),
       logoUrl: await page.evaluate(() => {
@@ -652,6 +722,130 @@ async function scrapeLinkedInCompany(url, browser) {
       } catch (error) {
         console.error('Error while scraping "aboutUs" from HTML:', error);
       }
+
+      // **CRUCIAL: Bot detection and retry logic for name extraction**
+      if (!companyData.name) {
+        console.log('🔄 Name extraction failed - likely bot detection. Implementing retry strategy...');
+        
+        // Try different approaches to bypass bot detection
+        for (let retryAttempt = 1; retryAttempt <= 2; retryAttempt++) {
+          console.log(`🔄 Retry attempt ${retryAttempt}/2 for name extraction...`);
+          
+          try {
+            // Strategy 1: Try direct navigation to clean URL
+            if (retryAttempt === 1) {
+              const cleanUrl = url.replace('/mycompany/', '/').replace('/mycompany', '').split('?')[0];
+              if (cleanUrl !== url) {
+                console.log(`🔄 Trying clean URL: ${cleanUrl}`);
+                await page.goto(cleanUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+                await delay(3000);
+              }
+            } 
+            // Strategy 2: Refresh current page and try again
+            else {
+              console.log('🔄 Refreshing page to bypass detection...');
+              await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 });
+              await delay(4000);
+            }
+            
+            // Handle popups again after navigation/refresh
+            await page.evaluate(() => {
+              const closeSelectors = [
+                '.artdeco-modal__dismiss',
+                'button[aria-label="Dismiss"]',
+                'button[aria-label="Close"]',
+                '.artdeco-modal-overlay'
+              ];
+              
+              for (const selector of closeSelectors) {
+                const element = document.querySelector(selector);
+                if (element && element.offsetParent !== null) {
+                  element.click();
+                  break;
+                }
+              }
+            });
+            
+            await delay(2000);
+            
+            // Try extracting name again
+            const retryName = await page.evaluate(() => {
+              // Same logic as before but with additional fallbacks
+              const loginIndicators = [
+                'Join now', 'Sign in', 'Sign up', 'Log in', 'Login', 'Register',
+                'Create account', 'Get started', 'Welcome to LinkedIn'
+              ];
+              
+              const h1Element = document.querySelector('h1');
+              const h1Text = h1Element ? h1Element.textContent.trim() : '';
+              
+              // Skip if still on login page
+              if (loginIndicators.some(indicator => h1Text.toLowerCase().includes(indicator.toLowerCase()))) {
+                return null;
+              }
+              
+              // Try company name selectors
+              const selectors = [
+                'h1.top-card-layout__title',
+                'h1[data-test-id="company-name"]',
+                '.top-card-layout__entity-info h1',
+                'h1.org-top-card-summary__title',
+                '.org-top-card-primary-content__title h1',
+                'h1.top-card__title',
+                'h1',
+                '[data-test-id="org-name"] h1'
+              ];
+              
+              for (const selector of selectors) {
+                const element = document.querySelector(selector);
+                if (element && element.textContent.trim()) {
+                  let name = element.textContent.trim();
+                  name = name.replace(/\s*[|─-]?\s*(LinkedIn|linkedin|LINKEDIN).*$/i, '').trim();
+                  
+                  if (name && 
+                      name.length > 1 && 
+                      !loginIndicators.some(indicator => name.toLowerCase().includes(indicator.toLowerCase()))) {
+                    return name;
+                  }
+                }
+              }
+              
+              return null;
+            });
+            
+            if (retryName) {
+              console.log(`✅ Retry ${retryAttempt} successful! Found name: ${retryName}`);
+              companyData.name = retryName;
+              break;
+            } else {
+              console.log(`❌ Retry ${retryAttempt} failed - still no valid name found`);
+            }
+            
+          } catch (retryError) {
+            console.warn(`⚠️ Retry ${retryAttempt} error:`, retryError.message);
+          }
+          
+          // Wait before next retry
+          if (retryAttempt < 2) {
+            await delay(3000);
+          }
+        }
+        
+        // Final fallback: use URL-based name if still no success
+        if (!companyData.name) {
+          console.log('🔄 Using URL-based fallback for company name...');
+          const urlMatch = url.match(/\/company\/([^\/\?]+)/);
+          if (urlMatch && urlMatch[1] && urlMatch[1] !== 'mycompany') {
+            companyData.name = urlMatch[1]
+              .replace(/-/g, ' ')
+              .replace(/\b\w/g, l => l.toUpperCase())
+              .replace(/\s+/g, ' ')
+              .trim();
+            console.log(`⚠️ Using URL-based name: ${companyData.name}`);
+          }
+        }
+      }
+
       // **Enhanced Founded extraction**
       if (!companyData.founded) {
           console.log('Could not find "founded" in JSON-LD, attempting to scrape from HTML.');
@@ -802,6 +996,18 @@ async function main() {
 
   let browser;
   try {
+    // **ENHANCED: Random user agent selection for better bot evasion**
+    const userAgents = [
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    ];
+    
+    const randomUserAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+    console.log(`🎭 Using user agent: ${randomUserAgent.split(' ')[2]}`);
+    
     // Enhanced browser configuration for better LinkedIn compatibility
     browser = await puppeteer.launch({
       headless: headless ? 'new' : false, // Use new headless mode for better compatibility
@@ -822,7 +1028,7 @@ async function main() {
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
-        '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        `--user-agent=${randomUserAgent}`
       ],
       defaultViewport: {
         width: 1366,
