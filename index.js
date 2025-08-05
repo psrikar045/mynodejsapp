@@ -360,28 +360,28 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-web-security',
-            '--disable-features=IsolateOrigins,site-per-process',
             '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
             '--disable-gpu',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor',
+            '--disable-extensions',
+            '--disable-plugins',
+            '--disable-javascript-harmony-shipping',
             '--disable-background-timer-throttling',
             '--disable-backgrounding-occluded-windows',
             '--disable-renderer-backgrounding',
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-extensions',
-            // Performance optimizations for Render
-            // '--memory-pressure-off',
-            // '--max_old_space_size=4096',
-            // '--no-zygote',
-            // '--single-process',
-            // '--disable-background-networking',
-            // '--disable-default-apps',
-            // '--disable-sync'
+            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         ],
-        headless: true,
-        timeout: 60000, // Browser launch timeout (1 minute) - faster startup
-        protocolTimeout: 180000 // CDP command timeout (3 minutes) - reduced but still reasonable
+        headless: 'new', // Use new headless mode for better LinkedIn compatibility
+        defaultViewport: {
+            width: 1366,
+            height: 768
+        },
+        timeout: 60000,
+        protocolTimeout: 180000
     };
 
     // Only set executablePath if we found a specific browser
@@ -417,29 +417,37 @@ async function setupPuppeteerPageForCompanyDetails(url) {
     try {
         const page = await browser.newPage();
         page.setDefaultNavigationTimeout(180000); // Default navigation timeout (3 minutes)
-        await page.setViewport({ width: 1280, height: 800 }); // Standard viewport
+        await page.setViewport({ width: 1366, height: 768 }); // LinkedIn-optimized viewport
         
-      // Smart resource blocking - block heavy resources but keep essential ones
+        // **LINKEDIN-SPECIFIC: Add enhanced headers for better compatibility**
+        await page.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+            'Sec-Ch-Ua-Mobile': '?0',
+            'Sec-Ch-Ua-Platform': '"Windows"',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+            'Upgrade-Insecure-Requests': '1'
+        });
+
+        // **SIMPLIFIED: Minimal request interception for LinkedIn compatibility**
         await page.setRequestInterception(true);
         page.on('request', (req) => {
-            const resourceType = req.resourceType();
             const url = req.url();
+            const resourceType = req.resourceType();
             
-            // Block heavy and non-essential resources for faster loading
-            if (resourceType === 'media' || 
-                (resourceType === 'font' && !url.includes('woff2')) || // Keep woff2 fonts only
-                url.includes('analytics') ||
-                url.includes('tracking') ||
-                url.includes('ads') ||
-                url.includes('facebook.com') ||
-                url.includes('google-analytics') ||
+            // Only block obviously unnecessary resources, allow everything else for LinkedIn
+            if (url.includes('google-analytics') ||
                 url.includes('googletagmanager') ||
                 url.includes('doubleclick') ||
-                url.includes('youtube.com') ||
-                url.includes('vimeo.com') ||
-                url.includes('tiktok.com') ||
-                url.includes('instagram.com') ||
-                url.includes('twitter.com')) {
+                url.includes('facebook.com/tr') ||
+                (resourceType === 'media' && (url.includes('.mp4') || url.includes('.mov')))) {
                 req.abort();
             } else {
                 req.continue();
@@ -1877,18 +1885,33 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
 
             if (linkedInData && !linkedInData.error) {
                 console.log("[extractCompanyDetailsFromPage] Merging LinkedIn data:", linkedInData);
-                // Merge LinkedIn data, giving precedence to LinkedIn for specified fields
-                finalCompanyInfo.Name = linkedInData.Name|| linkedInData.name || finalCompanyInfo.Name; // Name usually better from linkedIn
-                finalCompanyInfo.Description = linkedInData.description || finalCompanyInfo.Description;
+                // **FIXED: Correct field mapping from LinkedIn scraper response**
+                finalCompanyInfo.Name = linkedInData.name || finalCompanyInfo.Name; // LinkedIn uses lowercase 'name'
+                finalCompanyInfo.Description = linkedInData.description || linkedInData.aboutUs || finalCompanyInfo.Description;
                 finalCompanyInfo.Industry = linkedInData.industry || finalCompanyInfo.Industry;
-                finalCompanyInfo.CompanySize = linkedInData.companySize || finalCompanyInfo.Employees; // mapping companySize to Employees
-                finalCompanyInfo.Location = linkedInData.location || finalCompanyInfo.Location;
-                finalCompanyInfo.Headquarters = linkedInData.headquarters || finalCompanyInfo.Location; // mapping headquarters to Location
-                finalCompanyInfo.Type = linkedInData.type || finalCompanyInfo.CompanyType; // mapping type to CompanyType
+                finalCompanyInfo.CompanySize = linkedInData.companySize || linkedInData.employees || finalCompanyInfo.Employees;
+                finalCompanyInfo.Location = linkedInData.location || linkedInData.headquarters || finalCompanyInfo.Location;
+                finalCompanyInfo.Headquarters = linkedInData.headquarters || linkedInData.location || finalCompanyInfo.Location;
+                finalCompanyInfo.Type = linkedInData.type || finalCompanyInfo.CompanyType;
                 finalCompanyInfo.Founded = linkedInData.founded || finalCompanyInfo.Founded;
-                finalCompanyInfo.Specialties = linkedInData.specialties || finalCompanyInfo.Specialties; // New field
-                finalCompanyInfo.Locations = linkedInData.locations || finalCompanyInfo.Locations; // New field, might overwrite Location if only one
-                finalCompanyInfo.Employees = linkedInData.employees || finalCompanyInfo.Employees; // mapping employees to Employees
+                finalCompanyInfo.Website = linkedInData.website || finalCompanyInfo.Website;
+                finalCompanyInfo.Employees = linkedInData.employees || linkedInData.companySize || finalCompanyInfo.Employees;
+                
+                // **NEW: Add LinkedIn-specific data fields**
+                if (linkedInData.specialties && linkedInData.specialties.length > 0) {
+                    finalCompanyInfo.Specialties = linkedInData.specialties.filter(s => s && s.trim() !== '');
+                }
+                if (linkedInData.locations && linkedInData.locations.length > 0) {
+                    finalCompanyInfo.Locations = linkedInData.locations.filter(l => l && l.trim() !== '');
+                }
+                
+                // **ENHANCED: Better logging**
+                console.log("[LinkedIn] Successfully merged data:");
+                console.log("- Name:", finalCompanyInfo.Name);
+                console.log("- Description:", finalCompanyInfo.Description ? "✅ Found" : "❌ Missing");
+                console.log("- Industry:", finalCompanyInfo.Industry || "❌ Missing");
+                console.log("- Founded:", finalCompanyInfo.Founded || "❌ Missing");
+                console.log("- Headquarters:", finalCompanyInfo.Headquarters || "❌ Missing");
                 // Potentially add LinkedIn banner to Logo object if found and not already present
                 if (linkedInData.bannerUrl) {
                     logoData.LinkedInBanner = linkedInData.bannerUrl; // Add as a new property or replace
