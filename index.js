@@ -1896,7 +1896,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 finalCompanyInfo.Founded = linkedInData.founded || finalCompanyInfo.Founded;
                 finalCompanyInfo.Website = linkedInData.website || finalCompanyInfo.Website;
                 finalCompanyInfo.Employees = linkedInData.employees || linkedInData.companySize || finalCompanyInfo.Employees;
-                
+                finalCompanyInfo.CompanyType = linkedInData.type || finalCompanyInfo.CompanyType;
                 // **NEW: Add LinkedIn-specific data fields**
                 if (linkedInData.specialties && linkedInData.specialties.length > 0) {
                     finalCompanyInfo.Specialties = linkedInData.specialties.filter(s => s && s.trim() !== '');
