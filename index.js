@@ -1088,10 +1088,13 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       //   .slice(0, 5)
       //   .map(color => color.hex);
       cleanupTempFile = true; // Set cleanup flag to true if we downloaded a temp file
+      const rgb = hexToRgb(topColors[0]);
       return {
       width: imageWidth,
       height: imageHeight,
-      colors: topColors
+      colors: topColors,
+      hex: topColors[0],
+      rgb: `rgb(${rgb.r},${rgb.g},${rgb.b})`
     };
         
     } catch (error) {
@@ -2028,9 +2031,12 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                     // colorData.LinkedInBannerColors = logoColors; // Store colors for LinkedIn banner
                     console.log("[extractCompanyDetailsFromPage] LinkedIn banner colors extracted:", bannerColors);
                     colorData.LinkedInBannerData = {
+                        hex: bannerColors.hex,
+                        rgb: bannerColors.rgb,//`rgb(${bannerColors.rgb.r},${bannerColors.rgb.g},${bannerColors.rgb.b})`,
                         width: bannerColors.width,
                         height: bannerColors.height,
-                        colors: bannerColors.colors // This is the array of hex colors
+                        colors: bannerColors.colors, // This is the array of hex colors 
+                        name: 'Banner Image' 
                     };
                 }
                 if (linkedInData.logoUrl) {
@@ -2039,9 +2045,12 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                     // colorData.LinkedInLogoColors = logoColors; // Store colors for LinkedIn logo
                     console.log("[extractCompanyDetailsFromPage] LinkedIn logo colors extracted:", logoColors);
                      colorData.LinkedInLogoData = {
+                        hex: logoColors.hex,
+                        rgb: logoColors.rgb,//`rgb(${logoColors.rgb.r},${logoColors.rgb.g},${logoColors.rgb.b})`,
                         width: logoColors.width,
                         height: logoColors.height,
-                        colors: logoColors.colors
+                        colors: logoColors.colors,
+                        name: 'Logo Image'
                     };
                 }
                 const colorAnalysis2 = [
