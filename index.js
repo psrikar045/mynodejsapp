@@ -344,6 +344,37 @@ const utils = {
 };
 
 /**
+ * Get platform-appropriate user agent string
+ */
+function getUserAgent() {
+    const platform = os.platform();
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
+    
+    if (platform === 'win32' && !isProduction) {
+        return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+    } else if (platform === 'linux' || isProduction) {
+        return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+    } else {
+        return 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+    }
+}
+
+/**
+ * Get Linux-specific Chrome arguments (mainly for production)
+ */
+function getLinuxSpecificArgs() {
+    const platform = os.platform();
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
+    
+    // Only add Linux-specific args in production or on Linux
+    if (platform === 'linux' || isProduction) {
+        return ['--single-process'];
+    }
+    
+    return [];
+}
+
+/**
  * Sets up a Puppeteer browser instance and a new page, then navigates to the given URL.
  * Includes error handling for browser launch and page navigation.
  * This version is specifically for the /api/extract-company-details endpoint.
@@ -373,7 +404,11 @@ async function setupPuppeteerPageForCompanyDetails(url) {
             '--disable-background-timer-throttling',
             '--disable-backgrounding-occluded-windows',
             '--disable-renderer-backgrounding',
-            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            '--disable-blink-features=AutomationControlled',
+            '--disable-features=VizDisplayCompositor,VizServiceDisplay',
+            '--disable-ipc-flooding-protection',
+            ...getLinuxSpecificArgs(),
+            `--user-agent=${getUserAgent()}`
         ],
         headless: 'new', // Use new headless mode for better LinkedIn compatibility
         defaultViewport: {
@@ -555,8 +590,26 @@ function getBrowserExecutablePath() {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
     
     if (isProduction) {
-        // For production environments (Render), let Puppeteer handle browser detection automatically
-        console.log('[Browser] Production environment detected, using Puppeteer bundled Chromium');
+        // For production environments, try to find system Chrome first
+        console.log('[Browser] Production environment detected, checking for system Chrome first');
+        
+        // Check for system Chrome in production
+        const productionChromePaths = [
+            '/usr/bin/google-chrome',
+            '/usr/bin/google-chrome-stable',
+            '/usr/bin/chromium-browser',
+            '/usr/bin/chromium'
+        ];
+        
+        for (const chromePath of productionChromePaths) {
+            if (fs.existsSync(chromePath)) {
+                console.log(`[Browser] Found system Chrome in production: ${chromePath}`);
+                return chromePath;
+            }
+        }
+        
+        // Fallback to Puppeteer bundled Chromium if no system Chrome found
+        console.log('[Browser] No system Chrome found, using Puppeteer bundled Chromium');
         return null; // Let Puppeteer handle browser detection automatically
     }
     
@@ -664,7 +717,7 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
     const browserPath = getBrowserExecutablePathForLinkedIn();
 
     const launchOptions = {
-        headless: true,
+        headless: 'new',
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -672,6 +725,10 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
             '--disable-features=IsolateOrigins,site-per-process',
             '--disable-dev-shm-usage',
             '--disable-gpu',
+            '--disable-blink-features=AutomationControlled',
+            '--disable-features=VizDisplayCompositor,VizServiceDisplay',
+            '--disable-ipc-flooding-protection',
+            ...getLinuxSpecificArgs(),
             '--disable-background-timer-throttling',
             '--disable-backgrounding-occluded-windows',
             '--disable-renderer-backgrounding',
@@ -680,7 +737,7 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
             '--disable-extensions',
             // LinkedIn-specific arguments to avoid detection
             '--disable-blink-features=AutomationControlled',
-            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
+            `--user-agent=${getUserAgent()}`
         ],
         timeout: 60000, // Reduced browser launch timeout for LinkedIn
         protocolTimeout: 180000 // Reduced protocol timeout for LinkedIn
@@ -701,7 +758,7 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         const cleanUrl = normalizeLinkedInUrl(linkedinUrl);
         
         // Enhanced stealth measures for LinkedIn
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36');
+        await page.setUserAgent(getUserAgent());
         
         // Set additional headers to look more like a real browser
         await page.setExtraHTTPHeaders({

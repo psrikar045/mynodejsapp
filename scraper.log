@@ -1,0 +1,793 @@
+2025-08-12T05:27:07.380Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T05:27:07.601Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:27:07.625Z - INFO: Server running on port 3000
+2025-08-12T05:27:07.626Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:27:44.350Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T05:27:44.350Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T05:27:44.911Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T05:27:45.011Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://versa-networks.com
+2025-08-12T05:27:47.476Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T05:27:48.482Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T05:27:48.484Z - INFO: [Performance] Starting extraction for https://versa-networks.com
+2025-08-12T05:27:48.485Z - INFO: [getLogoDetails] Starting extraction for https://versa-networks.com
+2025-08-12T05:27:48.496Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T05:27:48.497Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T05:27:48.498Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T05:27:48.501Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T05:27:48.502Z - INFO: [getGeneralImages] Starting image extraction for https://versa-networks.com. Excluding known logos:
+2025-08-12T05:27:48.515Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T05:27:48.519Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T05:27:48.611Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T05:27:48.612Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/versa-networks/mycompany/. Starting parallel extraction...
+2025-08-12T05:27:48.615Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T05:27:48.616Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T05:27:48.616Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T05:27:49.113Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:27:49.180Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/mycompany/...
+2025-08-12T05:27:56.599Z - INFO: Checking for login popup...
+2025-08-12T05:27:56.606Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T05:27:59.679Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-12T05:27:59.679Z - INFO: Trying clean URL: https://www.linkedin.com/company/versa-networks/
+2025-08-12T05:28:06.421Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T05:28:06.424Z - INFO: Page Title:
+2025-08-12T05:28:06.424Z - INFO: H1 Text:
+2025-08-12T05:28:06.424Z - INFO: Has Company Elements:
+2025-08-12T05:28:06.425Z - INFO: Available Navigation:
+2025-08-12T05:28:06.425Z - INFO: Has About Section:
+2025-08-12T05:28:06.425Z - INFO: Visible Text Preview:
+2025-08-12T05:28:06.425Z - INFO: =====================
+2025-08-12T05:28:06.473Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:28:06.476Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T05:28:06.476Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:28:06.478Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T05:28:06.478Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:28:06.482Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T05:28:06.483Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T05:28:06.483Z - INFO: Name:
+2025-08-12T05:28:06.483Z - INFO: About Us:
+2025-08-12T05:28:06.483Z - INFO: Founded:
+2025-08-12T05:28:06.484Z - INFO: Industry:
+2025-08-12T05:28:06.484Z - INFO: Headquarters:
+2025-08-12T05:28:06.484Z - INFO: Logo URL:
+2025-08-12T05:28:06.484Z - INFO: ========================
+2025-08-12T05:28:06.485Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:28:06.532Z - INFO: Successfully saved data to output.json
+2025-08-12T05:28:06.871Z - INFO: Browser closed successfully
+2025-08-12T05:28:06.871Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T05:28:06.871Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T05:28:06.872Z - INFO: - Name:
+2025-08-12T05:28:06.872Z - INFO: - Description:
+2025-08-12T05:28:06.872Z - INFO: - Industry:
+2025-08-12T05:28:06.872Z - INFO: - Founded:
+2025-08-12T05:28:06.872Z - INFO: - Headquarters:
+2025-08-12T05:28:07.432Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T05:28:07.696Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T05:28:07.696Z - INFO: [Performance] Extraction completed in 19.21 seconds
+2025-08-12T05:28:08.172Z - INFO: [Browser] Browser closed successfully
+2025-08-12T05:38:31.978Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T05:38:32.178Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:38:32.182Z - INFO: Server running on port 3000
+2025-08-12T05:38:32.182Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:38:38.102Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T05:38:38.103Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T05:38:38.597Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T05:38:38.692Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://versa-networks.com
+2025-08-12T05:38:40.487Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T05:38:41.499Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T05:38:41.504Z - INFO: [Performance] Starting extraction for https://versa-networks.com
+2025-08-12T05:38:41.505Z - INFO: [getLogoDetails] Starting extraction for https://versa-networks.com
+2025-08-12T05:38:41.522Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T05:38:41.522Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T05:38:41.523Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T05:38:41.526Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T05:38:41.529Z - INFO: [getGeneralImages] Starting image extraction for https://versa-networks.com. Excluding known logos:
+2025-08-12T05:38:41.546Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T05:38:41.549Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T05:38:41.652Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T05:38:41.653Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/versa-networks/mycompany/. Starting parallel extraction...
+2025-08-12T05:38:41.659Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T05:38:41.661Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T05:38:41.662Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T05:38:42.280Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:38:42.361Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/mycompany/...
+2025-08-12T05:38:47.644Z - INFO: Checking for login popup...
+2025-08-12T05:38:47.651Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T05:38:50.698Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-12T05:38:50.699Z - INFO: Trying clean URL: https://www.linkedin.com/company/versa-networks/
+2025-08-12T05:38:56.389Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T05:38:56.392Z - INFO: Page Title:
+2025-08-12T05:38:56.392Z - INFO: H1 Text:
+2025-08-12T05:38:56.392Z - INFO: Has Company Elements:
+2025-08-12T05:38:56.393Z - INFO: Available Navigation:
+2025-08-12T05:38:56.393Z - INFO: Has About Section:
+2025-08-12T05:38:56.393Z - INFO: Visible Text Preview:
+2025-08-12T05:38:56.393Z - INFO: =====================
+2025-08-12T05:38:56.409Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:38:56.411Z - INFO: Direct extraction failed, trying About tab...
+2025-08-12T05:38:56.425Z - INFO: Could not extract "aboutUs" from HTML.
+2025-08-12T05:38:56.426Z - INFO: 🔄 Name extraction failed - likely bot detection. Implementing retry strategy...
+2025-08-12T05:38:56.426Z - INFO: 🔄 Retry attempt 1/2 for name extraction...
+2025-08-12T05:38:56.426Z - INFO: 🔄 Trying clean URL: https://www.linkedin.com/company/versa-networks/
+2025-08-12T05:39:01.845Z - INFO: ✅ Retry 1 successful! Found name: Join
+2025-08-12T05:39:01.845Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:39:01.849Z - INFO: Could not extract "founded" from HTML.
+2025-08-12T05:39:01.849Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:39:01.855Z - INFO: Could not extract "locations" from HTML.
+2025-08-12T05:39:01.855Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T05:39:01.855Z - INFO: Name:
+2025-08-12T05:39:01.855Z - INFO: About Us:
+2025-08-12T05:39:01.856Z - INFO: Founded:
+2025-08-12T05:39:01.856Z - INFO: Industry:
+2025-08-12T05:39:01.856Z - INFO: Headquarters:
+2025-08-12T05:39:01.857Z - INFO: Logo URL:
+2025-08-12T05:39:01.857Z - INFO: ========================
+2025-08-12T05:39:01.857Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:39:01.935Z - INFO: Successfully saved data to output.json
+2025-08-12T05:39:02.236Z - INFO: Browser closed successfully
+2025-08-12T05:39:02.237Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T05:39:02.238Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T05:39:02.238Z - INFO: - Name:
+2025-08-12T05:39:02.238Z - INFO: - Description:
+2025-08-12T05:39:02.238Z - INFO: - Industry:
+2025-08-12T05:39:02.239Z - INFO: - Founded:
+2025-08-12T05:39:02.239Z - INFO: - Headquarters:
+2025-08-12T05:39:02.239Z - INFO: [Performance] Extraction completed in 20.73 seconds
+2025-08-12T05:39:02.576Z - INFO: [Browser] Browser closed successfully
+2025-08-12T05:52:34.125Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T05:52:34.386Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:52:34.390Z - INFO: Server running on port 3000
+2025-08-12T05:52:34.390Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T05:55:31.360Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T05:55:31.361Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T05:55:31.888Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T05:55:31.997Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://versa-networks.com
+2025-08-12T05:55:34.425Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T05:55:35.433Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T05:55:35.436Z - INFO: [Performance] Starting extraction for https://versa-networks.com
+2025-08-12T05:55:35.437Z - INFO: [getLogoDetails] Starting extraction for https://versa-networks.com
+2025-08-12T05:55:35.448Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T05:55:35.448Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T05:55:35.449Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T05:55:35.451Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T05:55:35.453Z - INFO: [getGeneralImages] Starting image extraction for https://versa-networks.com. Excluding known logos:
+2025-08-12T05:55:35.459Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T05:55:35.467Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T05:55:35.574Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T05:55:35.575Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/versa-networks/mycompany/. Starting parallel extraction...
+2025-08-12T05:55:35.583Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T05:55:35.586Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T05:55:35.587Z - INFO: 🎭 Using user agent: NT
+2025-08-12T05:55:36.081Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:55:36.173Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/mycompany/...
+2025-08-12T05:55:44.335Z - INFO: Checking for login popup...
+2025-08-12T05:55:44.354Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T05:55:47.417Z - INFO: Successfully loaded company page
+2025-08-12T05:55:47.573Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T05:55:47.577Z - INFO: Page Title:
+2025-08-12T05:55:47.578Z - INFO: H1 Text:
+2025-08-12T05:55:47.578Z - INFO: Has Company Elements:
+2025-08-12T05:55:47.578Z - INFO: Available Navigation:
+2025-08-12T05:55:47.579Z - INFO: Has About Section:
+2025-08-12T05:55:47.579Z - INFO: Visible Text Preview:
+2025-08-12T05:55:47.579Z - INFO: =====================
+2025-08-12T05:55:47.656Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:55:47.659Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T05:55:47.660Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:55:47.662Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T05:55:47.662Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T05:55:47.665Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T05:55:47.665Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T05:55:47.665Z - INFO: Name:
+2025-08-12T05:55:47.665Z - INFO: About Us:
+2025-08-12T05:55:47.665Z - INFO: Founded:
+2025-08-12T05:55:47.665Z - INFO: Industry:
+2025-08-12T05:55:47.665Z - INFO: Headquarters:
+2025-08-12T05:55:47.666Z - INFO: Logo URL:
+2025-08-12T05:55:47.666Z - INFO: ========================
+2025-08-12T05:55:47.666Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T05:55:47.700Z - INFO: Successfully saved data to output.json
+2025-08-12T05:55:47.926Z - INFO: Browser closed successfully
+2025-08-12T05:55:47.927Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T05:55:47.927Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T05:55:47.927Z - INFO: - Name:
+2025-08-12T05:55:47.927Z - INFO: - Description:
+2025-08-12T05:55:47.927Z - INFO: - Industry:
+2025-08-12T05:55:47.928Z - INFO: - Founded:
+2025-08-12T05:55:47.928Z - INFO: - Headquarters:
+2025-08-12T05:55:48.442Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T05:55:48.781Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T05:55:48.781Z - INFO: [Performance] Extraction completed in 13.35 seconds
+2025-08-12T05:55:49.222Z - INFO: [Browser] Browser closed successfully
+2025-08-12T06:57:12.946Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T06:57:13.185Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T06:57:13.190Z - INFO: Server running on port 3000
+2025-08-12T06:57:13.191Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T06:57:25.777Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T06:57:25.778Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T06:57:26.260Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T06:57:26.376Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://versa-networks.com
+2025-08-12T06:57:27.956Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T06:57:28.960Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T06:57:28.963Z - INFO: [Performance] Starting extraction for https://versa-networks.com
+2025-08-12T06:57:28.964Z - INFO: [getLogoDetails] Starting extraction for https://versa-networks.com
+2025-08-12T06:57:28.982Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T06:57:28.983Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T06:57:28.984Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T06:57:28.987Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T06:57:28.989Z - INFO: [getGeneralImages] Starting image extraction for https://versa-networks.com. Excluding known logos:
+2025-08-12T06:57:29.009Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T06:57:29.014Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T06:57:29.124Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T06:57:29.124Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/versa-networks/mycompany/. Starting parallel extraction...
+2025-08-12T06:57:29.130Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T06:57:29.132Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T06:57:29.132Z - INFO: 🎭 Using user agent: NT
+2025-08-12T06:57:29.684Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T06:57:29.803Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/mycompany/...
+2025-08-12T06:57:35.141Z - INFO: Checking for login popup...
+2025-08-12T06:57:35.154Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T06:57:38.220Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-12T06:57:38.220Z - INFO: Trying clean URL: https://www.linkedin.com/company/versa-networks/
+2025-08-12T06:57:44.283Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T06:57:44.383Z - INFO: Page Title:
+2025-08-12T06:57:44.383Z - INFO: H1 Text:
+2025-08-12T06:57:44.384Z - INFO: Has Company Elements:
+2025-08-12T06:57:44.384Z - INFO: Available Navigation:
+2025-08-12T06:57:44.384Z - INFO: Has About Section:
+2025-08-12T06:57:44.385Z - INFO: Visible Text Preview:
+2025-08-12T06:57:44.385Z - INFO: =====================
+2025-08-12T06:57:44.471Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T06:57:44.489Z - INFO: Direct extraction failed, trying About tab...
+2025-08-12T06:57:44.537Z - INFO: Could not extract "aboutUs" from HTML.
+2025-08-12T06:57:44.537Z - INFO: 🔄 Name extraction failed - likely bot detection. Implementing retry strategy...
+2025-08-12T06:57:44.538Z - INFO: 🔄 Retry attempt 1/2 for name extraction...
+2025-08-12T06:57:44.538Z - INFO: 🔄 Trying clean URL: https://www.linkedin.com/company/versa-networks/
+2025-08-12T06:57:50.259Z - INFO: ✅ Retry 1 successful! Found name: Join
+2025-08-12T06:57:50.260Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T06:57:50.267Z - INFO: Could not extract "founded" from HTML.
+2025-08-12T06:57:50.268Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T06:57:50.278Z - INFO: Could not extract "locations" from HTML.
+2025-08-12T06:57:50.279Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T06:57:50.279Z - INFO: Name:
+2025-08-12T06:57:50.280Z - INFO: About Us:
+2025-08-12T06:57:50.280Z - INFO: Founded:
+2025-08-12T06:57:50.281Z - INFO: Industry:
+2025-08-12T06:57:50.281Z - INFO: Headquarters:
+2025-08-12T06:57:50.282Z - INFO: Logo URL:
+2025-08-12T06:57:50.283Z - INFO: ========================
+2025-08-12T06:57:50.283Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks/mycompany/
+2025-08-12T06:57:50.370Z - INFO: Successfully saved data to output.json
+2025-08-12T06:57:50.735Z - INFO: Browser closed successfully
+2025-08-12T06:57:50.736Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T06:57:50.736Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T06:57:50.736Z - INFO: - Name:
+2025-08-12T06:57:50.737Z - INFO: - Description:
+2025-08-12T06:57:50.737Z - INFO: - Industry:
+2025-08-12T06:57:50.737Z - INFO: - Founded:
+2025-08-12T06:57:50.737Z - INFO: - Headquarters:
+2025-08-12T06:57:50.738Z - INFO: [Performance] Extraction completed in 21.77 seconds
+2025-08-12T06:57:51.241Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:14:48.792Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T07:14:48.962Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:14:48.964Z - INFO: Server running on port 3000
+2025-08-12T07:14:48.965Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:16:49.638Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:16:49.638Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:16:50.263Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:16:50.436Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.morphisec.com
+2025-08-12T07:16:52.265Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:16:53.270Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:16:53.275Z - INFO: [Performance] Starting extraction for https://www.morphisec.com
+2025-08-12T07:16:53.278Z - INFO: [getLogoDetails] Starting extraction for https://www.morphisec.com
+2025-08-12T07:16:53.309Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:16:53.310Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:16:53.312Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:16:53.316Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:16:53.323Z - INFO: [getGeneralImages] Starting image extraction for https://www.morphisec.com. Excluding known logos:
+2025-08-12T07:16:53.346Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:16:53.352Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:16:53.822Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:16:53.822Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/morphisec. Starting parallel extraction...
+2025-08-12T07:16:53.827Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:16:53.829Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:16:53.829Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T07:16:54.374Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/morphisec
+2025-08-12T07:16:54.430Z - INFO: Scraping https://www.linkedin.com/company/morphisec...
+2025-08-12T07:17:00.660Z - INFO: Checking for login popup...
+2025-08-12T07:17:00.685Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:17:03.738Z - INFO: Successfully loaded company page
+2025-08-12T07:17:03.842Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:17:03.848Z - INFO: Page Title:
+2025-08-12T07:17:03.848Z - INFO: H1 Text:
+2025-08-12T07:17:03.848Z - INFO: Has Company Elements:
+2025-08-12T07:17:03.848Z - INFO: Available Navigation:
+2025-08-12T07:17:03.848Z - INFO: Has About Section:
+2025-08-12T07:17:03.848Z - INFO: Visible Text Preview:
+2025-08-12T07:17:03.848Z - INFO: =====================
+2025-08-12T07:17:03.891Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:17:03.894Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:17:03.894Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:17:03.896Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:17:03.896Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:17:03.899Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:17:03.899Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:17:03.899Z - INFO: Name:
+2025-08-12T07:17:03.899Z - INFO: About Us:
+2025-08-12T07:17:03.899Z - INFO: Founded:
+2025-08-12T07:17:03.899Z - INFO: Industry:
+2025-08-12T07:17:03.899Z - INFO: Headquarters:
+2025-08-12T07:17:03.900Z - INFO: Logo URL:
+2025-08-12T07:17:03.900Z - INFO: ========================
+2025-08-12T07:17:03.900Z - INFO: Successfully scraped https://www.linkedin.com/company/morphisec
+2025-08-12T07:17:03.932Z - INFO: Successfully saved data to output.json
+2025-08-12T07:17:04.134Z - INFO: Browser closed successfully
+2025-08-12T07:17:04.134Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:17:04.134Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:17:04.135Z - INFO: - Name:
+2025-08-12T07:17:04.135Z - INFO: - Description:
+2025-08-12T07:17:04.135Z - INFO: - Industry:
+2025-08-12T07:17:04.135Z - INFO: - Founded:
+2025-08-12T07:17:04.135Z - INFO: - Headquarters:
+2025-08-12T07:17:04.605Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:17:04.907Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:17:04.908Z - INFO: [Performance] Extraction completed in 11.63 seconds
+2025-08-12T07:17:06.245Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:18:44.868Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T07:18:45.055Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:18:45.057Z - INFO: Server running on port 3000
+2025-08-12T07:18:45.057Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:18:49.546Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:18:49.547Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:18:50.076Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:18:50.176Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.morphisec.com
+2025-08-12T07:18:52.043Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:18:53.051Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:18:53.055Z - INFO: [Performance] Starting extraction for https://www.morphisec.com
+2025-08-12T07:18:53.057Z - INFO: [getLogoDetails] Starting extraction for https://www.morphisec.com
+2025-08-12T07:18:53.076Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:18:53.077Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:18:53.078Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:18:53.084Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:18:53.087Z - INFO: [getGeneralImages] Starting image extraction for https://www.morphisec.com. Excluding known logos:
+2025-08-12T07:18:53.104Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:18:53.106Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:18:53.493Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:18:53.494Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/morphisec. Starting parallel extraction...
+2025-08-12T07:18:53.499Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:18:53.502Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:18:53.502Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T07:18:53.994Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/morphisec
+2025-08-12T07:18:54.044Z - INFO: Scraping https://www.linkedin.com/company/morphisec...
+2025-08-12T07:19:02.299Z - INFO: Checking for login popup...
+2025-08-12T07:19:02.325Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:19:05.372Z - INFO: Successfully loaded company page
+2025-08-12T07:19:05.498Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:19:05.502Z - INFO: Page Title:
+2025-08-12T07:19:05.502Z - INFO: H1 Text:
+2025-08-12T07:19:05.502Z - INFO: Has Company Elements:
+2025-08-12T07:19:05.502Z - INFO: Available Navigation:
+2025-08-12T07:19:05.502Z - INFO: Has About Section:
+2025-08-12T07:19:05.502Z - INFO: Visible Text Preview:
+2025-08-12T07:19:05.502Z - INFO: =====================
+2025-08-12T07:19:05.544Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:19:05.547Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:19:05.547Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:19:05.549Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:19:05.549Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:19:05.551Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:19:05.552Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:19:05.552Z - INFO: Name:
+2025-08-12T07:19:05.552Z - INFO: About Us:
+2025-08-12T07:19:05.552Z - INFO: Founded:
+2025-08-12T07:19:05.552Z - INFO: Industry:
+2025-08-12T07:19:05.552Z - INFO: Headquarters:
+2025-08-12T07:19:05.553Z - INFO: Logo URL:
+2025-08-12T07:19:05.553Z - INFO: ========================
+2025-08-12T07:19:05.553Z - INFO: Successfully scraped https://www.linkedin.com/company/morphisec
+2025-08-12T07:19:05.586Z - INFO: Successfully saved data to output.json
+2025-08-12T07:19:05.838Z - INFO: Browser closed successfully
+2025-08-12T07:19:05.838Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:19:05.838Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:19:05.838Z - INFO: - Name:
+2025-08-12T07:19:05.839Z - INFO: - Description:
+2025-08-12T07:19:05.839Z - INFO: - Industry:
+2025-08-12T07:19:05.839Z - INFO: - Founded:
+2025-08-12T07:19:05.839Z - INFO: - Headquarters:
+2025-08-12T07:19:06.318Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:19:06.648Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:19:06.649Z - INFO: [Performance] Extraction completed in 13.59 seconds
+2025-08-12T07:19:07.146Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:22:00.793Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T07:22:00.983Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:22:00.986Z - INFO: Server running on port 3000
+2025-08-12T07:22:00.986Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:22:25.385Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:22:25.386Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:22:25.895Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:22:26.013Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.morphisec.com
+2025-08-12T07:22:27.694Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:22:28.705Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:22:28.711Z - INFO: [Performance] Starting extraction for https://www.morphisec.com
+2025-08-12T07:22:28.713Z - INFO: [getLogoDetails] Starting extraction for https://www.morphisec.com
+2025-08-12T07:22:28.773Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:22:28.773Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:22:28.774Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:22:28.775Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:22:28.777Z - INFO: [getGeneralImages] Starting image extraction for https://www.morphisec.com. Excluding known logos:
+2025-08-12T07:22:28.839Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:22:28.840Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:22:29.011Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:22:29.012Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/morphisec. Starting parallel extraction...
+2025-08-12T07:22:29.017Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:22:29.021Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:22:29.024Z - INFO: 🎭 Using user agent: NT
+2025-08-12T07:22:29.509Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/morphisec
+2025-08-12T07:22:29.568Z - INFO: Scraping https://www.linkedin.com/company/morphisec...
+2025-08-12T07:22:36.725Z - INFO: Checking for login popup...
+2025-08-12T07:22:36.750Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:22:39.802Z - INFO: Successfully loaded company page
+2025-08-12T07:22:39.928Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:22:39.932Z - INFO: Page Title:
+2025-08-12T07:22:39.932Z - INFO: H1 Text:
+2025-08-12T07:22:39.932Z - INFO: Has Company Elements:
+2025-08-12T07:22:39.933Z - INFO: Available Navigation:
+2025-08-12T07:22:39.933Z - INFO: Has About Section:
+2025-08-12T07:22:39.933Z - INFO: Visible Text Preview:
+2025-08-12T07:22:39.933Z - INFO: =====================
+2025-08-12T07:22:39.976Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:22:39.978Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:22:39.979Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:22:39.981Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:22:39.981Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:22:39.985Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:22:39.985Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:22:39.986Z - INFO: Name:
+2025-08-12T07:22:39.986Z - INFO: About Us:
+2025-08-12T07:22:39.986Z - INFO: Founded:
+2025-08-12T07:22:39.986Z - INFO: Industry:
+2025-08-12T07:22:39.986Z - INFO: Headquarters:
+2025-08-12T07:22:39.986Z - INFO: Logo URL:
+2025-08-12T07:22:39.986Z - INFO: ========================
+2025-08-12T07:22:39.987Z - INFO: Successfully scraped https://www.linkedin.com/company/morphisec
+2025-08-12T07:22:40.021Z - INFO: Successfully saved data to output.json
+2025-08-12T07:22:40.271Z - INFO: Browser closed successfully
+2025-08-12T07:22:40.271Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:22:40.272Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:22:40.272Z - INFO: - Name:
+2025-08-12T07:22:40.272Z - INFO: - Description:
+2025-08-12T07:22:40.272Z - INFO: - Industry:
+2025-08-12T07:22:40.272Z - INFO: - Founded:
+2025-08-12T07:22:40.272Z - INFO: - Headquarters:
+2025-08-12T07:22:40.758Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:22:41.045Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:22:41.045Z - INFO: [Performance] Extraction completed in 12.33 seconds
+2025-08-12T07:22:41.358Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:26:00.129Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T07:26:00.333Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:26:00.335Z - INFO: Server running on port 3000
+2025-08-12T07:26:00.335Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:26:05.243Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:26:05.243Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:26:05.789Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:26:05.877Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.morphisec.com
+2025-08-12T07:26:07.577Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:26:08.586Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:26:08.591Z - INFO: [Performance] Starting extraction for https://www.morphisec.com
+2025-08-12T07:26:08.593Z - INFO: [getLogoDetails] Starting extraction for https://www.morphisec.com
+2025-08-12T07:26:08.611Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:26:08.612Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:26:08.612Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:26:08.616Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:26:08.619Z - INFO: [getGeneralImages] Starting image extraction for https://www.morphisec.com. Excluding known logos:
+2025-08-12T07:26:08.632Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:26:08.636Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:26:08.748Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:26:08.749Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/morphisec. Starting parallel extraction...
+2025-08-12T07:26:08.755Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:26:08.757Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:26:08.758Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T07:26:09.507Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/morphisec
+2025-08-12T07:26:09.582Z - INFO: Scraping https://www.linkedin.com/company/morphisec...
+2025-08-12T07:26:15.426Z - INFO: Checking for login popup...
+2025-08-12T07:26:15.454Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:26:18.496Z - INFO: Successfully loaded company page
+2025-08-12T07:26:18.605Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:26:18.610Z - INFO: Page Title:
+2025-08-12T07:26:18.611Z - INFO: H1 Text:
+2025-08-12T07:26:18.611Z - INFO: Has Company Elements:
+2025-08-12T07:26:18.612Z - INFO: Available Navigation:
+2025-08-12T07:26:18.612Z - INFO: Has About Section:
+2025-08-12T07:26:18.613Z - INFO: Visible Text Preview:
+2025-08-12T07:26:18.613Z - INFO: =====================
+2025-08-12T07:26:18.655Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:26:18.658Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:26:18.658Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:26:18.660Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:26:18.660Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:26:18.663Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:26:18.663Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:26:18.663Z - INFO: Name:
+2025-08-12T07:26:18.663Z - INFO: About Us:
+2025-08-12T07:26:18.663Z - INFO: Founded:
+2025-08-12T07:26:18.664Z - INFO: Industry:
+2025-08-12T07:26:18.664Z - INFO: Headquarters:
+2025-08-12T07:26:18.664Z - INFO: Logo URL:
+2025-08-12T07:26:18.664Z - INFO: ========================
+2025-08-12T07:26:18.664Z - INFO: Successfully scraped https://www.linkedin.com/company/morphisec
+2025-08-12T07:26:18.691Z - INFO: Successfully saved data to output.json
+2025-08-12T07:26:18.918Z - INFO: Browser closed successfully
+2025-08-12T07:26:18.919Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:26:18.919Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:26:18.919Z - INFO: - Name:
+2025-08-12T07:26:18.919Z - INFO: - Description:
+2025-08-12T07:26:18.920Z - INFO: - Industry:
+2025-08-12T07:26:18.920Z - INFO: - Founded:
+2025-08-12T07:26:18.920Z - INFO: - Headquarters:
+2025-08-12T07:26:19.419Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:26:19.708Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:26:19.709Z - INFO: [Performance] Extraction completed in 11.12 seconds
+2025-08-12T07:26:20.100Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:28:22.068Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:28:22.069Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:28:22.587Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:28:22.691Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.infosys.com
+2025-08-12T07:28:23.666Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:28:24.669Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:28:24.670Z - INFO: [Performance] Starting extraction for https://www.infosys.com
+2025-08-12T07:28:24.670Z - INFO: [getLogoDetails] Starting extraction for https://www.infosys.com
+2025-08-12T07:28:24.680Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:28:24.681Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:28:24.681Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:28:24.682Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:28:24.685Z - INFO: [getGeneralImages] Starting image extraction for https://www.infosys.com. Excluding known logos:
+2025-08-12T07:28:24.692Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:28:24.694Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:28:24.741Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:28:24.741Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/infosys. Starting parallel extraction...
+2025-08-12T07:28:24.743Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:28:24.744Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:28:24.744Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T07:28:25.298Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/infosys
+2025-08-12T07:28:25.349Z - INFO: Scraping https://www.linkedin.com/company/infosys...
+2025-08-12T07:28:33.061Z - INFO: Checking for login popup...
+2025-08-12T07:28:33.095Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:28:36.136Z - INFO: Successfully loaded company page
+2025-08-12T07:28:36.297Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:28:36.304Z - INFO: Page Title:
+2025-08-12T07:28:36.304Z - INFO: H1 Text:
+2025-08-12T07:28:36.304Z - INFO: Has Company Elements:
+2025-08-12T07:28:36.305Z - INFO: Available Navigation:
+2025-08-12T07:28:36.305Z - INFO: Has About Section:
+2025-08-12T07:28:36.305Z - INFO: Visible Text Preview:
+2025-08-12T07:28:36.305Z - INFO: =====================
+2025-08-12T07:28:36.346Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:28:36.349Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:28:36.349Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:28:36.352Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:28:36.352Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:28:36.356Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:28:36.356Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:28:36.357Z - INFO: Name:
+2025-08-12T07:28:36.357Z - INFO: About Us:
+2025-08-12T07:28:36.357Z - INFO: Founded:
+2025-08-12T07:28:36.357Z - INFO: Industry:
+2025-08-12T07:28:36.357Z - INFO: Headquarters:
+2025-08-12T07:28:36.357Z - INFO: Logo URL:
+2025-08-12T07:28:36.357Z - INFO: ========================
+2025-08-12T07:28:36.358Z - INFO: Successfully scraped https://www.linkedin.com/company/infosys
+2025-08-12T07:28:36.396Z - INFO: Successfully saved data to output.json
+2025-08-12T07:28:36.654Z - INFO: Browser closed successfully
+2025-08-12T07:28:36.654Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:28:36.655Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:28:36.655Z - INFO: - Name:
+2025-08-12T07:28:36.655Z - INFO: - Description:
+2025-08-12T07:28:36.655Z - INFO: - Industry:
+2025-08-12T07:28:36.655Z - INFO: - Founded:
+2025-08-12T07:28:36.655Z - INFO: - Headquarters:
+2025-08-12T07:28:37.018Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:28:37.272Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:28:37.273Z - INFO: [Performance] Extraction completed in 12.60 seconds
+2025-08-12T07:28:37.634Z - INFO: [Browser] Browser closed successfully
+2025-08-12T07:29:03.054Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T07:29:03.236Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:29:03.238Z - INFO: Server running on port 3000
+2025-08-12T07:29:03.238Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T07:29:41.722Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T07:29:41.723Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T07:29:42.264Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T07:29:42.348Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.infosys.com
+2025-08-12T07:29:43.456Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T07:29:44.461Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T07:29:44.465Z - INFO: [Performance] Starting extraction for https://www.infosys.com
+2025-08-12T07:29:44.467Z - INFO: [getLogoDetails] Starting extraction for https://www.infosys.com
+2025-08-12T07:29:44.479Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T07:29:44.480Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T07:29:44.480Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T07:29:44.483Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T07:29:44.485Z - INFO: [getGeneralImages] Starting image extraction for https://www.infosys.com. Excluding known logos:
+2025-08-12T07:29:44.493Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T07:29:44.495Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T07:29:44.560Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T07:29:44.560Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/infosys. Starting parallel extraction...
+2025-08-12T07:29:44.564Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T07:29:44.565Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T07:29:44.565Z - INFO: 🎭 Using user agent: Linux
+2025-08-12T07:29:45.112Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/infosys
+2025-08-12T07:29:45.179Z - INFO: Scraping https://www.linkedin.com/company/infosys...
+2025-08-12T07:29:52.424Z - INFO: Checking for login popup...
+2025-08-12T07:29:52.443Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T07:29:55.481Z - INFO: Successfully loaded company page
+2025-08-12T07:29:55.630Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T07:29:55.635Z - INFO: Page Title:
+2025-08-12T07:29:55.636Z - INFO: H1 Text:
+2025-08-12T07:29:55.636Z - INFO: Has Company Elements:
+2025-08-12T07:29:55.636Z - INFO: Available Navigation:
+2025-08-12T07:29:55.636Z - INFO: Has About Section:
+2025-08-12T07:29:55.637Z - INFO: Visible Text Preview:
+2025-08-12T07:29:55.637Z - INFO: =====================
+2025-08-12T07:29:55.693Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:29:55.694Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T07:29:55.695Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:29:55.696Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T07:29:55.696Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T07:29:55.700Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T07:29:55.700Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T07:29:55.700Z - INFO: Name:
+2025-08-12T07:29:55.700Z - INFO: About Us:
+2025-08-12T07:29:55.700Z - INFO: Founded:
+2025-08-12T07:29:55.700Z - INFO: Industry:
+2025-08-12T07:29:55.700Z - INFO: Headquarters:
+2025-08-12T07:29:55.701Z - INFO: Logo URL:
+2025-08-12T07:29:55.701Z - INFO: ========================
+2025-08-12T07:29:55.701Z - INFO: Successfully scraped https://www.linkedin.com/company/infosys
+2025-08-12T07:29:55.751Z - INFO: Successfully saved data to output.json
+2025-08-12T07:29:55.997Z - INFO: Browser closed successfully
+2025-08-12T07:29:55.998Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T07:29:55.998Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T07:29:55.998Z - INFO: - Name:
+2025-08-12T07:29:55.999Z - INFO: - Description:
+2025-08-12T07:29:55.999Z - INFO: - Industry:
+2025-08-12T07:29:55.999Z - INFO: - Founded:
+2025-08-12T07:29:56.000Z - INFO: - Headquarters:
+2025-08-12T07:29:56.541Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T07:29:56.819Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T07:29:56.819Z - INFO: [Performance] Extraction completed in 12.35 seconds
+2025-08-12T07:29:57.175Z - INFO: [Browser] Browser closed successfully
+2025-08-12T08:41:33.502Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T08:41:33.814Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T08:41:33.819Z - INFO: Server running on port 3000
+2025-08-12T08:41:33.819Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T08:42:37.721Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T08:42:37.722Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T08:42:38.227Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T08:42:38.345Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.infosys.com
+2025-08-12T08:42:39.902Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T08:42:40.912Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T08:42:40.915Z - INFO: [Performance] Starting extraction for https://www.infosys.com
+2025-08-12T08:42:40.916Z - INFO: [getLogoDetails] Starting extraction for https://www.infosys.com
+2025-08-12T08:42:40.928Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T08:42:40.929Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T08:42:40.930Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T08:42:40.933Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T08:42:40.936Z - INFO: [getGeneralImages] Starting image extraction for https://www.infosys.com. Excluding known logos:
+2025-08-12T08:42:40.953Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T08:42:40.955Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T08:42:41.035Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T08:42:41.036Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/infosys. Starting parallel extraction...
+2025-08-12T08:42:41.041Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T08:42:41.045Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T08:42:41.046Z - INFO: 🎭 Using user agent: NT
+2025-08-12T08:42:41.528Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/infosys
+2025-08-12T08:42:41.600Z - INFO: Scraping https://www.linkedin.com/company/infosys...
+2025-08-12T08:42:50.400Z - INFO: Checking for login popup...
+2025-08-12T08:42:50.436Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T08:42:53.479Z - INFO: Successfully loaded company page
+2025-08-12T08:42:53.619Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T08:42:53.623Z - INFO: Page Title:
+2025-08-12T08:42:53.624Z - INFO: H1 Text:
+2025-08-12T08:42:53.624Z - INFO: Has Company Elements:
+2025-08-12T08:42:53.624Z - INFO: Available Navigation:
+2025-08-12T08:42:53.625Z - INFO: Has About Section:
+2025-08-12T08:42:53.625Z - INFO: Visible Text Preview:
+2025-08-12T08:42:53.625Z - INFO: =====================
+2025-08-12T08:42:53.698Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T08:42:53.700Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T08:42:53.700Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T08:42:53.702Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T08:42:53.702Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T08:42:53.706Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T08:42:53.706Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T08:42:53.706Z - INFO: Name:
+2025-08-12T08:42:53.707Z - INFO: About Us:
+2025-08-12T08:42:53.707Z - INFO: Founded:
+2025-08-12T08:42:53.707Z - INFO: Industry:
+2025-08-12T08:42:53.707Z - INFO: Headquarters:
+2025-08-12T08:42:53.707Z - INFO: Logo URL:
+2025-08-12T08:42:53.707Z - INFO: ========================
+2025-08-12T08:42:53.708Z - INFO: Successfully scraped https://www.linkedin.com/company/infosys
+2025-08-12T08:42:53.751Z - INFO: Successfully saved data to output.json
+2025-08-12T08:42:53.981Z - INFO: Browser closed successfully
+2025-08-12T08:42:53.981Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T08:42:53.982Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T08:42:53.982Z - INFO: - Name:
+2025-08-12T08:42:53.982Z - INFO: - Description:
+2025-08-12T08:42:53.982Z - INFO: - Industry:
+2025-08-12T08:42:53.982Z - INFO: - Founded:
+2025-08-12T08:42:53.982Z - INFO: - Headquarters:
+2025-08-12T08:42:54.430Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T08:42:54.696Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T08:42:54.697Z - INFO: [Performance] Extraction completed in 13.78 seconds
+2025-08-12T08:42:55.077Z - INFO: [Browser] Browser closed successfully
+2025-08-12T10:03:38.190Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T10:03:38.422Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T10:03:38.425Z - INFO: Server running on port 3000
+2025-08-12T10:03:38.425Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T10:03:55.566Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T10:03:55.567Z - INFO: [Browser] Launch attempt 1/2...
+2025-08-12T10:03:57.221Z - INFO: [Browser] Launch successful on attempt 1
+2025-08-12T10:03:57.390Z - INFO: [Navigation] Attempt 1/2 with 'domcontentloaded' (15s timeout) for https://www.noblesoft-solutions.com
+2025-08-12T10:04:04.827Z - INFO: [Navigation] Success with 'domcontentloaded' on attempt 1
+2025-08-12T10:04:05.841Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T10:04:05.846Z - INFO: [Performance] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-12T10:04:05.848Z - INFO: [getLogoDetails] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-12T10:04:05.861Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T10:04:05.861Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T10:04:05.862Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T10:04:05.865Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T10:04:05.867Z - INFO: [getGeneralImages] Starting image extraction for https://www.noblesoft-solutions.com. Excluding known logos:
+2025-08-12T10:04:05.878Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T10:04:05.880Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T10:04:05.975Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T10:04:05.975Z - INFO: [extractCompanyDetailsFromPage] Found LinkedIn URL: https://www.linkedin.com/company/noblesoft-solutions/. Starting parallel extraction...
+2025-08-12T10:04:05.980Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T10:04:05.982Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T10:04:05.982Z - INFO: 🎭 Using user agent: Intel
+2025-08-12T10:04:06.710Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-12T10:04:06.827Z - INFO: Scraping https://www.linkedin.com/company/noblesoft-solutions/...
+2025-08-12T10:04:14.507Z - INFO: Checking for login popup...
+2025-08-12T10:04:14.539Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T10:04:17.584Z - INFO: Successfully loaded company page
+2025-08-12T10:04:17.703Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T10:04:17.707Z - INFO: Page Title:
+2025-08-12T10:04:17.708Z - INFO: H1 Text:
+2025-08-12T10:04:17.708Z - INFO: Has Company Elements:
+2025-08-12T10:04:17.708Z - INFO: Available Navigation:
+2025-08-12T10:04:17.709Z - INFO: Has About Section:
+2025-08-12T10:04:17.709Z - INFO: Visible Text Preview:
+2025-08-12T10:04:17.709Z - INFO: =====================
+2025-08-12T10:04:17.748Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T10:04:17.751Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T10:04:17.752Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T10:04:17.755Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T10:04:17.756Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T10:04:17.760Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T10:04:17.761Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T10:04:17.761Z - INFO: Name:
+2025-08-12T10:04:17.761Z - INFO: About Us:
+2025-08-12T10:04:17.762Z - INFO: Founded:
+2025-08-12T10:04:17.762Z - INFO: Industry:
+2025-08-12T10:04:17.763Z - INFO: Headquarters:
+2025-08-12T10:04:17.763Z - INFO: Logo URL:
+2025-08-12T10:04:17.763Z - INFO: ========================
+2025-08-12T10:04:17.763Z - INFO: Successfully scraped https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-12T10:04:17.825Z - INFO: Successfully saved data to output.json
+2025-08-12T10:04:18.141Z - INFO: Browser closed successfully
+2025-08-12T10:04:18.142Z - INFO: [extractCompanyDetailsFromPage] Merging LinkedIn data:
+2025-08-12T10:04:18.142Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T10:04:18.142Z - INFO: - Name:
+2025-08-12T10:04:18.143Z - INFO: - Description:
+2025-08-12T10:04:18.143Z - INFO: - Industry:
+2025-08-12T10:04:18.143Z - INFO: - Founded:
+2025-08-12T10:04:18.144Z - INFO: - Headquarters:
+2025-08-12T10:04:18.442Z - ERROR: Error extracting colors from image https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82:: Error: Unsupported MIME type: application/xml
+    at Jimp.throwError (D:\angular 18\mynodejsapp\node_modules\@jimp\utils\dist\index.js:33:13)
+    at Jimp.parseBitmap$ (D:\angular 18\mynodejsapp\node_modules\@jimp\core\dist\utils\image-bitmap.js:241:63)
+    at Jimp.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorRuntime.js:52:18)
+    at Generator.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regenerator.js:52:51)
+    at Generator.next (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorDefine.js:11:21)
+    at n (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:6:19)
+    at D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:9:9
+2025-08-12T10:04:18.443Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T10:04:18.923Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T10:04:18.923Z - INFO: [Performance] Extraction completed in 13.08 seconds
+2025-08-12T10:04:19.435Z - INFO: [Browser] Browser closed successfully
