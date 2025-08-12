@@ -1168,23 +1168,26 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
         let symbolUrl = null; // Keep trying for symbol, though hard
 
         // --- Evaluation within page context ---
-        const extractedAssets = await page.evaluate((pageBaseUrl) => {
+        const extractedAssets = await page.evaluate(async (pageBaseUrl) => {
             const results = {
                 metaLogo: null,
                 metaIcon: null,
                 metaBanner: null,
                 imgLogo: null,
                 linkIcon: null,
+                favicon: null, // Explicit favicon URL
                 svgLogo: null, // For linked SVG files or <use> tags
             };
             const consoleMessages = []; // For debugging inside evaluate
 
+            // Respect <base href> if present
+            const baseHref = (document.querySelector('base[href]')?.getAttribute('href')) || document.baseURI || pageBaseUrl;
             const makeAbsolute = (url) => {
                 if (!url || typeof url !== 'string') return null;
                 try {
-                    return new URL(url, pageBaseUrl).href;
+                    return new URL(url, baseHref).href;
                 } catch (e) {
-                    consoleMessages.push(`Invalid URL for new URL(url, pageBaseUrl): ${url}, ${pageBaseUrl}`);
+                    consoleMessages.push(`Invalid URL for new URL(url, baseHref): ${url}, ${baseHref}`);
                     return null;
                 }
             };
@@ -1216,20 +1219,124 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
 
 
             // 3. Link tags for icons (favicon, apple-touch-icon)
-            const iconSelectors = [
-                'link[rel="icon"]',
-                'link[rel="shortcut icon"]',
-                'link[rel="apple-touch-icon"]',
-                'link[rel="apple-touch-icon-precomposed"]',
-                'link[itemprop="image"]' // Less common for icon but possible
-            ];
-            for (const selector of iconSelectors) {
-                const el = document.querySelector(selector);
-                if (el && el.href) {
-                    results.linkIcon = makeAbsolute(el.href);
-                    if(results.linkIcon) break; // Take the first valid one
+            // Collect all potential icon links and pick the best by size/type preference
+            const iconElements = Array.from(document.querySelectorAll(
+                'link[rel~="icon" i], link[rel="shortcut icon" i], link[rel="mask-icon" i], link[rel="apple-touch-icon" i], link[rel="apple-touch-icon-precomposed" i]'
+            ));
+
+            const iconCandidates = iconElements.map(el => {
+                const href = el.getAttribute('href') || el.href;
+                const sizesAttr = (el.getAttribute('sizes') || '').toLowerCase();
+                let sizeScore = 0;
+                const m = sizesAttr.match(/(\d+)\s*x\s*(\d+)/);
+                if (m) {
+                    // Prefer square and bigger sizes
+                    sizeScore = Math.min(parseInt(m[1], 10), parseInt(m[2], 10));
+                }
+                const type = (el.getAttribute('type') || '').toLowerCase();
+                const rel = (el.getAttribute('rel') || '').toLowerCase();
+                const hrefLower = (href || '').toLowerCase();
+                const isSvg = type.includes('svg') || hrefLower.endsWith('.svg');
+                const isPng = type.includes('png') || hrefLower.endsWith('.png');
+                const isIco = type.includes('x-icon') || hrefLower.endsWith('.ico');
+                const isApple = rel.includes('apple-touch-icon');
+                const baseScore = (isApple ? 5 : 0) + (rel.includes('icon') ? 10 : 0);
+                const formatBoost = isSvg ? 8 : (isPng ? 6 : (isIco ? 3 : 0));
+                const score = baseScore + formatBoost + sizeScore; // overall score
+                return {
+                    href: makeAbsolute(href),
+                    score,
+                    sizeScore,
+                    type,
+                    rel
+                };
+            }).filter(c => !!c.href);
+
+            if (iconCandidates.length) {
+                iconCandidates.sort((a, b) => b.score - a.score);
+                results.favicon = iconCandidates[0].href;
+            }
+
+            // Preserve legacy linkIcon behavior: pick the first declared rel icon to avoid output changes
+            try {
+                const legacyEl = document.querySelector('link[rel="icon"], link[rel="shortcut icon"]');
+                if (legacyEl && (legacyEl.getAttribute('href') || legacyEl.href)) {
+                    results.linkIcon = makeAbsolute(legacyEl.getAttribute('href') || legacyEl.href);
+                }
+            } catch {}
+
+            // Try other common favicon rels if we didn't pick one yet but something is present
+            if (!results.favicon && !iconCandidates.length) {
+                const el = document.querySelector('link[rel="icon"], link[rel="shortcut icon"]');
+                if (el && (el.getAttribute('href') || el.href)) {
+                    results.favicon = makeAbsolute(el.getAttribute('href') || el.href);
                 }
             }
+
+            // Fallbacks for sites that declare icons via manifest only
+            if (!results.favicon) {
+                try {
+                    const manifestLink = document.querySelector('link[rel="manifest"]');
+                    if (manifestLink) {
+                        const manifestUrl = makeAbsolute(manifestLink.getAttribute('href') || manifestLink.href);
+                        if (manifestUrl) {
+                            const res = await fetch(manifestUrl);
+                            if (res.ok) {
+                                const manifest = await res.json();
+                                const icons = Array.isArray(manifest.icons) ? manifest.icons : [];
+                                const manifestCandidates = icons.map(i => {
+                                    const src = i.src || i.url;
+                                    const sizesAttr = (i.sizes || '').toLowerCase();
+                                    let sizeScore = 0;
+                                    const m = sizesAttr.match(/(\d+)x(\d+)/);
+                                    if (m) sizeScore = Math.min(parseInt(m[1], 10), parseInt(m[2], 10));
+                                    const type = (i.type || '').toLowerCase();
+                                    const srcLower = (src || '').toLowerCase();
+                                    const isSvg = type.includes('svg') || srcLower.endsWith('.svg');
+                                    const isPng = type.includes('png') || srcLower.endsWith('.png');
+                                    const isIco = type.includes('x-icon') || srcLower.endsWith('.ico');
+                                    const formatBoost = isSvg ? 8 : (isPng ? 6 : (isIco ? 3 : 0));
+                                    const score = formatBoost + sizeScore;
+                                    return { href: makeAbsolute(src), score };
+                                }).filter(c => !!c.href);
+                                if (manifestCandidates.length) {
+                                    manifestCandidates.sort((a, b) => b.score - a.score);
+                                    results.favicon = manifestCandidates[0].href;
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    consoleMessages.push(`Manifest parsing failed: ${e?.message || e}`);
+                }
+            }
+
+            // As a last resort, probe common favicon paths to avoid returning an icon
+            if (!results.favicon) {
+                const commonPaths = [
+                    '/favicon.ico',
+                    '/favicon.png',
+                    '/apple-touch-icon.png',
+                    '/apple-touch-icon-precomposed.png'
+                ];
+                for (const p of commonPaths) {
+                    try {
+                        const testUrl = makeAbsolute(p);
+                        const resp = await fetch(testUrl, { method: 'HEAD' });
+                        if (resp.ok) { results.favicon = testUrl; break; }
+                    } catch {}
+                }
+            }
+
+            // Fallback to default /favicon.ico even if not confirmed; many servers serve it
+            if (!results.favicon) {
+                results.favicon = makeAbsolute('/favicon.ico');
+            }
+
+            // Provide camelCase alias as requested
+            results.favIcon = results.favicon;
+
+            consoleMessages.push(`Favicon candidate: ${results.favicon}`);
             consoleMessages.push(`Link Icon candidate: ${results.linkIcon}`);
 
             // 4. Image tags for primary logo (fallback if meta tags fail)
@@ -1317,7 +1424,9 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
         return {
             Logo: primaryLogoUrl,
             Symbol: symbolUrl, // Remains null for now mostly
-            Icon: iconUrl,
+            // Preserve legacy Icon behavior
+            Icon: extractedAssets.linkIcon || iconUrl || null,
+            Favicon: extractedAssets.favicon || null, // Keep favicon independent from icon
             Banner: bannerUrl
         };
     };
