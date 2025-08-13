@@ -3,7 +3,11 @@ with new changes we have added few endpoints
 📋 Available Endpoints:
 
 - POST /api/extract-company-details - Main extraction endpoint
+- GET  /api/extraction-sessions     - Active extraction sessions
 - GET  /api/extraction-logs         - Real-time extraction logs
+- GET  /api/system-health           - System health dashboard
+- GET  /api/search-history          - Search history & analytics
+- GET  /api/logs/:type              - Detailed file logs
 - http://202.65.155.117:3000/api/extraction-logs?format=html
 - http://202.65.155.117:3000/api/extraction-logs?limit=50
 - http://202.65.155.117:3000/api/extraction-logs?level=error
@@ -12,7 +16,34 @@ with new changes we have added few endpoints
 - http://202.65.155.117:3000/api/extraction-logs/SESSION_ID_HERE
 - http://202.65.155.117:3000/api/extraction-sessions
 - http://202.65.155.117:3000/api/extraction-logs/clear
-- GET  /api/extraction-sessions     - Active extraction sessions
+- http://202.65.155.117:3000/api/system-health?format=html
+- http://202.65.155.117:3000/api/search-history?format=html
+- http://202.65.155.117:3000/api/search-history/export
+- http://202.65.155.117:3000/api/search-analytics
+- http://202.65.155.117:3000/api/logs/:logType
+- http://202.65.155.117:3000/api/logs-status
+- http://202.65.155.117:3000/api/logs/search/:query
+-   query can be
+error
+linkedin.com
+session_id
+timeout
+error?limit=100
+error?logTypes=extraction,errors,browser
+linkedin?limit=200&logTypes=extraction,linkedin
+
+Available Log Types:
+Based on your codebase, these are the log types you can filter by:
+
+extraction - All extraction activities
+errors - Error logs with stack traces
+performance - Performance timing data
+system - System health events
+api - API request/response logs
+security - Security-related events
+browser - Browser launch/close events
+linkedin - LinkedIn-specific activities
+
 - GET  /health                      - System health check
 - GET  /linkedin-metrics            - LinkedIn extraction metrics
 - GET  /performance-metrics         - Performance analytics
