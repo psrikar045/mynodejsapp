@@ -4,6 +4,14 @@ with new changes we have added few endpoints
 
 - POST /api/extract-company-details - Main extraction endpoint
 - GET  /api/extraction-logs         - Real-time extraction logs
+- http://202.65.155.117:3000/api/extraction-logs?format=html
+- http://202.65.155.117:3000/api/extraction-logs?limit=50
+- http://202.65.155.117:3000/api/extraction-logs?level=error
+- http://202.65.155.117:3000/api/extraction-logs?sessionId=session_1234567890_abc123
+- http://202.65.155.117:3000/api/extraction-logs?level=error&limit=10
+- http://202.65.155.117:3000/api/extraction-logs/SESSION_ID_HERE
+- http://202.65.155.117:3000/api/extraction-sessions
+- http://202.65.155.117:3000/api/extraction-logs/clear
 - GET  /api/extraction-sessions     - Active extraction sessions
 - GET  /health                      - System health check
 - GET  /linkedin-metrics            - LinkedIn extraction metrics
