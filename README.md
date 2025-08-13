@@ -1,3 +1,12 @@
+with new changes we have added few endpoints
+📋 Available Endpoints:
+   POST /api/extract-company-details - Main extraction endpoint
+   GET  /health                      - System health check
+   GET  /linkedin-metrics            - LinkedIn extraction metrics
+   GET  /performance-metrics         - Performance analytics
+   GET  /anti-bot-status             - Anti-bot system status
+   GET  /test                        - Basic API test
+   GET  /test-browser                - Browser compatibility test
 # SumNode - Company Details Extraction API
 
 A Node.js API service that extracts company details from websites using Puppeteer and web scraping.
