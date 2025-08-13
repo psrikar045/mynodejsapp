@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-13T12:38:16.348Z",
+    "duration": "0s",
+    "version": "1.0.0"
+  },
+  "summary": {
+    "tasksRun": 5,
+    "tasksSuccessful": 5,
+    "tasksFailed": 0
+  },
+  "taskResults": {
+    "Pattern Analysis": {
+      "success": true,
+      "result": {
+        "totalPatterns": 0,
+        "successfulPatterns": 0,
+        "bannerPatterns": 0,
+        "overallSuccessRate": null,
+        "topPatterns": [],
+        "recommendations": []
+      }
+    },
+    "Pattern Cleanup": {
+      "success": true,
+      "result": {
+        "patternsRemoved": 0,
+        "patternsRemaining": 0,
+        "cleanupPerformed": false
+      }
+    },
+    "Configuration Update": {
+      "success": true,
+      "result": {
+        "configurationMode": "adaptive",
+        "lastUpdate": "2025-08-13T12:38:16.332Z",
+        "cacheSize": 2,
+        "healthStatus": "degraded"
+      }
+    },
+    "Performance Analysis": {
+      "success": true,
+      "result": {
+        "systemHealth": "degraded",
+        "successRate": "NaN%",
+        "totalPatterns": 0,
+        "bannerPatterns": 0,
+        "adaptiveMode": true,
+        "recommendations": 0,
+        "patternEfficiency": null,
+        "bannerPatternRatio": null,
+        "needsAttention": true,
+        "performanceGrade": "D"
+      }
+    },
+    "Health Check": {
+      "success": true,
+      "result": {
+        "timestamp": "2025-08-13T12:38:16.344Z",
+        "overall": "degraded",
+        "issues": [
+          "System health is degraded",
+          "No banner-specific patterns discovered"
+        ],
+        "warnings": [
+          "Low number of learned patterns"
+        ],
+        "recommendations": []
+      }
+    }
+  },
+  "systemStatus": {
+    "adaptiveMode": true,
+    "environment": "development",
+    "lastConfigUpdate": "2025-08-13T12:38:16.332Z",
+    "cacheSize": 2,
+    "patternSummary": {
+      "totalPatterns": 0,
+      "successfulPatterns": 0,
+      "bannerPatterns": 0,
+      "overallSuccessRate": null,
+      "lastUpdated": "2025-08-13T12:38:16.242Z"
+    },
+    "recommendations": [],
+    "health": {
+      "status": "degraded",
+      "successRate": "NaN%",
+      "totalPatterns": 0,
+      "bannerPatterns": 0
+    }
+  },
+  "recommendations": [
+    "System performance needs attention - review patterns and configurations",
+    "System health check indicates issues - review health check details"
+  ]
+}

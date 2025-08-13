@@ -1,0 +1,34 @@
+{
+  "deploymentId": "deploy_1755088696230",
+  "timestamp": "2025-08-13T12:38:16.372Z",
+  "environment": "development",
+  "status": "success",
+  "components": {
+    "patternManager": "deployed",
+    "adaptiveConfig": "deployed",
+    "bannerExtractor": "updated",
+    "maintenance": "completed"
+  },
+  "backupLocation": "D:\\angular 18\\mynodejsapp\\deployment-backups\\deploy_1755088696230",
+  "validationResults": "passed",
+  "systemStatus": {
+    "adaptiveMode": true,
+    "environment": "development",
+    "lastConfigUpdate": "2025-08-13T12:38:16.378Z",
+    "cacheSize": 2,
+    "patternSummary": {
+      "totalPatterns": 0,
+      "successfulPatterns": 0,
+      "bannerPatterns": 0,
+      "overallSuccessRate": null,
+      "lastUpdated": "2025-08-13T12:38:16.242Z"
+    },
+    "recommendations": [],
+    "health": {
+      "status": "degraded",
+      "successRate": "NaN%",
+      "totalPatterns": 0,
+      "bannerPatterns": 0
+    }
+  }
+}

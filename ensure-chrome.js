@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Simple Chrome availability checker for Render deployment
- * Uses Puppeteer's built-in browser management
+ * Browser availability checker for production deployment
+ * Checks for Microsoft Edge, Chrome, and Puppeteer's built-in browser management
  */
 
 const puppeteer = require('puppeteer');
 
 async function ensureChrome() {
-    console.log('🔧 [Chrome Installer] Checking Chrome availability...');
+    console.log('🔧 [Browser Checker] Checking browser availability...');
     
     try {
         // First attempt: Try to launch Puppeteer with existing Chrome
@@ -149,7 +149,9 @@ function findChromeExecutable() {
         process.env.PUPPETEER_CACHE_DIR && path.join(process.env.PUPPETEER_CACHE_DIR, 'chrome/linux-127.0.6533.88/chrome-linux64/chrome'),
         process.env.PUPPETEER_CACHE_DIR && path.join(process.env.PUPPETEER_CACHE_DIR, 'chrome/linux-127.0.6533.88/chrome-linux/chrome'),
         
-        // System Chrome paths
+        // System browser paths (Edge first, then Chrome)
+        '/usr/bin/microsoft-edge',
+        '/opt/microsoft/msedge/msedge',
         '/usr/bin/google-chrome-stable',
         '/usr/bin/google-chrome',
         '/usr/bin/chromium-browser',

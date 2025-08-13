@@ -1,0 +1,38 @@
+[Unit]
+Description=LinkedIn Banner Extraction System
+Documentation=https://github.com/your-repo/linkedin-scraper
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/mynodejsapp
+Environment=NODE_ENV=production
+Environment=ADAPTIVE_MODE=true
+Environment=VERBOSE_LOGGING=false
+Environment=PORT=3000
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=10
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=30
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/path/to/mynodejsapp
+
+# Resource limits
+LimitNOFILE=65536
+MemoryMax=2G
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=linkedin-scraper
+
+[Install]
+WantedBy=multi-user.target

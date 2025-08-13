@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-08-13T12:38:16.242Z",
+    "lastUpdated": "2025-08-13T12:38:16.242Z",
+    "totalPatterns": 0,
+    "successfulPatterns": 0
+  },
+  "baselinePatterns": {
+    "apiEndpoints": [
+      "/voyager/api/",
+      "/voyagerapi/",
+      "/api/v2/",
+      "/deco-api/",
+      "/li/api/"
+    ],
+    "contentPatterns": [
+      "companyUpdates",
+      "organizationDashCompanies",
+      "companyProfile",
+      "organization",
+      "company"
+    ]
+  },
+  "apiEndpoints": {},
+  "bannerPatterns": {
+    "jsonPatterns": [
+      "backgroundImage",
+      "coverPhoto",
+      "bannerImage",
+      "heroImage",
+      "companyBackground"
+    ],
+    "urlPatterns": [
+      "company-background",
+      "organization-background",
+      "cover-photo",
+      "banner-image"
+    ]
+  },
+  "successMetrics": {
+    "patternSuccessRates": {},
+    "endpointPerformance": {},
+    "lastSuccessfulPatterns": [],
+    "failedPatterns": []
+  },
+  "environments": {
+    "production": {
+      "useOnlyHighSuccessPatterns": true,
+      "minSuccessRate": 0.7,
+      "maxRetries": 3
+    },
+    "development": {
+      "useOnlyHighSuccessPatterns": false,
+      "minSuccessRate": 0.3,
+      "maxRetries": 5
+    }
+  }
+}

@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "node index.js",
+    "dev": "NODE_ENV=development node index.js",
+    "prod": "NODE_ENV=production node index.js",
+    "check-env": "node check-environment.js",
+    "test-edge": "node test-edge-integration.js",
+    "test-browser-selection": "node test-browser-selection.js",
     "install-chrome": "node install-chrome.js",
     "ensure-chrome": "node ensure-chrome.js",
     "check-puppeteer": "node check-puppeteer.js",

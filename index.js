@@ -9,6 +9,45 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const { ensureChrome } = require('./ensure-chrome');
+const { antiBotSystem } = require('./anti-bot-system');
+const { performanceMonitor } = require('./performance-monitor');
+const { enhancedFileOps } = require('./enhanced-file-operations');
+const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
+
+// Initialize LinkedIn-specific anti-bot system
+const linkedinAntiBot = new LinkedInImageAntiBotSystem();
+
+/**
+ * LinkedIn extraction tracking for monitoring success rates
+ * WITH MEMORY LEAK PREVENTION
+ */
+const linkedInMetrics = {
+    totalAttempts: 0,
+    successfulExtractions: 0,
+    failedExtractions: 0,
+    errorCategories: {},
+    lastUpdated: new Date().toISOString(),
+    // SAFETY: Add bounds to prevent memory accumulation
+    maxHistorySize: 100
+};
+
+// SAFETY: Periodic cleanup to prevent memory leaks
+setInterval(() => {
+    // Reset metrics if they grow too large
+    if (linkedInMetrics.totalAttempts > linkedInMetrics.maxHistorySize) {
+        console.log('Resetting LinkedIn metrics to prevent memory accumulation');
+        linkedInMetrics.totalAttempts = Math.floor(linkedInMetrics.totalAttempts / 2);
+        linkedInMetrics.successfulExtractions = Math.floor(linkedInMetrics.successfulExtractions / 2);
+        linkedInMetrics.failedExtractions = Math.floor(linkedInMetrics.failedExtractions / 2);
+        
+        // Reset error categories
+        Object.keys(linkedInMetrics.errorCategories).forEach(key => {
+            linkedInMetrics.errorCategories[key] = Math.floor(linkedInMetrics.errorCategories[key] / 2);
+        });
+        
+        linkedInMetrics.lastUpdated = new Date().toISOString();
+    }
+}, 30 * 60 * 1000); // Every 30 minutes
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,7 +62,136 @@ app.use(express.json());
 
 // ✅ Example test endpoint
 app.get('/test', (req, res) => {
-  res.send('test completed');
+  res.json({ 
+    message: 'SumNode API is working correctly!',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// LinkedIn metrics endpoint for monitoring success rates
+app.get('/linkedin-metrics', (req, res) => {
+    const successRate = linkedInMetrics.totalAttempts > 0 ? 
+        ((linkedInMetrics.successfulExtractions / linkedInMetrics.totalAttempts) * 100).toFixed(1) : 0;
+    
+    res.json({
+        status: 'active',
+        metrics: {
+            ...linkedInMetrics,
+            successRate: `${successRate}%`,
+            failureRate: `${(100 - parseFloat(successRate)).toFixed(1)}%`
+        },
+        recommendations: {
+            ...(parseFloat(successRate) < 50 && linkedInMetrics.totalAttempts >= 5 ? {
+                lowSuccessRate: 'Consider checking LinkedIn blocking patterns or adjusting scraping strategy'
+            } : {}),
+            ...(linkedInMetrics.errorCategories.timeout > linkedInMetrics.errorCategories.navigation ? {
+                highTimeouts: 'Consider increasing timeout values or optimizing page load detection'
+            } : {}),
+            ...(linkedInMetrics.errorCategories.network > 3 ? {
+                networkIssues: 'Consider implementing additional network retry mechanisms'
+            } : {})
+        },
+        _timestamp: new Date().toISOString()
+    });
+});
+
+// ✅ Advanced Performance Monitoring Endpoint
+app.get('/performance-metrics', (req, res) => {
+    try {
+        const analytics = performanceMonitor.getAnalytics();
+        res.json({
+            status: 'active',
+            ...analytics,
+            _timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            _timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Anti-Bot System Status Endpoint
+app.get('/anti-bot-status', (req, res) => {
+    try {
+        const analytics = antiBotSystem.getAnalytics();
+        res.json({
+            status: 'active',
+            antiBotSystem: analytics,
+            _timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            _timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ System Health Check Endpoint
+app.get('/health', (req, res) => {
+    try {
+        const memoryUsage = process.memoryUsage();
+        const uptime = process.uptime();
+        
+        // Perform basic health checks
+        const healthStatus = {
+            status: 'healthy',
+            uptime: `${Math.floor(uptime / 60)} minutes`,
+            memory: {
+                used: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)}MB`,
+                total: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)}MB`,
+                rss: `${Math.round(memoryUsage.rss / 1024 / 1024)}MB`
+            },
+            environment: process.env.NODE_ENV || 'development',
+            platform: os.platform(),
+            nodeVersion: process.version,
+            performanceMetrics: performanceMonitor.getAnalytics(),
+            antiBotMetrics: antiBotSystem.getAnalytics()
+        };
+
+        // Check for warning conditions
+        const warnings = [];
+        if (memoryUsage.heapUsed / 1024 / 1024 > 400) {
+            warnings.push('High memory usage detected');
+            healthStatus.status = 'warning';
+        }
+
+        if (warnings.length > 0) {
+            healthStatus.warnings = warnings;
+        }
+
+        res.json(healthStatus);
+    } catch (error) {
+        res.status(500).json({
+            status: 'unhealthy',
+            error: error.message,
+            _timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Export Performance Data Endpoint
+app.post('/export-performance', async (req, res) => {
+    try {
+        const filePath = await performanceMonitor.exportPerformanceData();
+        res.json({
+            success: true,
+            message: 'Performance data exported successfully',
+            filePath: path.basename(filePath),
+            _timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            _timestamp: new Date().toISOString()
+        });
+    }
 });
 
 // ✅ Browser detection test endpoint
@@ -49,11 +217,27 @@ app.get('/test-browser', (req, res) => {
   }
 });
 
-// ✅ Start the server with Chrome initialization
+// ✅ Enhanced server startup with auto-initialization
 async function startServer() {
   try {
-    // Ensure Chrome is available before starting the server
-    console.log('🚀 Initializing server...');
+    // Step 1: Auto-initialize all systems
+    console.log('🚀 Starting LinkedIn Banner Extraction System...');
+    
+    const { AutoInitializationSystem } = require('./auto-initialization-system');
+    const autoInit = new AutoInitializationSystem();
+    
+    const initResult = await autoInit.initialize();
+    
+    if (!initResult.success) {
+      console.error('❌ Auto-initialization failed. Starting in limited mode...');
+      if (!initResult.fallback) {
+        console.error('💥 Critical failure - cannot start server');
+        process.exit(1);
+      }
+    }
+    
+    // Step 2: Ensure Chrome is available
+    console.log('🔧 Ensuring Chrome availability...');
     const chromeReady = await ensureChrome();
     
     if (!chromeReady) {
@@ -61,22 +245,110 @@ async function startServer() {
       // Continue anyway - some endpoints might still work
     }
     
+    // Step 3: Start the Express server
     app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-      if (chromeReady) {
-        console.log('✅ Chrome is ready for web scraping');
+      console.log('\n' + '='.repeat(65));
+      console.log('🎉 LINKEDIN BANNER EXTRACTION SYSTEM READY');
+      console.log('='.repeat(65));
+      console.log(`🌐 Server running on port ${port}`);
+      console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🔧 Chrome Status: ${chromeReady ? '✅ Ready' : '⚠️  Limited'}`);
+      console.log(`🧠 Adaptive Mode: ${process.env.ADAPTIVE_MODE !== 'false' ? '✅ Enabled' : '❌ Disabled'}`);
+      console.log('='.repeat(65));
+      console.log('📋 Available Endpoints:');
+      console.log('   POST /api/extract-company-details - Main extraction endpoint');
+      console.log('   GET  /health                      - System health check');
+      console.log('   GET  /linkedin-metrics            - LinkedIn extraction metrics');
+      console.log('   GET  /performance-metrics         - Performance analytics');
+      console.log('   GET  /anti-bot-status             - Anti-bot system status');
+      console.log('   GET  /test                        - Basic API test');
+      console.log('   GET  /test-browser                - Browser compatibility test');
+      console.log('='.repeat(65));
+      
+      if (initResult.success) {
+        console.log('✅ All systems initialized successfully!');
+        console.log('🎯 System is ready for production use');
       } else {
-        console.log('⚠️  Chrome initialization failed - web scraping may not work');
+        console.log('⚠️  System running in limited mode');
+        console.log('🔧 Some advanced features may not be available');
       }
+      
+      console.log('='.repeat(65));
     });
     
   } catch (error) {
     console.error('💥 Server startup failed:', error);
-    process.exit(1);
+    console.error('\n🔧 Attempting emergency startup...');
+    
+    try {
+      // Emergency startup without auto-initialization
+      app.listen(port, () => {
+        console.log('⚠️  Emergency mode: Server running on port', port);
+        console.log('🚨 Limited functionality - some features may not work');
+        console.log('💡 Try running: node deploy-adaptive-system.js');
+      });
+    } catch (emergencyError) {
+      console.error('💥 Emergency startup also failed:', emergencyError);
+      process.exit(1);
+    }
   }
 }
 
-// Start the server
+// Enhanced health endpoint with auto-initialization status
+app.get('/status', (req, res) => {
+  try {
+    const memoryUsage = process.memoryUsage();
+    const uptime = process.uptime();
+    
+    // Get adaptive system status if available
+    let adaptiveStatus = null;
+    try {
+      const { AdaptiveConfigManager } = require('./adaptive-config-manager');
+      const adaptiveConfig = new AdaptiveConfigManager();
+      adaptiveConfig.initialize().then(() => {
+        adaptiveStatus = adaptiveConfig.getSystemStatus();
+      }).catch(() => {
+        adaptiveStatus = { error: 'Adaptive system not available' };
+      });
+    } catch (error) {
+      adaptiveStatus = { error: 'Adaptive system not installed' };
+    }
+    
+    const status = {
+      system: 'LinkedIn Banner Extraction System',
+      status: 'operational',
+      uptime: `${Math.floor(uptime / 60)} minutes`,
+      memory: {
+        used: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)}MB`,
+        total: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)}MB`
+      },
+      environment: process.env.NODE_ENV || 'development',
+      adaptiveMode: process.env.ADAPTIVE_MODE !== 'false',
+      verboseLogging: process.env.VERBOSE_LOGGING === 'true',
+      platform: os.platform(),
+      nodeVersion: process.version,
+      adaptiveSystem: adaptiveStatus,
+      endpoints: {
+        extraction: '/api/extract-company-details',
+        health: '/health',
+        metrics: '/linkedin-metrics',
+        performance: '/performance-metrics',
+        antiBotStatus: '/anti-bot-status'
+      },
+      timestamp: new Date().toISOString()
+    };
+    
+    res.json(status);
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Start the server with auto-initialization
 startServer();
 
 /* 
@@ -344,34 +616,593 @@ const utils = {
 };
 
 /**
- * Get platform-appropriate user agent string
+ * Get advanced rotating user agent with anti-bot features
  */
-function getUserAgent() {
-    const platform = os.platform();
-    const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
-    
-    if (platform === 'win32' && !isProduction) {
-        return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-    } else if (platform === 'linux' || isProduction) {
-        return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-    } else {
-        return 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-    }
+function getUserAgent(forceRotation = false) {
+    return antiBotSystem.getRandomUserAgent(forceRotation);
+}
+
+/**
+ * Get comprehensive browser headers for anti-detection
+ */
+function getBrowserHeaders() {
+    return antiBotSystem.getBrowserHeaders();
+}
+
+/**
+ * Get advanced browser arguments with stealth features
+ */
+function getAdvancedBrowserArgs() {
+    return antiBotSystem.getAdvancedBrowserArgs();
 }
 
 /**
  * Get Linux-specific Chrome arguments (mainly for production)
  */
 function getLinuxSpecificArgs() {
-    const platform = os.platform();
-    const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
+    // Use enhanced browser args that include platform-specific optimizations
+    return getAdvancedBrowserArgs().filter(arg => 
+        arg.includes('--single-process') || 
+        arg.includes('--disable-gpu') ||
+        arg.includes('--disable-web-security')
+    );
+}
+
+
+
+/**
+ * Update LinkedIn metrics and log detailed information
+ */
+function updateLinkedInMetrics(success, error = null, extractedData = null) {
+    linkedInMetrics.totalAttempts++;
+    linkedInMetrics.lastUpdated = new Date().toISOString();
     
-    // Only add Linux-specific args in production or on Linux
-    if (platform === 'linux' || isProduction) {
-        return ['--single-process'];
+    if (success) {
+        linkedInMetrics.successfulExtractions++;
+        logger.info('LinkedIn extraction succeeded', { 
+            details: { 
+                successRate: `${((linkedInMetrics.successfulExtractions / linkedInMetrics.totalAttempts) * 100).toFixed(1)}%`,
+                totalAttempts: linkedInMetrics.totalAttempts,
+                hasName: !!extractedData?.name,
+                hasDescription: !!extractedData?.description,
+                hasLogo: !!extractedData?.logoUrl,
+                hasBanner: !!extractedData?.bannerUrl
+            } 
+        });
+    } else {
+        linkedInMetrics.failedExtractions++;
+        const errorCategory = error?.message?.includes('timeout') ? 'timeout' : 
+                             error?.message?.includes('navigation') ? 'navigation' : 
+                             error?.message?.includes('selector') ? 'parsing' : 'other';
+        
+        linkedInMetrics.errorCategories[errorCategory] = (linkedInMetrics.errorCategories[errorCategory] || 0) + 1;
+        
+        logger.error('LinkedIn extraction failed', error, { 
+            details: { 
+                errorCategory,
+                successRate: `${((linkedInMetrics.successfulExtractions / linkedInMetrics.totalAttempts) * 100).toFixed(1)}%`,
+                totalAttempts: linkedInMetrics.totalAttempts,
+                errorDistribution: linkedInMetrics.errorCategories
+            } 
+        });
+    }
+}
+
+/**
+ * Provide fallback colors for LinkedIn images when extraction fails
+ * Returns appropriate colors based on context (banner vs logo)
+ */
+function getLinkedInFallbackColors(context) {
+    const contextLower = context.toLowerCase();
+    
+    if (contextLower.includes('banner') || contextLower.includes('background')) {
+        // LinkedIn brand blue and complementary colors for banners
+        return {
+            colors: ['#0077B5', '#005885', '#00A0DC', '#FFFFFF', '#F3F6F8'],
+            hex: '#0077B5',
+            rgb: 'rgb(0,119,181)'
+        };
+    } else if (contextLower.includes('logo')) {
+        // More neutral colors for logos
+        return {
+            colors: ['#0077B5', '#FFFFFF', '#F3F6F8', '#005885', '#666666'],
+            hex: '#0077B5',
+            rgb: 'rgb(0,119,181)'
+        };
+    } else {
+        // Default LinkedIn colors
+        return {
+            colors: ['#0077B5', '#005885', '#FFFFFF', '#F3F6F8', '#666666'],
+            hex: '#0077B5',
+            rgb: 'rgb(0,119,181)'
+        };
+    }
+}
+
+/**
+ * Try alternative LinkedIn image URLs when the original fails
+ * LinkedIn sometimes blocks direct image access but allows alternative formats
+ */
+async function tryAlternativeLinkedInImageUrl(originalUrl, context) {
+    try {
+        // Only process LinkedIn URLs
+        if (!originalUrl.includes('linkedin.com') && !originalUrl.includes('licdn.com')) {
+            return null;
+        }
+        
+        logger.debug(`Trying alternative LinkedIn image strategies for ${context}`, { 
+            details: { originalUrl } 
+        });
+        
+        // Strategy 1: Try different image sizes/formats
+        const alternatives = [];
+        
+        // If it's a company banner/background image
+        if (originalUrl.includes('/sc/h/')) {
+            // Try different size variants
+            alternatives.push(originalUrl.replace('/sc/h/', '/sc/p/'));
+            alternatives.push(originalUrl + '/shrink_200_200');
+            alternatives.push(originalUrl + '/shrink_400_400');
+        }
+        
+        // If it's a logo image
+        if (originalUrl.includes('company-logo')) {
+            alternatives.push(originalUrl.replace('company-logo', 'company-logo_100_100'));
+            alternatives.push(originalUrl.replace('company-logo', 'company-logo_200_200'));
+        }
+        
+        // Strategy 2: Try adding common LinkedIn image parameters
+        const urlObj = new URL(originalUrl);
+        alternatives.push(`${originalUrl}?v=beta&t=${Date.now()}`);
+        alternatives.push(`${originalUrl}?trk=public_profile_browsemap`);
+        
+        // Strategy 3: Try removing parameters that might cause issues
+        const cleanUrl = `${urlObj.protocol}//${urlObj.host}${urlObj.pathname}`;
+        if (cleanUrl !== originalUrl) {
+            alternatives.push(cleanUrl);
+        }
+        
+        // Test each alternative (but don't recurse infinitely)
+        for (const altUrl of alternatives) {
+            try {
+                logger.debug(`Testing alternative LinkedIn URL: ${altUrl}`);
+                
+                const testResponse = await axios({
+                    method: 'head', // Just check headers, don't download
+                    url: altUrl,
+                    timeout: 5000,
+                    headers: {
+                        'User-Agent': getUserAgent(),
+                        'Referer': 'https://www.linkedin.com/',
+                        'Accept': 'image/*'
+                    }
+                });
+                
+                const contentType = testResponse.headers['content-type'] || '';
+                if (contentType.startsWith('image/')) {
+                    logger.info(`Found working alternative LinkedIn image URL for ${context}`, { 
+                        details: { original: originalUrl, alternative: altUrl, contentType } 
+                    });
+                    return altUrl;
+                }
+            } catch (error) {
+                // Continue to next alternative
+                logger.debug(`Alternative URL failed: ${altUrl} - ${error.message}`);
+            }
+        }
+        
+        logger.warn(`No working alternative LinkedIn image URL found for ${context}`);
+        return null;
+        
+    } catch (error) {
+        logger.warn(`Error trying alternative LinkedIn image URLs for ${context}`, error);
+        return null;
+    }
+}
+
+/**
+ * Browser-based image extraction for better reliability
+ * Uses Puppeteer to navigate to image URLs instead of direct HTTP requests
+ * WITH RESOURCE LEAK PREVENTION
+ */
+async function extractImageWithBrowser(imageUrl, context = 'image') {
+    let browser = null;
+    let page = null;
+    let tempImagePath = null;
+    const timeout = 15000; // Fixed timeout to prevent hanging
+    
+    try {
+        // SAFETY: Check browser limit before launching
+        if (!browserManager.canLaunchBrowser()) {
+            logger.warn(`Browser launch skipped - too many active browsers`, { 
+                details: { active: browserManager.activeBrowsers, max: browserManager.maxConcurrentBrowsers } 
+            });
+            return null; // Fallback to HTTP method
+        }
+        
+        logger.debug(`Starting browser-based image extraction for ${context}`, { details: { imageUrl } });
+        
+        // Launch a lightweight browser instance for image extraction
+        const browserPath = getBrowserExecutablePath();
+        
+        // Use LinkedIn-specific browser args if it's a LinkedIn image
+        const isLinkedInImage = linkedinAntiBot.isLinkedInImageUrl(imageUrl);
+        const browserArgs = isLinkedInImage ? 
+            linkedinAntiBot.getLinkedInBrowserArgs() : 
+            [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor',
+                '--no-first-run',
+                '--disable-extensions',
+                '--disable-plugins',
+                '--memory-pressure-off',
+                '--max_old_space_size=256'
+            ];
+        
+        const launchOptions = {
+            headless: 'new',
+            args: browserArgs,
+            timeout: 30000,
+            // Prevent resource exhaustion
+            defaultViewport: { width: 800, height: 600 },
+            devtools: false
+        };
+        
+        if (browserPath) {
+            launchOptions.executablePath = browserPath;
+        }
+        
+        // Add timeout wrapper to prevent hanging
+        browser = await Promise.race([
+            puppeteer.launch(launchOptions),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Browser launch timeout')), 30000)
+            )
+        ]);
+        
+        // SAFETY: Register browser instance
+        browserManager.registerBrowser();
+        
+        page = await browser.newPage();
+        
+        // Set resource limits
+        await page.setViewport({ width: 800, height: 600 });
+        await page.setDefaultTimeout(timeout);
+        
+        // **ENHANCED: LinkedIn-specific anti-bot measures**
+        if (linkedinAntiBot.isLinkedInImageUrl(imageUrl)) {
+            logger.debug('Applying advanced LinkedIn-specific anti-bot measures');
+            
+            // Setup LinkedIn stealth mode
+            await linkedinAntiBot.setupLinkedInStealthMode(page);
+            
+            // Set LinkedIn-optimized headers
+            const linkedinHeaders = linkedinAntiBot.getLinkedInImageHeaders(imageUrl);
+            await page.setExtraHTTPHeaders(linkedinHeaders);
+            
+            // Set LinkedIn-optimized user agent
+            const linkedinUserAgent = linkedinAntiBot.getLinkedInOptimizedUserAgent();
+            await page.setUserAgent(linkedinUserAgent);
+            
+            // Implement human-like delay
+            await linkedinAntiBot.implementHumanDelay();
+            
+            linkedinAntiBot.logActivity('LinkedIn image extraction initiated', { 
+                imageUrl, 
+                userAgent: linkedinUserAgent.split(' ')[2],
+                environment: linkedinAntiBot.isProduction() ? 'production' : 'development'
+            });
+        }
+        
+        // Navigate with strict timeout
+        logger.debug(`Navigating to image URL: ${imageUrl}`);
+        await Promise.race([
+            page.goto(imageUrl, { 
+                waitUntil: 'domcontentloaded', // Faster than 'load'
+                timeout: timeout 
+            }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Navigation timeout')), timeout)
+            )
+        ]);
+        
+        // **ENHANCED: Check if we got an actual image or error page**
+        const pageContent = await page.content();
+        const isErrorPage = pageContent.includes('<html') || 
+                           pageContent.includes('<?xml') || 
+                           pageContent.includes('error') ||
+                           pageContent.includes('Access Denied') ||
+                           pageContent.includes('Forbidden');
+        
+        if (isErrorPage) {
+            logger.warn(`Detected error page instead of image for ${context}`, { 
+                details: { imageUrl, contentPreview: pageContent.substring(0, 200) } 
+            });
+            return null; // Trigger fallback to HTTP method
+        }
+        
+        // Take a screenshot with timeout
+        const tempDir = os.tmpdir();
+        const fileName = `browser_image_${Date.now()}_${Math.random().toString(36).substring(7)}.png`;
+        tempImagePath = path.join(tempDir, fileName);
+        
+        await Promise.race([
+            page.screenshot({ 
+                path: tempImagePath, 
+                fullPage: false,
+                type: 'png',
+                quality: 80, // Reduce file size
+                clip: { x: 0, y: 0, width: 800, height: 600 } // Limit screenshot area
+            }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Screenshot timeout')), 10000)
+            )
+        ]);
+        
+        logger.info(`Browser-based image extraction successful for ${context}`, { 
+            details: { imageUrl, tempPath: tempImagePath } 
+        });
+        
+        return tempImagePath;
+        
+    } catch (error) {
+        logger.error(`Browser-based image extraction failed for ${context}`, error, { 
+            details: { imageUrl, fallbackToAxios: true, timeout: timeout } 
+        });
+        
+        // Return null to trigger fallback to axios method
+        return null;
+        
+    } finally {
+        // CRITICAL: Always cleanup resources
+        try {
+            if (page) {
+                await page.close();
+            }
+        } catch (cleanupError) {
+            logger.debug('Page cleanup warning', { details: { error: cleanupError.message } });
+        }
+        
+        try {
+            if (browser) {
+                await browser.close();
+                // SAFETY: Unregister browser instance
+                browserManager.unregisterBrowser();
+            }
+        } catch (cleanupError) {
+            logger.debug('Browser cleanup warning', { details: { error: cleanupError.message } });
+        }
+    }
+}
+
+/**
+ * SAFETY: Global browser instance tracking to prevent resource exhaustion
+ */
+const browserManager = {
+    activeBrowsers: 0,
+    maxConcurrentBrowsers: 3, // Limit concurrent browsers
+    
+    canLaunchBrowser() {
+        return this.activeBrowsers < this.maxConcurrentBrowsers;
+    },
+    
+    registerBrowser() {
+        this.activeBrowsers++;
+        logger.debug(`Browser instance started`, { details: { active: this.activeBrowsers, max: this.maxConcurrentBrowsers } });
+    },
+    
+    unregisterBrowser() {
+        this.activeBrowsers = Math.max(0, this.activeBrowsers - 1);
+        logger.debug(`Browser instance ended`, { details: { active: this.activeBrowsers, max: this.maxConcurrentBrowsers } });
+    }
+};
+
+/**
+ * Enhanced logging utility for better error tracking and debugging
+ */
+const logger = {
+    info: (message, context = {}) => {
+        const timestamp = new Date().toISOString();
+        console.log(`[${timestamp}] INFO: ${message}`, context.details ? `| Details: ${JSON.stringify(context.details)}` : '');
+    },
+    
+    warn: (message, context = {}) => {
+        const timestamp = new Date().toISOString();
+        console.warn(`[${timestamp}] WARN: ${message}`, context.details ? `| Details: ${JSON.stringify(context.details)}` : '');
+    },
+    
+    error: (message, error, context = {}) => {
+        const timestamp = new Date().toISOString();
+        console.error(`[${timestamp}] ERROR: ${message}`);
+        if (error) {
+            console.error(`[${timestamp}] ERROR Stack:`, error.stack || error.message || error);
+        }
+        if (context.details) {
+            console.error(`[${timestamp}] ERROR Details:`, JSON.stringify(context.details, null, 2));
+        }
+    },
+    
+    debug: (message, context = {}) => {
+        const timestamp = new Date().toISOString();
+        console.log(`[${timestamp}] DEBUG: ${message}`, context.details ? `| Details: ${JSON.stringify(context.details)}` : '');
+    }
+};
+
+/**
+ * Retry utility with exponential backoff for robust error handling
+ */
+async function retryWithBackoff(fn, options = {}) {
+    const {
+        maxRetries = 3,
+        initialDelay = 1000,
+        maxDelay = 10000,
+        backoffMultiplier = 2,
+        operation = 'operation'
+    } = options;
+    
+    // SAFETY: Enforce absolute limits to prevent infinite loops
+    const absoluteMaxRetries = Math.min(Math.max(maxRetries, 1), 5); // Between 1 and 5
+    const safeMaxDelay = Math.min(maxDelay, 30000); // Max 30 seconds
+    
+    let attempt = 0;
+    let lastError;
+    
+    while (attempt < absoluteMaxRetries) {
+        try {
+            logger.debug(`Attempting ${operation}`, { details: { attempt: attempt + 1, maxRetries: absoluteMaxRetries } });
+            
+            // SAFETY: Add timeout wrapper to prevent hanging functions
+            const result = await Promise.race([
+                fn(),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error(`${operation} operation timeout after 30s`)), 30000)
+                )
+            ]);
+            
+            if (attempt > 0) {
+                logger.info(`${operation} succeeded after ${attempt + 1} attempts`);
+            }
+            
+            return result;
+        } catch (error) {
+            attempt++;
+            lastError = error;
+            
+            // SAFETY: Don't retry certain fatal errors to prevent infinite loops
+            if (error.message.includes('ENOTFOUND') || 
+                error.message.includes('ECONNREFUSED') ||
+                error.message.includes('Invalid URL') ||
+                error.message.includes('EACCES') ||
+                error.message.includes('permission denied')) {
+                logger.error(`${operation} failed with non-retryable error`, error);
+                throw lastError;
+            }
+            
+            logger.warn(`${operation} failed on attempt ${attempt}`, { 
+                details: { 
+                    error: error.message,
+                    attempt,
+                    maxRetries: absoluteMaxRetries,
+                    willRetry: attempt < absoluteMaxRetries,
+                    errorType: error.name || 'UnknownError'
+                }
+            });
+            
+            if (attempt >= absoluteMaxRetries) {
+                logger.error(`${operation} failed after ${absoluteMaxRetries} attempts`, lastError);
+                throw lastError;
+            }
+            
+            // Calculate delay with exponential backoff and jitter
+            const baseDelay = initialDelay * Math.pow(backoffMultiplier, attempt - 1);
+            const jitter = Math.random() * 1000; // Add randomness to prevent thundering herd
+            const delay = Math.min(baseDelay + jitter, safeMaxDelay);
+            
+            logger.debug(`Waiting ${Math.round(delay)}ms before retry`);
+            
+            // SAFETY: Use AbortController pattern for cancellable delays
+            await new Promise((resolve) => {
+                const timeoutId = setTimeout(resolve, delay);
+                // Cleanup mechanism (could be enhanced with AbortController if needed)
+                process.once('SIGINT', () => {
+                    clearTimeout(timeoutId);
+                    resolve();
+                });
+            });
+        }
     }
     
-    return [];
+    throw lastError;
+}
+
+/**
+ * Enhanced browser launch with detailed error logging and retry mechanism
+ */
+async function launchBrowserWithRetry(launchOptions, context = '') {
+    return await retryWithBackoff(async () => {
+        const browserPath = launchOptions.executablePath;
+        logger.info(`Launching browser ${context}`, { 
+            details: {
+                browserPath: browserPath || 'Puppeteer bundled Chromium',
+                platform: os.platform(),
+                isProduction: !!(process.env.NODE_ENV === 'production' || process.env.RENDER)
+            }
+        });
+        
+        try {
+            const browser = await puppeteer.launch(launchOptions);
+            logger.info(`Browser launched successfully ${context}`);
+            return browser;
+        } catch (error) {
+            logger.error(`Browser launch failed ${context}`, error, {
+                details: {
+                    browserPath: browserPath || 'Puppeteer bundled Chromium',
+                    launchArgs: launchOptions.args,
+                    timeout: launchOptions.timeout
+                }
+            });
+            throw error;
+        }
+    }, {
+        maxRetries: 3,
+        initialDelay: 2000,
+        operation: `browser launch ${context}`
+    });
+}
+
+/**
+ * Enhanced page navigation with retry and detailed error logging
+ */
+async function navigateToPageWithRetry(page, url, options = {}) {
+    const { timeout = 45000, waitUntil = 'domcontentloaded', context = '' } = options;
+    
+    return await retryWithBackoff(async () => {
+        logger.debug(`Navigating to URL ${context}`, { details: { url, timeout, waitUntil } });
+        
+        try {
+            const response = await page.goto(url, {
+                waitUntil: waitUntil,
+                timeout: timeout
+            });
+            
+            if (!response) {
+                throw new Error('Navigation returned null response');
+            }
+            
+            const status = response.status();
+            logger.info(`Navigation successful ${context}`, { 
+                details: { 
+                    url, 
+                    status,
+                    finalUrl: page.url()
+                }
+            });
+            
+            if (status >= 400) {
+                throw new Error(`HTTP ${status} error for URL: ${url}`);
+            }
+            
+            return response;
+        } catch (error) {
+            logger.error(`Navigation failed ${context}`, error, {
+                details: {
+                    url,
+                    timeout,
+                    waitUntil,
+                    currentUrl: page.url()
+                }
+            });
+            throw error;
+        }
+    }, {
+        maxRetries: 2,
+        initialDelay: 3000,
+        operation: `page navigation ${context}`
+    });
 }
 
 /**
@@ -383,40 +1214,19 @@ function getLinuxSpecificArgs() {
  * @throws Will throw an error if Puppeteer setup or navigation fails.
  */
 async function setupPuppeteerPageForCompanyDetails(url) {
-    // Chrome availability is ensured at server startup
+    logger.info('Setting up browser for company details extraction', { details: { url } });
     
     const browserPath = getBrowserExecutablePath();
     
     const launchOptions = {
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--no-first-run',
-            '--no-zygote',
-            '--disable-gpu',
-            '--disable-web-security',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-extensions',
-            '--disable-plugins',
-            '--disable-javascript-harmony-shipping',
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--disable-blink-features=AutomationControlled',
-            '--disable-features=VizDisplayCompositor,VizServiceDisplay',
-            '--disable-ipc-flooding-protection',
-            ...getLinuxSpecificArgs(),
-            `--user-agent=${getUserAgent()}`
-        ],
-        headless: 'new', // Use new headless mode for better LinkedIn compatibility
-        defaultViewport: {
-            width: 1366,
-            height: 768
-        },
+        args: getAdvancedBrowserArgs(),
+        headless: 'new', // Use new headless mode for better compatibility
+        defaultViewport: antiBotSystem.getRandomViewport(),
         timeout: 60000,
-        protocolTimeout: 180000
+        protocolTimeout: 180000,
+        // Advanced stealth features
+        ignoreDefaultArgs: ['--enable-automation'],
+        ignoreHTTPSErrors: true
     };
 
     // Only set executablePath if we found a specific browser
@@ -424,30 +1234,8 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         launchOptions.executablePath = browserPath;
     }
     
-    // Browser launch with optimized retry logic
-    let browser;
-    let lastError;
-    
-    for (let attempt = 1; attempt <= 2; attempt++) { // Reduced from 3 to 2 attempts
-        try {
-            console.log(`[Browser] Launch attempt ${attempt}/2...`);
-            browser = await puppeteer.launch(launchOptions);
-            console.log(`[Browser] Launch successful on attempt ${attempt}`);
-            break;
-        } catch (error) {
-            lastError = error;
-            console.log(`[Browser] Launch attempt ${attempt} failed:`, error.message);
-            
-            if (attempt < 2) {
-                console.log(`[Browser] Waiting 1 second before retry...`); // Reduced from 3 seconds
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-        }
-    }
-    
-    if (!browser) {
-        throw new Error(`Browser launch failed after 2 attempts. Last error: ${lastError.message}`);
-    }
+    // Launch browser with enhanced retry and logging
+    const browser = await launchBrowserWithRetry(launchOptions, 'for company details');
 
     try {
         const page = await browser.newPage();
@@ -506,7 +1294,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
                 const { condition: waitCondition, timeout } = waitConditions[conditionIndex];
                 
                 try {
-                    console.log(`[Navigation] Attempt ${attempt}/2 with '${waitCondition}' (${timeout/1000}s timeout) for ${url}`);
+                    logger.debug(`Navigation attempt ${attempt}/2 with '${waitCondition}'`, { 
+                        details: { timeout: `${timeout/1000}s`, url } 
+                    });
                     
                     response = await page.goto(url, {
                         waitUntil: waitCondition,
@@ -514,11 +1304,13 @@ async function setupPuppeteerPageForCompanyDetails(url) {
                     });
                     
                     navigationSuccess = true;
-                    console.log(`[Navigation] Success with '${waitCondition}' on attempt ${attempt}`);
+                    logger.info(`Navigation succeeded with '${waitCondition}' on attempt ${attempt}`);
                     break;
                 } catch (error) {
                     lastError = error;
-                    console.log(`[Navigation] Failed with '${waitCondition}':`, error.message);
+                    logger.warn(`Navigation failed with '${waitCondition}'`, { 
+                        details: { error: error.message, attempt } 
+                    });
                     
                     // If this was the last condition, break to try next attempt
                     if (conditionIndex === waitConditions.length - 1) {
@@ -530,22 +1322,25 @@ async function setupPuppeteerPageForCompanyDetails(url) {
             if (navigationSuccess) break;
             
             if (attempt < 2) {
-                console.log(`[Navigation] Waiting 2 seconds before retry...`); // Reduced from 5 seconds
+                logger.debug('Waiting before navigation retry', { details: { delay: '2 seconds' } });
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
         
         if (!navigationSuccess) {
             // Final fallback attempt with minimal requirements
-            console.log(`[Navigation] Final fallback attempt with minimal timeout...`);
+            logger.warn('Attempting final fallback navigation');
             try {
                 response = await page.goto(url, {
                     waitUntil: 'domcontentloaded',
-                    timeout: 30000 // Keep reasonable timeout for reliability
+                    timeout: 30000
                 });
                 navigationSuccess = true;
-                console.log(`[Navigation] Fallback attempt succeeded`);
+                logger.info('Fallback navigation succeeded');
             } catch (fallbackError) {
+                logger.error('All navigation attempts failed', fallbackError, {
+                    details: { originalError: lastError.message, url }
+                });
                 throw new Error(`Navigation failed completely. Last error: ${lastError.message}, Fallback error: ${fallbackError.message}`);
             }
         }
@@ -555,8 +1350,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         }
 
         if (!response.ok()) {
-            console.warn(`[Navigation] HTTP ${response.status()} for ${url}, but continuing...`);
-            // Don't throw error for non-2xx status codes, many sites work despite this
+            logger.warn(`HTTP ${response.status()} response but continuing`, { 
+                details: { url, status: response.status() } 
+            });
         }
         
         // Give the page a moment to settle after navigation (reduced delay)
@@ -590,26 +1386,28 @@ function getBrowserExecutablePath() {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
     
     if (isProduction) {
-        // For production environments, try to find system Chrome first
-        console.log('[Browser] Production environment detected, checking for system Chrome first');
+        // For production environments, try to find system browsers first
+        console.log('[Browser] Production environment detected, checking for system browsers');
         
-        // Check for system Chrome in production
-        const productionChromePaths = [
-            '/usr/bin/google-chrome',
-            '/usr/bin/google-chrome-stable',
-            '/usr/bin/chromium-browser',
-            '/usr/bin/chromium'
+        // Check for system browsers in production (Edge first, then Chrome)
+        const productionBrowserPaths = [
+            '/usr/bin/microsoft-edge',           // Microsoft Edge (newly installed)
+            '/opt/microsoft/msedge/msedge',      // Alternative Edge path
+            '/usr/bin/google-chrome',            // Google Chrome
+            '/usr/bin/google-chrome-stable',     // Chrome stable
+            '/usr/bin/chromium-browser',         // Chromium browser
+            '/usr/bin/chromium'                  // Chromium
         ];
         
-        for (const chromePath of productionChromePaths) {
-            if (fs.existsSync(chromePath)) {
-                console.log(`[Browser] Found system Chrome in production: ${chromePath}`);
-                return chromePath;
+        for (const browserPath of productionBrowserPaths) {
+            if (fs.existsSync(browserPath)) {
+                console.log(`[Browser] Found system browser in production: ${browserPath}`);
+                return browserPath;
             }
         }
         
-        // Fallback to Puppeteer bundled Chromium if no system Chrome found
-        console.log('[Browser] No system Chrome found, using Puppeteer bundled Chromium');
+        // Fallback to Puppeteer bundled Chromium if no system browser found
+        console.log('[Browser] No system browser found, using Puppeteer bundled Chromium');
         return null; // Let Puppeteer handle browser detection automatically
     }
     
@@ -664,8 +1462,27 @@ function getBrowserExecutablePathForLinkedIn() {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
     
     if (isProduction) {
-        // In production (Render), use Puppeteer's bundled Chromium for LinkedIn
-        console.log('[LinkedIn Browser] Production environment detected, using Puppeteer bundled Chromium');
+        // In production, prefer Microsoft Edge for LinkedIn if available
+        console.log('[LinkedIn Browser] Production environment detected, checking for system browsers');
+        
+        const productionLinkedInBrowserPaths = [
+            '/usr/bin/microsoft-edge',           // Microsoft Edge (preferred for LinkedIn)
+            '/opt/microsoft/msedge/msedge',      // Alternative Edge path
+            '/usr/bin/google-chrome',            // Google Chrome fallback
+            '/usr/bin/google-chrome-stable',     // Chrome stable fallback
+            '/usr/bin/chromium-browser',         // Chromium browser fallback
+            '/usr/bin/chromium'                  // Chromium fallback
+        ];
+        
+        for (const browserPath of productionLinkedInBrowserPaths) {
+            if (fs.existsSync(browserPath)) {
+                console.log(`[LinkedIn Browser] Found system browser in production: ${browserPath}`);
+                return browserPath;
+            }
+        }
+        
+        // Fallback to Puppeteer bundled Chromium if no system browser found
+        console.log('[LinkedIn Browser] No system browser found, using Puppeteer bundled Chromium');
         return null; // Let Puppeteer handle browser detection automatically
     }
     
@@ -698,49 +1515,100 @@ function getBrowserExecutablePathForLinkedIn() {
     
     for (const browserPath of paths) {
         if (browserPath && fs.existsSync(browserPath)) {
-            console.log(`[LinkedIn Browser] Found browser for LinkedIn: ${browserPath}`);
+            logger.info(`Found browser for LinkedIn: ${browserPath}`);
             return browserPath;
         }
     }
 
-    console.log('[LinkedIn Browser] No specific browser found, using default');
+    logger.debug('No specific browser found for LinkedIn, using default');
     return null;
 }
 
 /**
  * Use Edge (local) or Chrome (production) to scrape company details from a LinkedIn company page
  */
+/**
+ * Graceful degradation wrapper for LinkedIn extraction
+ * Ensures that LinkedIn scraping failures don't break the main extraction process
+ */
+async function extractCompanyDataFromLinkedInSafely(linkedinUrl) {
+    const startTime = Date.now();
+    
+    try {
+        logger.info('Attempting LinkedIn data extraction with enhanced monitoring', { 
+            details: { 
+                linkedinUrl,
+                currentSuccessRate: linkedInMetrics.totalAttempts > 0 ? 
+                    `${((linkedInMetrics.successfulExtractions / linkedInMetrics.totalAttempts) * 100).toFixed(1)}%` : 'N/A'
+            } 
+        });
+        
+        const result = await extractCompanyDataFromLinkedIn(linkedinUrl);
+        const extractionTime = (Date.now() - startTime) / 1000;
+        
+        // Update metrics for successful extraction
+        updateLinkedInMetrics(true, null, result);
+        
+        logger.info('LinkedIn extraction completed successfully', { 
+            details: { 
+                extractionTime: `${extractionTime.toFixed(2)}s`,
+                hasLogo: !!result?.logoUrl,
+                hasBanner: !!result?.bannerUrl,
+                hasDescription: !!result?.description
+            } 
+        });
+        
+        return result;
+        
+    } catch (error) {
+        const extractionTime = (Date.now() - startTime) / 1000;
+        
+        // Update metrics for failed extraction
+        updateLinkedInMetrics(false, error);
+        
+        logger.error('LinkedIn extraction failed, continuing without LinkedIn data', error, {
+            details: { 
+                linkedinUrl, 
+                extractionTime: `${extractionTime.toFixed(2)}s`,
+                gracefulDegradation: true 
+            }
+        });
+        
+        // Return structured error result instead of throwing
+        return {
+            company: '',
+            description: '',
+            website: '',
+            industry: '',
+            companySize: '',
+            headquarters: '',
+            founded: '',
+            specialties: '',
+            employees: '',
+            followers: '',
+            error: `LinkedIn extraction failed: ${error.message}`,
+            extractionSkipped: true,
+            failureTime: new Date().toISOString(),
+            extractionTime: `${extractionTime.toFixed(2)}s`
+        };
+    }
+}
+
 //this is been used to fetch the data from linkedin
 async function extractCompanyDataFromLinkedIn(linkedinUrl) {
-    // Chrome availability is ensured at server startup
+    logger.info('Starting LinkedIn company data extraction', { details: { linkedinUrl } });
     
     const browserPath = getBrowserExecutablePathForLinkedIn();
 
     const launchOptions = {
         headless: 'new',
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-web-security',
-            '--disable-features=IsolateOrigins,site-per-process',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--disable-blink-features=AutomationControlled',
-            '--disable-features=VizDisplayCompositor,VizServiceDisplay',
-            '--disable-ipc-flooding-protection',
-            ...getLinuxSpecificArgs(),
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-extensions',
-            // LinkedIn-specific arguments to avoid detection
-            '--disable-blink-features=AutomationControlled',
-            `--user-agent=${getUserAgent()}`
-        ],
+        args: getAdvancedBrowserArgs(),
         timeout: 60000, // Reduced browser launch timeout for LinkedIn
-        protocolTimeout: 180000 // Reduced protocol timeout for LinkedIn
+        protocolTimeout: 180000, // Reduced protocol timeout for LinkedIn
+        defaultViewport: antiBotSystem.getRandomViewport(),
+        // Advanced stealth features for LinkedIn
+        ignoreDefaultArgs: ['--enable-automation'],
+        ignoreHTTPSErrors: true
     };
 
     // Only set executablePath if we found a specific browser
@@ -749,7 +1617,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
     }
     // If browserPath is null, Puppeteer will use its bundled Chromium
 
-    const browser = await puppeteer.launch(launchOptions);
+    // Launch browser with enhanced retry and logging
+    const browser = await launchBrowserWithRetry(launchOptions, 'for LinkedIn extraction');
 
     const context = await browser.createBrowserContext();
     const page = await context.newPage();
@@ -757,18 +1626,15 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
     try {
         const cleanUrl = normalizeLinkedInUrl(linkedinUrl);
         
-        // Enhanced stealth measures for LinkedIn
-        await page.setUserAgent(getUserAgent());
+        // Enhanced stealth measures for LinkedIn with anti-bot system
+        await page.setUserAgent(getUserAgent(true)); // Force rotation for LinkedIn
+        await page.setExtraHTTPHeaders(getBrowserHeaders());
         
-        // Set additional headers to look more like a real browser
-        await page.setExtraHTTPHeaders({
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'DNT': '1',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-        });
+        // Advanced stealth mode setup
+        await antiBotSystem.setupStealthMode(page);
+        
+        // Record anti-bot event
+        performanceMonitor.recordAntiBotEvent('stealth_activation', { context: 'LinkedIn extraction' });
         
         // Enhanced anti-detection measures
         await page.evaluateOnNewDocument(() => {
@@ -812,14 +1678,30 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         for (let attempt = 1; attempt <= 2; attempt++) {
             for (const strategy of navigationStrategies) {
                 try {
-                    console.log(`[LinkedIn] Navigation attempt ${attempt}/2 to ${cleanUrl} with ${strategy.waitUntil} (${strategy.timeout/1000}s)`);
+                    logger.debug(`LinkedIn navigation attempt ${attempt}/2`, { 
+                        details: { 
+                            strategy: strategy.waitUntil, 
+                            timeout: `${strategy.timeout/1000}s`,
+                            url: cleanUrl
+                        } 
+                    });
                     await page.goto(cleanUrl, strategy);
                     navigationSuccess = true;
-                    console.log(`[LinkedIn] Navigation successful with ${strategy.waitUntil} on attempt ${attempt}`);
+                    logger.info(`LinkedIn navigation successful with ${strategy.waitUntil} on attempt ${attempt}`);
+                    
+                    // Human-like behavior simulation after navigation
+                    await antiBotSystem.humanDelay(2000, 4000);
+                    await antiBotSystem.simulateHumanBehavior(page, {
+                        enableMouseMovement: true,
+                        enableScrolling: true
+                    });
+                    
                     break;
                 } catch (error) {
                     lastError = error;
-                    console.log(`[LinkedIn] Navigation failed with ${strategy.waitUntil}:`, error.message);
+                    logger.warn(`LinkedIn navigation failed with ${strategy.waitUntil}`, { 
+                        details: { error: error.message, attempt, strategy: strategy.waitUntil } 
+                    });
                 }
             }
             
@@ -832,6 +1714,9 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         }
         
         if (!navigationSuccess) {
+            logger.error('LinkedIn navigation failed after all strategies', lastError, {
+                details: { url: cleanUrl, strategiesAttempted: navigationStrategies.length }
+            });
             throw new Error(`LinkedIn navigation failed after trying all strategies. Last error: ${lastError.message}`);
         }
         
@@ -1008,14 +1893,20 @@ const getImageFromBanner = () => {
     } catch (err) {
         console.error('[LinkedIn Scrape Error]', err.message);
         
-        // Provide more specific error information
-        if (err.message.includes('Navigation timeout')) {
-            console.error('[LinkedIn] Navigation timeout - LinkedIn may be blocking requests or server is slow');
-        } else if (err.message.includes('net::ERR_')) {
-            console.error('[LinkedIn] Network error - connection issue or LinkedIn blocking');
-        } else if (err.message.includes('Protocol error')) {
-            console.error('[LinkedIn] Protocol error - browser communication issue');
-        }
+        // Enhanced LinkedIn-specific error categorization
+        const errorCategory = err.message.includes('Navigation timeout') ? 'navigation_timeout' :
+                             err.message.includes('net::ERR_') ? 'network_error' :
+                             err.message.includes('Protocol error') ? 'protocol_error' : 'other';
+        
+        logger.error(`LinkedIn extraction failed - ${errorCategory}`, err, {
+            details: { 
+                linkedinUrl, 
+                errorCategory,
+                suggestion: errorCategory === 'navigation_timeout' ? 'LinkedIn may be blocking requests or server is slow' :
+                           errorCategory === 'network_error' ? 'Connection issue or LinkedIn blocking' :
+                           errorCategory === 'protocol_error' ? 'Browser communication issue' : 'Unknown error'
+            }
+        });
         
         try {
             await context.close();
@@ -1093,31 +1984,217 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
   /**
    * Extract dominant colors from image using node-vibrant
    */
-  async function extractColorsFromImage(imagePath) {
+  async function extractColorsFromImage(imagePath, context = 'image') {
      let localImagePath = imagePath; // Assume it's a path initially
     let cleanupTempFile = false; // Flag to indicate if we need to delete a temp file
 
     try {
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-            // cleanupTempFile = true;
-            const response = await axios({
-                method: 'get',
-                url: imagePath,
-                responseType: 'arraybuffer' // Get image data as a buffer
-            });
+            logger.info(`Starting image extraction for ${context}`, { details: { imageUrl: imagePath } });
+            
+            // Try browser-based extraction first (more reliable)
+            localImagePath = await extractImageWithBrowser(imagePath, context);
+            
+            if (localImagePath) {
+                cleanupTempFile = true;
+                logger.info(`Browser-based image extraction successful for ${context}`);
+            } else {
+                // Fallback to axios method if browser-based extraction fails
+                logger.debug(`Attempting HTTP image download for ${context}`);
+                
+                const response = await retryWithBackoff(async () => {
+                    // **ENHANCED: LinkedIn-specific headers for HTTP requests**
+                    let headers;
+                    
+                    if (linkedinAntiBot.isLinkedInImageUrl(imagePath)) {
+                        // Use LinkedIn-optimized headers
+                        headers = linkedinAntiBot.getLinkedInImageHeaders(imagePath);
+                        
+                        // Implement human delay for LinkedIn requests
+                        await linkedinAntiBot.implementHumanDelay();
+                        
+                        linkedinAntiBot.logActivity('LinkedIn HTTP image request', { 
+                            imageUrl: imagePath,
+                            userAgent: headers['User-Agent'].split(' ')[2]
+                        });
+                    } else {
+                        // Use standard headers for non-LinkedIn images
+                        headers = {
+                            'User-Agent': getUserAgent(),
+                            'Accept': 'image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                            'Accept-Encoding': 'gzip, deflate, br',
+                            'Accept-Language': 'en-US,en;q=0.9',
+                        };
+                    }
+                    
+                    return await axios({
+                        method: 'get',
+                        url: imagePath,
+                        responseType: 'arraybuffer',
+                        timeout: 10000,
+                        headers: headers,
+                        maxRedirects: 5,
+                        validateStatus: function (status) {
+                            return status >= 200 && status < 300;
+                        }
+                    });
+                }, {
+                    maxRetries: 3,
+                    initialDelay: 1000,
+                    operation: `HTTP image download for ${context}`
+                });
 
-            // Create a temporary file path
-            const tempDir = os.tmpdir();
-            const fileName = `temp_image_${Date.now()}${path.extname(new URL(imagePath).pathname) || '.jpg'}`; // Use actual extension or default to .jpg
-            localImagePath = path.join(tempDir, fileName);
+                // **ENHANCED: Validate response content type and detect XML/HTML responses**
+                const contentType = response.headers['content-type'] || '';
+                const responseData = response.data;
+                
+                // Check if response is actually an image
+                if (!contentType.startsWith('image/')) {
+                    // Try to detect XML/HTML content in the response
+                    const responseText = Buffer.from(responseData).toString('utf8', 0, 500);
+                    
+                    if (responseText.includes('<?xml') || 
+                        responseText.includes('<html') || 
+                        responseText.includes('<!DOCTYPE') ||
+                        contentType.includes('xml') ||
+                        contentType.includes('html')) {
+                        
+                        logger.warn(`LinkedIn returned ${contentType || 'non-image'} content instead of image for ${context}`, {
+                            details: { 
+                                imageUrl: imagePath, 
+                                contentType, 
+                                responsePreview: responseText.substring(0, 200),
+                                responseSize: responseData.length
+                            }
+                        });
+                        
+                        // Try alternative LinkedIn image strategies using advanced anti-bot system
+                        const alternativeUrls = linkedinAntiBot.generateAlternativeLinkedInUrls(imagePath);
+                        
+                        for (const alternativeUrl of alternativeUrls) {
+                            try {
+                                logger.info(`Trying alternative LinkedIn image URL for ${context}`, { 
+                                    details: { original: imagePath, alternative: alternativeUrl } 
+                                });
+                                
+                                // Test the alternative URL with a HEAD request first
+                                const testHeaders = linkedinAntiBot.getLinkedInImageHeaders(alternativeUrl);
+                                const testResponse = await axios({
+                                    method: 'head',
+                                    url: alternativeUrl,
+                                    timeout: 5000,
+                                    headers: testHeaders
+                                });
+                                
+                                const contentType = testResponse.headers['content-type'] || '';
+                                if (contentType.startsWith('image/')) {
+                                    linkedinAntiBot.logActivity('Alternative LinkedIn URL found', { 
+                                        original: imagePath, 
+                                        alternative: alternativeUrl,
+                                        contentType 
+                                    });
+                                    
+                                    // Recursive call with alternative URL
+                                    return await extractColorsFromImage(alternativeUrl, context);
+                                }
+                            } catch (altError) {
+                                logger.debug(`Alternative URL failed: ${alternativeUrl} - ${altError.message}`);
+                                continue;
+                            }
+                        }
+                        
+                        // If no alternative works, throw error to trigger fallback
+                        throw new Error(`LinkedIn returned ${contentType || 'XML/HTML'} content instead of image`);
+                    }
+                }
 
-            // Write the image data to the temporary file
-            await fss.writeFile(localImagePath, response.data);
+                // Create a temporary file path with proper extension based on content type
+                const tempDir = os.tmpdir();
+                let fileExtension = '.jpg'; // default
+                
+                if (contentType.includes('png')) fileExtension = '.png';
+                else if (contentType.includes('webp')) fileExtension = '.webp';
+                else if (contentType.includes('gif')) fileExtension = '.gif';
+                else if (contentType.includes('svg')) fileExtension = '.svg';
+                
+                const fileName = `http_image_${Date.now()}_${Math.random().toString(36).substring(7)}${fileExtension}`;
+                localImagePath = path.join(tempDir, fileName);
+
+                // Write the image data to the temporary file
+                await fss.writeFile(localImagePath, responseData);
+                cleanupTempFile = true;
+                
+                logger.info(`HTTP-based image extraction successful for ${context}`, { 
+                    details: { 
+                        imageSize: `${responseData.length} bytes`,
+                        contentType: contentType,
+                        fileName: fileName
+                    } 
+                });
+            }
         }
-      const metadata = await sharp(localImagePath).metadata();
-    const imageWidth = metadata.width;
-    const imageHeight = metadata.height;
-      const palette = await Vibrant.from(localImagePath).getPalette();
+      // **ENHANCED: Better image format handling and validation**
+      let metadata, palette;
+      
+      try {
+          // First, validate that the file is actually an image
+          metadata = await sharp(localImagePath).metadata();
+          
+          if (!metadata.width || !metadata.height) {
+              throw new Error('Invalid image: no dimensions found');
+          }
+          
+          logger.debug(`Image metadata extracted for ${context}`, { 
+              details: { 
+                  width: metadata.width, 
+                  height: metadata.height, 
+                  format: metadata.format,
+                  size: metadata.size 
+              } 
+          });
+          
+      } catch (sharpError) {
+          logger.warn(`Sharp metadata extraction failed for ${context}, trying alternative approach`, sharpError);
+          
+          // Try to read file and check if it's actually an image
+          const fileBuffer = await fss.readFile(localImagePath);
+          const fileHeader = fileBuffer.toString('hex', 0, 10);
+          
+          // Check for common image file signatures
+          const isValidImage = 
+              fileHeader.startsWith('ffd8ff') || // JPEG
+              fileHeader.startsWith('89504e47') || // PNG
+              fileHeader.startsWith('47494638') || // GIF
+              fileHeader.startsWith('424d') || // BMP
+              fileHeader.startsWith('52494646'); // WebP
+          
+          if (!isValidImage) {
+              throw new Error(`File is not a valid image format. Header: ${fileHeader}`);
+          }
+          
+          // Set default metadata if Sharp fails but file seems to be an image
+          metadata = { width: null, height: null, format: 'unknown' };
+      }
+      
+      const imageWidth = metadata.width;
+      const imageHeight = metadata.height;
+      
+      try {
+          palette = await Vibrant.from(localImagePath).getPalette();
+      } catch (vibrantError) {
+          logger.warn(`Vibrant color extraction failed for ${context}, trying Sharp color analysis`, vibrantError);
+          
+          // Fallback: use Sharp to get dominant colors
+          try {
+              const { dominant } = await sharp(localImagePath).stats();
+              palette = {
+                  Vibrant: { getHex: () => `#${dominant.r.toString(16).padStart(2, '0')}${dominant.g.toString(16).padStart(2, '0')}${dominant.b.toString(16).padStart(2, '0')}`, getPopulation: () => 100 }
+              };
+          } catch (sharpStatsError) {
+              logger.warn(`Sharp color analysis also failed for ${context}`, sharpStatsError);
+              throw new Error('Both Vibrant and Sharp color extraction failed');
+          }
+      }
       const colors = [];
       
       // Extract colors from vibrant palette
@@ -1155,12 +2232,34 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
     };
         
     } catch (error) {
-      console.error(`Error extracting colors from image ${imagePath}:`, error);
+      logger.error(`Error extracting colors from ${context}`, error, { 
+          details: { imagePath, context } 
+      });
+      
+      // **ENHANCED: Provide fallback colors for LinkedIn images when extraction fails**
+      if (context && context.toLowerCase().includes('linkedin')) {
+          logger.info(`Providing LinkedIn fallback colors for ${context}`);
+          
+          const fallbackColors = getLinkedInFallbackColors(context);
+          return {
+              width: null,
+              height: null,
+              colors: fallbackColors.colors,
+              hex: fallbackColors.hex,
+              rgb: fallbackColors.rgb,
+              error: `Color extraction failed: ${error.message}`,
+              context: context,
+              fallback: true
+          };
+      }
+      
       return {
-      width: null,
-      height: null,
-      colors: []
-    }; // Return null or appropriate defaults on error
+          width: null,
+          height: null,
+          colors: [],
+          error: `Color extraction failed: ${error.message}`,
+          context: context
+      };
     }finally {
         // Step 4: Guarantee cleanup using the helper method
         // This will run reliably regardless of success or failure in the try block
@@ -1172,7 +2271,7 @@ const scraperLink = require('./scrapeLinkedIn');
 const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
     const startTime = Date.now();
-    console.log(`[Performance] Starting extraction for ${url}`);
+    logger.info('Starting company details extraction from page', { details: { url } });
     // Helper to get content from meta tags more reliably
     const getMetaContent = async (page, selectors) => { // Added page argument
         for (const selector of selectors) {
@@ -2023,7 +3122,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
         const linkedInUrl = socialLinkData.LinkedIn;
         // Basic validation for a LinkedIn company URL structure
         if (linkedInUrl.includes('linkedin.com/company')) {
-            console.log(`[extractCompanyDetailsFromPage] Found LinkedIn URL: ${linkedInUrl}. Starting parallel extraction...`);
+            logger.info('Found LinkedIn URL, starting parallel extraction', { details: { linkedInUrl } });
             
             // Start LinkedIn extraction in parallel with reduced timeout
             await fss.writeFile('urls.txt', linkedInUrl);
@@ -2037,7 +3136,9 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                     setTimeout(() => reject(new Error('LinkedIn extraction timeout after 2 minutes')), 120000) // Reduced from 5 minutes to 2 minutes
                 )
             ]).catch(error => {
-                console.warn(`[LinkedIn] Extraction failed: ${error.message}`);
+                logger.warn(`LinkedIn extraction failed during parallel execution`, { 
+                    details: { error: error.message, isTimeout: error.message.includes('timeout') } 
+                });
                 return { error: error.message }; // Return error object instead of throwing
             });
         }
@@ -2053,7 +3154,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
         linkedInData = await linkedInDataPromise;
 
             if (linkedInData && !linkedInData.error) {
-                console.log("[extractCompanyDetailsFromPage] Merging LinkedIn data:", linkedInData);
+                logger.info('Merging LinkedIn data successfully', { details: { hasData: !!linkedInData } });
                 // **FIXED: Correct field mapping from LinkedIn scraper response**
                 finalCompanyInfo.Name = linkedInData.name || finalCompanyInfo.Name; // LinkedIn uses lowercase 'name'
                 finalCompanyInfo.Description = linkedInData.description || linkedInData.aboutUs || finalCompanyInfo.Description;
@@ -2084,9 +3185,14 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 // Potentially add LinkedIn banner to Logo object if found and not already present
                 if (linkedInData.bannerUrl) {
                     logoData.LinkedInBanner = linkedInData.bannerUrl; // Add as a new property or replace
-                    bannerColors = await extractColorsFromImage(logoData.LinkedInBanner);
-                    // colorData.LinkedInBannerColors = logoColors; // Store colors for LinkedIn banner
-                    console.log("[extractCompanyDetailsFromPage] LinkedIn banner colors extracted:", bannerColors);
+                    bannerColors = await extractColorsFromImage(logoData.LinkedInBanner, 'LinkedIn banner');
+                    logger.info("LinkedIn banner colors extracted successfully", { 
+                        details: { 
+                            bannerUrl: logoData.LinkedInBanner,
+                            colorsFound: bannerColors?.colors?.length || 0,
+                            hasError: !!bannerColors?.error
+                        } 
+                    });
                     colorData.LinkedInBannerData = {
                         hex: bannerColors.hex,
                         rgb: bannerColors.rgb,//`rgb(${bannerColors.rgb.r},${bannerColors.rgb.g},${bannerColors.rgb.b})`,
@@ -2098,9 +3204,14 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 }
                 if (linkedInData.logoUrl) {
                     logoData.LinkedInLogo = linkedInData.logoUrl; // Add as a new property or replace
-                    logoColors = await extractColorsFromImage(logoData.LinkedInLogo);
-                    // colorData.LinkedInLogoColors = logoColors; // Store colors for LinkedIn logo
-                    console.log("[extractCompanyDetailsFromPage] LinkedIn logo colors extracted:", logoColors);
+                    logoColors = await extractColorsFromImage(logoData.LinkedInLogo, 'LinkedIn logo');
+                    logger.info("LinkedIn logo colors extracted successfully", { 
+                        details: { 
+                            logoUrl: logoData.LinkedInLogo,
+                            colorsFound: logoColors?.colors?.length || 0,
+                            hasError: !!logoColors?.error
+                        } 
+                    });
                      colorData.LinkedInLogoData = {
                         hex: logoColors.hex,
                         rgb: logoColors.rgb,//`rgb(${logoColors.rgb.r},${logoColors.rgb.g},${logoColors.rgb.b})`,
@@ -2116,11 +3227,15 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 ]
                 colorAnalysis = [...colorData, ...colorAnalysis2];
             } else if (linkedInData && linkedInData.error) {
-                console.warn(`[extractCompanyDetailsFromPage] LinkedIn extraction failed: ${linkedInData.error}`);
+                logger.warn('LinkedIn extraction failed, continuing without LinkedIn data', { 
+                    details: { error: linkedInData.error, gracefulDegradation: true } 
+                });
                 finalCompanyInfo.LinkedInError = linkedInData.error; // Add error info for debugging
             }
         } catch (liError) {
-            console.error(`[extractCompanyDetailsFromPage] Exception while processing LinkedIn data:`, liError.message);
+            logger.error('Exception while processing LinkedIn data', liError, { 
+                details: { url: linkedInUrl, gracefulDegradation: true } 
+            });
             finalCompanyInfo.LinkedInError = liError.message;
         }
     }
@@ -2128,7 +3243,13 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
 
     const endTime = Date.now();
     const extractionTime = (endTime - startTime) / 1000;
-    console.log(`[Performance] Extraction completed in ${extractionTime.toFixed(2)} seconds`);
+    logger.info('Company details extraction completed', { 
+        details: { 
+            url, 
+            extractionTime: `${extractionTime.toFixed(2)} seconds`,
+            hasLinkedInData: !!linkedInData && !linkedInData.error
+        } 
+    });
 
     return {
         Logo: logoData, 
@@ -2186,7 +3307,12 @@ app.post('/api/extract-company-details', async (req, res) => {
     const cacheKey = normalizedUrl.toLowerCase().trim();
     const cachedResult = extractionCache.get(cacheKey);
     if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_DURATION) {
-        console.log(`[Cache] Returning cached result for ${url}`);
+        logger.info('Returning cached result', { 
+            details: { 
+                url, 
+                cacheAge: Math.round((Date.now() - cachedResult.timestamp) / 1000) + 's' 
+            } 
+        });
         return res.status(200).json({
             ...cachedResult.data,
             _cached: true,
@@ -2231,18 +3357,36 @@ app.post('/api/extract-company-details', async (req, res) => {
         res.status(200).json(companyDetails);
 
     } catch (error) {
-        console.error(`[Error extracting company details for URL: ${normalizedUrl}]`, error);
-        // Basic error handling, will be refined
+        logger.error('Company details extraction failed', error, { 
+            details: { 
+                url: normalizedUrl, 
+                userAgent: getUserAgent(),
+                platform: os.platform()
+            } 
+        });
+        
+        // Enhanced error handling with specific error types
         let errorMessage = 'Failed to extract company details. An unexpected error occurred.';
         let statusCode = 500;
 
-        if (error.name === 'TimeoutError') {
+        if (error.name === 'TimeoutError' || error.message.includes('timeout')) {
             errorMessage = 'The extraction timed out. The page might be too complex or unresponsive.';
             statusCode = 504; // Gateway Timeout
+            logger.warn('Extraction timeout occurred', { details: { url: normalizedUrl, timeout: '4 minutes' } });
+        } else if (error.message.includes('net::ERR_') || error.message.includes('navigation')) {
+            errorMessage = 'Failed to navigate to the website. Please check if the URL is accessible.';
+            statusCode = 502; // Bad Gateway
+        } else if (error.message.includes('browser') || error.message.includes('launch')) {
+            errorMessage = 'Browser initialization failed. Please try again.';
+            statusCode = 503; // Service Unavailable
         }
-        // Add more specific error handling as developed
 
-        res.status(statusCode).json({ error: errorMessage, details: error.message });
+        res.status(statusCode).json({ 
+            error: errorMessage, 
+            details: error.message,
+            _timestamp: new Date().toISOString(),
+            _errorType: error.name || 'Unknown'
+        });
     } finally {
         if (browser) {
             try {

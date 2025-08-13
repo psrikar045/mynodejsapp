@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "exportedAt": "2025-08-13T12:38:16.292Z",
+    "environment": "development",
+    "adaptiveMode": true,
+    "lastConfigUpdate": "2025-08-13T12:38:16.290Z"
+  },
+  "configurations": {
+    "networkPatterns": {
+      "staticApiPatterns": [
+        "/voyager/api/",
+        "/voyagerapi/",
+        "/api/v2/",
+        "/deco-api/",
+        "/li/api/"
+      ],
+      "contentPatterns": [
+        "companyUpdates",
+        "organizationDashCompanies",
+        "companyProfile",
+        "organization",
+        "company"
+      ],
+      "bannerJsonPatterns": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "bannerKeys": [
+        "backgroundimage",
+        "background_image",
+        "backgroundImage",
+        "coverphoto",
+        "cover_photo",
+        "coverPhoto",
+        "coverImage",
+        "bannerimage",
+        "banner_image",
+        "bannerImage",
+        "heroimage",
+        "hero_image",
+        "heroImage",
+        "companybackground",
+        "company_background",
+        "companyBackground",
+        "organizationbackground",
+        "organization_background",
+        "profilebackground",
+        "profile_background",
+        "headerimage",
+        "header_image",
+        "headerImage"
+      ],
+      "bannerSpecificPatterns": [],
+      "_metadata": {
+        "generatedAt": "2025-08-13T12:38:16.288Z",
+        "environment": "development",
+        "learnedPatterns": 0,
+        "fallbackPatterns": 5,
+        "bannerPatterns": 0
+      }
+    },
+    "apiEndpoints": {
+      "templates": [
+        "https://www.linkedin.com/voyager/api/organization/companies?q=universalName&universalName={companyId}",
+        "https://www.linkedin.com/voyager/api/organization/company/{companyId}",
+        "https://www.linkedin.com/deco-api/identity/dash/companyProfile?q=universalName&universalName={companyId}",
+        "https://www.linkedin.com/li/api/v1/organization/{companyId}",
+        "https://www.linkedin.com/voyager/api/organization/companies/{companyId}",
+        "https://www.linkedin.com/voyager/api/organization/company/{companyId}/companyProfile"
+      ],
+      "priorityTemplates": [],
+      "_metadata": {
+        "generatedAt": "2025-08-13T12:38:16.290Z",
+        "learnedTemplates": 0,
+        "priorityTemplates": 0
+      }
+    },
+    "domSelectors": {
+      "prioritized": [
+        {
+          "selector": "img[src*=\"media.licdn.com/dms/image/\"][src*=\"company-background\"]",
+          "type": "src",
+          "priority": 10,
+          "adaptivePriority": 10
+        },
+        {
+          "selector": "div.org-top-card-primary-content__hero-image",
+          "type": "bg",
+          "priority": 9,
+          "adaptivePriority": 9
+        },
+        {
+          "selector": "div.org-top-card-module__hero",
+          "type": "bg",
+          "priority": 8,
+          "adaptivePriority": 8
+        },
+        {
+          "selector": "img.org-top-card-primary-content__cover",
+          "type": "src",
+          "priority": 8,
+          "adaptivePriority": 8
+        },
+        {
+          "selector": "img[data-test-id*=\"cover-photo\"]",
+          "type": "src",
+          "priority": 7,
+          "adaptivePriority": 7
+        },
+        {
+          "selector": "img[data-test-id*=\"banner-img\"]",
+          "type": "src",
+          "priority": 7,
+          "adaptivePriority": 7
+        },
+        {
+          "selector": "div.profile-background-image__image",
+          "type": "bg",
+          "priority": 6,
+          "adaptivePriority": 6
+        },
+        {
+          "selector": "section[class*=\"artdeco-card\"] div[class*=\"ivm-image-view-model__background-img\"]",
+          "type": "bg",
+          "priority": 6,
+          "adaptivePriority": 6
+        },
+        {
+          "selector": "div[class*=\"cover-img\"]",
+          "type": "bg",
+          "priority": 5,
+          "adaptivePriority": 5
+        },
+        {
+          "selector": "div[class*=\"profile-cover-image\"]",
+          "type": "bg",
+          "priority": 5,
+          "adaptivePriority": 5
+        },
+        {
+          "selector": "div[class*=\"banner-image\"]",
+          "type": "bg",
+          "priority": 5,
+          "adaptivePriority": 5
+        },
+        {
+          "selector": "img[alt*=\"Cover photo\"i]",
+          "type": "src",
+          "priority": 4,
+          "adaptivePriority": 4
+        },
+        {
+          "selector": "img[alt*=\"Banner\"i]",
+          "type": "src",
+          "priority": 4,
+          "adaptivePriority": 4
+        },
+        {
+          "selector": "img[class*=\"cover-image\"]",
+          "type": "src",
+          "priority": 4,
+          "adaptivePriority": 4
+        },
+        {
+          "selector": "img[class*=\"banner-image\"]",
+          "type": "src",
+          "priority": 4,
+          "adaptivePriority": 4
+        },
+        {
+          "selector": "div.cover-photo img",
+          "type": "src",
+          "priority": 3,
+          "adaptivePriority": 3
+        },
+        {
+          "selector": "div.banner img",
+          "type": "src",
+          "priority": 3,
+          "adaptivePriority": 3
+        },
+        {
+          "selector": "figure[class*=\"banner\"] img",
+          "type": "src",
+          "priority": 3,
+          "adaptivePriority": 3
+        },
+        {
+          "selector": "figure[class*=\"cover\"] img",
+          "type": "src",
+          "priority": 3,
+          "adaptivePriority": 3
+        }
+      ],
+      "enhanced": {
+        "metaTags": [
+          "meta[property*=\"image\"]",
+          "meta[name*=\"image\"]",
+          "meta[property*=\"banner\"]",
+          "meta[name*=\"banner\"]"
+        ],
+        "dataAttributes": [
+          "[data-background-image]",
+          "[data-banner-url]",
+          "[data-cover-photo]"
+        ],
+        "scriptTypes": [
+          "script[type=\"application/ld+json\"]",
+          "script:contains(\"backgroundImage\")"
+        ],
+        "styleElements": [
+          "style:contains(\"background-image\")"
+        ]
+      },
+      "_metadata": {
+        "generatedAt": "2025-08-13T12:38:16.293Z",
+        "note": "DOM selectors use static patterns with adaptive prioritization"
+      }
+    },
+    "validation": {
+      "validDomains": [
+        "media.licdn.com",
+        "static.licdn.com",
+        "dms.licdn.com",
+        "cdn.lynda.com"
+      ],
+      "dummyPatterns": [
+        "placeholder",
+        "default",
+        "blank",
+        "empty",
+        "1x1",
+        "pixel",
+        "transparent",
+        "spacer",
+        "dummy",
+        "fake",
+        "test"
+      ],
+      "bannerPatterns": [
+        "company-background",
+        "organization-background",
+        "profile-background",
+        "cover-photo",
+        "banner-image",
+        "hero-image"
+      ],
+      "dimensionPatterns": [
+        {},
+        {},
+        {}
+      ],
+      "quality": {
+        "minWidth": 100,
+        "minHeight": 50,
+        "minFileSize": 1000,
+        "maxFileSize": 10485760,
+        "minAspectRatio": 1.5,
+        "preferredAspectRatio": 3
+      },
+      "_metadata": {
+        "generatedAt": "2025-08-13T12:38:16.293Z",
+        "basedOnSuccessRate": null,
+        "totalPatterns": 0
+      }
+    }
+  },
+  "patternReport": {
+    "summary": {
+      "totalPatterns": 0,
+      "successfulPatterns": 0,
+      "bannerPatterns": 0,
+      "overallSuccessRate": null,
+      "lastUpdated": "2025-08-13T12:38:16.242Z"
+    },
+    "topPatterns": [],
+    "recommendations": []
+  }
+}

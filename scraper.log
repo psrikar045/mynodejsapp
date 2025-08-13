@@ -791,3 +791,1482 @@
 2025-08-12T10:04:18.923Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
 2025-08-12T10:04:18.923Z - INFO: [Performance] Extraction completed in 13.08 seconds
 2025-08-12T10:04:19.435Z - INFO: [Browser] Browser closed successfully
+2025-08-12T12:35:54.001Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-12T12:35:54.322Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T12:35:54.334Z - INFO: Server running on port 3000
+2025-08-12T12:35:54.334Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-12T12:36:13.346Z - INFO: [2025-08-12T12:36:13.346Z] INFO: Setting up browser for company details extraction
+2025-08-12T12:36:13.348Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T12:36:13.349Z - INFO: [2025-08-12T12:36:13.349Z] DEBUG: Attempting browser launch for company details
+2025-08-12T12:36:13.350Z - INFO: [2025-08-12T12:36:13.350Z] INFO: Launching browser for company details
+2025-08-12T12:36:13.863Z - INFO: [2025-08-12T12:36:13.863Z] INFO: Browser launched successfully for company details
+2025-08-12T12:36:13.957Z - INFO: [2025-08-12T12:36:13.957Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-12T12:36:19.653Z - INFO: [2025-08-12T12:36:19.653Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-12T12:36:20.659Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T12:36:20.663Z - INFO: [2025-08-12T12:36:20.663Z] INFO: Starting company details extraction from page
+2025-08-12T12:36:20.665Z - INFO: [getLogoDetails] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-12T12:36:20.675Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T12:36:20.676Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T12:36:20.677Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T12:36:20.679Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T12:36:20.681Z - INFO: [getGeneralImages] Starting image extraction for https://www.noblesoft-solutions.com. Excluding known logos:
+2025-08-12T12:36:20.688Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T12:36:20.692Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T12:36:20.742Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T12:36:20.742Z - INFO: [2025-08-12T12:36:20.742Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-12T12:36:20.745Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-12T12:36:20.747Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-12T12:36:20.748Z - INFO: 🎭 Using user agent: NT
+2025-08-12T12:36:21.252Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-12T12:36:21.312Z - INFO: Scraping https://www.linkedin.com/company/noblesoft-solutions/...
+2025-08-12T12:36:28.502Z - INFO: Checking for login popup...
+2025-08-12T12:36:28.528Z - INFO: Login popup closed, waiting for content to load...
+2025-08-12T12:36:31.576Z - INFO: Successfully loaded company page
+2025-08-12T12:36:31.656Z - INFO: === PAGE DEBUG INFO ===
+2025-08-12T12:36:31.659Z - INFO: Page Title:
+2025-08-12T12:36:31.659Z - INFO: H1 Text:
+2025-08-12T12:36:31.659Z - INFO: Has Company Elements:
+2025-08-12T12:36:31.659Z - INFO: Available Navigation:
+2025-08-12T12:36:31.660Z - INFO: Has About Section:
+2025-08-12T12:36:31.660Z - INFO: Visible Text Preview:
+2025-08-12T12:36:31.660Z - INFO: =====================
+2025-08-12T12:36:31.683Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T12:36:31.685Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-12T12:36:31.686Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T12:36:31.687Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-12T12:36:31.688Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-12T12:36:31.690Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-12T12:36:31.690Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-12T12:36:31.691Z - INFO: Name:
+2025-08-12T12:36:31.691Z - INFO: About Us:
+2025-08-12T12:36:31.691Z - INFO: Founded:
+2025-08-12T12:36:31.691Z - INFO: Industry:
+2025-08-12T12:36:31.691Z - INFO: Headquarters:
+2025-08-12T12:36:31.691Z - INFO: Logo URL:
+2025-08-12T12:36:31.692Z - INFO: ========================
+2025-08-12T12:36:31.692Z - INFO: Successfully scraped https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-12T12:36:31.721Z - INFO: Successfully saved data to output.json
+2025-08-12T12:36:32.059Z - INFO: Browser closed successfully
+2025-08-12T12:36:32.060Z - INFO: [2025-08-12T12:36:32.060Z] INFO: Merging LinkedIn data successfully
+2025-08-12T12:36:32.060Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-12T12:36:32.060Z - INFO: - Name:
+2025-08-12T12:36:32.060Z - INFO: - Description:
+2025-08-12T12:36:32.060Z - INFO: - Industry:
+2025-08-12T12:36:32.061Z - INFO: - Founded:
+2025-08-12T12:36:32.061Z - INFO: - Headquarters:
+2025-08-12T12:36:32.246Z - ERROR: Error extracting colors from image https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82:: Error: Unsupported MIME type: application/xml
+    at Jimp.throwError (D:\angular 18\mynodejsapp\node_modules\@jimp\utils\dist\index.js:33:13)
+    at Jimp.parseBitmap$ (D:\angular 18\mynodejsapp\node_modules\@jimp\core\dist\utils\image-bitmap.js:241:63)
+    at Jimp.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorRuntime.js:52:18)
+    at Generator.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regenerator.js:52:51)
+    at Generator.next (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorDefine.js:11:21)
+    at n (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:6:19)
+    at D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:9:9
+2025-08-12T12:36:32.247Z - INFO: [extractCompanyDetailsFromPage] LinkedIn banner colors extracted:
+2025-08-12T12:36:32.666Z - INFO: [extractCompanyDetailsFromPage] LinkedIn logo colors extracted:
+2025-08-12T12:36:32.667Z - INFO: [2025-08-12T12:36:32.667Z] INFO: Company details extraction completed
+2025-08-12T12:36:33.170Z - INFO: [Browser] Browser closed successfully
+2025-08-12T13:00:32.149Z - INFO: [2025-08-12T13:00:32.149Z] INFO: Setting up browser for company details extraction
+2025-08-12T13:00:32.150Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-12T13:00:32.150Z - INFO: [2025-08-12T13:00:32.150Z] DEBUG: Attempting browser launch for company details
+2025-08-12T13:00:32.150Z - INFO: [2025-08-12T13:00:32.150Z] INFO: Launching browser for company details
+2025-08-12T13:00:32.704Z - INFO: [2025-08-12T13:00:32.704Z] INFO: Browser launched successfully for company details
+2025-08-12T13:00:32.794Z - INFO: [2025-08-12T13:00:32.794Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-12T13:00:34.157Z - INFO: [2025-08-12T13:00:34.157Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-12T13:00:35.161Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-12T13:00:35.161Z - INFO: [2025-08-12T13:00:35.161Z] INFO: Starting company details extraction from page
+2025-08-12T13:00:35.162Z - INFO: [getLogoDetails] Starting extraction for https://www.google.com
+2025-08-12T13:00:35.173Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-12T13:00:35.173Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-12T13:00:35.173Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-12T13:00:35.175Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-12T13:00:35.177Z - INFO: [getGeneralImages] Starting image extraction for https://www.google.com. Excluding known logos:
+2025-08-12T13:00:35.187Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-12T13:00:35.189Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-12T13:00:35.240Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-12T13:00:35.240Z - INFO: [2025-08-12T13:00:35.240Z] INFO: Company details extraction completed
+2025-08-12T13:00:35.651Z - INFO: [Browser] Browser closed successfully
+2025-08-13T04:56:24.475Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T04:56:24.662Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T04:56:24.675Z - INFO: Server running on port 3000
+2025-08-13T04:56:24.676Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T04:56:45.248Z - INFO: [2025-08-13T04:56:45.248Z] INFO: Setting up browser for company details extraction
+2025-08-13T04:56:45.250Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T04:56:45.251Z - INFO: [2025-08-13T04:56:45.251Z] DEBUG: Attempting browser launch for company details
+2025-08-13T04:56:45.252Z - INFO: [2025-08-13T04:56:45.252Z] INFO: Launching browser for company details
+2025-08-13T04:56:45.915Z - INFO: [2025-08-13T04:56:45.915Z] INFO: Browser launched successfully for company details
+2025-08-13T04:56:46.068Z - INFO: [2025-08-13T04:56:46.068Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T04:56:54.278Z - INFO: [2025-08-13T04:56:54.278Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T04:56:55.282Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T04:56:55.284Z - INFO: [2025-08-13T04:56:55.284Z] INFO: Starting company details extraction from page
+2025-08-13T04:56:55.285Z - INFO: [getLogoDetails] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-13T04:56:55.291Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T04:56:55.291Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T04:56:55.292Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T04:56:55.293Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T04:56:55.294Z - INFO: [getGeneralImages] Starting image extraction for https://www.noblesoft-solutions.com. Excluding known logos:
+2025-08-13T04:56:55.299Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T04:56:55.300Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T04:56:55.351Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T04:56:55.351Z - INFO: [2025-08-13T04:56:55.351Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T04:56:55.353Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T04:56:55.354Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T04:56:55.355Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T04:56:55.355Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T04:56:55.825Z - INFO: ⏱️ [Performance] browser_launch: 471ms (SUCCESS)
+2025-08-13T04:56:55.825Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T04:56:55.826Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T04:56:55.925Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T04:56:55.926Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T04:56:55.932Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T04:56:55.932Z - INFO: Scraping https://www.linkedin.com/company/noblesoft-solutions/...
+2025-08-13T04:56:59.243Z - INFO: ⏱️ [Performance] navigation: 3311ms (SUCCESS)
+2025-08-13T04:57:06.637Z - INFO: Checking for login popup...
+2025-08-13T04:57:06.666Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T04:57:09.686Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T04:57:11.742Z - INFO: Successfully loaded company page
+2025-08-13T04:57:11.824Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T04:57:11.827Z - INFO: Page Title:
+2025-08-13T04:57:11.827Z - INFO: H1 Text:
+2025-08-13T04:57:11.827Z - INFO: Has Company Elements:
+2025-08-13T04:57:11.828Z - INFO: Available Navigation:
+2025-08-13T04:57:11.828Z - INFO: Has About Section:
+2025-08-13T04:57:11.829Z - INFO: Visible Text Preview:
+2025-08-13T04:57:11.829Z - INFO: =====================
+2025-08-13T04:57:11.860Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T04:57:11.862Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T04:57:11.862Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T04:57:11.864Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T04:57:11.864Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T04:57:11.870Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T04:57:11.870Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T04:57:11.870Z - INFO: Name:
+2025-08-13T04:57:11.871Z - INFO: About Us:
+2025-08-13T04:57:11.871Z - INFO: Founded:
+2025-08-13T04:57:11.871Z - INFO: Industry:
+2025-08-13T04:57:11.871Z - INFO: Headquarters:
+2025-08-13T04:57:11.871Z - INFO: Logo URL:
+2025-08-13T04:57:11.871Z - INFO: ========================
+2025-08-13T04:57:11.871Z - INFO: Successfully scraped https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T04:57:11.871Z - INFO: ⏱️ [Performance] extraction: 16044ms (SUCCESS)
+2025-08-13T04:57:11.871Z - INFO: ✅ [Performance] LinkedIn extraction completed in 16044ms
+2025-08-13T04:57:11.900Z - INFO: ✅ Page closed for https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T04:57:11.904Z - INFO: Successfully saved data to output.json
+2025-08-13T04:57:12.167Z - INFO: Browser closed successfully
+2025-08-13T04:57:12.167Z - INFO: [2025-08-13T04:57:12.167Z] INFO: Merging LinkedIn data successfully
+2025-08-13T04:57:12.168Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T04:57:12.168Z - INFO: - Name:
+2025-08-13T04:57:12.168Z - INFO: - Description:
+2025-08-13T04:57:12.168Z - INFO: - Industry:
+2025-08-13T04:57:12.168Z - INFO: - Founded:
+2025-08-13T04:57:12.168Z - INFO: - Headquarters:
+2025-08-13T04:57:12.169Z - INFO: [2025-08-13T04:57:12.169Z] INFO: Starting image extraction for LinkedIn banner
+2025-08-13T04:57:12.169Z - INFO: [2025-08-13T04:57:12.169Z] DEBUG: Starting browser-based image extraction for LinkedIn banner
+2025-08-13T04:57:12.170Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T04:57:12.751Z - INFO: [2025-08-13T04:57:12.751Z] DEBUG: Browser instance started
+2025-08-13T04:57:12.831Z - INFO: [2025-08-13T04:57:12.831Z] DEBUG: Navigating to image URL: https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82
+2025-08-13T04:57:15.021Z - ERROR: [2025-08-13T04:57:15.021Z] ERROR: Browser-based image extraction failed for LinkedIn banner
+2025-08-13T04:57:15.022Z - ERROR: [2025-08-13T04:57:15.021Z] ERROR Stack:: Error: net::ERR_ABORTED at https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82
+    at navigate (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Frame.js:186:27)
+    at async Deferred.race (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\util\Deferred.js:36:20)
+    at async CdpFrame.goto (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Frame.js:152:25)
+    at async CdpPage.goto (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:588:20)
+    at async extractImageWithBrowser (D:\angular 18\mynodejsapp\index.js:650:9)
+    at async extractColorsFromImage (D:\angular 18\mynodejsapp\index.js:1707:30)
+    at async extractCompanyDetailsFromPage (D:\angular 18\mynodejsapp\index.js:2725:36)
+    at async D:\angular 18\mynodejsapp\index.js:2872:32
+2025-08-13T04:57:15.022Z - ERROR: [2025-08-13T04:57:15.021Z] ERROR Details:: {
+  "imageUrl": "https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82",
+  "fallbackToAxios": true,
+  "timeout": 15000
+}
+2025-08-13T04:57:21.176Z - INFO: [2025-08-13T04:57:21.176Z] DEBUG: Browser instance ended
+2025-08-13T04:57:21.176Z - WARN: [2025-08-13T04:57:21.176Z] WARN: Falling back to HTTP request for LinkedIn banner
+2025-08-13T04:57:21.177Z - INFO: [2025-08-13T04:57:21.177Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T04:57:21.511Z - INFO: [2025-08-13T04:57:21.511Z] INFO: HTTP-based image extraction successful for LinkedIn banner
+2025-08-13T04:57:21.541Z - ERROR: [2025-08-13T04:57:21.541Z] ERROR: Error extracting colors from LinkedIn banner
+2025-08-13T04:57:21.542Z - ERROR: [2025-08-13T04:57:21.541Z] ERROR Stack:: Error: Unsupported MIME type: application/xml
+    at Jimp.throwError (D:\angular 18\mynodejsapp\node_modules\@jimp\utils\dist\index.js:33:13)
+    at Jimp.parseBitmap$ (D:\angular 18\mynodejsapp\node_modules\@jimp\core\dist\utils\image-bitmap.js:241:63)
+    at Jimp.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorRuntime.js:52:18)
+    at Generator.<anonymous> (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regenerator.js:52:51)
+    at Generator.next (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorDefine.js:11:21)
+    at n (D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:6:19)
+    at D:\angular 18\mynodejsapp\node_modules\@babel\runtime\helpers\regeneratorAsyncIterator.js:9:9
+2025-08-13T04:57:21.542Z - ERROR: [2025-08-13T04:57:21.541Z] ERROR Details:: {
+  "imagePath": "https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82",
+  "context": "LinkedIn banner"
+}
+2025-08-13T04:57:21.760Z - INFO: [2025-08-13T04:57:21.760Z] INFO: LinkedIn banner colors extracted successfully
+2025-08-13T04:57:21.760Z - INFO: [2025-08-13T04:57:21.760Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T04:57:21.761Z - INFO: [2025-08-13T04:57:21.761Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T04:57:21.762Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T04:57:22.454Z - INFO: [2025-08-13T04:57:22.454Z] DEBUG: Browser instance started
+2025-08-13T04:57:22.555Z - INFO: [2025-08-13T04:57:22.554Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/C4E0BAQE0XBjMf8TX3g/company-logo_200_200/company-logo_200_200/0/1631343202777?e=2147483647&v=beta&t=gWoQt8RG6A3-RUZUJrLyvV5pzbsqR6t12z8WWMrwm3w
+2025-08-13T04:57:24.055Z - ERROR: [2025-08-13T04:57:24.055Z] ERROR: Browser-based image extraction failed for LinkedIn logo
+2025-08-13T04:57:24.056Z - ERROR: [2025-08-13T04:57:24.055Z] ERROR Stack:: Error: png screenshots do not support 'quality'.
+    at CdpPage.screenshot (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:1037:31)
+    at async CdpPage.<anonymous> (D:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\util\decorators.js:164:24)
+    at async extractImageWithBrowser (D:\angular 18\mynodejsapp\index.js:665:9)
+    at async extractColorsFromImage (D:\angular 18\mynodejsapp\index.js:1707:30)
+    at async extractCompanyDetailsFromPage (D:\angular 18\mynodejsapp\index.js:2744:34)
+    at async D:\angular 18\mynodejsapp\index.js:2872:32
+2025-08-13T04:57:24.057Z - ERROR: [2025-08-13T04:57:24.055Z] ERROR Details:: {
+  "imageUrl": "https://media.licdn.com/dms/image/v2/C4E0BAQE0XBjMf8TX3g/company-logo_200_200/company-logo_200_200/0/1631343202777?e=2147483647&v=beta&t=gWoQt8RG6A3-RUZUJrLyvV5pzbsqR6t12z8WWMrwm3w",
+  "fallbackToAxios": true,
+  "timeout": 15000
+}
+2025-08-13T04:57:30.069Z - INFO: [2025-08-13T04:57:30.069Z] DEBUG: Browser instance ended
+2025-08-13T04:57:30.070Z - WARN: [2025-08-13T04:57:30.070Z] WARN: Falling back to HTTP request for LinkedIn logo
+2025-08-13T04:57:30.070Z - INFO: [2025-08-13T04:57:30.070Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T04:57:30.385Z - INFO: [2025-08-13T04:57:30.385Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T04:57:30.705Z - INFO: [2025-08-13T04:57:30.705Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T04:57:30.708Z - INFO: [2025-08-13T04:57:30.708Z] INFO: Company details extraction completed
+2025-08-13T04:57:31.137Z - INFO: [Browser] Browser closed successfully
+2025-08-13T05:01:23.011Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:06:23.012Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:11:23.027Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:16:23.032Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:21:23.041Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:26:23.048Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T05:31:23.052Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T06:16:14.158Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T06:16:14.405Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T06:16:14.411Z - INFO: Server running on port 3000
+2025-08-13T06:16:14.411Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T06:21:11.836Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-13T06:26:11.840Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-13T07:34:27.375Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T07:34:27.616Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T07:34:27.620Z - INFO: Server running on port 3000
+2025-08-13T07:34:27.620Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T07:37:57.144Z - INFO: [2025-08-13T07:37:57.144Z] INFO: Setting up browser for company details extraction
+2025-08-13T07:37:57.145Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T07:37:57.146Z - INFO: [2025-08-13T07:37:57.146Z] DEBUG: Attempting browser launch for company details
+2025-08-13T07:37:57.147Z - INFO: [2025-08-13T07:37:57.147Z] INFO: Launching browser for company details
+2025-08-13T07:37:58.028Z - INFO: [2025-08-13T07:37:58.028Z] INFO: Browser launched successfully for company details
+2025-08-13T07:37:58.236Z - INFO: [2025-08-13T07:37:58.236Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T07:38:06.784Z - INFO: [2025-08-13T07:38:06.784Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T07:38:07.791Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T07:38:07.796Z - INFO: [2025-08-13T07:38:07.796Z] INFO: Starting company details extraction from page
+2025-08-13T07:38:07.797Z - INFO: [getLogoDetails] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-13T07:38:07.809Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T07:38:07.810Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T07:38:07.810Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T07:38:07.813Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T07:38:07.815Z - INFO: [getGeneralImages] Starting image extraction for https://www.noblesoft-solutions.com. Excluding known logos:
+2025-08-13T07:38:07.822Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T07:38:07.824Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T07:38:07.990Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T07:38:07.991Z - INFO: [2025-08-13T07:38:07.991Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T07:38:07.996Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T07:38:07.998Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T07:38:07.998Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T07:38:07.999Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T07:38:08.772Z - INFO: ⏱️ [Performance] browser_launch: 774ms (SUCCESS)
+2025-08-13T07:38:08.773Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T07:38:08.775Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T07:38:08.958Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T07:38:08.959Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T07:38:08.968Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T07:38:08.969Z - INFO: Scraping https://www.linkedin.com/company/noblesoft-solutions/...
+2025-08-13T07:38:11.735Z - INFO: ⏱️ [Performance] navigation: 2766ms (SUCCESS)
+2025-08-13T07:38:18.684Z - INFO: Checking for login popup...
+2025-08-13T07:38:18.724Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T07:38:21.753Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T07:38:23.802Z - INFO: Successfully loaded company page
+2025-08-13T07:38:23.897Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T07:38:23.905Z - INFO: Page Title:
+2025-08-13T07:38:23.906Z - INFO: H1 Text:
+2025-08-13T07:38:23.906Z - INFO: Has Company Elements:
+2025-08-13T07:38:23.907Z - INFO: Available Navigation:
+2025-08-13T07:38:23.907Z - INFO: Has About Section:
+2025-08-13T07:38:23.907Z - INFO: Visible Text Preview:
+2025-08-13T07:38:23.907Z - INFO: =====================
+2025-08-13T07:38:23.949Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T07:38:23.953Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T07:38:23.954Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T07:38:23.956Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T07:38:23.956Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T07:38:23.960Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T07:38:23.960Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T07:38:23.961Z - INFO: Name:
+2025-08-13T07:38:23.961Z - INFO: About Us:
+2025-08-13T07:38:23.961Z - INFO: Founded:
+2025-08-13T07:38:23.961Z - INFO: Industry:
+2025-08-13T07:38:23.961Z - INFO: Headquarters:
+2025-08-13T07:38:23.961Z - INFO: Logo URL:
+2025-08-13T07:38:23.961Z - INFO: ========================
+2025-08-13T07:38:23.962Z - INFO: Successfully scraped https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T07:38:23.962Z - INFO: ⏱️ [Performance] extraction: 15183ms (SUCCESS)
+2025-08-13T07:38:23.962Z - INFO: ✅ [Performance] LinkedIn extraction completed in 15183ms
+2025-08-13T07:38:23.987Z - INFO: ✅ Page closed for https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T07:38:23.990Z - INFO: Successfully saved data to output.json
+2025-08-13T07:38:24.556Z - INFO: Browser closed successfully
+2025-08-13T07:38:24.556Z - INFO: [2025-08-13T07:38:24.556Z] INFO: Merging LinkedIn data successfully
+2025-08-13T07:38:24.557Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T07:38:24.557Z - INFO: - Name:
+2025-08-13T07:38:24.557Z - INFO: - Description:
+2025-08-13T07:38:24.558Z - INFO: - Industry:
+2025-08-13T07:38:24.558Z - INFO: - Founded:
+2025-08-13T07:38:24.558Z - INFO: - Headquarters:
+2025-08-13T07:38:24.560Z - INFO: [2025-08-13T07:38:24.560Z] INFO: Starting image extraction for LinkedIn banner
+2025-08-13T07:38:24.561Z - INFO: [2025-08-13T07:38:24.561Z] DEBUG: Starting browser-based image extraction for LinkedIn banner
+2025-08-13T07:38:24.561Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T07:38:25.354Z - INFO: [2025-08-13T07:38:25.354Z] DEBUG: Browser instance started
+2025-08-13T07:38:25.513Z - INFO: [2025-08-13T07:38:25.513Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T07:38:25.514Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T07:38:25.535Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1773ms
+2025-08-13T07:38:27.324Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T07:38:27.324Z - LinkedIn image extraction initiated
+2025-08-13T07:38:27.324Z - INFO: [2025-08-13T07:38:27.324Z] DEBUG: Navigating to image URL: https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82
+2025-08-13T07:38:27.659Z - ERROR: [2025-08-13T07:38:27.658Z] ERROR: Browser-based image extraction failed for LinkedIn banner
+2025-08-13T07:38:27.660Z - ERROR: [2025-08-13T07:38:27.658Z] ERROR Stack:: Error: net::ERR_ABORTED at https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82
+    at navigate (d:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Frame.js:186:27)
+    at async Deferred.race (d:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\util\Deferred.js:36:20)
+    at async CdpFrame.goto (d:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Frame.js:152:25)
+    at async CdpPage.goto (d:\angular 18\mynodejsapp\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:588:20)
+    at async extractImageWithBrowser (d:\angular 18\mynodejsapp\index.js:799:9)
+    at async extractColorsFromImage (d:\angular 18\mynodejsapp\index.js:1871:30)
+    at async extractCompanyDetailsFromPage (d:\angular 18\mynodejsapp\index.js:3063:36)
+    at async d:\angular 18\mynodejsapp\index.js:3210:32
+2025-08-13T07:38:27.661Z - ERROR: [2025-08-13T07:38:27.658Z] ERROR Details:: {
+  "imageUrl": "https://static.licdn.com/aero-v1/sc/h/5q92mjc5c51bjlwaj3rs9aa82",
+  "fallbackToAxios": true,
+  "timeout": 15000
+}
+2025-08-13T07:38:34.078Z - INFO: [2025-08-13T07:38:34.078Z] DEBUG: Browser instance ended
+2025-08-13T07:38:34.079Z - INFO: [2025-08-13T07:38:34.079Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T07:38:34.080Z - INFO: [2025-08-13T07:38:34.080Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T07:38:34.081Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1389ms
+2025-08-13T07:38:35.471Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T07:38:35.471Z - LinkedIn HTTP image request
+2025-08-13T07:38:35.879Z - INFO: [2025-08-13T07:38:35.879Z] INFO: HTTP-based image extraction successful for LinkedIn banner
+2025-08-13T07:38:35.896Z - INFO: [2025-08-13T07:38:35.896Z] DEBUG: Image metadata extracted for LinkedIn banner
+2025-08-13T07:38:35.917Z - WARN: [2025-08-13T07:38:35.917Z] WARN: Vibrant color extraction failed for LinkedIn banner, trying Sharp color analysis
+2025-08-13T07:38:36.298Z - INFO: [2025-08-13T07:38:36.298Z] INFO: LinkedIn banner colors extracted successfully
+2025-08-13T07:38:36.298Z - INFO: [2025-08-13T07:38:36.298Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T07:38:36.298Z - INFO: [2025-08-13T07:38:36.298Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T07:38:36.299Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T07:38:36.976Z - INFO: [2025-08-13T07:38:36.976Z] DEBUG: Browser instance started
+2025-08-13T07:38:37.104Z - INFO: [2025-08-13T07:38:37.104Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T07:38:37.105Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T07:38:37.136Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1573ms
+2025-08-13T07:38:38.718Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T07:38:38.718Z - LinkedIn image extraction initiated
+2025-08-13T07:38:38.719Z - INFO: [2025-08-13T07:38:38.719Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/C4E0BAQE0XBjMf8TX3g/company-logo_200_200/company-logo_200_200/0/1631343202777?e=2147483647&v=beta&t=gWoQt8RG6A3-RUZUJrLyvV5pzbsqR6t12z8WWMrwm3w
+2025-08-13T07:38:39.093Z - WARN: [2025-08-13T07:38:39.093Z] WARN: Detected error page instead of image for LinkedIn logo
+2025-08-13T07:38:45.339Z - INFO: [2025-08-13T07:38:45.339Z] DEBUG: Browser instance ended
+2025-08-13T07:38:45.339Z - INFO: [2025-08-13T07:38:45.339Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T07:38:45.339Z - INFO: [2025-08-13T07:38:45.339Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T07:38:45.340Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1275ms
+2025-08-13T07:38:46.620Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T07:38:46.620Z - LinkedIn HTTP image request
+2025-08-13T07:38:46.855Z - INFO: [2025-08-13T07:38:46.855Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T07:38:46.859Z - INFO: [2025-08-13T07:38:46.859Z] DEBUG: Image metadata extracted for LinkedIn logo
+2025-08-13T07:38:47.244Z - INFO: [2025-08-13T07:38:47.244Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T07:38:47.245Z - INFO: [2025-08-13T07:38:47.245Z] INFO: Company details extraction completed
+2025-08-13T07:38:47.853Z - INFO: [Browser] Browser closed successfully
+2025-08-13T07:39:26.188Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:04:32.842Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T08:04:33.164Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:04:33.169Z - INFO: Server running on port 3000
+2025-08-13T08:04:33.169Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:06:08.679Z - INFO: [2025-08-13T08:06:08.679Z] INFO: Setting up browser for company details extraction
+2025-08-13T08:06:08.682Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:06:08.683Z - INFO: [2025-08-13T08:06:08.683Z] DEBUG: Attempting browser launch for company details
+2025-08-13T08:06:08.683Z - INFO: [2025-08-13T08:06:08.683Z] INFO: Launching browser for company details
+2025-08-13T08:06:09.484Z - INFO: [2025-08-13T08:06:09.484Z] INFO: Browser launched successfully for company details
+2025-08-13T08:06:09.608Z - INFO: [2025-08-13T08:06:09.608Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T08:06:18.400Z - INFO: [2025-08-13T08:06:18.400Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T08:06:19.413Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T08:06:19.418Z - INFO: [2025-08-13T08:06:19.418Z] INFO: Starting company details extraction from page
+2025-08-13T08:06:19.420Z - INFO: [getLogoDetails] Starting extraction for https://www.noblesoft-solutions.com
+2025-08-13T08:06:19.505Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T08:06:19.506Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T08:06:19.507Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T08:06:19.509Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T08:06:19.511Z - INFO: [getGeneralImages] Starting image extraction for https://www.noblesoft-solutions.com. Excluding known logos:
+2025-08-13T08:06:19.523Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T08:06:19.527Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T08:06:19.622Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T08:06:19.623Z - INFO: [2025-08-13T08:06:19.623Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T08:06:19.628Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T08:06:19.629Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T08:06:19.630Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:06:19.631Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T08:06:20.344Z - INFO: ⏱️ [Performance] browser_launch: 714ms (SUCCESS)
+2025-08-13T08:06:20.345Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T08:06:20.345Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T08:06:20.474Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T08:06:20.475Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:06:20.484Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-13T08:06:20.487Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T08:06:20.487Z - INFO: Scraping https://www.linkedin.com/company/noblesoft-solutions/...
+2025-08-13T08:06:21.393Z - INFO: 📡 [API Call] GET https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T08:06:23.538Z - INFO: ⏱️ [Performance] navigation: 3050ms (SUCCESS)
+2025-08-13T08:06:24.468Z - INFO: 📡 [API Call] POST https://www.linkedin.com/organization-guest/api/ingraphs/gauge
+2025-08-13T08:06:25.317Z - INFO: 📡 [API Call] OPTIONS https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:06:25.812Z - INFO: 📡 [API Call] POST https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:06:27.273Z - INFO: 📡 [API Call] POST https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:06:29.292Z - INFO: Checking for login popup...
+2025-08-13T08:06:29.324Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T08:06:32.348Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T08:06:34.380Z - INFO: Successfully loaded company page
+2025-08-13T08:06:34.471Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T08:06:34.477Z - INFO: Page Title:
+2025-08-13T08:06:34.478Z - INFO: H1 Text:
+2025-08-13T08:06:34.478Z - INFO: Has Company Elements:
+2025-08-13T08:06:34.478Z - INFO: Available Navigation:
+2025-08-13T08:06:34.479Z - INFO: Has About Section:
+2025-08-13T08:06:34.479Z - INFO: Visible Text Preview:
+2025-08-13T08:06:34.480Z - INFO: =====================
+2025-08-13T08:06:34.537Z - INFO: 🚀 [LinkedIn] Starting advanced banner extraction with validation...
+2025-08-13T08:06:34.537Z - INFO: 🚀 [Banner Extractor] Starting advanced banner extraction...
+2025-08-13T08:06:34.538Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-13T08:06:37.581Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 5 requests.
+2025-08-13T08:06:37.582Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-13T08:06:37.585Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-13T08:06:37.586Z - INFO: 🔗 [Banner Extractor] Making direct API calls...
+2025-08-13T08:06:37.587Z - WARN: ⚠️ [API Failed] https://www.linkedin.com/voyager/api/organization/companies?q=universalName&universalName=noblesoft-solutions:
+2025-08-13T08:06:37.590Z - WARN: ⚠️ [API Failed] https://www.linkedin.com/voyager/api/organization/company/noblesoft-solutions:
+2025-08-13T08:06:37.591Z - WARN: ⚠️ [API Failed] https://www.linkedin.com/deco-api/identity/dash/companyProfile?q=universalName&universalName=noblesoft-solutions:
+2025-08-13T08:06:37.592Z - WARN: ⚠️ [API Failed] https://www.linkedin.com/li/api/v1/organization/noblesoft-solutions:
+2025-08-13T08:06:37.593Z - INFO: 🔍 [Banner Extractor] Analyzing page source...
+2025-08-13T08:06:37.764Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-13T08:06:37.765Z - INFO: 📊 [LinkedIn] Banner extraction summary:
+2025-08-13T08:06:37.765Z - INFO: ⚠️ [LinkedIn] No URLs from advanced extraction, trying DOM fallback...
+2025-08-13T08:06:37.781Z - INFO: ❌ [LinkedIn] No banner URLs found
+2025-08-13T08:06:37.812Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:06:37.815Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T08:06:37.815Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:06:37.821Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T08:06:37.821Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:06:37.828Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T08:06:37.828Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T08:06:37.828Z - INFO: Name:
+2025-08-13T08:06:37.829Z - INFO: About Us:
+2025-08-13T08:06:37.829Z - INFO: Founded:
+2025-08-13T08:06:37.829Z - INFO: Industry:
+2025-08-13T08:06:37.829Z - INFO: Headquarters:
+2025-08-13T08:06:37.830Z - INFO: Logo URL:
+2025-08-13T08:06:37.830Z - INFO: ========================
+2025-08-13T08:06:37.830Z - INFO: Successfully scraped https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T08:06:37.830Z - INFO: ⏱️ [Performance] extraction: 17480ms (SUCCESS)
+2025-08-13T08:06:37.831Z - INFO: ✅ [Performance] LinkedIn extraction completed in 17480ms
+2025-08-13T08:06:37.888Z - INFO: ✅ Page closed for https://www.linkedin.com/company/noblesoft-solutions/
+2025-08-13T08:06:37.893Z - INFO: Successfully saved data to output.json
+2025-08-13T08:06:38.326Z - INFO: Browser closed successfully
+2025-08-13T08:06:38.326Z - INFO: [2025-08-13T08:06:38.326Z] INFO: Merging LinkedIn data successfully
+2025-08-13T08:06:38.327Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T08:06:38.327Z - INFO: - Name:
+2025-08-13T08:06:38.327Z - INFO: - Description:
+2025-08-13T08:06:38.327Z - INFO: - Industry:
+2025-08-13T08:06:38.328Z - INFO: - Founded:
+2025-08-13T08:06:38.328Z - INFO: - Headquarters:
+2025-08-13T08:06:38.329Z - INFO: [2025-08-13T08:06:38.329Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T08:06:38.330Z - INFO: [2025-08-13T08:06:38.330Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T08:06:38.331Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:06:39.139Z - INFO: [2025-08-13T08:06:39.139Z] DEBUG: Browser instance started
+2025-08-13T08:06:39.282Z - INFO: [2025-08-13T08:06:39.282Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T08:06:39.282Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T08:06:39.304Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1253ms
+2025-08-13T08:06:40.565Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:06:40.565Z - LinkedIn image extraction initiated
+2025-08-13T08:06:40.566Z - INFO: [2025-08-13T08:06:40.566Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/C4E0BAQE0XBjMf8TX3g/company-logo_200_200/company-logo_200_200/0/1631343202777?e=2147483647&v=beta&t=gWoQt8RG6A3-RUZUJrLyvV5pzbsqR6t12z8WWMrwm3w
+2025-08-13T08:06:40.908Z - WARN: [2025-08-13T08:06:40.908Z] WARN: Detected error page instead of image for LinkedIn logo
+2025-08-13T08:06:47.179Z - INFO: [2025-08-13T08:06:47.179Z] DEBUG: Browser instance ended
+2025-08-13T08:06:47.180Z - INFO: [2025-08-13T08:06:47.180Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:06:47.181Z - INFO: [2025-08-13T08:06:47.181Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:06:47.182Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1000ms
+2025-08-13T08:06:48.192Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:06:48.192Z - LinkedIn HTTP image request
+2025-08-13T08:06:48.680Z - INFO: [2025-08-13T08:06:48.680Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T08:06:48.687Z - INFO: [2025-08-13T08:06:48.687Z] DEBUG: Image metadata extracted for LinkedIn logo
+2025-08-13T08:06:49.028Z - INFO: [2025-08-13T08:06:49.028Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T08:06:49.028Z - INFO: [2025-08-13T08:06:49.028Z] INFO: Company details extraction completed
+2025-08-13T08:06:49.659Z - INFO: [Browser] Browser closed successfully
+2025-08-13T08:09:31.719Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:14:31.726Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:19:31.727Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:23:31.708Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T08:23:31.964Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:23:31.968Z - INFO: Server running on port 3000
+2025-08-13T08:23:31.968Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:23:58.589Z - INFO: [2025-08-13T08:23:58.589Z] INFO: Setting up browser for company details extraction
+2025-08-13T08:23:58.593Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:23:58.595Z - INFO: [2025-08-13T08:23:58.595Z] DEBUG: Attempting browser launch for company details
+2025-08-13T08:23:58.596Z - INFO: [2025-08-13T08:23:58.596Z] INFO: Launching browser for company details
+2025-08-13T08:23:59.495Z - INFO: [2025-08-13T08:23:59.495Z] INFO: Browser launched successfully for company details
+2025-08-13T08:23:59.745Z - INFO: [2025-08-13T08:23:59.745Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T08:24:04.174Z - INFO: [2025-08-13T08:24:04.174Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T08:24:05.177Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T08:24:05.184Z - INFO: [2025-08-13T08:24:05.184Z] INFO: Starting company details extraction from page
+2025-08-13T08:24:05.189Z - INFO: [getLogoDetails] Starting extraction for https://www.infosys.com
+2025-08-13T08:24:05.214Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T08:24:05.215Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T08:24:05.216Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T08:24:05.220Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T08:24:05.223Z - INFO: [getGeneralImages] Starting image extraction for https://www.infosys.com. Excluding known logos:
+2025-08-13T08:24:05.255Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T08:24:05.257Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T08:24:05.401Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T08:24:05.402Z - INFO: [2025-08-13T08:24:05.402Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T08:24:05.407Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T08:24:05.409Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T08:24:05.411Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:24:05.411Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T08:24:06.105Z - INFO: ⏱️ [Performance] browser_launch: 695ms (SUCCESS)
+2025-08-13T08:24:06.107Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T08:24:06.108Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/infosys
+2025-08-13T08:24:06.367Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T08:24:06.368Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:24:06.415Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T08:24:06.417Z - INFO: ✅ [Banner Extractor] Initialized with centralized configuration
+2025-08-13T08:24:06.417Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-13T08:24:06.422Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T08:24:06.423Z - INFO: Scraping https://www.linkedin.com/company/infosys...
+2025-08-13T08:24:07.721Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/infosys/
+2025-08-13T08:24:07.722Z - INFO: 📡 [API Call] GET https://www.linkedin.com/company/infosys
+2025-08-13T08:24:10.054Z - INFO: ⏱️ [Performance] navigation: 3630ms (SUCCESS)
+2025-08-13T08:24:11.291Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-13T08:24:11.292Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-13T08:24:11.292Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-13T08:24:11.292Z - INFO: 📡 [API Call] POST https://www.linkedin.com/organization-guest/api/ingraphs/gauge
+2025-08-13T08:24:13.112Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-13T08:24:13.113Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-13T08:24:13.113Z - INFO: 📡 [API Call] OPTIONS https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:24:13.820Z - INFO: 📡 [API Call] POST https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:24:14.903Z - INFO: 📡 [API Call] POST https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:24:16.629Z - INFO: Checking for login popup...
+2025-08-13T08:24:16.661Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T08:24:19.695Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T08:24:21.734Z - INFO: Successfully loaded company page
+2025-08-13T08:24:21.974Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T08:24:21.982Z - INFO: Page Title:
+2025-08-13T08:24:21.983Z - INFO: H1 Text:
+2025-08-13T08:24:21.983Z - INFO: Has Company Elements:
+2025-08-13T08:24:21.984Z - INFO: Available Navigation:
+2025-08-13T08:24:21.984Z - INFO: Has About Section:
+2025-08-13T08:24:21.984Z - INFO: Visible Text Preview:
+2025-08-13T08:24:21.984Z - INFO: =====================
+2025-08-13T08:24:22.015Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-13T08:24:22.016Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction...
+2025-08-13T08:24:22.016Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-13T08:24:22.017Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-13T08:24:25.079Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 5 requests.
+2025-08-13T08:24:25.080Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-13T08:24:25.083Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-13T08:24:25.084Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-13T08:24:25.084Z - INFO: ⚠️ [PRIMARY FAILED] Network interception found no banners, trying fallbacks...
+2025-08-13T08:24:25.084Z - INFO: 🔄 [FALLBACK 1] Direct API calls...
+2025-08-13T08:24:25.085Z - INFO: 🔗 [Banner Extractor] Making rate-limited direct API calls...
+2025-08-13T08:24:25.086Z - INFO: 🎯 [API Calls] Trying 10 endpoints (4 base + 6 dynamic)
+2025-08-13T08:24:25.088Z - WARN: ❌ [API Error] https://www.linkedin.com/voyager/api/organization/companies?q=universalName&universalName=infosys:
+2025-08-13T08:24:25.088Z - INFO: ⏳ [Rate Limit] Waiting 1192ms (request #2)
+2025-08-13T08:24:26.294Z - WARN: ❌ [API Error] https://www.linkedin.com/voyager/api/organization/company/infosys:
+2025-08-13T08:24:26.295Z - INFO: ⏳ [Rate Limit] Waiting 1955ms (request #3)
+2025-08-13T08:24:28.264Z - WARN: ❌ [API Error] https://www.linkedin.com/deco-api/identity/dash/companyProfile?q=universalName&universalName=infosys:
+2025-08-13T08:24:28.265Z - INFO: ⏳ [Rate Limit] Waiting 1670ms (request #4)
+2025-08-13T08:24:29.962Z - WARN: ❌ [API Error] https://www.linkedin.com/li/api/v1/organization/infosys:
+2025-08-13T08:24:29.963Z - INFO: ⏳ [Rate Limit] Waiting 1167ms (request #5)
+2025-08-13T08:24:31.133Z - WARN: ❌ [API Error] https://www.linkedin.com/company/infosys/infosys:
+2025-08-13T08:24:31.134Z - INFO: ⏳ [Rate Limit] Waiting 1403ms (request #6)
+2025-08-13T08:24:32.542Z - WARN: ❌ [API Error] https://www.linkedin.com/organization-guest/api/infosys:
+2025-08-13T08:24:32.542Z - INFO: ⏳ [Rate Limit] Waiting 2895ms (request #7)
+2025-08-13T08:24:35.443Z - WARN: ❌ [API Error] https://www.linkedin.com/api/ingraphs/infosys:
+2025-08-13T08:24:35.444Z - INFO: ⏳ [Rate Limit] Waiting 2505ms (request #8)
+2025-08-13T08:24:37.952Z - WARN: ❌ [API Error] https://www.linkedin.com/ingraphs/gauge/infosys:
+2025-08-13T08:24:37.953Z - INFO: ⏳ [Rate Limit] Waiting 2356ms (request #9)
+2025-08-13T08:24:40.281Z - INFO: 📡 [API Call] OPTIONS https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:24:40.310Z - WARN: ❌ [API Error] https://www.linkedin.com/api/v2/infosys:
+2025-08-13T08:24:40.311Z - INFO: ⏳ [Rate Limit] Waiting 2406ms (request #10)
+2025-08-13T08:24:40.620Z - INFO: 📡 [API Call] POST https://collector-pxdojv695v.protechts.net/api/v2/msft
+2025-08-13T08:24:42.728Z - WARN: ❌ [API Error] https://www.linkedin.com/v2/msft/infosys:
+2025-08-13T08:24:42.730Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-13T08:24:42.730Z - INFO: 🔄 [FALLBACK 2] Enhanced DOM analysis...
+2025-08-13T08:24:42.731Z - INFO: 🔍 [Banner Extractor] Enhanced page source analysis...
+2025-08-13T08:24:43.004Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-13T08:24:43.005Z - INFO: 🔄 [FALLBACK 3] Traditional DOM scraping...
+2025-08-13T08:24:43.006Z - INFO: 🔍 [Banner Extractor] Traditional DOM scraping...
+2025-08-13T08:24:43.029Z - INFO: ✅ [FALLBACK 3 SUCCESS] Traditional scraping found banner:
+2025-08-13T08:24:43.031Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-13T08:24:43.031Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-13T08:24:43.032Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:24:43.035Z - WARN: ⚠️ [Banner Validator] Validation error for https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0:
+2025-08-13T08:24:43.036Z - WARN: ⚠️ [LinkedIn] Network-intercepted banner failed validation:
+2025-08-13T08:24:43.036Z - INFO: 🔄 [LinkedIn] Validating 1 network-discovered URLs...
+2025-08-13T08:24:43.037Z - INFO: 🔍 [Banner Validator] Validating 1 banner URLs...
+2025-08-13T08:24:43.038Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:24:43.039Z - WARN: ⚠️ [Banner Validator] Validation error for https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0:
+2025-08-13T08:24:44.041Z - INFO: ❌ [Banner Validator] No valid banner URLs found
+2025-08-13T08:24:44.043Z - WARN: ⚠️ [LinkedIn] All network-discovered URLs failed validation
+2025-08-13T08:24:44.043Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0: Validation error: this.antiBot.getLinkedInImageHeaders is not a function
+2025-08-13T08:24:44.044Z - INFO: 🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...
+2025-08-13T08:24:44.049Z - INFO: ❌ [LinkedIn] ALL METHODS FAILED - No banner URL found
+2025-08-13T08:24:44.096Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:24:44.099Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T08:24:44.099Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:24:44.102Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T08:24:44.103Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:24:44.110Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T08:24:44.110Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T08:24:44.111Z - INFO: Name:
+2025-08-13T08:24:44.111Z - INFO: About Us:
+2025-08-13T08:24:44.112Z - INFO: Founded:
+2025-08-13T08:24:44.112Z - INFO: Industry:
+2025-08-13T08:24:44.112Z - INFO: Headquarters:
+2025-08-13T08:24:44.113Z - INFO: Logo URL:
+2025-08-13T08:24:44.113Z - INFO: ========================
+2025-08-13T08:24:44.113Z - INFO: Successfully scraped https://www.linkedin.com/company/infosys
+2025-08-13T08:24:44.114Z - INFO: ⏱️ [Performance] extraction: 37998ms (SUCCESS)
+2025-08-13T08:24:44.114Z - INFO: ✅ [Performance] LinkedIn extraction completed in 37998ms
+2025-08-13T08:24:44.164Z - INFO: ✅ Page closed for https://www.linkedin.com/company/infosys
+2025-08-13T08:24:44.210Z - INFO: Successfully saved data to output.json
+2025-08-13T08:24:44.695Z - INFO: Browser closed successfully
+2025-08-13T08:24:44.697Z - INFO: [2025-08-13T08:24:44.697Z] INFO: Merging LinkedIn data successfully
+2025-08-13T08:24:44.698Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T08:24:44.698Z - INFO: - Name:
+2025-08-13T08:24:44.698Z - INFO: - Description:
+2025-08-13T08:24:44.699Z - INFO: - Industry:
+2025-08-13T08:24:44.699Z - INFO: - Founded:
+2025-08-13T08:24:44.700Z - INFO: - Headquarters:
+2025-08-13T08:24:44.701Z - INFO: [2025-08-13T08:24:44.701Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T08:24:44.703Z - INFO: [2025-08-13T08:24:44.703Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T08:24:44.704Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:24:45.715Z - INFO: [2025-08-13T08:24:45.714Z] DEBUG: Browser instance started
+2025-08-13T08:24:45.946Z - INFO: [2025-08-13T08:24:45.946Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T08:24:45.946Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T08:24:45.985Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1408ms
+2025-08-13T08:24:47.408Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:24:47.408Z - LinkedIn image extraction initiated
+2025-08-13T08:24:47.409Z - INFO: [2025-08-13T08:24:47.408Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:24:48.793Z - WARN: [2025-08-13T08:24:48.793Z] WARN: Detected error page instead of image for LinkedIn logo
+2025-08-13T08:24:55.210Z - INFO: [2025-08-13T08:24:55.210Z] DEBUG: Browser instance ended
+2025-08-13T08:24:55.211Z - INFO: [2025-08-13T08:24:55.211Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:24:55.211Z - INFO: [2025-08-13T08:24:55.211Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:24:55.212Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 836ms
+2025-08-13T08:24:56.061Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:24:56.061Z - LinkedIn HTTP image request
+2025-08-13T08:24:56.380Z - INFO: [2025-08-13T08:24:56.380Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T08:24:56.387Z - INFO: [2025-08-13T08:24:56.387Z] DEBUG: Image metadata extracted for LinkedIn logo
+2025-08-13T08:24:56.716Z - INFO: [2025-08-13T08:24:56.716Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T08:24:56.717Z - INFO: [2025-08-13T08:24:56.717Z] INFO: Company details extraction completed
+2025-08-13T08:24:57.240Z - INFO: [Browser] Browser closed successfully
+2025-08-13T08:28:30.576Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:33:30.591Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T08:34:48.333Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T08:34:48.609Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:34:48.613Z - INFO: Server running on port 3000
+2025-08-13T08:34:48.613Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T08:34:56.188Z - INFO: [2025-08-13T08:34:56.188Z] INFO: Setting up browser for company details extraction
+2025-08-13T08:34:56.192Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:34:56.194Z - INFO: [2025-08-13T08:34:56.194Z] DEBUG: Attempting browser launch for company details
+2025-08-13T08:34:56.195Z - INFO: [2025-08-13T08:34:56.195Z] INFO: Launching browser for company details
+2025-08-13T08:34:57.041Z - INFO: [2025-08-13T08:34:57.041Z] INFO: Browser launched successfully for company details
+2025-08-13T08:34:57.235Z - INFO: [2025-08-13T08:34:57.235Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T08:35:01.197Z - INFO: [2025-08-13T08:35:01.197Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T08:35:02.201Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T08:35:02.207Z - INFO: [2025-08-13T08:35:02.207Z] INFO: Starting company details extraction from page
+2025-08-13T08:35:02.209Z - INFO: [getLogoDetails] Starting extraction for https://www.infosys.com
+2025-08-13T08:35:02.233Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T08:35:02.234Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T08:35:02.236Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T08:35:02.241Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T08:35:02.245Z - INFO: [getGeneralImages] Starting image extraction for https://www.infosys.com. Excluding known logos:
+2025-08-13T08:35:02.260Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T08:35:02.263Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T08:35:02.476Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T08:35:02.478Z - INFO: [2025-08-13T08:35:02.478Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T08:35:02.493Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T08:35:02.499Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T08:35:02.500Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T08:35:02.501Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T08:35:02.501Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 19888b57c1ee9f7c7de3a9f8cdadaa93
+2025-08-13T08:35:02.502Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-13T08:35:02.508Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:35:02.509Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T08:35:03.247Z - INFO: ⏱️ [Performance] browser_launch: 745ms (SUCCESS)
+2025-08-13T08:35:03.248Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T08:35:03.249Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/infosys
+2025-08-13T08:35:03.489Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T08:35:03.490Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T08:35:03.503Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T08:35:03.505Z - INFO: ✅ [Banner Extractor] Initialized with centralized configuration
+2025-08-13T08:35:03.506Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-13T08:35:03.512Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T08:35:03.513Z - INFO: Scraping https://www.linkedin.com/company/infosys...
+2025-08-13T08:35:05.538Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/infosys/
+2025-08-13T08:35:05.539Z - INFO: 📡 [API Call] GET https://www.linkedin.com/company/infosys
+2025-08-13T08:35:07.179Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:07.316Z - INFO: ⏱️ [Performance] navigation: 3803ms (SUCCESS)
+2025-08-13T08:35:07.562Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:07.743Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:07.744Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:07.745Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:07.746Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&amp;v=beta&amp;t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:07.747Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:07.747Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E03AQE1fvzc_4y43w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516155933969?e=2147483647&amp;v=beta&amp;t=dJtiD-A1xpR040ez15Pqq3xLt-7rys02kSHgWJtLgzw
+2025-08-13T08:35:07.749Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C5603AQFFb9-H6GAwxg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1574292493317?e=2147483647&amp;v=beta&amp;t=OrHwqDdr2RQSuL5b5QgpgVR-aZDgAftApInj_eiYsoo
+2025-08-13T08:35:07.750Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5603AQFDRuJsxDWrSQ/profile-displayphoto-shrink_100_100/B56ZStKuxAGsAU-/0/1738072059464?e=2147483647&amp;v=beta&amp;t=NCqZHUcMkVE7FHHjYWpIBaOWj9dW5Op9k-eufztHBpc
+2025-08-13T08:35:07.751Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E03AQE1fvzc_4y43w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516155933969?e=2147483647&amp;v=beta&amp;t=dJtiD-A1xpR040ez15Pqq3xLt-7rys02kSHgWJtLgzw
+2025-08-13T08:35:07.754Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C5603AQFFb9-H6GAwxg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1574292493317?e=2147483647&amp;v=beta&amp;t=OrHwqDdr2RQSuL5b5QgpgVR-aZDgAftApInj_eiYsoo
+2025-08-13T08:35:07.760Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5603AQFDRuJsxDWrSQ/profile-displayphoto-shrink_100_100/B56ZStKuxAGsAU-/0/1738072059464?e=2147483647&amp;v=beta&amp;t=NCqZHUcMkVE7FHHjYWpIBaOWj9dW5Op9k-eufztHBpc
+2025-08-13T08:35:07.761Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E03AQHw2GpEOA4GKw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1708082012099?e=2147483647&amp;v=beta&amp;t=vigaNCAlQ1sfpyG8q84lxOpLbz9gRx1wtyWU7738Zp8
+2025-08-13T08:35:07.762Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:07.763Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQG9akHoZ0upcg/image-shrink_1280/B56ZiiNeAwG0AQ-/0/1755068097598?e=2147483647&amp;v=beta&amp;t=D9MNbTpouFH02ITmn1i9Yv_pl5GdOnA_eytFGZ6-9eI
+2025-08-13T08:35:07.765Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:07.769Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQF2tsLkQQTWTQ/videocover-high/B56ZieeH5IH0Bg-/0/1755005386821?e=2147483647&amp;v=beta&amp;t=roe11iqDUodQJOaOLydUvTjFi_HETg1cYEapGULP0tU
+2025-08-13T08:35:07.773Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4D0BAQE702f1leJ65Q/company-logo_100_100/company-logo_100_100/0/1662033230354/infosys_digital_workplace_services_logo?e=2147483647&amp;v=beta&amp;t=P99Ey9dZTEvdbtw_853r4HtZFbhVcRwtUo9advzQ_9w
+2025-08-13T08:35:07.775Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQGkdnHxNDye-A/ads-document-cover-images_480/B56ZieC1zDHkA4-/0/1754998204545?e=2147483647&amp;v=beta&amp;t=zpZIwUcdpWZza_T8dlUfrT9Ql6zrYqwxgu5Q9RPR5YY&quot;}},{&quot;type&quot;:&quot;image&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;https://media.licdn.com/dms/image/v2/D5610AQGkdnHxNDye-A/ads-document-cover-images_480/B56ZieC1zDHkA4-/1/1754998204545?e=2147483647&amp;v=beta&amp;t=OcFM3VqHmF2ny6CLr_UPBOMVTT-mNtcBxY2XyEj3TLo&quot;}},{&quot;type&quot;:&quot;image&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;https://media.licdn.com/dms/image/v2/D5610AQGkdnHxNDye-A/ads-document-cover-images_480/B56ZieC1zDHkA4-/2/1754998204545?e=2147483647&amp;v=beta&amp;t=NyPAQoP1v211kOkk4hwRZBR--ybNwOGxIL9xDcDdvrA&quot;}}],&quot;inbugUrl&quot;:&quot;https://www.linkedin.com/feed/update/urn:li:ugcPost:7360996031762763778&quot;,&quot;height&quot;:480,&quot;scanUnavailableOnAccessibilityModeTitle&quot;:&quot;Sign
+2025-08-13T08:35:07.776Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&amp;v=beta&amp;t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:07.776Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQEhj7I6b2eJHw/ads-video-thumbnail_720_1280/B56Zidxp9cHQAg-/0/1754993703744?e=2147483647&amp;v=beta&amp;t=dYF-DYL8EuhqlfoqGks-H_9mDn6-6d-ygbwA8n59HZc
+2025-08-13T08:35:07.777Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:07.777Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQF_wZ1hQo2c1A/image-shrink_1280/B56ZidxBg1HUAc-/0/1754993531953?e=2147483647&amp;v=beta&amp;t=pBtM_qUNLJh3k7y8t02yb6pM2WkvgQ34oNBvhkjQZN4
+2025-08-13T08:35:07.778Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQHNegYGj8qqgQ/company-logo_100_100-alternative/company-logo_100_100-alternative/0/1630642870190/infosys_engineering_services_logo?e=2147483647&amp;v=beta&amp;t=JxWFJFWVk3N32mcwLY3Dc_5iHUtUzC_wJnvj6joNnFI
+2025-08-13T08:35:07.778Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQEQczBXAzURvQ/image-shrink_1280/B56ZidI.n8G0AM-/0/1754983034153?e=2147483647&amp;v=beta&amp;t=m6HmZB_8jezsDAAe_GaVhfoNb2r5FRF9xKBJk7Xsn7I
+2025-08-13T08:35:07.779Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:07.780Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQGpM0MsL7KFVQ/image-shrink_800/B56ZiY4PMIH0Ak-/0/1754911536972?e=2147483647&amp;v=beta&amp;t=cMki3sU7mq1pCGwlROB6o20nj51wG6ao_d3AsLD1BQU
+2025-08-13T08:35:07.781Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&amp;v=beta&amp;t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:07.782Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQFc0FNcLwr2sQ/ads-video-thumbnail_720_1280/B56ZiYu5xYG0Ag-/0/1754909090516?e=2147483647&amp;v=beta&amp;t=F5gbEG6Jr8pQfmzLU1USxW6KkGW89tQ983iF5EOQgXs
+2025-08-13T08:35:07.783Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:07.783Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D5610AQGVZ8Wz6FUMUw/ads-document-cover-images_480/B56ZiYdyRHHcA4-/0/1754904605295?e=2147483647&amp;v=beta&amp;t=jZZ6m8wcrXRsKfpT4O2lsYTPG9PLWq4o5sRx5ucmqOA&quot;}},{&quot;type&quot;:&quot;image&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;https://media.licdn.com/dms/image/v2/D5610AQGVZ8Wz6FUMUw/ads-document-cover-images_480/B56ZiYdyRHHcA4-/1/1754904605295?e=2147483647&amp;v=beta&amp;t=AP5h63cVbvP64dbVFKuFtmG-ypjO06kc8El8-qtZKeQ&quot;}},{&quot;type&quot;:&quot;image&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;https://media.licdn.com/dms/image/v2/D5610AQGVZ8Wz6FUMUw/ads-document-cover-images_480/B56ZiYdyRHHcA4-/2/1754904605295?e=2147483647&amp;v=beta&amp;t=PpU_eAxrnv0pFN7XirfaojvhhIFwCVhAaoTb2MmJmhE&quot;}}],&quot;inbugUrl&quot;:&quot;https://www.linkedin.com/feed/update/urn:li:ugcPost:7360603443243204610&quot;,&quot;height&quot;:487,&quot;scanUnavailableOnAccessibilityModeTitle&quot;:&quot;Sign
+2025-08-13T08:35:07.785Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGMOhAjku0evg/company-logo_100_100/B56ZXw.27GHoAU-/0/1743504765108?e=2147483647&amp;v=beta&amp;t=6tuNtV50dv_RWH5uhcnc1CZgXonLCXc_6dFAwR_V3vA
+2025-08-13T08:35:07.790Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E10AQEHSf3h0aXBOw/image-shrink_800/B4EZiD5PGtGYAg-/0/1754559477282?e=2147483647&amp;v=beta&amp;t=uoKLjWf3r0A2jTa3XTpaUp-1IxNDu5KIvpFHEdbhdeM
+2025-08-13T08:35:07.797Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E10AQFij7qaGoINOQ/image-shrink_800/B4EZiD5SEYHgAc-/0/1754559489792?e=2147483647&amp;v=beta&amp;t=e5h3tw48Vh4SdExHQaTp0tNwdPqtQ8M80DagXuFgZmQ
+2025-08-13T08:35:07.804Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQG__Ryxma2d6g/company-logo_100_100/company-logo_100_100/0/1630652633238/infosysalumni_logo?e=2147483647&amp;v=beta&amp;t=NAa7A96aUB8bZqgaRfutqo4FvIwfpeha7T9n8K1EZ3s
+2025-08-13T08:35:07.805Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGU9omzJsTUBA/company-logo_100_100/company-logo_100_100/0/1700109941412/infosys_topaz_logo?e=2147483647&amp;v=beta&amp;t=bWo3x0Z6b8ZyV0iymzNR7FI7gv7uG6kUCUg7CdKEOmw
+2025-08-13T08:35:07.814Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E0BAQEFj5Q9LDqn5Q/company-logo_100_100/company-logo_100_100/0/1681996690971/infosys_financial_services_logo?e=2147483647&amp;v=beta&amp;t=uX61yvZjNotHjuMw0TzKYwMU2OcS43-w1pHhbf7cBHI
+2025-08-13T08:35:07.848Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQHNegYGj8qqgQ/company-logo_100_100-alternative/company-logo_100_100-alternative/0/1630642870190/infosys_engineering_services_logo?e=2147483647&amp;v=beta&amp;t=JxWFJFWVk3N32mcwLY3Dc_5iHUtUzC_wJnvj6joNnFI
+2025-08-13T08:35:07.856Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQFVRhWCLAhrtA/company-logo_100_100/company-logo_100_100/0/1630633044118/infosys_communications_media_and_technology_practice_logo?e=2147483647&amp;v=beta&amp;t=bPACVz831wsYZAyHVR9hr3T8PdBYdEglQd2kUsgT_Aw
+2025-08-13T08:35:07.863Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQE92fgseIHzeA/company-logo_100_100/company-logo_100_100/0/1712897038718/infosys_healthcare_logo?e=2147483647&amp;v=beta&amp;t=Wp2pSvx_HUCeB6yFE6B-7wSRV-z-b18laFEtA3GgYSw
+2025-08-13T08:35:07.866Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEe4IyY42FN3g/company-logo_100_100/company-logo_100_100/0/1688633749414/infosysinstep_logo?e=2147483647&amp;v=beta&amp;t=tKBdT8G0H2bqSGIL2Q833QIoxtXKKvpDyg6IAQftegk
+2025-08-13T08:35:07.867Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQFrPrew-DKj4Q/company-logo_100_100/company-logo_100_100/0/1631305584394?e=2147483647&amp;v=beta&amp;t=oUGsF7KP1UNDdTtEU03bfhSetNp2ZyzGMuz9-J6nfBc
+2025-08-13T08:35:07.868Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHvm_Xt7Ov8Zg/company-logo_100_100/company-logo_100_100/0/1705056650043/infosys_cloud_infrastructure_and_security_logo?e=2147483647&amp;v=beta&amp;t=5NPDnyAPFOklqfx-YhQ0NaNgCDn2TOfu4hzlC_XksOM
+2025-08-13T08:35:07.868Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGtZjVRnLRIBg/company-logo_100_100/company-logo_100_100/0/1713800736121/infosys_europe_logo?e=2147483647&amp;v=beta&amp;t=gjSSbthna7bq-4XavH5NdP_cjaZT9VbjmTiNJT1g63Q
+2025-08-13T08:35:07.872Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E0BAQGqJTSJNS_ccg/company-logo_100_100/company-logo_100_100/0/1728329023326/infosys_americas_logo?e=2147483647&amp;v=beta&amp;t=ZG9FJwsky2M6Di7A0IN7UjpsupGFzyhcWv9R3jaZ6pY
+2025-08-13T08:35:07.883Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQGgw8uakPnXyQ/company-logo_100_100/company-logo_100_100/0/1630612719901/infosysmanufacturing_logo?e=2147483647&amp;v=beta&amp;t=F1cip--M2nncb2L0_gytvI3kq2vm4uMIe18-3qrn5j0
+2025-08-13T08:35:07.885Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQHn_Aw1IriTwQ/company-logo_100_100/company-logo_100_100/0/1638775770226/infosys_application_modernization_services_logo?e=2147483647&amp;v=beta&amp;t=1p-FUI64tfRL3VKcRHgbV3-ZV_QdTQqN1GyocI4FnOE
+2025-08-13T08:35:07.885Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C510BAQG_-spAGCMmYw/company-logo_100_100/company-logo_100_100/0/1630612327476/enterprise_application_integration_services_logo?e=2147483647&amp;v=beta&amp;t=CqSImCLceVpYq5H4o14k21vWV1Qtk38kTRpM5FQSalw
+2025-08-13T08:35:07.886Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQFQOHoogz3n7Q/company-logo_100_100/company-logo_100_100/0/1688452002754/infosys_oil_and_gas_practice_logo?e=2147483647&amp;v=beta&amp;t=m3PXteF8kISuRILnVDbzLfTHdmPY6FTD5s3LMves5UA
+2025-08-13T08:35:07.887Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQEV4YOs10pl8g/company-logo_100_100/company-logo_100_100/0/1630622255081/infosyscybersecurity_logo?e=2147483647&amp;v=beta&amp;t=bBhZc0AYpy1jwrmSa_AxcPGcl51c7LNmlVbCIZR5NWI
+2025-08-13T08:35:07.887Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQE5h0_Ixe__dA/company-logo_100_100/company-logo_100_100/0/1642569691668/infosys_digital_experience_logo?e=2147483647&amp;v=beta&amp;t=Pfd2eR6D4ze2kCGgyVu5B5pXLcZV1bw3rKj1EnPNxGk
+2025-08-13T08:35:07.888Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHNz0iHBRjU4w/company-logo_100_100/company-logo_100_100/0/1696400632652/infosys_life_sciences_logo?e=2147483647&amp;v=beta&amp;t=qp8OsgU219US_wyYck2lJ_yOmKRhfi5jz2lm5iEAVIk
+2025-08-13T08:35:07.891Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&amp;v=beta&amp;t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:07.893Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHrILg94FHc6w/company-logo_100_100/company-logo_100_100/0/1714984997835/infosys_salesforce_services_logo?e=2147483647&amp;v=beta&amp;t=yPbZGz_kiULs8zZ6oxeDwT7erasOMT6orulBvh0k55s
+2025-08-13T08:35:07.893Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4D0BAQE702f1leJ65Q/company-logo_100_100/company-logo_100_100/0/1662033230354/infosys_digital_workplace_services_logo?e=2147483647&amp;v=beta&amp;t=P99Ey9dZTEvdbtw_853r4HtZFbhVcRwtUo9advzQ_9w
+2025-08-13T08:35:07.894Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C510BAQHb8Z0yf_bNXg/company-logo_100_100/company-logo_100_100/0/1630584211692/infosys_utilities_logo?e=2147483647&amp;v=beta&amp;t=9WgvTSL3EsJRTqre2lXWldR4p9G45sSG0wwc1FDggQw
+2025-08-13T08:35:07.895Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQF86TE0yFDjiw/company-logo_100_100/company-logo_100_100/0/1685952887799/infosys_mbas_logo?e=2147483647&amp;v=beta&amp;t=ZU7ClDre8m7MkVjOCLnocagp5gVN8tYjjuH8rMZE9f4
+2025-08-13T08:35:07.897Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHVPb8uxjmJ1A/company-logo_100_100/company-logo_100_100/0/1723620748812/infosys_confluence_logo?e=2147483647&amp;v=beta&amp;t=-5P5scYJdaXOdVuLhKCuxtV3squ6NIZwFmB6O4Rxq8M
+2025-08-13T08:35:07.907Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHxWPOmOoHOYA/company-logo_100_100/company-logo_100_100/0/1728476424709/infosys_sap_services_logo?e=2147483647&amp;v=beta&amp;t=XIdhJtVAi694HKpo3_R2hebjRbCqqz-wxw_3N8c67rQ
+2025-08-13T08:35:07.909Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQHrcLIBrCd04g/company-logo_100_100/company-logo_100_100/0/1671010684546/infosys_enterprise_agile_devops_logo?e=2147483647&amp;v=beta&amp;t=pNw2qpkqTrBk5nk_Ck5IxtsIqtWcSEgNwhHveTUGysE
+2025-08-13T08:35:07.911Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGBj2862tiLWQ/company-logo_100_100/company-logo_100_100/0/1667550554210/infosys_4decades_logo?e=2147483647&amp;v=beta&amp;t=t2A19v3I9qFYmGUp6TY_HDwy-XrMERbpaKy6N8mi6mk
+2025-08-13T08:35:07.915Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQGrVu338gvTyQ/company-logo_100_100/company-logo_100_100/0/1695968703338/infosys_travel_and_hospitality_logo?e=2147483647&amp;v=beta&amp;t=aCCeVR9pSGQ-jyOtIS9O29qKMuCub9o7ENTWRgyZzeM
+2025-08-13T08:35:07.916Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGtvvuCOacI9Q/company-logo_100_100/B56ZYaCmYzHoAQ-/0/1744193611777/infosys_helix_logo?e=2147483647&amp;v=beta&amp;t=JtyFP8rud_RbNZMuw62sZH4FZ-knKEuaS5k9gzaGJd8
+2025-08-13T08:35:07.919Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQF6flXvLbQ6eA/company-logo_100_100/company-logo_100_100/0/1633354345480/infosys_automotive_and_mobility_gmbh__co_kg_logo?e=2147483647&amp;v=beta&amp;t=b1C-s5YoyTbv90-daM3QwQD-jJw3xbj_XCHQ6ROb-c0
+2025-08-13T08:35:07.921Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEAIm904o7K5A/company-logo_100_100/company-logo_100_100/0/1719257282483/infosys_emerging_technology_innovations_logo?e=2147483647&amp;v=beta&amp;t=PmDYHhH1LhdvMcWAP77mtbgnNmqB-1TVVH5h0ZWVEr8
+2025-08-13T08:35:07.926Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGMOhAjku0evg/company-logo_100_100/B56ZXw.27GHoAU-/0/1743504765108?e=2147483647&amp;v=beta&amp;t=6tuNtV50dv_RWH5uhcnc1CZgXonLCXc_6dFAwR_V3vA
+2025-08-13T08:35:07.932Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQHTLQrVLHZllg/company-logo_100_100/company-logo_100_100/0/1711351138876/infosys_sustainability_services_logo?e=2147483647&amp;v=beta&amp;t=0cd_bNjJAB09BXGK3-lRa81vt5lMGkudn0mjJsbilAo
+2025-08-13T08:35:07.934Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGIDVU-gficrA/company-logo_100_100/company-logo_100_100/0/1719233581816/infosys_anz_logo?e=2147483647&amp;v=beta&amp;t=ozdZWlWDCc3YtKqsz-7ze9Ytu9LN3gaXtvBzD2y2XlE
+2025-08-13T08:35:07.935Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4D0BAQGMLeP0FnSNGQ/company-logo_100_100/company-logo_100_100/0/1671691463412/infosys_nextgen_application_management_services_logo?e=2147483647&amp;v=beta&amp;t=noi3vUOu5xQhMPb2bLxARBSM7A_73O3C2Zzo1xUOxvc
+2025-08-13T08:35:07.937Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGf8Dam2U_BRw/company-logo_100_100/company-logo_100_100/0/1723114422456/infosys_aster_logo?e=2147483647&amp;v=beta&amp;t=m0pAbHH8SgPC7hhnzJ7iEq_V96lWbZOyvjMo_LPOoc8
+2025-08-13T08:35:07.938Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQF1OurXhinVMg/company-logo_100_100/B56Zfkl0.YGQAQ-/0/1751886811473/infosys_oracle_services_logo?e=2147483647&amp;v=beta&amp;t=J1ob6-A_OYpurd8TYS8kcPH6KCzOz50o3Wgp4-qbCX0
+2025-08-13T08:35:07.939Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEnLeorKWWYEg/company-logo_100_100/B56ZiYkF86G4AQ-/0/1754906255584/infosys_private_equity_logo?e=2147483647&amp;v=beta&amp;t=0Nvfb7x2ZjVkAtdzAJPkkRgF9GX2pR0W44iKErSwtlw
+2025-08-13T08:35:07.940Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E0BAQEINH3Vf1swig/company-logo_100_100/company-logo_100_100/0/1730379480485/wipro_logo?e=2147483647&amp;v=beta&amp;t=IyLhX5HbWkYXsjBFRN4Vl1li1xkWtvZBHsWHLKYb2IY
+2025-08-13T08:35:07.940Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQGsGR9p4ikS5w/company-logo_100_100/company-logo_100_100/0/1708946550425/tata_consultancy_services_logo?e=2147483647&amp;v=beta&amp;t=P-PkUMh7Ks1GQY0_l7GhzQiwfyLfQpvKWwX8Tq18Yc4
+2025-08-13T08:35:07.941Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4E0BAQHjkUYrDIUKYA/company-logo_100_100/company-logo_100_100/0/1719839886088/cognizant_logo?e=2147483647&amp;v=beta&amp;t=ippPIPR27Kl35bVWULGbjndwkMpHnEnAs-7dnFYxpOc
+2025-08-13T08:35:07.941Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQEgtOEcxlXMog/company-logo_100_100/B4DZfqEQWkHAAY-/0/1751978673981/accenture_logo?e=2147483647&amp;v=beta&amp;t=tLvhurHHfk50VA6sIbfiOh129B747uf610Drl6yG4t8
+2025-08-13T08:35:07.941Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C560BAQGNtpblgQpJoQ/company-logo_100_100/company-logo_100_100/0/1662120928214/deloitte_logo?e=2147483647&amp;v=beta&amp;t=OSF8M5LreT0Sf2F-JcNk6XMT0ArCuPfDmRR-knCC4HY
+2025-08-13T08:35:07.942Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGM7__649rm5A/company-logo_100_100/company-logo_100_100/0/1720007685115/tech_mahindra_logo?e=2147483647&amp;v=beta&amp;t=ppr3AmglRA1l1gosXR6u3W_FvK1cfudATexWmwKNVVY
+2025-08-13T08:35:07.942Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_100_100/company-logo_100_100/0/1705572256355/capgemini_logo?e=2147483647&amp;v=beta&amp;t=d-PXEp2Vwiw5S5fa57mSsQRE_sFQEPsNsTVnXs9IEWs
+2025-08-13T08:35:07.943Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQGiz5ecgpCtkA/company-logo_100_100/company-logo_100_100/0/1688684715866/ibm_logo?e=2147483647&amp;v=beta&amp;t=HPSmWLOCvdPkWO1nRWwjjmCNpaCqww20rSJ4E54QtxQ
+2025-08-13T08:35:07.943Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4D0BAQF-RIoeeMTMKQ/company-logo_100_100/company-logo_100_100/0/1664197008220/hcltech_logo?e=2147483647&amp;v=beta&amp;t=xcyEJUPhrb87C_rsxS_BX3_2bZJF40KfbSVTJWSFdkU
+2025-08-13T08:35:07.943Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/C4D0BAQHiNSL4Or29cg/company-logo_100_100/company-logo_100_100/0/1631311446380?e=2147483647&amp;v=beta&amp;t=fpIR4mVp092kTPQiY9WCtffmz9qUqsnLCSfc0In3daE
+2025-08-13T08:35:07.944Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/sync/v2/D4D38AQEB1AjA6hre1Q/crunchbase_investor_logo_100/crunchbase_investor_logo_100/0/1749925664601?e=1755680400&amp;v=beta&amp;t=CfDuYtmLNgNRQim8Qd23RzIkQ6hIKPmD9H5XOixcPU0
+2025-08-13T08:35:07.944Z - INFO: 🎯 [Banner Found] From text response: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&amp;v=beta&amp;t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:08.637Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:08.639Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E03AQE1fvzc_4y43w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516155933969?e=2147483647&v=beta&t=dJtiD-A1xpR040ez15Pqq3xLt-7rys02kSHgWJtLgzw
+2025-08-13T08:35:08.641Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C5603AQFFb9-H6GAwxg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1574292493317?e=2147483647&v=beta&t=OrHwqDdr2RQSuL5b5QgpgVR-aZDgAftApInj_eiYsoo
+2025-08-13T08:35:08.645Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D5603AQFDRuJsxDWrSQ/profile-displayphoto-shrink_100_100/B56ZStKuxAGsAU-/0/1738072059464?e=2147483647&v=beta&t=NCqZHUcMkVE7FHHjYWpIBaOWj9dW5Op9k-eufztHBpc
+2025-08-13T08:35:08.667Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQG__Ryxma2d6g/company-logo_100_100/company-logo_100_100/0/1630652633238/infosysalumni_logo?e=2147483647&v=beta&t=NAa7A96aUB8bZqgaRfutqo4FvIwfpeha7T9n8K1EZ3s
+2025-08-13T08:35:08.668Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGU9omzJsTUBA/company-logo_100_100/company-logo_100_100/0/1700109941412/infosys_topaz_logo?e=2147483647&v=beta&t=bWo3x0Z6b8ZyV0iymzNR7FI7gv7uG6kUCUg7CdKEOmw
+2025-08-13T08:35:08.669Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4E0BAQEFj5Q9LDqn5Q/company-logo_100_100/company-logo_100_100/0/1681996690971/infosys_financial_services_logo?e=2147483647&v=beta&t=uX61yvZjNotHjuMw0TzKYwMU2OcS43-w1pHhbf7cBHI
+2025-08-13T08:35:08.673Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQHNegYGj8qqgQ/company-logo_100_100-alternative/company-logo_100_100-alternative/0/1630642870190/infosys_engineering_services_logo?e=2147483647&v=beta&t=JxWFJFWVk3N32mcwLY3Dc_5iHUtUzC_wJnvj6joNnFI
+2025-08-13T08:35:08.676Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E0BAQFVRhWCLAhrtA/company-logo_100_100/company-logo_100_100/0/1630633044118/infosys_communications_media_and_technology_practice_logo?e=2147483647&v=beta&t=bPACVz831wsYZAyHVR9hr3T8PdBYdEglQd2kUsgT_Aw
+2025-08-13T08:35:08.679Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQE92fgseIHzeA/company-logo_100_100/company-logo_100_100/0/1712897038718/infosys_healthcare_logo?e=2147483647&v=beta&t=Wp2pSvx_HUCeB6yFE6B-7wSRV-z-b18laFEtA3GgYSw
+2025-08-13T08:35:08.681Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQEe4IyY42FN3g/company-logo_100_100/company-logo_100_100/0/1688633749414/infosysinstep_logo?e=2147483647&v=beta&t=tKBdT8G0H2bqSGIL2Q833QIoxtXKKvpDyg6IAQftegk
+2025-08-13T08:35:08.683Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E0BAQFrPrew-DKj4Q/company-logo_100_100/company-logo_100_100/0/1631305584394?e=2147483647&v=beta&t=oUGsF7KP1UNDdTtEU03bfhSetNp2ZyzGMuz9-J6nfBc
+2025-08-13T08:35:08.685Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHvm_Xt7Ov8Zg/company-logo_100_100/company-logo_100_100/0/1705056650043/infosys_cloud_infrastructure_and_security_logo?e=2147483647&v=beta&t=5NPDnyAPFOklqfx-YhQ0NaNgCDn2TOfu4hzlC_XksOM
+2025-08-13T08:35:08.687Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGtZjVRnLRIBg/company-logo_100_100/company-logo_100_100/0/1713800736121/infosys_europe_logo?e=2147483647&v=beta&t=gjSSbthna7bq-4XavH5NdP_cjaZT9VbjmTiNJT1g63Q
+2025-08-13T08:35:08.690Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4E0BAQGqJTSJNS_ccg/company-logo_100_100/company-logo_100_100/0/1728329023326/infosys_americas_logo?e=2147483647&v=beta&t=ZG9FJwsky2M6Di7A0IN7UjpsupGFzyhcWv9R3jaZ6pY
+2025-08-13T08:35:08.692Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E0BAQGgw8uakPnXyQ/company-logo_100_100/company-logo_100_100/0/1630612719901/infosysmanufacturing_logo?e=2147483647&v=beta&t=F1cip--M2nncb2L0_gytvI3kq2vm4uMIe18-3qrn5j0
+2025-08-13T08:35:08.694Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQHn_Aw1IriTwQ/company-logo_100_100/company-logo_100_100/0/1638775770226/infosys_application_modernization_services_logo?e=2147483647&v=beta&t=1p-FUI64tfRL3VKcRHgbV3-ZV_QdTQqN1GyocI4FnOE
+2025-08-13T08:35:08.696Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C510BAQG_-spAGCMmYw/company-logo_100_100/company-logo_100_100/0/1630612327476/enterprise_application_integration_services_logo?e=2147483647&v=beta&t=CqSImCLceVpYq5H4o14k21vWV1Qtk38kTRpM5FQSalw
+2025-08-13T08:35:08.698Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQFQOHoogz3n7Q/company-logo_100_100/company-logo_100_100/0/1688452002754/infosys_oil_and_gas_practice_logo?e=2147483647&v=beta&t=m3PXteF8kISuRILnVDbzLfTHdmPY6FTD5s3LMves5UA
+2025-08-13T08:35:08.701Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E0BAQEV4YOs10pl8g/company-logo_100_100/company-logo_100_100/0/1630622255081/infosyscybersecurity_logo?e=2147483647&v=beta&t=bBhZc0AYpy1jwrmSa_AxcPGcl51c7LNmlVbCIZR5NWI
+2025-08-13T08:35:08.703Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQE5h0_Ixe__dA/company-logo_100_100/company-logo_100_100/0/1642569691668/infosys_digital_experience_logo?e=2147483647&v=beta&t=Pfd2eR6D4ze2kCGgyVu5B5pXLcZV1bw3rKj1EnPNxGk
+2025-08-13T08:35:08.705Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHNz0iHBRjU4w/company-logo_100_100/company-logo_100_100/0/1696400632652/infosys_life_sciences_logo?e=2147483647&v=beta&t=qp8OsgU219US_wyYck2lJ_yOmKRhfi5jz2lm5iEAVIk
+2025-08-13T08:35:08.707Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&v=beta&t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:08.708Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHrILg94FHc6w/company-logo_100_100/company-logo_100_100/0/1714984997835/infosys_salesforce_services_logo?e=2147483647&v=beta&t=yPbZGz_kiULs8zZ6oxeDwT7erasOMT6orulBvh0k55s
+2025-08-13T08:35:08.710Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4D0BAQE702f1leJ65Q/company-logo_100_100/company-logo_100_100/0/1662033230354/infosys_digital_workplace_services_logo?e=2147483647&v=beta&t=P99Ey9dZTEvdbtw_853r4HtZFbhVcRwtUo9advzQ_9w
+2025-08-13T08:35:08.712Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C510BAQHb8Z0yf_bNXg/company-logo_100_100/company-logo_100_100/0/1630584211692/infosys_utilities_logo?e=2147483647&v=beta&t=9WgvTSL3EsJRTqre2lXWldR4p9G45sSG0wwc1FDggQw
+2025-08-13T08:35:08.714Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQF86TE0yFDjiw/company-logo_100_100/company-logo_100_100/0/1685952887799/infosys_mbas_logo?e=2147483647&v=beta&t=ZU7ClDre8m7MkVjOCLnocagp5gVN8tYjjuH8rMZE9f4
+2025-08-13T08:35:08.717Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHVPb8uxjmJ1A/company-logo_100_100/company-logo_100_100/0/1723620748812/infosys_confluence_logo?e=2147483647&v=beta&t=-5P5scYJdaXOdVuLhKCuxtV3squ6NIZwFmB6O4Rxq8M
+2025-08-13T08:35:08.719Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHxWPOmOoHOYA/company-logo_100_100/company-logo_100_100/0/1728476424709/infosys_sap_services_logo?e=2147483647&v=beta&t=XIdhJtVAi694HKpo3_R2hebjRbCqqz-wxw_3N8c67rQ
+2025-08-13T08:35:08.722Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQHrcLIBrCd04g/company-logo_100_100/company-logo_100_100/0/1671010684546/infosys_enterprise_agile_devops_logo?e=2147483647&v=beta&t=pNw2qpkqTrBk5nk_Ck5IxtsIqtWcSEgNwhHveTUGysE
+2025-08-13T08:35:08.723Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGBj2862tiLWQ/company-logo_100_100/company-logo_100_100/0/1667550554210/infosys_4decades_logo?e=2147483647&v=beta&t=t2A19v3I9qFYmGUp6TY_HDwy-XrMERbpaKy6N8mi6mk
+2025-08-13T08:35:08.725Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQGrVu338gvTyQ/company-logo_100_100/company-logo_100_100/0/1695968703338/infosys_travel_and_hospitality_logo?e=2147483647&v=beta&t=aCCeVR9pSGQ-jyOtIS9O29qKMuCub9o7ENTWRgyZzeM
+2025-08-13T08:35:08.728Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGtvvuCOacI9Q/company-logo_100_100/B56ZYaCmYzHoAQ-/0/1744193611777/infosys_helix_logo?e=2147483647&v=beta&t=JtyFP8rud_RbNZMuw62sZH4FZ-knKEuaS5k9gzaGJd8
+2025-08-13T08:35:08.731Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQF6flXvLbQ6eA/company-logo_100_100/company-logo_100_100/0/1633354345480/infosys_automotive_and_mobility_gmbh__co_kg_logo?e=2147483647&v=beta&t=b1C-s5YoyTbv90-daM3QwQD-jJw3xbj_XCHQ6ROb-c0
+2025-08-13T08:35:08.733Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQEAIm904o7K5A/company-logo_100_100/company-logo_100_100/0/1719257282483/infosys_emerging_technology_innovations_logo?e=2147483647&v=beta&t=PmDYHhH1LhdvMcWAP77mtbgnNmqB-1TVVH5h0ZWVEr8
+2025-08-13T08:35:08.735Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGMOhAjku0evg/company-logo_100_100/B56ZXw.27GHoAU-/0/1743504765108?e=2147483647&v=beta&t=6tuNtV50dv_RWH5uhcnc1CZgXonLCXc_6dFAwR_V3vA
+2025-08-13T08:35:08.738Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQHTLQrVLHZllg/company-logo_100_100/company-logo_100_100/0/1711351138876/infosys_sustainability_services_logo?e=2147483647&v=beta&t=0cd_bNjJAB09BXGK3-lRa81vt5lMGkudn0mjJsbilAo
+2025-08-13T08:35:08.740Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGIDVU-gficrA/company-logo_100_100/company-logo_100_100/0/1719233581816/infosys_anz_logo?e=2147483647&v=beta&t=ozdZWlWDCc3YtKqsz-7ze9Ytu9LN3gaXtvBzD2y2XlE
+2025-08-13T08:35:08.743Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4D0BAQGMLeP0FnSNGQ/company-logo_100_100/company-logo_100_100/0/1671691463412/infosys_nextgen_application_management_services_logo?e=2147483647&v=beta&t=noi3vUOu5xQhMPb2bLxARBSM7A_73O3C2Zzo1xUOxvc
+2025-08-13T08:35:08.744Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGf8Dam2U_BRw/company-logo_100_100/company-logo_100_100/0/1723114422456/infosys_aster_logo?e=2147483647&v=beta&t=m0pAbHH8SgPC7hhnzJ7iEq_V96lWbZOyvjMo_LPOoc8
+2025-08-13T08:35:08.747Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQF1OurXhinVMg/company-logo_100_100/B56Zfkl0.YGQAQ-/0/1751886811473/infosys_oracle_services_logo?e=2147483647&v=beta&t=J1ob6-A_OYpurd8TYS8kcPH6KCzOz50o3Wgp4-qbCX0
+2025-08-13T08:35:08.749Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQEnLeorKWWYEg/company-logo_100_100/B56ZiYkF86G4AQ-/0/1754906255584/infosys_private_equity_logo?e=2147483647&v=beta&t=0Nvfb7x2ZjVkAtdzAJPkkRgF9GX2pR0W44iKErSwtlw
+2025-08-13T08:35:08.751Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4E0BAQEINH3Vf1swig/company-logo_100_100/company-logo_100_100/0/1730379480485/wipro_logo?e=2147483647&v=beta&t=IyLhX5HbWkYXsjBFRN4Vl1li1xkWtvZBHsWHLKYb2IY
+2025-08-13T08:35:08.757Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQGsGR9p4ikS5w/company-logo_100_100/company-logo_100_100/0/1708946550425/tata_consultancy_services_logo?e=2147483647&v=beta&t=P-PkUMh7Ks1GQY0_l7GhzQiwfyLfQpvKWwX8Tq18Yc4
+2025-08-13T08:35:08.760Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4E0BAQHjkUYrDIUKYA/company-logo_100_100/company-logo_100_100/0/1719839886088/cognizant_logo?e=2147483647&v=beta&t=ippPIPR27Kl35bVWULGbjndwkMpHnEnAs-7dnFYxpOc
+2025-08-13T08:35:08.765Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C560BAQGNtpblgQpJoQ/company-logo_100_100/company-logo_100_100/0/1662120928214/deloitte_logo?e=2147483647&v=beta&t=OSF8M5LreT0Sf2F-JcNk6XMT0ArCuPfDmRR-knCC4HY
+2025-08-13T08:35:08.767Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGM7__649rm5A/company-logo_100_100/company-logo_100_100/0/1720007685115/tech_mahindra_logo?e=2147483647&v=beta&t=ppr3AmglRA1l1gosXR6u3W_FvK1cfudATexWmwKNVVY
+2025-08-13T08:35:08.770Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_100_100/company-logo_100_100/0/1705572256355/capgemini_logo?e=2147483647&v=beta&t=d-PXEp2Vwiw5S5fa57mSsQRE_sFQEPsNsTVnXs9IEWs
+2025-08-13T08:35:08.772Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQGiz5ecgpCtkA/company-logo_100_100/company-logo_100_100/0/1688684715866/ibm_logo?e=2147483647&v=beta&t=HPSmWLOCvdPkWO1nRWwjjmCNpaCqww20rSJ4E54QtxQ
+2025-08-13T08:35:08.774Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4D0BAQF-RIoeeMTMKQ/company-logo_100_100/company-logo_100_100/0/1664197008220/hcltech_logo?e=2147483647&v=beta&t=xcyEJUPhrb87C_rsxS_BX3_2bZJF40KfbSVTJWSFdkU
+2025-08-13T08:35:08.776Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/C4D0BAQHiNSL4Or29cg/company-logo_100_100/company-logo_100_100/0/1631311446380?e=2147483647&v=beta&t=fpIR4mVp092kTPQiY9WCtffmz9qUqsnLCSfc0In3daE
+2025-08-13T08:35:08.781Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-13T08:35:08.782Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-13T08:35:08.782Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-13T08:35:08.783Z - INFO: 📡 [API Call] POST https://www.linkedin.com/organization-guest/api/ingraphs/gauge
+2025-08-13T08:35:08.953Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:08.962Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D5603AQFDRuJsxDWrSQ/profile-displayphoto-shrink_100_100/B56ZStKuxAGsAU-/0/1738072059464?e=2147483647&v=beta&t=NCqZHUcMkVE7FHHjYWpIBaOWj9dW5Op9k-eufztHBpc
+2025-08-13T08:35:08.965Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C5603AQFFb9-H6GAwxg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1574292493317?e=2147483647&v=beta&t=OrHwqDdr2RQSuL5b5QgpgVR-aZDgAftApInj_eiYsoo
+2025-08-13T08:35:08.969Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E03AQE1fvzc_4y43w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516155933969?e=2147483647&v=beta&t=dJtiD-A1xpR040ez15Pqq3xLt-7rys02kSHgWJtLgzw
+2025-08-13T08:35:08.974Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQFrPrew-DKj4Q/company-logo_100_100/company-logo_100_100/0/1631305584394?e=2147483647&v=beta&t=oUGsF7KP1UNDdTtEU03bfhSetNp2ZyzGMuz9-J6nfBc
+2025-08-13T08:35:08.978Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHvm_Xt7Ov8Zg/company-logo_100_100/company-logo_100_100/0/1705056650043/infosys_cloud_infrastructure_and_security_logo?e=2147483647&v=beta&t=5NPDnyAPFOklqfx-YhQ0NaNgCDn2TOfu4hzlC_XksOM
+2025-08-13T08:35:08.988Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHNegYGj8qqgQ/company-logo_100_100-alternative/company-logo_100_100-alternative/0/1630642870190/infosys_engineering_services_logo?e=2147483647&v=beta&t=JxWFJFWVk3N32mcwLY3Dc_5iHUtUzC_wJnvj6joNnFI
+2025-08-13T08:35:08.995Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGU9omzJsTUBA/company-logo_100_100/company-logo_100_100/0/1700109941412/infosys_topaz_logo?e=2147483647&v=beta&t=bWo3x0Z6b8ZyV0iymzNR7FI7gv7uG6kUCUg7CdKEOmw
+2025-08-13T08:35:08.997Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQG__Ryxma2d6g/company-logo_100_100/company-logo_100_100/0/1630652633238/infosysalumni_logo?e=2147483647&v=beta&t=NAa7A96aUB8bZqgaRfutqo4FvIwfpeha7T9n8K1EZ3s
+2025-08-13T08:35:09.005Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQFVRhWCLAhrtA/company-logo_100_100/company-logo_100_100/0/1630633044118/infosys_communications_media_and_technology_practice_logo?e=2147483647&v=beta&t=bPACVz831wsYZAyHVR9hr3T8PdBYdEglQd2kUsgT_Aw
+2025-08-13T08:35:09.008Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQE92fgseIHzeA/company-logo_100_100/company-logo_100_100/0/1712897038718/infosys_healthcare_logo?e=2147483647&v=beta&t=Wp2pSvx_HUCeB6yFE6B-7wSRV-z-b18laFEtA3GgYSw
+2025-08-13T08:35:09.017Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEe4IyY42FN3g/company-logo_100_100/company-logo_100_100/0/1688633749414/infosysinstep_logo?e=2147483647&v=beta&t=tKBdT8G0H2bqSGIL2Q833QIoxtXKKvpDyg6IAQftegk
+2025-08-13T08:35:09.021Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQEFj5Q9LDqn5Q/company-logo_100_100/company-logo_100_100/0/1681996690971/infosys_financial_services_logo?e=2147483647&v=beta&t=uX61yvZjNotHjuMw0TzKYwMU2OcS43-w1pHhbf7cBHI
+2025-08-13T08:35:09.032Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C510BAQG_-spAGCMmYw/company-logo_100_100/company-logo_100_100/0/1630612327476/enterprise_application_integration_services_logo?e=2147483647&v=beta&t=CqSImCLceVpYq5H4o14k21vWV1Qtk38kTRpM5FQSalw
+2025-08-13T08:35:09.038Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQE5h0_Ixe__dA/company-logo_100_100/company-logo_100_100/0/1642569691668/infosys_digital_experience_logo?e=2147483647&v=beta&t=Pfd2eR6D4ze2kCGgyVu5B5pXLcZV1bw3rKj1EnPNxGk
+2025-08-13T08:35:09.041Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQGgw8uakPnXyQ/company-logo_100_100/company-logo_100_100/0/1630612719901/infosysmanufacturing_logo?e=2147483647&v=beta&t=F1cip--M2nncb2L0_gytvI3kq2vm4uMIe18-3qrn5j0
+2025-08-13T08:35:09.046Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQFQOHoogz3n7Q/company-logo_100_100/company-logo_100_100/0/1688452002754/infosys_oil_and_gas_practice_logo?e=2147483647&v=beta&t=m3PXteF8kISuRILnVDbzLfTHdmPY6FTD5s3LMves5UA
+2025-08-13T08:35:09.049Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQEV4YOs10pl8g/company-logo_100_100/company-logo_100_100/0/1630622255081/infosyscybersecurity_logo?e=2147483647&v=beta&t=bBhZc0AYpy1jwrmSa_AxcPGcl51c7LNmlVbCIZR5NWI
+2025-08-13T08:35:09.051Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGtZjVRnLRIBg/company-logo_100_100/company-logo_100_100/0/1713800736121/infosys_europe_logo?e=2147483647&v=beta&t=gjSSbthna7bq-4XavH5NdP_cjaZT9VbjmTiNJT1g63Q
+2025-08-13T08:35:09.062Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQGqJTSJNS_ccg/company-logo_100_100/company-logo_100_100/0/1728329023326/infosys_americas_logo?e=2147483647&v=beta&t=ZG9FJwsky2M6Di7A0IN7UjpsupGFzyhcWv9R3jaZ6pY
+2025-08-13T08:35:09.065Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHn_Aw1IriTwQ/company-logo_100_100/company-logo_100_100/0/1638775770226/infosys_application_modernization_services_logo?e=2147483647&v=beta&t=1p-FUI64tfRL3VKcRHgbV3-ZV_QdTQqN1GyocI4FnOE
+2025-08-13T08:35:09.069Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHNz0iHBRjU4w/company-logo_100_100/company-logo_100_100/0/1696400632652/infosys_life_sciences_logo?e=2147483647&v=beta&t=qp8OsgU219US_wyYck2lJ_yOmKRhfi5jz2lm5iEAVIk
+2025-08-13T08:35:09.072Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&v=beta&t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:09.074Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHrILg94FHc6w/company-logo_100_100/company-logo_100_100/0/1714984997835/infosys_salesforce_services_logo?e=2147483647&v=beta&t=yPbZGz_kiULs8zZ6oxeDwT7erasOMT6orulBvh0k55s
+2025-08-13T08:35:09.078Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C510BAQHb8Z0yf_bNXg/company-logo_100_100/company-logo_100_100/0/1630584211692/infosys_utilities_logo?e=2147483647&v=beta&t=9WgvTSL3EsJRTqre2lXWldR4p9G45sSG0wwc1FDggQw
+2025-08-13T08:35:09.080Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQE702f1leJ65Q/company-logo_100_100/company-logo_100_100/0/1662033230354/infosys_digital_workplace_services_logo?e=2147483647&v=beta&t=P99Ey9dZTEvdbtw_853r4HtZFbhVcRwtUo9advzQ_9w
+2025-08-13T08:35:09.082Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQF86TE0yFDjiw/company-logo_100_100/company-logo_100_100/0/1685952887799/infosys_mbas_logo?e=2147483647&v=beta&t=ZU7ClDre8m7MkVjOCLnocagp5gVN8tYjjuH8rMZE9f4
+2025-08-13T08:35:09.107Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHVPb8uxjmJ1A/company-logo_100_100/company-logo_100_100/0/1723620748812/infosys_confluence_logo?e=2147483647&v=beta&t=-5P5scYJdaXOdVuLhKCuxtV3squ6NIZwFmB6O4Rxq8M
+2025-08-13T08:35:09.109Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHxWPOmOoHOYA/company-logo_100_100/company-logo_100_100/0/1728476424709/infosys_sap_services_logo?e=2147483647&v=beta&t=XIdhJtVAi694HKpo3_R2hebjRbCqqz-wxw_3N8c67rQ
+2025-08-13T08:35:09.111Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHrcLIBrCd04g/company-logo_100_100/company-logo_100_100/0/1671010684546/infosys_enterprise_agile_devops_logo?e=2147483647&v=beta&t=pNw2qpkqTrBk5nk_Ck5IxtsIqtWcSEgNwhHveTUGysE
+2025-08-13T08:35:09.115Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGBj2862tiLWQ/company-logo_100_100/company-logo_100_100/0/1667550554210/infosys_4decades_logo?e=2147483647&v=beta&t=t2A19v3I9qFYmGUp6TY_HDwy-XrMERbpaKy6N8mi6mk
+2025-08-13T08:35:09.119Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQGrVu338gvTyQ/company-logo_100_100/company-logo_100_100/0/1695968703338/infosys_travel_and_hospitality_logo?e=2147483647&v=beta&t=aCCeVR9pSGQ-jyOtIS9O29qKMuCub9o7ENTWRgyZzeM
+2025-08-13T08:35:09.127Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGtvvuCOacI9Q/company-logo_100_100/B56ZYaCmYzHoAQ-/0/1744193611777/infosys_helix_logo?e=2147483647&v=beta&t=JtyFP8rud_RbNZMuw62sZH4FZ-knKEuaS5k9gzaGJd8
+2025-08-13T08:35:09.130Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQF6flXvLbQ6eA/company-logo_100_100/company-logo_100_100/0/1633354345480/infosys_automotive_and_mobility_gmbh__co_kg_logo?e=2147483647&v=beta&t=b1C-s5YoyTbv90-daM3QwQD-jJw3xbj_XCHQ6ROb-c0
+2025-08-13T08:35:09.133Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEAIm904o7K5A/company-logo_100_100/company-logo_100_100/0/1719257282483/infosys_emerging_technology_innovations_logo?e=2147483647&v=beta&t=PmDYHhH1LhdvMcWAP77mtbgnNmqB-1TVVH5h0ZWVEr8
+2025-08-13T08:35:09.136Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGMOhAjku0evg/company-logo_100_100/B56ZXw.27GHoAU-/0/1743504765108?e=2147483647&v=beta&t=6tuNtV50dv_RWH5uhcnc1CZgXonLCXc_6dFAwR_V3vA
+2025-08-13T08:35:09.138Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGIDVU-gficrA/company-logo_100_100/company-logo_100_100/0/1719233581816/infosys_anz_logo?e=2147483647&v=beta&t=ozdZWlWDCc3YtKqsz-7ze9Ytu9LN3gaXtvBzD2y2XlE
+2025-08-13T08:35:09.140Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHTLQrVLHZllg/company-logo_100_100/company-logo_100_100/0/1711351138876/infosys_sustainability_services_logo?e=2147483647&v=beta&t=0cd_bNjJAB09BXGK3-lRa81vt5lMGkudn0mjJsbilAo
+2025-08-13T08:35:09.159Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGf8Dam2U_BRw/company-logo_100_100/company-logo_100_100/0/1723114422456/infosys_aster_logo?e=2147483647&v=beta&t=m0pAbHH8SgPC7hhnzJ7iEq_V96lWbZOyvjMo_LPOoc8
+2025-08-13T08:35:09.162Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQGMLeP0FnSNGQ/company-logo_100_100/company-logo_100_100/0/1671691463412/infosys_nextgen_application_management_services_logo?e=2147483647&v=beta&t=noi3vUOu5xQhMPb2bLxARBSM7A_73O3C2Zzo1xUOxvc
+2025-08-13T08:35:09.165Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQF1OurXhinVMg/company-logo_100_100/B56Zfkl0.YGQAQ-/0/1751886811473/infosys_oracle_services_logo?e=2147483647&v=beta&t=J1ob6-A_OYpurd8TYS8kcPH6KCzOz50o3Wgp4-qbCX0
+2025-08-13T08:35:09.169Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEnLeorKWWYEg/company-logo_100_100/B56ZiYkF86G4AQ-/0/1754906255584/infosys_private_equity_logo?e=2147483647&v=beta&t=0Nvfb7x2ZjVkAtdzAJPkkRgF9GX2pR0W44iKErSwtlw
+2025-08-13T08:35:09.171Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQEINH3Vf1swig/company-logo_100_100/company-logo_100_100/0/1730379480485/wipro_logo?e=2147483647&v=beta&t=IyLhX5HbWkYXsjBFRN4Vl1li1xkWtvZBHsWHLKYb2IY
+2025-08-13T08:35:09.174Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQGsGR9p4ikS5w/company-logo_100_100/company-logo_100_100/0/1708946550425/tata_consultancy_services_logo?e=2147483647&v=beta&t=P-PkUMh7Ks1GQY0_l7GhzQiwfyLfQpvKWwX8Tq18Yc4
+2025-08-13T08:35:09.176Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQHjkUYrDIUKYA/company-logo_100_100/company-logo_100_100/0/1719839886088/cognizant_logo?e=2147483647&v=beta&t=ippPIPR27Kl35bVWULGbjndwkMpHnEnAs-7dnFYxpOc
+2025-08-13T08:35:09.178Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQGNtpblgQpJoQ/company-logo_100_100/company-logo_100_100/0/1662120928214/deloitte_logo?e=2147483647&v=beta&t=OSF8M5LreT0Sf2F-JcNk6XMT0ArCuPfDmRR-knCC4HY
+2025-08-13T08:35:09.181Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGM7__649rm5A/company-logo_100_100/company-logo_100_100/0/1720007685115/tech_mahindra_logo?e=2147483647&v=beta&t=ppr3AmglRA1l1gosXR6u3W_FvK1cfudATexWmwKNVVY
+2025-08-13T08:35:09.183Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_100_100/company-logo_100_100/0/1705572256355/capgemini_logo?e=2147483647&v=beta&t=d-PXEp2Vwiw5S5fa57mSsQRE_sFQEPsNsTVnXs9IEWs
+2025-08-13T08:35:09.186Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQHiNSL4Or29cg/company-logo_100_100/company-logo_100_100/0/1631311446380?e=2147483647&v=beta&t=fpIR4mVp092kTPQiY9WCtffmz9qUqsnLCSfc0In3daE
+2025-08-13T08:35:09.189Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQF-RIoeeMTMKQ/company-logo_100_100/company-logo_100_100/0/1664197008220/hcltech_logo?e=2147483647&v=beta&t=xcyEJUPhrb87C_rsxS_BX3_2bZJF40KfbSVTJWSFdkU
+2025-08-13T08:35:09.192Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGiz5ecgpCtkA/company-logo_100_100/company-logo_100_100/0/1688684715866/ibm_logo?e=2147483647&v=beta&t=HPSmWLOCvdPkWO1nRWwjjmCNpaCqww20rSJ4E54QtxQ
+2025-08-13T08:35:09.284Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D5610AQF2tsLkQQTWTQ/videocover-high/B56ZieeH5IH0Bg-/0/1755005386821?e=2147483647&v=beta&t=roe11iqDUodQJOaOLydUvTjFi_HETg1cYEapGULP0tU
+2025-08-13T08:35:09.286Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D5610AQEhj7I6b2eJHw/ads-video-thumbnail_720_1280/B56Zidxp9cHQAg-/0/1754993703744?e=2147483647&v=beta&t=dYF-DYL8EuhqlfoqGks-H_9mDn6-6d-ygbwA8n59HZc
+2025-08-13T08:35:09.291Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D5610AQFc0FNcLwr2sQ/ads-video-thumbnail_720_1280/B56ZiYu5xYG0Ag-/0/1754909090516?e=2147483647&v=beta&t=F5gbEG6Jr8pQfmzLU1USxW6KkGW89tQ983iF5EOQgXs
+2025-08-13T08:35:10.830Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D5610AQEhj7I6b2eJHw/ads-video-thumbnail_720_1280/B56Zidxp9cHQAg-/0/1754993703744?e=2147483647&v=beta&t=dYF-DYL8EuhqlfoqGks-H_9mDn6-6d-ygbwA8n59HZc
+2025-08-13T08:35:10.832Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D5610AQF2tsLkQQTWTQ/videocover-high/B56ZieeH5IH0Bg-/0/1755005386821?e=2147483647&v=beta&t=roe11iqDUodQJOaOLydUvTjFi_HETg1cYEapGULP0tU
+2025-08-13T08:35:10.834Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D5610AQFc0FNcLwr2sQ/ads-video-thumbnail_720_1280/B56ZiYu5xYG0Ag-/0/1754909090516?e=2147483647&v=beta&t=F5gbEG6Jr8pQfmzLU1USxW6KkGW89tQ983iF5EOQgXs
+2025-08-13T08:35:11.002Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGU9omzJsTUBA/company-logo_100_100/company-logo_100_100/0/1700109941412/infosys_topaz_logo?e=2147483647&v=beta&t=bWo3x0Z6b8ZyV0iymzNR7FI7gv7uG6kUCUg7CdKEOmw
+2025-08-13T08:35:11.003Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQEINH3Vf1swig/company-logo_100_100/company-logo_100_100/0/1730379480485/wipro_logo?e=2147483647&v=beta&t=IyLhX5HbWkYXsjBFRN4Vl1li1xkWtvZBHsWHLKYb2IY
+2025-08-13T08:35:11.004Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQFrPrew-DKj4Q/company-logo_100_100/company-logo_100_100/0/1631305584394?e=2147483647&v=beta&t=oUGsF7KP1UNDdTtEU03bfhSetNp2ZyzGMuz9-J6nfBc
+2025-08-13T08:35:11.004Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQGNtpblgQpJoQ/company-logo_100_100/company-logo_100_100/0/1662120928214/deloitte_logo?e=2147483647&v=beta&t=OSF8M5LreT0Sf2F-JcNk6XMT0ArCuPfDmRR-knCC4HY
+2025-08-13T08:35:11.011Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:11.013Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHTLQrVLHZllg/company-logo_100_100/company-logo_100_100/0/1711351138876/infosys_sustainability_services_logo?e=2147483647&v=beta&t=0cd_bNjJAB09BXGK3-lRa81vt5lMGkudn0mjJsbilAo
+2025-08-13T08:35:11.014Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQF6flXvLbQ6eA/company-logo_100_100/company-logo_100_100/0/1633354345480/infosys_automotive_and_mobility_gmbh__co_kg_logo?e=2147483647&v=beta&t=b1C-s5YoyTbv90-daM3QwQD-jJw3xbj_XCHQ6ROb-c0
+2025-08-13T08:35:11.019Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQFVRhWCLAhrtA/company-logo_100_100/company-logo_100_100/0/1630633044118/infosys_communications_media_and_technology_practice_logo?e=2147483647&v=beta&t=bPACVz831wsYZAyHVR9hr3T8PdBYdEglQd2kUsgT_Aw
+2025-08-13T08:35:11.020Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGMOhAjku0evg/company-logo_100_100/B56ZXw.27GHoAU-/0/1743504765108?e=2147483647&v=beta&t=6tuNtV50dv_RWH5uhcnc1CZgXonLCXc_6dFAwR_V3vA
+2025-08-13T08:35:11.023Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEnLeorKWWYEg/company-logo_100_100/B56ZiYkF86G4AQ-/0/1754906255584/infosys_private_equity_logo?e=2147483647&v=beta&t=0Nvfb7x2ZjVkAtdzAJPkkRgF9GX2pR0W44iKErSwtlw
+2025-08-13T08:35:11.025Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQGrVu338gvTyQ/company-logo_100_100/company-logo_100_100/0/1695968703338/infosys_travel_and_hospitality_logo?e=2147483647&v=beta&t=aCCeVR9pSGQ-jyOtIS9O29qKMuCub9o7ENTWRgyZzeM
+2025-08-13T08:35:11.557Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGIDVU-gficrA/company-logo_100_100/company-logo_100_100/0/1719233581816/infosys_anz_logo?e=2147483647&v=beta&t=ozdZWlWDCc3YtKqsz-7ze9Ytu9LN3gaXtvBzD2y2XlE
+2025-08-13T08:35:11.559Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQEFj5Q9LDqn5Q/company-logo_100_100/company-logo_100_100/0/1681996690971/infosys_financial_services_logo?e=2147483647&v=beta&t=uX61yvZjNotHjuMw0TzKYwMU2OcS43-w1pHhbf7cBHI
+2025-08-13T08:35:11.559Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQHjkUYrDIUKYA/company-logo_100_100/company-logo_100_100/0/1719839886088/cognizant_logo?e=2147483647&v=beta&t=ippPIPR27Kl35bVWULGbjndwkMpHnEnAs-7dnFYxpOc
+2025-08-13T08:35:11.560Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEe4IyY42FN3g/company-logo_100_100/company-logo_100_100/0/1688633749414/infosysinstep_logo?e=2147483647&v=beta&t=tKBdT8G0H2bqSGIL2Q833QIoxtXKKvpDyg6IAQftegk
+2025-08-13T08:35:11.561Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHxWPOmOoHOYA/company-logo_100_100/company-logo_100_100/0/1728476424709/infosys_sap_services_logo?e=2147483647&v=beta&t=XIdhJtVAi694HKpo3_R2hebjRbCqqz-wxw_3N8c67rQ
+2025-08-13T08:35:11.562Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:11.563Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHNegYGj8qqgQ/company-logo_100_100-alternative/company-logo_100_100-alternative/0/1630642870190/infosys_engineering_services_logo?e=2147483647&v=beta&t=JxWFJFWVk3N32mcwLY3Dc_5iHUtUzC_wJnvj6joNnFI
+2025-08-13T08:35:11.565Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D5603AQFDRuJsxDWrSQ/profile-displayphoto-shrink_100_100/B56ZStKuxAGsAU-/0/1738072059464?e=2147483647&v=beta&t=NCqZHUcMkVE7FHHjYWpIBaOWj9dW5Op9k-eufztHBpc
+2025-08-13T08:35:11.566Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQGsGR9p4ikS5w/company-logo_100_100/company-logo_100_100/0/1708946550425/tata_consultancy_services_logo?e=2147483647&v=beta&t=P-PkUMh7Ks1GQY0_l7GhzQiwfyLfQpvKWwX8Tq18Yc4
+2025-08-13T08:35:11.568Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHvm_Xt7Ov8Zg/company-logo_100_100/company-logo_100_100/0/1705056650043/infosys_cloud_infrastructure_and_security_logo?e=2147483647&v=beta&t=5NPDnyAPFOklqfx-YhQ0NaNgCDn2TOfu4hzlC_XksOM
+2025-08-13T08:35:11.570Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQF1OurXhinVMg/company-logo_100_100/B56Zfkl0.YGQAQ-/0/1751886811473/infosys_oracle_services_logo?e=2147483647&v=beta&t=J1ob6-A_OYpurd8TYS8kcPH6KCzOz50o3Wgp4-qbCX0
+2025-08-13T08:35:11.572Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQE702f1leJ65Q/company-logo_100_100/company-logo_100_100/0/1662033230354/infosys_digital_workplace_services_logo?e=2147483647&v=beta&t=P99Ey9dZTEvdbtw_853r4HtZFbhVcRwtUo9advzQ_9w
+2025-08-13T08:35:11.574Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C510BAQHb8Z0yf_bNXg/company-logo_100_100/company-logo_100_100/0/1630584211692/infosys_utilities_logo?e=2147483647&v=beta&t=9WgvTSL3EsJRTqre2lXWldR4p9G45sSG0wwc1FDggQw
+2025-08-13T08:35:11.577Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGiz5ecgpCtkA/company-logo_100_100/company-logo_100_100/0/1688684715866/ibm_logo?e=2147483647&v=beta&t=HPSmWLOCvdPkWO1nRWwjjmCNpaCqww20rSJ4E54QtxQ
+2025-08-13T08:35:11.578Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQEV4YOs10pl8g/company-logo_100_100/company-logo_100_100/0/1630622255081/infosyscybersecurity_logo?e=2147483647&v=beta&t=bBhZc0AYpy1jwrmSa_AxcPGcl51c7LNmlVbCIZR5NWI
+2025-08-13T08:35:11.579Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQGMLeP0FnSNGQ/company-logo_100_100/company-logo_100_100/0/1671691463412/infosys_nextgen_application_management_services_logo?e=2147483647&v=beta&t=noi3vUOu5xQhMPb2bLxARBSM7A_73O3C2Zzo1xUOxvc
+2025-08-13T08:35:11.581Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGtZjVRnLRIBg/company-logo_100_100/company-logo_100_100/0/1713800736121/infosys_europe_logo?e=2147483647&v=beta&t=gjSSbthna7bq-4XavH5NdP_cjaZT9VbjmTiNJT1g63Q
+2025-08-13T08:35:11.582Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHrcLIBrCd04g/company-logo_100_100/company-logo_100_100/0/1671010684546/infosys_enterprise_agile_devops_logo?e=2147483647&v=beta&t=pNw2qpkqTrBk5nk_Ck5IxtsIqtWcSEgNwhHveTUGysE
+2025-08-13T08:35:11.582Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQERp2TUJWrwgg/company-logo_100_100/company-logo_100_100/0/1630606577265/infosys_insurance_services_logo?e=2147483647&v=beta&t=y-lJwdNR-DkhWaPztAIMt3pd49-9Binxctgx4GILnrA
+2025-08-13T08:35:11.584Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQE5h0_Ixe__dA/company-logo_100_100/company-logo_100_100/0/1642569691668/infosys_digital_experience_logo?e=2147483647&v=beta&t=Pfd2eR6D4ze2kCGgyVu5B5pXLcZV1bw3rKj1EnPNxGk
+2025-08-13T08:35:11.588Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQF86TE0yFDjiw/company-logo_100_100/company-logo_100_100/0/1685952887799/infosys_mbas_logo?e=2147483647&v=beta&t=ZU7ClDre8m7MkVjOCLnocagp5gVN8tYjjuH8rMZE9f4
+2025-08-13T08:35:11.589Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEAIm904o7K5A/company-logo_100_100/company-logo_100_100/0/1719257282483/infosys_emerging_technology_innovations_logo?e=2147483647&v=beta&t=PmDYHhH1LhdvMcWAP77mtbgnNmqB-1TVVH5h0ZWVEr8
+2025-08-13T08:35:11.591Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQHn_Aw1IriTwQ/company-logo_100_100/company-logo_100_100/0/1638775770226/infosys_application_modernization_services_logo?e=2147483647&v=beta&t=1p-FUI64tfRL3VKcRHgbV3-ZV_QdTQqN1GyocI4FnOE
+2025-08-13T08:35:11.591Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQHiNSL4Or29cg/company-logo_100_100/company-logo_100_100/0/1631311446380?e=2147483647&v=beta&t=fpIR4mVp092kTPQiY9WCtffmz9qUqsnLCSfc0In3daE
+2025-08-13T08:35:11.593Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGM7__649rm5A/company-logo_100_100/company-logo_100_100/0/1720007685115/tech_mahindra_logo?e=2147483647&v=beta&t=ppr3AmglRA1l1gosXR6u3W_FvK1cfudATexWmwKNVVY
+2025-08-13T08:35:11.595Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C560BAQG__Ryxma2d6g/company-logo_100_100/company-logo_100_100/0/1630652633238/infosysalumni_logo?e=2147483647&v=beta&t=NAa7A96aUB8bZqgaRfutqo4FvIwfpeha7T9n8K1EZ3s
+2025-08-13T08:35:11.597Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_100_100/company-logo_100_100/0/1705572256355/capgemini_logo?e=2147483647&v=beta&t=d-PXEp2Vwiw5S5fa57mSsQRE_sFQEPsNsTVnXs9IEWs
+2025-08-13T08:35:11.599Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4D0BAQF-RIoeeMTMKQ/company-logo_100_100/company-logo_100_100/0/1664197008220/hcltech_logo?e=2147483647&v=beta&t=xcyEJUPhrb87C_rsxS_BX3_2bZJF40KfbSVTJWSFdkU
+2025-08-13T08:35:11.601Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGBj2862tiLWQ/company-logo_100_100/company-logo_100_100/0/1667550554210/infosys_4decades_logo?e=2147483647&v=beta&t=t2A19v3I9qFYmGUp6TY_HDwy-XrMERbpaKy6N8mi6mk
+2025-08-13T08:35:11.603Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHVPb8uxjmJ1A/company-logo_100_100/company-logo_100_100/0/1723620748812/infosys_confluence_logo?e=2147483647&v=beta&t=-5P5scYJdaXOdVuLhKCuxtV3squ6NIZwFmB6O4Rxq8M
+2025-08-13T08:35:11.605Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQFQOHoogz3n7Q/company-logo_100_100/company-logo_100_100/0/1688452002754/infosys_oil_and_gas_practice_logo?e=2147483647&v=beta&t=m3PXteF8kISuRILnVDbzLfTHdmPY6FTD5s3LMves5UA
+2025-08-13T08:35:11.607Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C5603AQFFb9-H6GAwxg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1574292493317?e=2147483647&v=beta&t=OrHwqDdr2RQSuL5b5QgpgVR-aZDgAftApInj_eiYsoo
+2025-08-13T08:35:11.612Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHNz0iHBRjU4w/company-logo_100_100/company-logo_100_100/0/1696400632652/infosys_life_sciences_logo?e=2147483647&v=beta&t=qp8OsgU219US_wyYck2lJ_yOmKRhfi5jz2lm5iEAVIk
+2025-08-13T08:35:11.613Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C510BAQG_-spAGCMmYw/company-logo_100_100/company-logo_100_100/0/1630612327476/enterprise_application_integration_services_logo?e=2147483647&v=beta&t=CqSImCLceVpYq5H4o14k21vWV1Qtk38kTRpM5FQSalw
+2025-08-13T08:35:11.629Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E03AQE1fvzc_4y43w/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1516155933969?e=2147483647&v=beta&t=dJtiD-A1xpR040ez15Pqq3xLt-7rys02kSHgWJtLgzw
+2025-08-13T08:35:11.676Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQHrILg94FHc6w/company-logo_100_100/company-logo_100_100/0/1714984997835/infosys_salesforce_services_logo?e=2147483647&v=beta&t=yPbZGz_kiULs8zZ6oxeDwT7erasOMT6orulBvh0k55s
+2025-08-13T08:35:11.678Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGf8Dam2U_BRw/company-logo_100_100/company-logo_100_100/0/1723114422456/infosys_aster_logo?e=2147483647&v=beta&t=m0pAbHH8SgPC7hhnzJ7iEq_V96lWbZOyvjMo_LPOoc8
+2025-08-13T08:35:11.679Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQGtvvuCOacI9Q/company-logo_100_100/B56ZYaCmYzHoAQ-/0/1744193611777/infosys_helix_logo?e=2147483647&v=beta&t=JtyFP8rud_RbNZMuw62sZH4FZ-knKEuaS5k9gzaGJd8
+2025-08-13T08:35:11.755Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/C4E0BAQGgw8uakPnXyQ/company-logo_100_100/company-logo_100_100/0/1630612719901/infosysmanufacturing_logo?e=2147483647&v=beta&t=F1cip--M2nncb2L0_gytvI3kq2vm4uMIe18-3qrn5j0
+2025-08-13T08:35:13.847Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQE92fgseIHzeA/company-logo_100_100/company-logo_100_100/0/1712897038718/infosys_healthcare_logo?e=2147483647&v=beta&t=Wp2pSvx_HUCeB6yFE6B-7wSRV-z-b18laFEtA3GgYSw
+2025-08-13T08:35:14.014Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4E0BAQGqJTSJNS_ccg/company-logo_100_100/company-logo_100_100/0/1728329023326/infosys_americas_logo?e=2147483647&v=beta&t=ZG9FJwsky2M6Di7A0IN7UjpsupGFzyhcWv9R3jaZ6pY
+2025-08-13T08:35:15.949Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D4D0BAQEgtOEcxlXMog/company-logo_100_100/B4DZfqEQWkHAAY-/0/1751978673981/accenture_logo?e=2147483647&v=beta&t=tLvhurHHfk50VA6sIbfiOh129B747uf610Drl6yG4t8
+2025-08-13T08:35:16.032Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D4D0BAQEgtOEcxlXMog/company-logo_100_100/B4DZfqEQWkHAAY-/0/1751978673981/accenture_logo?e=2147483647&v=beta&t=tLvhurHHfk50VA6sIbfiOh129B747uf610Drl6yG4t8
+2025-08-13T08:35:19.756Z - INFO: Checking for login popup...
+2025-08-13T08:35:19.783Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T08:35:22.805Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T08:35:24.851Z - INFO: Successfully loaded company page
+2025-08-13T08:35:25.057Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T08:35:25.061Z - INFO: Page Title:
+2025-08-13T08:35:25.061Z - INFO: H1 Text:
+2025-08-13T08:35:25.061Z - INFO: Has Company Elements:
+2025-08-13T08:35:25.062Z - INFO: Available Navigation:
+2025-08-13T08:35:25.062Z - INFO: Has About Section:
+2025-08-13T08:35:25.062Z - INFO: Visible Text Preview:
+2025-08-13T08:35:25.062Z - INFO: =====================
+2025-08-13T08:35:25.085Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-13T08:35:25.086Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction...
+2025-08-13T08:35:25.087Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-13T08:35:25.087Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-13T08:35:27.113Z - INFO: 📊 [API Monitor] 2s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:29.158Z - INFO: 📊 [API Monitor] 4s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:31.188Z - INFO: 📊 [API Monitor] 6s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:33.210Z - INFO: 📊 [API Monitor] 8s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:35.257Z - INFO: 📊 [API Monitor] 10s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:37.300Z - INFO: 📊 [API Monitor] 12s: 0 requests, 0 responses, 123 banners
+2025-08-13T08:35:37.300Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 0 new requests, 0 responses, found 123 banner URLs.
+2025-08-13T08:35:37.301Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-13T08:35:37.309Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-13T08:35:37.310Z - INFO: 🎯 [Banner Extractor] Found 123 potential banner URLs
+2025-08-13T08:35:37.312Z - INFO: ✅ [Banner Extractor] Selected best banner URL: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:37.313Z - INFO: ✅ [PRIMARY SUCCESS] Network interception found banner:
+2025-08-13T08:35:37.314Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-13T08:35:37.314Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-13T08:35:37.315Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:37.417Z - INFO: 🖼️ [Image Request] https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:37.773Z - INFO: 📏 [Banner Validator] Image dimensions: 1128x191, format: jpeg, size: 31891 bytes
+2025-08-13T08:35:37.782Z - INFO: ✅ [LinkedIn] Network interception SUCCESS - High quality banner found:
+2025-08-13T08:35:37.783Z - INFO: 📏 [LinkedIn] Banner quality metrics:
+2025-08-13T08:35:37.834Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:35:38.357Z - INFO: 🖼️ [Image Response] https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_100_100/B56ZfEsEVpHoAU-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=cZJHsfAqzeMJNdxHldoUAVht2bRr9_VtbB2VlJJn19I
+2025-08-13T08:35:38.360Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T08:35:38.361Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:35:38.373Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T08:35:38.373Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T08:35:38.397Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T08:35:38.398Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T08:35:38.399Z - INFO: Name:
+2025-08-13T08:35:38.399Z - INFO: About Us:
+2025-08-13T08:35:38.399Z - INFO: Founded:
+2025-08-13T08:35:38.400Z - INFO: Industry:
+2025-08-13T08:35:38.400Z - INFO: Headquarters:
+2025-08-13T08:35:38.401Z - INFO: Logo URL:
+2025-08-13T08:35:38.401Z - INFO: ========================
+2025-08-13T08:35:38.401Z - INFO: Successfully scraped https://www.linkedin.com/company/infosys
+2025-08-13T08:35:38.403Z - INFO: ⏱️ [Performance] extraction: 35148ms (SUCCESS)
+2025-08-13T08:35:38.403Z - INFO: ✅ [Performance] LinkedIn extraction completed in 35148ms
+2025-08-13T08:35:38.524Z - INFO: ✅ Page closed for https://www.linkedin.com/company/infosys
+2025-08-13T08:35:38.528Z - INFO: Successfully saved data to output.json
+2025-08-13T08:35:39.029Z - INFO: Browser closed successfully
+2025-08-13T08:35:39.029Z - INFO: [2025-08-13T08:35:39.029Z] INFO: Merging LinkedIn data successfully
+2025-08-13T08:35:39.030Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T08:35:39.030Z - INFO: - Name:
+2025-08-13T08:35:39.030Z - INFO: - Description:
+2025-08-13T08:35:39.030Z - INFO: - Industry:
+2025-08-13T08:35:39.031Z - INFO: - Founded:
+2025-08-13T08:35:39.031Z - INFO: - Headquarters:
+2025-08-13T08:35:39.032Z - INFO: [2025-08-13T08:35:39.032Z] INFO: Starting image extraction for LinkedIn banner
+2025-08-13T08:35:39.033Z - INFO: [2025-08-13T08:35:39.033Z] DEBUG: Starting browser-based image extraction for LinkedIn banner
+2025-08-13T08:35:39.034Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:35:39.757Z - INFO: [2025-08-13T08:35:39.757Z] DEBUG: Browser instance started
+2025-08-13T08:35:39.887Z - INFO: [2025-08-13T08:35:39.887Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T08:35:39.887Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T08:35:39.950Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1420ms
+2025-08-13T08:35:41.375Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:35:41.375Z - LinkedIn image extraction initiated
+2025-08-13T08:35:41.377Z - INFO: [2025-08-13T08:35:41.377Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/D563DAQHjtmMCmopbpA/image-scale_191_1128/B56Zg6pQyrHUAc-/0/1753330553881/infosys_cover?e=2147483647&v=beta&t=tcghV-4G_B_KvXJ5bCcttpF4y8cmU3sNNMo5Gg5OgD0
+2025-08-13T08:35:42.731Z - WARN: [2025-08-13T08:35:42.731Z] WARN: Detected error page instead of image for LinkedIn banner
+2025-08-13T08:35:49.108Z - INFO: [2025-08-13T08:35:49.108Z] DEBUG: Browser instance ended
+2025-08-13T08:35:49.109Z - INFO: [2025-08-13T08:35:49.109Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T08:35:49.110Z - INFO: [2025-08-13T08:35:49.109Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T08:35:49.110Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 895ms
+2025-08-13T08:35:50.019Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:35:50.019Z - LinkedIn HTTP image request
+2025-08-13T08:35:50.150Z - INFO: [2025-08-13T08:35:50.150Z] INFO: HTTP-based image extraction successful for LinkedIn banner
+2025-08-13T08:35:50.157Z - INFO: [2025-08-13T08:35:50.157Z] DEBUG: Image metadata extracted for LinkedIn banner
+2025-08-13T08:35:50.580Z - INFO: [2025-08-13T08:35:50.580Z] INFO: LinkedIn banner colors extracted successfully
+2025-08-13T08:35:50.581Z - INFO: [2025-08-13T08:35:50.581Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T08:35:50.581Z - INFO: [2025-08-13T08:35:50.581Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T08:35:50.582Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T08:35:51.283Z - INFO: [2025-08-13T08:35:51.283Z] DEBUG: Browser instance started
+2025-08-13T08:35:51.420Z - INFO: [2025-08-13T08:35:51.420Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T08:35:51.420Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T08:35:51.437Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 705ms
+2025-08-13T08:35:52.144Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:35:52.144Z - LinkedIn image extraction initiated
+2025-08-13T08:35:52.145Z - INFO: [2025-08-13T08:35:52.145Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/D560BAQEv67uGFge5Sw/company-logo_200_200/B56ZfEsEVpHoAM-/0/1751351576332/infosys_logo?e=2147483647&v=beta&t=tlNRmtP3Xzxb8seiPoKycM9anBdIjA1cjJTZAo2_8Fo
+2025-08-13T08:35:53.470Z - WARN: [2025-08-13T08:35:53.470Z] WARN: Detected error page instead of image for LinkedIn logo
+2025-08-13T08:36:00.134Z - INFO: [2025-08-13T08:36:00.134Z] DEBUG: Browser instance ended
+2025-08-13T08:36:00.134Z - INFO: [2025-08-13T08:36:00.134Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:36:00.135Z - INFO: [2025-08-13T08:36:00.135Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T08:36:00.136Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1002ms
+2025-08-13T08:36:01.144Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T08:36:01.144Z - LinkedIn HTTP image request
+2025-08-13T08:36:01.291Z - INFO: [2025-08-13T08:36:01.291Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T08:36:01.297Z - INFO: [2025-08-13T08:36:01.297Z] DEBUG: Image metadata extracted for LinkedIn logo
+2025-08-13T08:36:01.608Z - INFO: [2025-08-13T08:36:01.608Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T08:36:01.609Z - INFO: [2025-08-13T08:36:01.609Z] INFO: Company details extraction completed
+2025-08-13T08:36:02.212Z - INFO: [Browser] Browser closed successfully
+2025-08-13T08:39:47.212Z - INFO: ✅ [Health Check] System healthy
+2025-08-13T12:38:16.204Z - INFO: ✅ System Health Check: COMPLETED (501ms)
+2025-08-13T12:38:16.205Z - INFO:    Node.js v20.19.4, Memory: 19MB, Platform: win32, Browser: ✅
+2025-08-13T12:38:16.205Z - INFO: 
+🔄 Dependency Validation...
+2025-08-13T12:38:16.212Z - INFO: ✅ Dependency Validation: COMPLETED (7ms)
+2025-08-13T12:38:16.213Z - INFO:    All 5 dependencies validated
+2025-08-13T12:38:16.214Z - INFO: 
+🔄 Adaptive System Deployment...
+2025-08-13T12:38:16.217Z - INFO:    📦 Deploying adaptive system components...
+2025-08-13T12:38:16.231Z - INFO: 🚀 Starting deployment for development environment...
+2025-08-13T12:38:16.231Z - INFO: 📋 Deployment ID: deploy_1755088696230
+
+2025-08-13T12:38:16.232Z - INFO: 🔍 Running pre-deployment checks...
+2025-08-13T12:38:16.239Z - WARN: ⚠️ [Pattern Manager] Could not load patterns:
+2025-08-13T12:38:16.240Z - ERROR: ❌ [Pattern Manager] Initialization failed:: Both primary and backup pattern files failed to load
+2025-08-13T12:38:16.242Z - INFO: 🔧 [Pattern Manager] Creating default pattern database...
+2025-08-13T12:38:16.251Z - INFO: 💾 [Pattern Manager] Saved 0 patterns to database
+2025-08-13T12:38:16.251Z - INFO: ✅ [Pattern Manager] Default patterns created
+2025-08-13T12:38:16.252Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.255Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.256Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.257Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.258Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.259Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.260Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.261Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.261Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.263Z - INFO: ✅ System health: degraded
+2025-08-13T12:38:16.263Z - INFO: ✅ Pre-deployment checks passed
+2025-08-13T12:38:16.264Z - INFO: 🔧 Deploying adaptive system components...
+2025-08-13T12:38:16.265Z - INFO: 📊 Initializing pattern database...
+2025-08-13T12:38:16.269Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.270Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.271Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.272Z - INFO: 📊 Using default pattern database
+2025-08-13T12:38:16.272Z - INFO: ✅ Pattern database initialized
+2025-08-13T12:38:16.273Z - INFO: ⚙️ Updating configurations for development...
+2025-08-13T12:38:16.277Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.277Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.278Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.279Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.280Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.281Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.281Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.282Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.283Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.283Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.284Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.285Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.286Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.286Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.288Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.288Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.289Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.290Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.290Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.298Z - INFO: 📤 [Adaptive Config] Exported configurations to adaptive-config-export-1755088696293.json
+2025-08-13T12:38:16.299Z - INFO: 📤 Configurations exported: adaptive-config-export-1755088696293.json
+2025-08-13T12:38:16.300Z - INFO: ✅ Environment configurations updated
+2025-08-13T12:38:16.300Z - INFO: 🔧 Running initial maintenance...
+2025-08-13T12:38:16.302Z - INFO: 🔧 Starting maintenance cycle...
+
+2025-08-13T12:38:16.303Z - INFO: 🚀 Initializing maintenance systems...
+2025-08-13T12:38:16.307Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.307Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.308Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.312Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.312Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.313Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.313Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.314Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.314Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.315Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.316Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.316Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.317Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.318Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.318Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.319Z - INFO: ✅ Systems initialized
+2025-08-13T12:38:16.319Z - INFO: 🔄 Running Pattern Analysis...
+2025-08-13T12:38:16.320Z - INFO: 📊 Analyzing API patterns...
+2025-08-13T12:38:16.321Z - INFO: 📈 Pattern Analysis Results:
+2025-08-13T12:38:16.321Z - INFO:    Total Patterns: 0
+2025-08-13T12:38:16.321Z - INFO:    Successful Patterns: 0
+2025-08-13T12:38:16.322Z - INFO:    Banner-Specific Patterns: 0
+2025-08-13T12:38:16.322Z - INFO:    Overall Success Rate: NaN%
+2025-08-13T12:38:16.323Z - INFO: ✅ Pattern Analysis completed
+2025-08-13T12:38:16.323Z - INFO: 🔄 Running Pattern Cleanup...
+2025-08-13T12:38:16.324Z - INFO: 🧹 Cleaning up patterns...
+2025-08-13T12:38:16.326Z - INFO: 🧹 [Pattern Manager] Starting pattern cleanup...
+2025-08-13T12:38:16.326Z - INFO: ✨ No patterns needed cleanup
+2025-08-13T12:38:16.327Z - INFO: ✅ Pattern Cleanup completed
+2025-08-13T12:38:16.327Z - INFO: 🔄 Running Configuration Update...
+2025-08-13T12:38:16.328Z - INFO: ⚙️ Updating adaptive configurations...
+2025-08-13T12:38:16.329Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.329Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.330Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.330Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.331Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.331Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.332Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.333Z - INFO: 🔧 Configuration update completed
+2025-08-13T12:38:16.333Z - INFO:    Mode: adaptive
+2025-08-13T12:38:16.333Z - INFO:    Health: degraded
+2025-08-13T12:38:16.334Z - INFO: ✅ Configuration Update completed
+2025-08-13T12:38:16.335Z - INFO: 🔄 Running Performance Analysis...
+2025-08-13T12:38:16.336Z - INFO: 📈 Analyzing system performance...
+2025-08-13T12:38:16.337Z - INFO: 📊 Performance Analysis:
+2025-08-13T12:38:16.338Z - INFO:    System Health: degraded
+2025-08-13T12:38:16.338Z - INFO:    Success Rate: NaN%
+2025-08-13T12:38:16.339Z - INFO:    Pattern Efficiency: NaN%
+2025-08-13T12:38:16.339Z - INFO:    Performance Grade: D
+2025-08-13T12:38:16.339Z - INFO: ⚠️ System needs attention
+2025-08-13T12:38:16.340Z - INFO: ✅ Performance Analysis completed
+2025-08-13T12:38:16.340Z - INFO: ⏭️ Skipping Backup Creation...
+2025-08-13T12:38:16.341Z - INFO: 🔄 Running Health Check...
+2025-08-13T12:38:16.342Z - INFO: 🏥 Performing health check...
+2025-08-13T12:38:16.344Z - INFO: 🏥 Health Check Results:
+2025-08-13T12:38:16.345Z - INFO:    Overall Status: DEGRADED
+2025-08-13T12:38:16.345Z - INFO:    Issues: 2
+2025-08-13T12:38:16.345Z - INFO:    Warnings: 1
+2025-08-13T12:38:16.346Z - INFO:    Recommendations: 0
+2025-08-13T12:38:16.347Z - INFO: ✅ Health Check completed
+2025-08-13T12:38:16.352Z - INFO: 
+📋 Maintenance Report Generated:
+2025-08-13T12:38:16.353Z - INFO:    Duration: 0s
+2025-08-13T12:38:16.354Z - INFO:    Tasks: 5/5 successful
+2025-08-13T12:38:16.354Z - INFO:    Report saved: maintenance-report-1755088696348.json
+2025-08-13T12:38:16.355Z - INFO: 
+💡 Maintenance Recommendations:
+2025-08-13T12:38:16.356Z - INFO:    • System performance needs attention - review patterns and configurations
+2025-08-13T12:38:16.356Z - INFO:    • System health check indicates issues - review health check details
+2025-08-13T12:38:16.357Z - INFO: ✅ Initial maintenance completed
+2025-08-13T12:38:16.357Z - INFO: ✅ Adaptive system deployed
+2025-08-13T12:38:16.358Z - INFO: 🔍 Running post-deployment validation...
+2025-08-13T12:38:16.361Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.362Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.362Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.363Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.363Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.363Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.364Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.364Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.365Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.365Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.365Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.366Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.366Z - INFO: ✅ Adaptive system status: degraded
+2025-08-13T12:38:16.368Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.368Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.369Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.370Z - INFO: ✅ Pattern database: 0 patterns loaded
+2025-08-13T12:38:16.370Z - INFO: ✅ Post-deployment validation passed
+2025-08-13T12:38:16.375Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.375Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.376Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.376Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.377Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.377Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.377Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.378Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.378Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.378Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.379Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.379Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.383Z - INFO: 📋 Deployment report saved: deployment-report-deploy_1755088696230.json
+2025-08-13T12:38:16.384Z - INFO: 
+✅ Deployment completed successfully!
+2025-08-13T12:38:16.384Z - INFO: ✅ Adaptive System Deployment: COMPLETED (170ms)
+2025-08-13T12:38:16.385Z - INFO:    Adaptive system deployed successfully
+2025-08-13T12:38:16.385Z - INFO: 
+🔄 Component Initialization...
+2025-08-13T12:38:16.386Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T12:38:16.387Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T12:38:16.387Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 0e74c3e2359098ee6541ee536daf5673
+2025-08-13T12:38:16.388Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T12:38:16.390Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-13T12:38:16.391Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-13T12:38:16.394Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.395Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.396Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.396Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.396Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.397Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.397Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.398Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.398Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.399Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.399Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.400Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.403Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.403Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.403Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.404Z - INFO: ✅ Component Initialization: COMPLETED (19ms)
+2025-08-13T12:38:16.405Z - INFO:    6 components initialized successfully
+2025-08-13T12:38:16.405Z - INFO: 
+🔄 Background Services...
+2025-08-13T12:38:16.407Z - INFO:    💓 Health monitoring active (30-minute intervals)
+2025-08-13T12:38:16.408Z - INFO: ✅ Background Services: COMPLETED (3ms)
+2025-08-13T12:38:16.409Z - INFO:    1 background services configured
+2025-08-13T12:38:16.409Z - INFO: 
+🔄 Final Validation...
+2025-08-13T12:38:16.411Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T12:38:16.411Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T12:38:16.411Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 340eeb1b54f39743e94d93594c9a143c
+2025-08-13T12:38:16.412Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T12:38:16.412Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-13T12:38:16.413Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-13T12:38:16.415Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:38:16.416Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:38:16.416Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:38:16.417Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:38:16.417Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.418Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:38:16.418Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:38:16.419Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:38:16.420Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:38:16.420Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:38:16.421Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:38:16.421Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:38:16.422Z - INFO: ✅ Final Validation: COMPLETED (13ms)
+2025-08-13T12:38:16.423Z - INFO:    3 validation checks passed
+2025-08-13T12:38:16.423Z - INFO: 
+=================================================================
+2025-08-13T12:38:16.424Z - INFO: ✅ AUTO-INITIALIZATION COMPLETED SUCCESSFULLY
+2025-08-13T12:38:16.425Z - INFO: =================================================================
+2025-08-13T12:38:16.425Z - INFO: ⏱️  Total Time: 1s
+2025-08-13T12:38:16.426Z - INFO: 📊 Steps Completed: 6/6
+2025-08-13T12:38:16.426Z - INFO: 🎉 System is ready for production use!
+2025-08-13T12:38:16.427Z - INFO: =================================================================
+2025-08-13T12:38:16.427Z - INFO: 🔧 Ensuring Chrome availability...
+2025-08-13T12:38:16.428Z - INFO: 🔧 [Browser Checker] Checking browser availability...
+2025-08-13T12:38:17.460Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T12:38:17.806Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T12:38:17.815Z - INFO: 
+=================================================================
+2025-08-13T12:38:17.816Z - INFO: 🎉 LINKEDIN BANNER EXTRACTION SYSTEM READY
+2025-08-13T12:38:17.816Z - INFO: =================================================================
+2025-08-13T12:38:17.817Z - INFO: 🌐 Server running on port 3000
+2025-08-13T12:38:17.818Z - INFO: 📊 Environment: development
+2025-08-13T12:38:17.819Z - INFO: 🔧 Chrome Status: ✅ Ready
+2025-08-13T12:38:17.820Z - INFO: 🧠 Adaptive Mode: ✅ Enabled
+2025-08-13T12:38:17.821Z - INFO: =================================================================
+2025-08-13T12:38:17.822Z - INFO: 📋 Available Endpoints:
+2025-08-13T12:38:17.827Z - INFO:    POST /api/extract-company-details - Main extraction endpoint
+2025-08-13T12:38:17.827Z - INFO:    GET  /health                      - System health check
+2025-08-13T12:38:17.828Z - INFO:    GET  /linkedin-metrics            - LinkedIn extraction metrics
+2025-08-13T12:38:17.828Z - INFO:    GET  /performance-metrics         - Performance analytics
+2025-08-13T12:38:17.829Z - INFO:    GET  /anti-bot-status             - Anti-bot system status
+2025-08-13T12:38:17.829Z - INFO:    GET  /test                        - Basic API test
+2025-08-13T12:38:17.830Z - INFO:    GET  /test-browser                - Browser compatibility test
+2025-08-13T12:38:17.831Z - INFO: =================================================================
+2025-08-13T12:38:17.833Z - INFO: ✅ All systems initialized successfully!
+2025-08-13T12:38:17.833Z - INFO: 🎯 System is ready for production use
+2025-08-13T12:38:17.834Z - INFO: =================================================================
+2025-08-13T12:41:06.271Z - INFO: [2025-08-13T12:41:06.271Z] INFO: Setting up browser for company details extraction
+2025-08-13T12:41:06.275Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T12:41:06.278Z - INFO: [2025-08-13T12:41:06.278Z] DEBUG: Attempting browser launch for company details
+2025-08-13T12:41:06.279Z - INFO: [2025-08-13T12:41:06.279Z] INFO: Launching browser for company details
+2025-08-13T12:41:07.539Z - INFO: [2025-08-13T12:41:07.539Z] INFO: Browser launched successfully for company details
+2025-08-13T12:41:07.849Z - INFO: [2025-08-13T12:41:07.849Z] DEBUG: Navigation attempt 1/2 with 'domcontentloaded'
+2025-08-13T12:41:12.857Z - INFO: [2025-08-13T12:41:12.856Z] INFO: Navigation succeeded with 'domcontentloaded' on attempt 1
+2025-08-13T12:41:13.860Z - INFO: [Extraction] Starting company details extraction with 4-minute timeout...
+2025-08-13T12:41:13.863Z - INFO: [2025-08-13T12:41:13.863Z] INFO: Starting company details extraction from page
+2025-08-13T12:41:13.864Z - INFO: [getLogoDetails] Starting extraction for https://www.morphisec.com
+2025-08-13T12:41:13.880Z - INFO: [getLogoDetails] Extracted assets from page:
+2025-08-13T12:41:13.881Z - INFO: [Extraction] Starting parallel data extraction...
+2025-08-13T12:41:13.882Z - INFO: [getBrandColors] Starting color extraction.
+2025-08-13T12:41:13.884Z - INFO: [getKeyFonts] Starting font extraction.
+2025-08-13T12:41:13.885Z - INFO: [getGeneralImages] Starting image extraction for https://www.morphisec.com. Excluding known logos:
+2025-08-13T12:41:13.902Z - INFO: [getBrandColors] Found 4 potential brand colors.
+2025-08-13T12:41:13.905Z - INFO: [getKeyFonts] Extracted fonts:
+2025-08-13T12:41:14.010Z - INFO: [Extraction] Parallel data extraction completed
+2025-08-13T12:41:14.011Z - INFO: [2025-08-13T12:41:14.011Z] INFO: Found LinkedIn URL, starting parallel extraction
+2025-08-13T12:41:14.016Z - INFO: [LinkedIn] Waiting for LinkedIn data extraction to complete...
+2025-08-13T12:41:14.017Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-13T12:41:14.018Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T12:41:14.019Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T12:41:14.019Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 27a1bdf4d6dae68a1ffaf2ed44f599c3
+2025-08-13T12:41:14.019Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-13T12:41:14.021Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T12:41:14.021Z - INFO: 🎭 Using advanced user agent: NT
+2025-08-13T12:41:14.866Z - INFO: ⏱️ [Performance] browser_launch: 846ms (SUCCESS)
+2025-08-13T12:41:14.867Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-13T12:41:14.868Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/morphisec
+2025-08-13T12:41:15.002Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-13T12:41:15.002Z - INFO: 🎭 [Anti-Bot] User agent rotated: NT
+2025-08-13T12:41:15.039Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T12:41:15.040Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-13T12:41:15.040Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-13T12:41:15.041Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-13T12:41:15.051Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-13T12:41:15.052Z - INFO: Scraping https://www.linkedin.com/company/morphisec...
+2025-08-13T12:41:16.330Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/morphisec/
+2025-08-13T12:41:17.832Z - INFO: ⏱️ [Performance] navigation: 2779ms (SUCCESS)
+2025-08-13T12:41:19.185Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-13T12:41:19.185Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-13T12:41:19.186Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-13T12:41:20.689Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-13T12:41:20.690Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-13T12:41:25.145Z - INFO: Checking for login popup...
+2025-08-13T12:41:25.204Z - INFO: Login popup closed, waiting for content to load...
+2025-08-13T12:41:28.230Z - INFO: Signup prompt dismissed, waiting...
+2025-08-13T12:41:30.306Z - INFO: Successfully loaded company page
+2025-08-13T12:41:30.567Z - INFO: === PAGE DEBUG INFO ===
+2025-08-13T12:41:30.571Z - INFO: Page Title:
+2025-08-13T12:41:30.572Z - INFO: H1 Text:
+2025-08-13T12:41:30.572Z - INFO: Has Company Elements:
+2025-08-13T12:41:30.573Z - INFO: Available Navigation:
+2025-08-13T12:41:30.573Z - INFO: Has About Section:
+2025-08-13T12:41:30.573Z - INFO: Visible Text Preview:
+2025-08-13T12:41:30.574Z - INFO: =====================
+2025-08-13T12:41:30.626Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-13T12:41:30.627Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-13T12:41:30.632Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T12:41:30.632Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T12:41:30.632Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T12:41:30.633Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T12:41:30.633Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:41:30.634Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T12:41:30.634Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T12:41:30.635Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T12:41:30.635Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T12:41:30.636Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T12:41:30.636Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T12:41:30.636Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T12:41:30.637Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-13T12:41:30.638Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-13T12:41:30.638Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-13T12:41:32.675Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:34.708Z - INFO: 📊 [API Monitor] 4s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:36.738Z - INFO: 📊 [API Monitor] 6s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:38.739Z - INFO: 📊 [API Monitor] 8s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:40.773Z - INFO: 📊 [API Monitor] 10s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:42.802Z - INFO: 📊 [API Monitor] 12s: 0 requests, 2 responses, 6 banners
+2025-08-13T12:41:42.803Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 0 new requests, 2 responses, found 6 banner URLs.
+2025-08-13T12:41:42.804Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-13T12:41:42.810Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-13T12:41:42.811Z - INFO: 🎯 [Banner Extractor] Found 6 potential banner URLs
+2025-08-13T12:41:42.814Z - INFO: ✅ [Banner Extractor] Selected best banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQHy5QmK5WMFtw/image-scale_191_1128/image-scale_191_1128/0/1736863487110/morphisec_cover?e=2147483647&v=beta&t=XAJUKQ-s-baxxaOYh8hsdwTExfJqemXUBP7vDHWzzuM
+2025-08-13T12:41:42.815Z - INFO: ✅ [PRIMARY SUCCESS] Network interception found banner:
+2025-08-13T12:41:42.818Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/company/morphisec/
+2025-08-13T12:41:42.818Z - INFO: 🔍 [Pattern Discovery] New pattern: domain:www.linkedin.com
+2025-08-13T12:41:42.821Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-13T12:41:42.823Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/organization-guest/api/
+2025-08-13T12:41:42.824Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/api/ingraphs/
+2025-08-13T12:41:42.825Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/ingraphs/gauge/
+2025-08-13T12:41:42.825Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-13T12:41:42.826Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/api/v2/
+2025-08-13T12:41:42.830Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/v2/msft/
+2025-08-13T12:41:42.831Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-13T12:41:42.832Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-13T12:41:42.833Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-13T12:41:42.834Z - INFO: 📊 [Method Tracking] Network Interception: SUCCESS
+2025-08-13T12:41:42.842Z - INFO: 📊 [Extraction Metrics] Method: Network Interception, Time: 12196ms, Success: true
+2025-08-13T12:41:42.844Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-13T12:41:42.845Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-13T12:41:42.846Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQHy5QmK5WMFtw/image-scale_191_1128/image-scale_191_1128/0/1736863487110/morphisec_cover?e=2147483647&v=beta&t=XAJUKQ-s-baxxaOYh8hsdwTExfJqemXUBP7vDHWzzuM
+2025-08-13T12:41:43.767Z - INFO: 📏 [Banner Validator] Image dimensions: 1128x191, format: jpeg, size: 26788 bytes
+2025-08-13T12:41:43.796Z - INFO: ✅ [LinkedIn] Network interception SUCCESS - High quality banner found:
+2025-08-13T12:41:43.797Z - INFO: 📏 [LinkedIn] Banner quality metrics:
+2025-08-13T12:41:43.897Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T12:41:43.903Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-13T12:41:43.904Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T12:41:43.909Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-13T12:41:43.910Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-13T12:41:43.916Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-13T12:41:43.917Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-13T12:41:43.917Z - INFO: Name:
+2025-08-13T12:41:43.917Z - INFO: About Us:
+2025-08-13T12:41:43.918Z - INFO: Founded:
+2025-08-13T12:41:43.918Z - INFO: Industry:
+2025-08-13T12:41:43.919Z - INFO: Headquarters:
+2025-08-13T12:41:43.919Z - INFO: Logo URL:
+2025-08-13T12:41:43.920Z - INFO: ========================
+2025-08-13T12:41:43.920Z - INFO: Successfully scraped https://www.linkedin.com/company/morphisec
+2025-08-13T12:41:43.921Z - INFO: ⏱️ [Performance] extraction: 29047ms (SUCCESS)
+2025-08-13T12:41:43.921Z - INFO: ✅ [Performance] LinkedIn extraction completed in 29047ms
+2025-08-13T12:41:44.048Z - INFO: ✅ Page closed for https://www.linkedin.com/company/morphisec
+2025-08-13T12:41:44.055Z - INFO: Successfully saved data to output.json
+2025-08-13T12:41:44.779Z - INFO: Browser closed successfully
+2025-08-13T12:41:44.779Z - INFO: [2025-08-13T12:41:44.779Z] INFO: Merging LinkedIn data successfully
+2025-08-13T12:41:44.780Z - INFO: [LinkedIn] Successfully merged data:
+2025-08-13T12:41:44.780Z - INFO: - Name:
+2025-08-13T12:41:44.781Z - INFO: - Description:
+2025-08-13T12:41:44.781Z - INFO: - Industry:
+2025-08-13T12:41:44.782Z - INFO: - Founded:
+2025-08-13T12:41:44.782Z - INFO: - Headquarters:
+2025-08-13T12:41:44.785Z - INFO: [2025-08-13T12:41:44.785Z] INFO: Starting image extraction for LinkedIn banner
+2025-08-13T12:41:44.787Z - INFO: [2025-08-13T12:41:44.787Z] DEBUG: Starting browser-based image extraction for LinkedIn banner
+2025-08-13T12:41:44.790Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T12:41:45.775Z - INFO: [2025-08-13T12:41:45.774Z] DEBUG: Browser instance started
+2025-08-13T12:41:45.949Z - INFO: [2025-08-13T12:41:45.949Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T12:41:45.950Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T12:41:45.987Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1891ms
+2025-08-13T12:41:47.882Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T12:41:47.882Z - LinkedIn image extraction initiated
+2025-08-13T12:41:47.883Z - INFO: [2025-08-13T12:41:47.883Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/D4E3DAQHy5QmK5WMFtw/image-scale_191_1128/image-scale_191_1128/0/1736863487110/morphisec_cover?e=2147483647&v=beta&t=XAJUKQ-s-baxxaOYh8hsdwTExfJqemXUBP7vDHWzzuM
+2025-08-13T12:41:48.221Z - WARN: [2025-08-13T12:41:48.221Z] WARN: Detected error page instead of image for LinkedIn banner
+2025-08-13T12:41:54.803Z - INFO: [2025-08-13T12:41:54.803Z] DEBUG: Browser instance ended
+2025-08-13T12:41:54.804Z - INFO: [2025-08-13T12:41:54.804Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T12:41:54.805Z - INFO: [2025-08-13T12:41:54.805Z] DEBUG: Attempting HTTP image download for LinkedIn banner
+2025-08-13T12:41:54.806Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1985ms
+2025-08-13T12:41:56.797Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T12:41:56.797Z - LinkedIn HTTP image request
+2025-08-13T12:41:56.998Z - INFO: [2025-08-13T12:41:56.998Z] INFO: HTTP-based image extraction successful for LinkedIn banner
+2025-08-13T12:41:57.012Z - INFO: [2025-08-13T12:41:57.011Z] DEBUG: Image metadata extracted for LinkedIn banner
+2025-08-13T12:41:57.809Z - INFO: [2025-08-13T12:41:57.809Z] INFO: LinkedIn banner colors extracted successfully
+2025-08-13T12:41:57.811Z - INFO: [2025-08-13T12:41:57.811Z] INFO: Starting image extraction for LinkedIn logo
+2025-08-13T12:41:57.811Z - INFO: [2025-08-13T12:41:57.811Z] DEBUG: Starting browser-based image extraction for LinkedIn logo
+2025-08-13T12:41:57.815Z - INFO: [Browser] Found local browser: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+2025-08-13T12:41:58.866Z - INFO: [2025-08-13T12:41:58.866Z] DEBUG: Browser instance started
+2025-08-13T12:41:59.116Z - INFO: [2025-08-13T12:41:59.116Z] DEBUG: Applying advanced LinkedIn-specific anti-bot measures
+2025-08-13T12:41:59.116Z - INFO: 🥷 [LinkedIn Anti-Bot] Setting up stealth mode for LinkedIn image extraction
+2025-08-13T12:41:59.144Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 785ms
+2025-08-13T12:41:59.932Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T12:41:59.932Z - LinkedIn image extraction initiated
+2025-08-13T12:41:59.932Z - INFO: [2025-08-13T12:41:59.932Z] DEBUG: Navigating to image URL: https://media.licdn.com/dms/image/v2/D4E0BAQGRDn38cZZdfA/company-logo_200_200/company-logo_200_200/0/1736864165134/morphisec_logo?e=2147483647&v=beta&t=xtxSkEBFyOYzvveyD1PvptB82ClteWthbFvL1L9hRSE
+2025-08-13T12:42:01.367Z - WARN: [2025-08-13T12:42:01.367Z] WARN: Detected error page instead of image for LinkedIn logo
+2025-08-13T12:42:07.999Z - INFO: [2025-08-13T12:42:07.999Z] DEBUG: Browser instance ended
+2025-08-13T12:42:08.000Z - INFO: [2025-08-13T12:42:08.000Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T12:42:08.000Z - INFO: [2025-08-13T12:42:08.000Z] DEBUG: Attempting HTTP image download for LinkedIn logo
+2025-08-13T12:42:08.001Z - INFO: ⏳ [LinkedIn Anti-Bot] Implementing adaptive human delay: 1175ms
+2025-08-13T12:42:09.177Z - INFO: 🛡️ [LinkedIn Anti-Bot] 2025-08-13T12:42:09.177Z - LinkedIn HTTP image request
+2025-08-13T12:42:09.415Z - INFO: [2025-08-13T12:42:09.415Z] INFO: HTTP-based image extraction successful for LinkedIn logo
+2025-08-13T12:42:09.433Z - INFO: [2025-08-13T12:42:09.433Z] DEBUG: Image metadata extracted for LinkedIn logo
+2025-08-13T12:42:09.882Z - INFO: [2025-08-13T12:42:09.881Z] INFO: LinkedIn logo colors extracted successfully
+2025-08-13T12:42:09.883Z - INFO: [2025-08-13T12:42:09.883Z] INFO: Company details extraction completed
+2025-08-13T12:42:10.781Z - INFO: [Browser] Browser closed successfully

@@ -2,6 +2,12 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fs = require('fs').promises;
 const { createWriteStream } = require('fs');
+const { antiBotSystem } = require('./anti-bot-system');
+const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
+const { performanceMonitor } = require('./performance-monitor');
+const { enhancedFileOps } = require('./enhanced-file-operations');
+const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
+const { BannerValidator } = require('./banner-validator');
 
 const LOG_FILE = 'scraper.log';
 const logger = createWriteStream(LOG_FILE, { flags: 'a' });
@@ -23,7 +29,19 @@ console.error = (message, error) => {
 };
 
 
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
+// Dynamic user agent function using anti-bot system
+function getUserAgent(forceRotation = false) {
+    return antiBotSystem.getRandomUserAgent(forceRotation);
+}
+
+// Helper function to get current user agent identifier
+function getCurrentUserAgent() {
+    try {
+        return getUserAgent().split(' ')[2] || 'Unknown';
+    } catch {
+        return 'Unknown';
+    }
+}
 
 async function isScrapingAllowed(url) {
   // For the purpose of this specific task, we are overriding the robots.txt check
@@ -38,68 +56,90 @@ function delay(time) {
   });
 }
 
-async function scrapeLinkedInCompany(url, browser) {
+async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
+  const extractionTimer = performanceMonitor.startTimer('extraction');
   const page = await browser.newPage();
   
-  // Enhanced anti-detection measures
-  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+  // Initialize LinkedIn-specific anti-bot system if not provided
+  if (!linkedinAntiBot) {
+    linkedinAntiBot = new LinkedInImageAntiBotSystem();
+  }
   
-  // Set additional headers to appear more human-like
-  await page.setExtraHTTPHeaders({
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Cache-Control': 'no-cache',
-    'Pragma': 'no-cache',
-    'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-    'Sec-Ch-Ua-Mobile': '?0',
-    'Sec-Ch-Ua-Platform': '"Windows"',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Upgrade-Insecure-Requests': '1'
-  });
-
-  // Set viewport to common screen resolution
-  await page.setViewport({ width: 1366, height: 768 });
-
   try {
+    // **ENHANCED: Advanced anti-detection with stealth mode**
+    await antiBotSystem.setupStealthMode(page);
+    
+    // Dynamic user agent with anti-bot system
+    const currentUserAgent = getUserAgent(true);
+    await page.setUserAgent(currentUserAgent);
+    
+    // Dynamic headers from anti-bot system
+    await page.setExtraHTTPHeaders(antiBotSystem.getBrowserHeaders());
+
+    // Set dynamic viewport from anti-bot system
+    const viewport = antiBotSystem.getRandomViewport();
+    await page.setViewport(viewport);
+    
+    // **NEW: Initialize advanced banner extractor and validator with LinkedIn-specific anti-bot**
+    const bannerExtractor = new LinkedInBannerExtractor(linkedinAntiBot);
+    const bannerValidator = new BannerValidator(linkedinAntiBot);
+    await bannerExtractor.setupNetworkInterception(page);
+    
+    // Record stealth activation
+    performanceMonitor.recordAntiBotEvent('stealth_activation', { 
+        context: 'LinkedIn individual page',
+        url: url,
+        viewport: `${viewport.width}x${viewport.height}`
+    });
+
+    // Main extraction logic
     if (!await isScrapingAllowed(url)) {
       console.warn(`Scraping disallowed by robots.txt for ${url}. Skipping.`);
       return { url, status: 'Skipped', error: 'Scraping disallowed by robots.txt' };
     }
 
     console.log(`Scraping ${url}...`);
+    const navTimer = performanceMonitor.startTimer('navigation');
+    
     let retries = 3;
     while (retries > 0) {
       try {
+        // Human-like delay before navigation
+        await antiBotSystem.humanDelay(1000, 2000);
+        
         await page.goto(url, { 
           waitUntil: 'domcontentloaded',
           timeout: 30000 
         });
+        
+        performanceMonitor.endTimer(navTimer, true, { url, attempts: 4 - retries });
         break;
       } catch (error) {
         console.warn(`Error loading page, retrying... (${retries} retries left)`);
         retries--;
         if (retries === 0) {
+          performanceMonitor.recordError('navigation', error, { url, totalAttempts: 3 });
+          performanceMonitor.endTimer(navTimer, false, { url, error: error.message });
           throw error;
         }
-        await delay(2000); // Wait before retry
+        
+        // Progressive delay and user agent rotation on retry
+        await antiBotSystem.humanDelay(2000, 4000);
+        await page.setUserAgent(getUserAgent(true)); // Rotate on retry
       }
     }
     
-    // **ENHANCED: Anti-bot measures during initial page load**
-    await delay(Math.random() * 4000 + 3000); // Random delay between 3-7 seconds
+    // **ENHANCED: Advanced human behavior simulation**
+    await antiBotSystem.humanDelay(3000, 7000); // Variable delay
     
-    // **NEW: Add random mouse movements to appear more human**
-    try {
-      await page.mouse.move(Math.random() * 800 + 100, Math.random() * 600 + 100);
-      await delay(Math.random() * 1000 + 500);
-      await page.mouse.move(Math.random() * 800 + 100, Math.random() * 600 + 100);
-    } catch (e) {
-      // Ignore mouse movement errors
-    }
+    // Sophisticated human behavior simulation
+    await antiBotSystem.simulateHumanBehavior(page, {
+        enableMouseMovement: true,
+        enableScrolling: true
+    });
+    
+    // Track successful navigation behavior
+    antiBotSystem.trackRequest(url, true, Date.now());
 
     // **CRUCIAL: Handle login popup first**
     console.log('Checking for login popup...');
@@ -118,7 +158,6 @@ async function scrapeLinkedInCompany(url, browser) {
           'svg[data-test-id="close-icon"]',
           '[role="dialog"] button[aria-label="Dismiss"]',
           '[role="dialog"] button[aria-label="Close"]',
-          'button:has(svg[data-test-id="close-icon"])',
           '.artdeco-modal-overlay button.artdeco-button--circle'
         ];
         
@@ -126,12 +165,23 @@ async function scrapeLinkedInCompany(url, browser) {
           try {
             const closeButton = document.querySelector(selector);
             if (closeButton && closeButton.offsetParent !== null) { // Check if visible
-              console.log(`Found close button: ${selector}`);
               closeButton.click();
               return true;
             }
           } catch (e) {
             // Continue to next selector
+          }
+        }
+        
+        // Look for buttons containing close icons (replacement for :has() selector)
+        const allButtons = document.querySelectorAll('button');
+        for (const button of allButtons) {
+          if (button.offsetParent !== null) { // Check if visible
+            const closeIcon = button.querySelector('svg[data-test-id="close-icon"]');
+            if (closeIcon) {
+              button.click();
+              return true;
+            }
           }
         }
         
@@ -158,18 +208,19 @@ async function scrapeLinkedInCompany(url, browser) {
     // **Handle "Not Now" or "Skip" buttons for signup prompts**
     try {
       const skipClicked = await page.evaluate(() => {
+        // Use standard CSS selectors only, then check text content
         const skipSelectors = [
-          'button:contains("Not now")',
-          'button:contains("Skip")',
-          'button:contains("Maybe later")',
           '[data-test-id="cold-signup-dismiss"]',
-          'button[aria-label="Dismiss"]'
+          'button[aria-label="Dismiss"]',
+          'button[aria-label="Not now"]',
+          'button[aria-label="Skip"]',
+          'button[aria-label="Maybe later"]'
         ];
         
         for (const selector of skipSelectors) {
           try {
             const button = document.querySelector(selector);
-            if (button && /not now|skip|maybe later|dismiss/i.test(button.textContent)) {
+            if (button && button.offsetParent !== null) { // Check if visible
               button.click();
               return true;
             }
@@ -177,6 +228,18 @@ async function scrapeLinkedInCompany(url, browser) {
             // Continue
           }
         }
+        
+        // Also check all buttons for text-based matching
+        const allButtons = document.querySelectorAll('button');
+        for (const button of allButtons) {
+          if (button.offsetParent !== null && // Check if visible
+              button.textContent && 
+              /not now|skip|maybe later|dismiss/i.test(button.textContent.trim())) {
+            button.click();
+            return true;
+          }
+        }
+        
         return false;
       });
 
@@ -326,7 +389,6 @@ async function scrapeLinkedInCompany(url, browser) {
         );
         
         if (isLoginPage) {
-          console.log('🚨 Bot detection triggered - detected login page with H1:', h1Text);
           return null; // Return null to trigger retry logic
         }
         
@@ -418,66 +480,125 @@ async function scrapeLinkedInCompany(url, browser) {
         }
         return null;
       }),
-      // bannerUrl: await page.evaluate(() => {
-      //   const bannerElement = document.querySelector('.cover-img__image');
-      //   return bannerElement ? bannerElement.src : null;
-      // }),
-      bannerUrl: await page.evaluate(() => {
-        // This entire block of code runs directly inside the loaded LinkedIn page
-        // where 'document' and 'window' are available.
-
-        const selectors = [
-            // Priority 1: DIVs with background-image
-            { selector: 'div.org-top-card-primary-content__hero-image', type: 'bg' },
-            { selector: 'div.org-top-card-module__hero', type: 'bg' },
-            { selector: 'div.profile-background-image__image', type: 'bg' },
-            { selector: 'section[class*="artdeco-card"] div[class*="ivm-image-view-model__background-img"]', type: 'bg'},
-            { selector: 'div[class*="cover-img"]', type: 'bg' },
-            { selector: 'div[class*="profile-cover-image"]', type: 'bg' },
-            { selector: 'div[class*="banner-image"]', type: 'bg' },
-
-            // Priority 2: Specific IMG tags
-            { selector: 'img.org-top-card-primary-content__cover', type: 'src' },
-            { selector: 'img[data-test-id*="cover-photo"]', type: 'src' },
-            { selector: 'img[data-test-id*="banner-img"]', type: 'src' },
-            { selector: 'img[alt*="Cover photo"i]', type: 'src' },
-            { selector: 'img[alt*="Cover image"i]', type: 'src' },
-            { selector: 'img[alt*="Banner"i]', type: 'src' },
-            { selector: 'img[class*="cover-image"]', type: 'src' },
-            { selector: 'img[class*="banner-image"]', type: 'src' },
-            // More specific path for company background images on LinkedIn CDN
-            { selector: 'img[src*="media.licdn.com/dms/image/"][src*="company-background"]', type: 'src'},
-
-            // Priority 3: IMG tags within known banner/cover containers
-            { selector: 'div.cover-photo img', type: 'src' },
-            { selector: 'div.banner img', type: 'src' },
-            { selector: 'figure[class*="banner"] img', type: 'src' },
-            { selector: 'figure[class*="cover"] img', type: 'src' },
-        ];
-
-        for (const s of selectors) {
-            const element = document.querySelector(s.selector);
-            if (element) {
-                let imageUrl = null;
-                if (s.type === 'bg') {
-                    const style = window.getComputedStyle(element);
-                    const backgroundImage = style.backgroundImage;
-                    if (backgroundImage && backgroundImage !== 'none') {
-                        // Extract URL from 'url("...")' or 'url(...)', remove quotes
-                        imageUrl = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
-                    }
-                } else if (s.type === 'src') {
-                    imageUrl = element.src;
-                }
-
-                // Basic validation for a plausible URL
-                if (imageUrl && imageUrl.startsWith('http')) {
-                    return imageUrl;
-                }
+      // **PRIORITIZED: Network interception first, traditional methods as fallback**
+      bannerUrl: await (async () => {
+        const extractionStartTime = Date.now();
+        
+        try {
+          console.log('🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...');
+          
+          // PRIMARY: Advanced network interception method
+          const primaryBannerUrl = await bannerExtractor.extractBannerWithAdvancedMethods(page, url);
+          const extractionSummary = bannerExtractor.getSummary();
+          
+          console.log('📊 [LinkedIn] Extraction summary:', {
+            method: primaryBannerUrl ? 'Network Interception' : 'Fallback Methods',
+            networkRequests: extractionSummary.interceptedRequests,
+            apiResponses: extractionSummary.apiResponses,
+            discoveredPatterns: extractionSummary.discoveredPatternsCount,
+            sessionHealth: extractionSummary.sessionHealth.isValid ? 'Healthy' : 'Degraded',
+            extractionTime: `${Date.now() - extractionStartTime}ms`
+          });
+          
+          if (primaryBannerUrl) {
+            // Validate the primary result
+            console.log('🔍 [LinkedIn] Validating network-intercepted banner...');
+            const validation = await bannerValidator.validateBannerUrl(primaryBannerUrl, url);
+            
+            if (validation.isValid) {
+              console.log('✅ [LinkedIn] Network interception SUCCESS - High quality banner found:', primaryBannerUrl);
+              console.log('📏 [LinkedIn] Banner quality metrics:', {
+                dimensions: validation.width && validation.height ? `${validation.width}x${validation.height}` : 'unknown',
+                size: validation.size ? `${Math.round(validation.size / 1024)}KB` : 'unknown',
+                format: validation.format || 'unknown',
+                aspectRatio: validation.aspectRatio || 'unknown',
+                colorVariety: validation.colorAnalysis?.colorVariety || 'unknown'
+              });
+              return primaryBannerUrl;
+            } else {
+              console.warn('⚠️ [LinkedIn] Network-intercepted banner failed validation:', validation.reason);
             }
+          }
+          
+          // FALLBACK: Validate all discovered URLs from network interception
+          if (extractionSummary.bannerUrls && extractionSummary.bannerUrls.length > 0) {
+            console.log(`🔄 [LinkedIn] Validating ${extractionSummary.bannerUrls.length} network-discovered URLs...`);
+            
+            const networkValidation = await bannerValidator.validateMultipleBannerUrls(extractionSummary.bannerUrls, url);
+            
+            if (networkValidation.bestUrl) {
+              console.log('✅ [LinkedIn] Network validation SUCCESS - Best URL selected:', networkValidation.bestUrl);
+              return networkValidation.bestUrl;
+            } else {
+              console.warn('⚠️ [LinkedIn] All network-discovered URLs failed validation');
+              
+              // Log validation failures for debugging
+              networkValidation.validations.filter(v => !v.isValid).forEach(v => {
+                console.warn(`❌ [Validation Failed] ${v.url}: ${v.reason}`);
+              });
+            }
+          }
+          
+          console.log('🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...');
+          
+          // FINAL FALLBACK: Traditional DOM scraping (unvalidated but reliable)
+          const fallbackBannerUrl = await page.evaluate(() => {
+            const prioritizedSelectors = [
+              // Highest priority: LinkedIn-specific company banner selectors
+              { selector: 'img[src*="media.licdn.com/dms/image/"][src*="company-background"]', type: 'src', priority: 10 },
+              { selector: 'div.org-top-card-primary-content__hero-image', type: 'bg', priority: 9 },
+              { selector: 'div.org-top-card-module__hero', type: 'bg', priority: 8 },
+              { selector: 'img.org-top-card-primary-content__cover', type: 'src', priority: 8 },
+              { selector: 'img[data-test-id*="cover-photo"]', type: 'src', priority: 7 },
+              { selector: 'div.profile-background-image__image', type: 'bg', priority: 6 }
+            ];
+
+            for (const s of prioritizedSelectors) {
+              const element = document.querySelector(s.selector);
+              if (element && element.offsetParent !== null) { // Must be visible
+                let imageUrl = null;
+                
+                if (s.type === 'bg') {
+                  const style = window.getComputedStyle(element);
+                  const backgroundImage = style.backgroundImage;
+                  if (backgroundImage && backgroundImage !== 'none') {
+                    imageUrl = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
+                  }
+                } else if (s.type === 'src') {
+                  imageUrl = element.src || element.getAttribute('src');
+                }
+
+                // Basic quality check
+                if (imageUrl && imageUrl.startsWith('http') && 
+                    (imageUrl.includes('media.licdn.com') || imageUrl.includes('static.licdn.com'))) {
+                  console.log(`✅ [Fallback DOM] Found banner with selector "${s.selector}": ${imageUrl}`);
+                  return imageUrl;
+                }
+              }
+            }
+            
+            console.log('❌ [Fallback DOM] No banner URLs found');
+            return null;
+          });
+          
+          if (fallbackBannerUrl) {
+            console.log('✅ [LinkedIn] Fallback DOM SUCCESS - Banner found:', fallbackBannerUrl);
+            return fallbackBannerUrl;
+          }
+          
+          console.log('❌ [LinkedIn] ALL METHODS FAILED - No banner URL found');
+          return null;
+          
+        } catch (error) {
+          const errorContext = bannerExtractor.logErrorContext('banner_extraction', error, {
+            url,
+            extractionTime: `${Date.now() - extractionStartTime}ms`
+          });
+          
+          console.error('❌ [LinkedIn] Critical banner extraction error:', errorContext);
+          return null;
         }
-        return null; // Return null if no banner URL is found after trying all selectors
-      }),
+      })(),
       aboutUs: '',
       description:'',
       website: $('dt:contains("Website")').next('dd').text().trim() || null, //.find('a').attr('href')
@@ -963,12 +1084,53 @@ async function scrapeLinkedInCompany(url, browser) {
     console.log('========================');
 
     console.log(`Successfully scraped ${url}`);
+    const timerResult = performanceMonitor.endTimer(extractionTimer, true, { 
+        url, 
+        companyName: companyData.name || 'Unknown',
+        dataQuality: companyData.name ? 'good' : 'partial'
+    });
+    
+    const extractionDuration = timerResult.duration || Date.now() - extractionTimer.startTime;
+    performanceMonitor.recordSuccess('LinkedIn extraction', extractionDuration);
+    
+    // Track successful extraction
+    antiBotSystem.trackRequest(url, true, extractionDuration);
+    
     return companyData;
+    
   } catch (error) {
     console.error(`Error scraping ${url}:`, error);
-    return { url, status: 'Failed', error: error.message };
+    
+    // Enhanced error handling with categorization
+    const errorCategory = error.message.includes('timeout') ? 'timeout' :
+                          error.message.includes('navigation') ? 'navigation' :
+                          error.message.includes('net::') ? 'network' :
+                          'parsing';
+    
+    performanceMonitor.recordError(errorCategory, error, { 
+        url, 
+        context: 'LinkedIn extraction',
+        userAgent: getCurrentUserAgent()
+    });
+    
+    performanceMonitor.endTimer(extractionTimer, false, { 
+        url, 
+        error: error.message,
+        errorCategory
+    });
+    
+    // Track failed extraction
+    antiBotSystem.trackRequest(url, false, 0);
+    
+    return { url, status: 'Failed', error: error.message, errorCategory };
+    
   } finally {
-    await page.close();
+    try {
+      await page.close();
+      console.log(`✅ Page closed for ${url}`);
+    } catch (closeError) {
+      console.warn(`Warning: Failed to close page for ${url}:`, closeError.message);
+    }
   }
 }
 
@@ -994,47 +1156,36 @@ async function main() {
 
   console.log(`Starting LinkedIn scraping for ${urls.length} URL(s)...`);
 
+  // **INITIALIZE: LinkedIn-specific anti-bot system**
+  const linkedinAntiBot = new LinkedInImageAntiBotSystem();
+  console.log('✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system');
+
   let browser;
   try {
-    // **ENHANCED: Random user agent selection for better bot evasion**
-    const userAgents = [
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    ];
+    // **ENHANCED: Advanced anti-bot system with performance monitoring**
+    const launchTimer = performanceMonitor.startTimer('browser_launch');
+    const selectedUserAgent = getUserAgent(true); // Force rotation for LinkedIn
+    console.log(`🎭 Using advanced user agent: ${selectedUserAgent.split(' ')[2] || 'Custom'}`);
     
-    const randomUserAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
-    console.log(`🎭 Using user agent: ${randomUserAgent.split(' ')[2]}`);
+    // Enhanced browser configuration with advanced anti-bot features
+    const launchOptions = {
+      headless: headless ? 'new' : false,
+      args: antiBotSystem.getAdvancedBrowserArgs(),
+      defaultViewport: antiBotSystem.getRandomViewport(),
+      timeout: 60000,
+      // Advanced stealth features
+      ignoreDefaultArgs: ['--enable-automation'],
+      ignoreHTTPSErrors: true
+    };
+
+    browser = await puppeteer.launch(launchOptions);
+    performanceMonitor.endTimer(launchTimer, true, { context: 'LinkedIn scraping' });
     
-    // Enhanced browser configuration for better LinkedIn compatibility
-    browser = await puppeteer.launch({
-      headless: headless ? 'new' : false, // Use new headless mode for better compatibility
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu',
-        '--disable-web-security',
-        '--disable-features=VizDisplayCompositor',
-        '--disable-extensions',
-        '--disable-plugins',
-        '--disable-images', // Speed up loading
-        '--disable-javascript-harmony-shipping',
-        '--disable-background-timer-throttling',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-renderer-backgrounding',
-        `--user-agent=${randomUserAgent}`
-      ],
-      defaultViewport: {
-        width: 1366,
-        height: 768
-      },
-      timeout: 60000
+    // Record anti-bot system activation
+    performanceMonitor.recordAntiBotEvent('browser_launch', { 
+        context: 'LinkedIn scraping',
+        headless: headless,
+        userAgent: selectedUserAgent.split(' ')[2] || 'Custom'
     });
 
     const allCompanyData = [];
@@ -1044,7 +1195,8 @@ async function main() {
       console.log(`Processing URL ${i + 1}/${urls.length}: ${url}`);
       
       try {
-        const companyData = await scrapeLinkedInCompany(url, browser);
+        // **PASS: LinkedIn-specific anti-bot system to scraper**
+        const companyData = await scrapeLinkedInCompany(url, browser, linkedinAntiBot);
         allCompanyData.push(companyData);
         
         // Add delay between requests to avoid rate limiting

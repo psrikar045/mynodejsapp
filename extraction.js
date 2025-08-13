@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fs = require('fs').promises;
 const { createWriteStream } = require('fs');
+const { antiBotSystem } = require('./anti-bot-system');
+const { performanceMonitor } = require('./performance-monitor');
+const { enhancedFileOps } = require('./enhanced-file-operations');
 
 // --- Logger Setup ---
 const LOG_FILE = 'scraper.log';
@@ -32,7 +35,10 @@ try {
   console.error("Failed to initialize logger:", err);
 }
 
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
+// Dynamic user agent function
+function getUserAgent() {
+    return antiBotSystem.getRandomUserAgent();
+}
 
 // --- Robots.txt check (overridden as requested) ---
 async function isScrapingAllowed(url) {
@@ -116,27 +122,66 @@ async function scrapeLinkedInCompany(url) {
     }
 
     console.log(`Launching browser for ${url}...`);
-    browser = await puppeteer.launch({ headless: true });
+    const timer = performanceMonitor.startTimer('browser_launch');
+    
+    // Enhanced browser launch with anti-bot features
+    const launchOptions = {
+        headless: 'new',
+        args: antiBotSystem.getAdvancedBrowserArgs(),
+        defaultViewport: antiBotSystem.getRandomViewport(),
+        ignoreDefaultArgs: ['--enable-automation'],
+        ignoreHTTPSErrors: true
+    };
+    
+    browser = await puppeteer.launch(launchOptions);
+    performanceMonitor.endTimer(timer, true);
+    
     page = await browser.newPage();
-    await page.setUserAgent(USER_AGENT);
+    
+    // Advanced anti-detection setup
+    await antiBotSystem.setupStealthMode(page);
+    await page.setUserAgent(getUserAgent());
+    await page.setExtraHTTPHeaders(antiBotSystem.getBrowserHeaders());
     await page.setBypassCSP(true);
+    
+    performanceMonitor.recordAntiBotEvent('stealth_activation', { context: 'extraction', url });
 
     console.log(`Navigating to ${url}...`);
+    const navTimer = performanceMonitor.startTimer('navigation');
+    
     let retries = 3;
     while (retries > 0) {
       try {
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 }); // Changed to 'networkidle2'
+        // Human-like delay before navigation
+        await antiBotSystem.humanDelay(1000, 3000);
+        
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        
+        // Simulate human behavior after successful navigation
+        await antiBotSystem.simulateHumanBehavior(page, {
+            enableMouseMovement: true,
+            enableScrolling: true
+        });
+        
+        performanceMonitor.endTimer(navTimer, true, { url, attempts: 4 - retries });
         break;
       } catch (error) {
         console.warn(`Error loading page, retrying... (${retries} retries left) for ${url}`);
         retries--;
         if (retries === 0) {
+          performanceMonitor.recordError('navigation', error, { url, totalAttempts: 3 });
+          performanceMonitor.endTimer(navTimer, false, { url, error: error.message });
           throw new Error(`Failed to load page after multiple retries for ${url}: ${error.message}`);
         }
+        
+        // Progressive delay with jitter and user agent rotation
         await delay(Math.random() * 2000 + 1000);
+        await page.setUserAgent(getUserAgent(true)); // Rotate on retry
       }
     }
-    await delay(Math.random() * 3000 + 2000);
+    
+    // Human-like pause after navigation
+    await antiBotSystem.humanDelay(2000, 5000);
 
     // --- JSON-LD Extraction (Priority) ---
     let jsonData = {};
