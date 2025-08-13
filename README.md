@@ -3,6 +3,8 @@ with new changes we have added few endpoints
 📋 Available Endpoints:
 
 - POST /api/extract-company-details - Main extraction endpoint
+- GET  /api/extraction-logs         - Real-time extraction logs
+- GET  /api/extraction-sessions     - Active extraction sessions
 - GET  /health                      - System health check
 - GET  /linkedin-metrics            - LinkedIn extraction metrics
 - GET  /performance-metrics         - Performance analytics
