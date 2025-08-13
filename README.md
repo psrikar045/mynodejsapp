@@ -1,71 +1,103 @@
-with new changes we have added few endpoints
-
-📋 Available Endpoints:
-
-- POST /api/extract-company-details - Main extraction endpoint
-- GET  /api/extraction-sessions     - Active extraction sessions
-- GET  /api/extraction-logs         - Real-time extraction logs
-- GET  /api/system-health           - System health dashboard
-- GET  /api/search-history          - Search history & analytics
-- GET  /api/logs/:type              - Detailed file logs
-- http://202.65.155.117:3000/api/extraction-logs?format=html
-- http://202.65.155.117:3000/api/extraction-logs?limit=50
-- http://202.65.155.117:3000/api/extraction-logs?level=error
-- http://202.65.155.117:3000/api/extraction-logs?sessionId=session_1234567890_abc123
-- http://202.65.155.117:3000/api/extraction-logs?level=error&limit=10
-- http://202.65.155.117:3000/api/extraction-logs/SESSION_ID_HERE
-- http://202.65.155.117:3000/api/extraction-sessions
-- http://202.65.155.117:3000/api/extraction-logs/clear
-- http://202.65.155.117:3000/api/system-health?format=html
-- http://202.65.155.117:3000/api/search-history?format=html
-- http://202.65.155.117:3000/api/search-history/export
-- http://202.65.155.117:3000/api/search-analytics
-- http://202.65.155.117:3000/api/logs/:logType
-- http://202.65.155.117:3000/api/logs-status
-- http://202.65.155.117:3000/api/logs/search/:query
--   query can be
-error
-linkedin.com
-session_id
-timeout
-error?limit=100
-error?logTypes=extraction,errors,browser
-linkedin?limit=200&logTypes=extraction,linkedin
-
-Available Log Types:
-Based on your codebase, these are the log types you can filter by:
-
-extraction - All extraction activities
-errors - Error logs with stack traces
-performance - Performance timing data
-system - System health events
-api - API request/response logs
-security - Security-related events
-browser - Browser launch/close events
-linkedin - LinkedIn-specific activities
-
-- GET  /health                      - System health check
-- GET  /linkedin-metrics            - LinkedIn extraction metrics
-- GET  /performance-metrics         - Performance analytics
-- GET  /anti-bot-status             - Anti-bot system status
-- GET  /test                        - Basic API test
-- GET  /test-browser                - Browser compatibility test
-
-  
 # SumNode - Company Details Extraction API
 
-A Node.js API service that extracts company details from websites using Puppeteer and web scraping.
+A Node.js API service that extracts company details from websites using Puppeteer and web scraping, now with enterprise-level monitoring and logging capabilities.
 
-## Features
+## 🚀 Features
 
 - Extract company details from any website URL
 - LinkedIn company page scraping
 - Automatic browser detection (Edge/Chrome)
 - Production-ready for Render deployment
 - CORS enabled for cross-origin requests
+- Comprehensive logging and monitoring system
+- Real-time web dashboards for monitoring
+- Long-term search history with analytics
+- System health monitoring with alerts
+- Detailed file logging by category
 
-## API Endpoints
+## 📋 API Endpoints
 
+With new changes we have added few endpoints:
+
+### Core Extraction Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/extract-company-details` | Main extraction endpoint |
+| GET | `/test` | Simple health check endpoint |
+| GET | `/test-browser` | Browser compatibility test |
+| GET | `/health` | System health check |
+| GET | `/linkedin-metrics` | LinkedIn extraction metrics |
+| GET | `/performance-metrics` | Performance analytics |
+| GET | `/anti-bot-status` | Anti-bot system status |
+
+### Monitoring & Logging Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/extraction-sessions` | Active extraction sessions |
+| GET | `/api/extraction-logs` | Real-time extraction logs |
+| GET | `/api/system-health` | System health dashboard |
+| GET | `/api/search-history` | Search history & analytics |
+| GET | `/api/logs/:type` | Detailed file logs |
+| GET | `/api/logs-status` | Log files status |
+| GET | `/api/search-analytics` | Detailed analytics data |
+| GET | `/api/logs/search/:query` | Search across all logs |
+| POST | `/api/extraction-logs/clear` | Clear all logs (emergency) |
+
+### Detailed Endpoint Examples
+
+#### Extraction Logs
+
+- `http://202.65.155.117:3000/api/extraction-logs?format=html` - Web interface
+- `http://202.65.155.117:3000/api/extraction-logs?limit=50` - Limit results
+- `http://202.65.155.117:3000/api/extraction-logs?level=error` - Filter by level
+- `http://202.65.155.117:3000/api/extraction-logs?sessionId=session_1234567890_abc123` - Filter by session
+- `http://202.65.155.117:3000/api/extraction-logs?level=error&limit=10` - Combined filters
+- `http://202.65.155.117:3000/api/extraction-logs/SESSION_ID_HERE` - Session-specific logs
+- `http://202.65.155.117:3000/api/extraction-sessions` - All active sessions
+- `http://202.65.155.117:3000/api/extraction-logs/clear` - Clear logs (POST)
+
+#### System & Analytics Dashboards
+
+- `http://202.65.155.117:3000/api/system-health?format=html` - System health dashboard
+- `http://202.65.155.117:3000/api/search-history?format=html` - Search history dashboard
+- `http://202.65.155.117:3000/api/search-history/export` - Export history data
+- `http://202.65.155.117:3000/api/search-analytics` - Analytics API
+
+#### Detailed Logs
+
+- `http://202.65.155.117:3000/api/logs/:logType` - Specific log type
+- `http://202.65.155.117:3000/api/logs-status` - Log files status
+- `http://202.65.155.117:3000/api/logs/search/:query` - Search across logs
+
+#### Log Search Query Examples
+
+The query parameter for `/api/logs/search/:query` can be:
+- `error` - Search for errors
+- `linkedin.com` - Search for domain
+- `session_id` - Search for session
+- `timeout` - Search for timeouts
+- `error?limit=100` - With result limit
+- `error?logTypes=extraction,errors,browser` - Filter by log types
+- `linkedin?limit=200&logTypes=extraction,linkedin` - Combined parameters
+
+### Available Log Types
+
+Based on your codebase, these are the log types you can filter by:
+
+| Log Type | Description |
+|----------|-------------|
+| `extraction` | All extraction activities |
+| `errors` | Error logs with stack traces |
+| `performance` | Performance timing data |
+| `system` | System health events |
+| `api` | API request/response logs |
+| `security` | Security-related events |
+| `browser` | Browser launch/close events |
+| `linkedin` | LinkedIn-specific activities |
+
+## 📝 API Documentation
 
 ### POST /api/extract-company-details
 
@@ -76,6 +108,7 @@ Extracts company details from a given URL.
 {
   "url": "https://example.com"
 }
+
 ```
 
 **Response:**

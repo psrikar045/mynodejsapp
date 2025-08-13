@@ -2270,3 +2270,102 @@
 2025-08-13T12:42:09.882Z - INFO: [2025-08-13T12:42:09.881Z] INFO: LinkedIn logo colors extracted successfully
 2025-08-13T12:42:09.883Z - INFO: [2025-08-13T12:42:09.883Z] INFO: Company details extraction completed
 2025-08-13T12:42:10.781Z - INFO: [Browser] Browser closed successfully
+2025-08-13T13:24:12.578Z - INFO: ✅ System Health Check: COMPLETED (1119ms)
+2025-08-13T13:24:12.578Z - INFO:    Node.js v20.19.4, Memory: 19MB, Platform: win32, Browser: ✅
+2025-08-13T13:24:12.579Z - INFO: 
+🔄 Dependency Validation...
+2025-08-13T13:24:12.582Z - INFO: ✅ Dependency Validation: COMPLETED (3ms)
+2025-08-13T13:24:12.583Z - INFO:    All 5 dependencies validated
+2025-08-13T13:24:12.583Z - INFO: 
+🔄 Adaptive System Deployment...
+2025-08-13T13:24:12.587Z - INFO: ✅ Adaptive System Deployment: COMPLETED (4ms)
+2025-08-13T13:24:12.588Z - INFO:    Adaptive system already deployed and configured
+2025-08-13T13:24:12.588Z - INFO: 
+🔄 Component Initialization...
+2025-08-13T13:24:12.590Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T13:24:12.590Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T13:24:12.591Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 39401b329ceda1858d8229a7bdccc436
+2025-08-13T13:24:12.595Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T13:24:12.598Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-13T13:24:12.598Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-13T13:24:12.601Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T13:24:12.601Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T13:24:12.602Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T13:24:12.602Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T13:24:12.603Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T13:24:12.603Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T13:24:12.604Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T13:24:12.604Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T13:24:12.605Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T13:24:12.605Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T13:24:12.605Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T13:24:12.605Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T13:24:12.606Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T13:24:12.606Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T13:24:12.607Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T13:24:12.607Z - INFO: ✅ Component Initialization: COMPLETED (19ms)
+2025-08-13T13:24:12.608Z - INFO:    6 components initialized successfully
+2025-08-13T13:24:12.608Z - INFO: 
+🔄 Background Services...
+2025-08-13T13:24:12.609Z - INFO:    💓 Health monitoring active (30-minute intervals)
+2025-08-13T13:24:12.609Z - INFO: ✅ Background Services: COMPLETED (1ms)
+2025-08-13T13:24:12.610Z - INFO:    1 background services configured
+2025-08-13T13:24:12.610Z - INFO: 
+🔄 Final Validation...
+2025-08-13T13:24:12.611Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-13T13:24:12.611Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Development (Local)
+2025-08-13T13:24:12.612Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 27d23a3473b55b0431ab3d4523c94541
+2025-08-13T13:24:12.612Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-13T13:24:12.612Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-13T13:24:12.612Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-13T13:24:12.614Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-13T13:24:12.614Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-13T13:24:12.614Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-13T13:24:12.614Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-13T13:24:12.614Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T13:24:12.615Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-13T13:24:12.615Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-13T13:24:12.615Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-13T13:24:12.615Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-13T13:24:12.615Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-13T13:24:12.616Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-13T13:24:12.616Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-13T13:24:12.616Z - INFO: ✅ Final Validation: COMPLETED (6ms)
+2025-08-13T13:24:12.616Z - INFO:    3 validation checks passed
+2025-08-13T13:24:12.616Z - INFO: 
+=================================================================
+2025-08-13T13:24:12.616Z - INFO: ✅ AUTO-INITIALIZATION COMPLETED SUCCESSFULLY
+2025-08-13T13:24:12.616Z - INFO: =================================================================
+2025-08-13T13:24:12.616Z - INFO: ⏱️  Total Time: 1s
+2025-08-13T13:24:12.617Z - INFO: 📊 Steps Completed: 6/6
+2025-08-13T13:24:12.617Z - INFO: 🎉 System is ready for production use!
+2025-08-13T13:24:12.617Z - INFO: =================================================================
+2025-08-13T13:24:12.617Z - INFO: 🔧 Ensuring Chrome availability...
+2025-08-13T13:24:12.617Z - INFO: 🔧 [Browser Checker] Checking browser availability...
+2025-08-13T13:24:13.249Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-13T13:24:13.430Z - INFO: ✅ Chrome is ready for web scraping
+2025-08-13T13:24:13.435Z - INFO: 
+=================================================================
+2025-08-13T13:24:13.435Z - INFO: 🎉 LINKEDIN BANNER EXTRACTION SYSTEM READY
+2025-08-13T13:24:13.436Z - INFO: =================================================================
+2025-08-13T13:24:13.436Z - INFO: 🌐 Server running on port 3000
+2025-08-13T13:24:13.436Z - INFO: 📊 Environment: development
+2025-08-13T13:24:13.437Z - INFO: 🔧 Chrome Status: ✅ Ready
+2025-08-13T13:24:13.437Z - INFO: 🧠 Adaptive Mode: ✅ Enabled
+2025-08-13T13:24:13.437Z - INFO: =================================================================
+2025-08-13T13:24:13.438Z - INFO: 📋 Available Endpoints:
+2025-08-13T13:24:13.438Z - INFO:    POST /api/extract-company-details - Main extraction endpoint
+2025-08-13T13:24:13.438Z - INFO:    GET  /api/extraction-logs         - Real-time extraction logs
+2025-08-13T13:24:13.438Z - INFO:    GET  /api/extraction-sessions     - Active extraction sessions
+2025-08-13T13:24:13.439Z - INFO:    GET  /health                      - System health check
+2025-08-13T13:24:13.439Z - INFO:    GET  /linkedin-metrics            - LinkedIn extraction metrics
+2025-08-13T13:24:13.439Z - INFO:    GET  /performance-metrics         - Performance analytics
+2025-08-13T13:24:13.440Z - INFO:    GET  /anti-bot-status             - Anti-bot system status
+2025-08-13T13:24:13.440Z - INFO:    GET  /test                        - Basic API test
+2025-08-13T13:24:13.440Z - INFO:    GET  /test-browser                - Browser compatibility test
+2025-08-13T13:24:13.440Z - INFO: =================================================================
+2025-08-13T13:24:13.441Z - INFO: ✅ All systems initialized successfully!
+2025-08-13T13:24:13.441Z - INFO: 🎯 System is ready for production use
+2025-08-13T13:24:13.441Z - INFO: =================================================================
+2025-08-13T13:29:11.461Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-13T13:34:11.469Z - WARN: 🚨 [Health Check] Issues detected:

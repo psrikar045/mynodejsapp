@@ -5,6 +5,8 @@ const { createWriteStream } = require('fs');
 const { antiBotSystem } = require('./anti-bot-system');
 const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
+const { extractionLogger } = require('./extraction-logger');
+const { detailedFileLogger } = require('./detailed-file-logger');
 
 // --- Logger Setup ---
 const LOG_FILE = 'scraper.log';
@@ -111,17 +113,27 @@ const getImageFromBannerCheerio = ($) => {
  * @param {string} url - The LinkedIn company profile URL to scrape.
  * @returns {Promise<object>} - A promise that resolves to an object containing scraped company data or an error status.
  */
-async function scrapeLinkedInCompany(url) {
+async function scrapeLinkedInCompany(url, sessionId = null) {
   let browser;
   let page;
 
   try {
+    if (sessionId) {
+      extractionLogger.step('LinkedIn Scraping Starting', { url }, sessionId);
+    }
+    
     if (!await isScrapingAllowed(url)) {
       console.warn(`Scraping disallowed by robots.txt for ${url}. Skipping.`);
+      if (sessionId) {
+        extractionLogger.warn('Scraping disallowed by robots.txt', { url }, sessionId);
+      }
       return { url, status: 'Skipped', error: 'Scraping disallowed by robots.txt' };
     }
 
     console.log(`Launching browser for ${url}...`);
+    if (sessionId) {
+      extractionLogger.step('LinkedIn Browser Launch', { url }, sessionId);
+    }
     const timer = performanceMonitor.startTimer('browser_launch');
     
     // Enhanced browser launch with anti-bot features

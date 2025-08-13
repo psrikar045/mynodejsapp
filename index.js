@@ -13,6 +13,10 @@ const { antiBotSystem } = require('./anti-bot-system');
 const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
+const { extractionLogger } = require('./extraction-logger');
+const { systemHealthMonitor } = require('./system-health-monitor');
+const { searchHistoryLogger } = require('./search-history-logger');
+const { detailedFileLogger } = require('./detailed-file-logger');
 
 // Initialize LinkedIn-specific anti-bot system
 const linkedinAntiBot = new LinkedInImageAntiBotSystem();
@@ -59,6 +63,39 @@ const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes cache
 // Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
+
+// API Request Logging Middleware
+app.use(async (req, res, next) => {
+    const startTime = Date.now();
+    const originalSend = res.send;
+    
+    // Override res.send to capture response
+    res.send = function(data) {
+        const duration = Date.now() - startTime;
+        const userAgent = req.get('User-Agent');
+        const ip = req.ip || req.connection.remoteAddress;
+        
+        // Log API request asynchronously
+        setImmediate(async () => {
+            try {
+                await detailedFileLogger.logAPI(
+                    req.method,
+                    req.originalUrl,
+                    res.statusCode,
+                    duration,
+                    userAgent,
+                    ip
+                );
+            } catch (error) {
+                console.error('Failed to log API request:', error);
+            }
+        });
+        
+        return originalSend.call(this, data);
+    };
+    
+    next();
+});
 
 // ✅ Example test endpoint
 app.get('/test', (req, res) => {
@@ -194,6 +231,572 @@ app.post('/export-performance', async (req, res) => {
     }
 });
 
+// ✅ Extraction Logs Endpoint - Get recent extraction logs
+app.get('/api/extraction-logs', (req, res) => {
+    try {
+        const {
+            limit = 100,
+            level = null,
+            sessionId = null,
+            format = 'json'
+        } = req.query;
+
+        const logs = extractionLogger.getRecentLogs(
+            parseInt(limit),
+            level,
+            sessionId
+        );
+
+        const stats = extractionLogger.getStats();
+
+        if (format === 'html') {
+            // Return HTML formatted logs for easy browser viewing
+            const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extraction Logs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Courier New', monospace; background: #1a1a1a; color: #00ff00; margin: 20px; }
+        .header { background: #333; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: #2a2a2a; padding: 10px; border-radius: 5px; border-left: 4px solid #00ff00; }
+        .log-entry { margin: 10px 0; padding: 10px; background: #2a2a2a; border-radius: 5px; border-left: 4px solid #555; }
+        .log-error { border-left-color: #ff4444; }
+        .log-warn { border-left-color: #ffaa00; }
+        .log-info { border-left-color: #4488ff; }
+        .log-step { border-left-color: #00ff00; }
+        .log-debug { border-left-color: #888; }
+        .timestamp { color: #888; font-size: 0.9em; }
+        .session-id { color: #00aaff; font-size: 0.9em; }
+        .data { background: #1a1a1a; padding: 10px; margin: 5px 0; border-radius: 3px; font-size: 0.9em; overflow-x: auto; }
+        .refresh-btn { background: #00ff00; color: #000; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 5px; }
+        .filter-controls { margin: 10px 0; }
+        .filter-controls select, .filter-controls input { background: #333; color: #fff; border: 1px solid #555; padding: 5px; margin: 0 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 SumNode Extraction Logs</h1>
+        <p>Real-time extraction debugging for production environment</p>
+        <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+        <button class="refresh-btn" onclick="autoRefresh()">⏰ Auto Refresh (30s)</button>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-card"><strong>Total Logs:</strong> ${stats.totalLogs}</div>
+        <div class="stat-card"><strong>Total Sessions:</strong> ${stats.totalSessions}</div>
+        <div class="stat-card"><strong>Running Sessions:</strong> ${stats.runningSessions}</div>
+        <div class="stat-card"><strong>Success Rate:</strong> ${stats.successRate}%</div>
+        <div class="stat-card"><strong>Completed:</strong> ${stats.completedSessions}</div>
+        <div class="stat-card"><strong>Failed:</strong> ${stats.failedSessions}</div>
+    </div>
+
+    <div class="filter-controls">
+        <strong>Filters:</strong>
+        <select onchange="filterLogs(this.value)" id="levelFilter">
+            <option value="">All Levels</option>
+            <option value="error">Errors Only</option>
+            <option value="warn">Warnings Only</option>
+            <option value="info">Info Only</option>
+            <option value="step">Steps Only</option>
+        </select>
+        <input type="text" placeholder="Session ID" onchange="filterBySession(this.value)" id="sessionFilter">
+        <button class="refresh-btn" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
+    <div class="logs">
+        ${logs.map(log => `
+            <div class="log-entry log-${log.level}">
+                <div class="timestamp">${log.timestamp}</div>
+                ${log.sessionId ? `<div class="session-id">Session: ${log.sessionId}</div>` : ''}
+                <div><strong>${log.level.toUpperCase()}:</strong> ${log.message}</div>
+                ${log.data ? `<div class="data">${JSON.stringify(log.data, null, 2)}</div>` : ''}
+            </div>
+        `).join('')}
+    </div>
+
+    <script>
+        function filterLogs(level) {
+            const url = new URL(window.location);
+            if (level) { url.searchParams.set('level', level); }
+            else { url.searchParams.delete('level'); }
+            window.location = url.toString();
+        }
+        
+        function filterBySession(sessionId) {
+            const url = new URL(window.location);
+            if (sessionId) { url.searchParams.set('sessionId', sessionId); }
+            else { url.searchParams.delete('sessionId'); }
+            window.location = url.toString();
+        }
+        
+        function clearFilters() {
+            const url = new URL(window.location);
+            url.searchParams.delete('level');
+            url.searchParams.delete('sessionId');
+            window.location = url.toString();
+        }
+        
+        function autoRefresh() {
+            setInterval(() => location.reload(), 30000);
+            alert('Auto-refresh enabled (30 seconds)');
+        }
+    </script>
+</body>
+</html>`;
+            return res.send(html);
+        }
+
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            stats,
+            logs,
+            filters: { limit, level, sessionId },
+            helpText: 'Add ?format=html to view logs in browser-friendly format'
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Get Specific Session Logs
+app.get('/api/extraction-logs/:sessionId', (req, res) => {
+    try {
+        const { sessionId } = req.params;
+        const sessionLogs = extractionLogger.getSessionLogs(sessionId);
+        
+        if (!sessionLogs) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Session not found',
+                sessionId
+            });
+        }
+
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            session: sessionLogs
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Get Active Sessions
+app.get('/api/extraction-sessions', (req, res) => {
+    try {
+        const sessions = extractionLogger.getActiveSessions();
+        const stats = extractionLogger.getStats();
+
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            stats,
+            sessions
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Clear Extraction Logs (Emergency)
+app.post('/api/extraction-logs/clear', (req, res) => {
+    try {
+        const clearedCount = extractionLogger.clearAllLogs();
+        
+        res.json({
+            status: 'success',
+            message: 'All extraction logs cleared',
+            clearedCount,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ System Health Dashboard
+app.get('/api/system-health', (req, res) => {
+    try {
+        const { format = 'json' } = req.query;
+        const currentHealth = systemHealthMonitor.getCurrentHealth();
+        const healthHistory = systemHealthMonitor.getHealthHistory(50);
+        
+        if (format === 'html') {
+            const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Health Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f5f5f5; margin: 20px; }
+        .dashboard { max-width: 1200px; margin: 0 auto; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .status-${currentHealth.status} { border-left: 5px solid ${currentHealth.status === 'healthy' ? '#27ae60' : currentHealth.status === 'warning' ? '#f39c12' : '#e74c3c'}; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .metric { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .metric:last-child { border-bottom: none; }
+        .metric-value { font-weight: bold; color: #2c3e50; }
+        .alert { background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .alert.critical { background: #f8d7da; border-color: #f5c6cb; }
+        .refresh-btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .chart-placeholder { height: 200px; background: #ecf0f1; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header status-${currentHealth.status}">
+            <h1>🏥 System Health Dashboard</h1>
+            <p>Status: <strong>${currentHealth.status.toUpperCase()}</strong> | Last Update: ${currentHealth.lastUpdate || 'Never'}</p>
+            <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+        </div>
+        
+        ${currentHealth.alerts.length > 0 ? `
+        <div class="card">
+            <h3>🚨 Active Alerts</h3>
+            ${currentHealth.alerts.map(alert => `
+                <div class="alert ${alert.level}">
+                    <strong>${alert.type.toUpperCase()}:</strong> ${alert.message}
+                </div>
+            `).join('')}
+        </div>
+        ` : ''}
+        
+        <div class="grid">
+            <div class="card">
+                <h3>💾 Memory Usage</h3>
+                <div class="metric">
+                    <span>Process Memory:</span>
+                    <span class="metric-value">${currentHealth.summary.memory}</span>
+                </div>
+                <div class="chart-placeholder">Memory Usage Chart</div>
+            </div>
+            
+            <div class="card">
+                <h3>⏱️ System Uptime</h3>
+                <div class="metric">
+                    <span>Process Uptime:</span>
+                    <span class="metric-value">${currentHealth.summary.uptime}</span>
+                </div>
+                <div class="metric">
+                    <span>System Load:</span>
+                    <span class="metric-value">${currentHealth.summary.systemLoad}</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📊 Recent Activity</h3>
+                <div class="metric">
+                    <span>Health Checks:</span>
+                    <span class="metric-value">${healthHistory.length}</span>
+                </div>
+                <div class="chart-placeholder">Activity Chart</div>
+            </div>
+            
+            <div class="card">
+                <h3>🔧 System Info</h3>
+                <div class="metric">
+                    <span>Platform:</span>
+                    <span class="metric-value">${process.platform}</span>
+                </div>
+                <div class="metric">
+                    <span>Node Version:</span>
+                    <span class="metric-value">${process.version}</span>
+                </div>
+                <div class="metric">
+                    <span>Environment:</span>
+                    <span class="metric-value">${process.env.NODE_ENV || 'development'}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+            return res.send(html);
+        }
+        
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            health: currentHealth,
+            history: healthHistory,
+            helpText: 'Add ?format=html for web dashboard view'
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Search History Endpoint
+app.get('/api/search-history', (req, res) => {
+    try {
+        const {
+            limit = 50,
+            status = null,
+            domain = null,
+            isLinkedIn = null,
+            format = 'json'
+        } = req.query;
+
+        const options = { limit: parseInt(limit), status, domain };
+        if (isLinkedIn !== null) {
+            options.isLinkedIn = isLinkedIn === 'true';
+        }
+
+        const searches = searchHistoryLogger.getRecentSearches(options);
+        const analytics = searchHistoryLogger.getSearchAnalytics();
+
+        if (format === 'html') {
+            const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search History</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Courier New', monospace; background: #1a1a2e; color: #eee; margin: 20px; }
+        .header { background: #16213e; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: #0f3460; padding: 15px; border-radius: 8px; text-align: center; }
+        .search-table { width: 100%; border-collapse: collapse; background: #16213e; }
+        .search-table th, .search-table td { padding: 12px; text-align: left; border-bottom: 1px solid #0f3460; }
+        .search-table th { background: #0f3460; position: sticky; top: 0; }
+        .status-success { color: #27ae60; }
+        .status-failed { color: #e74c3c; }
+        .status-cached { color: #3498db; }
+        .domain { color: #f39c12; }
+        .linkedin { background: #0077b5; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; }
+        .refresh-btn { background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 Search History Dashboard</h1>
+        <p>Complete extraction search history and analytics</p>
+        <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+        <button class="refresh-btn" onclick="exportHistory()">📁 Export</button>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Searches</h3>
+            <h2>${analytics.totalSearches}</h2>
+        </div>
+        <div class="stat-card">
+            <h3>Success Rate</h3>
+            <h2>${analytics.successRate}%</h2>
+        </div>
+        <div class="stat-card">
+            <h3>Avg Duration</h3>
+            <h2>${analytics.avgDuration}ms</h2>
+        </div>
+        <div class="stat-card">
+            <h3>LinkedIn Success</h3>
+            <h2>${analytics.linkedInStats.successRate}%</h2>
+        </div>
+        <div class="stat-card">
+            <h3>Cache Hit Rate</h3>
+            <h2>${analytics.cacheHitRate}%</h2>
+        </div>
+        <div class="stat-card">
+            <h3>Last 24h</h3>
+            <h2>${analytics.recentActivity.last24Hours}</h2>
+        </div>
+    </div>
+
+    <table class="search-table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Domain</th>
+                <th>Status</th>
+                <th>Duration</th>
+                <th>Company</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${searches.map(search => `
+                <tr>
+                    <td>${new Date(search.timestamp).toLocaleString()}</td>
+                    <td class="domain">${search.domain}</td>
+                    <td class="status-${search.status}">${search.status}</td>
+                    <td>${search.performance.duration || 'N/A'}ms</td>
+                    <td>${search.extraction.companyName || 'N/A'}</td>
+                    <td>${search.extraction.isLinkedIn ? '<span class="linkedin">LinkedIn</span>' : 'Website'}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+
+    <script>
+        function exportHistory() {
+            window.open('/api/search-history/export', '_blank');
+        }
+    </script>
+</body>
+</html>`;
+            return res.send(html);
+        }
+
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            analytics,
+            searches,
+            filters: { limit, status, domain, isLinkedIn },
+            helpText: 'Add ?format=html for web dashboard view'
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Search History Analytics
+app.get('/api/search-analytics', (req, res) => {
+    try {
+        const analytics = searchHistoryLogger.getSearchAnalytics();
+        
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            analytics
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Export Search History
+app.get('/api/search-history/export', async (req, res) => {
+    try {
+        const { format = 'json' } = req.query;
+        const exportPath = await searchHistoryLogger.exportSearchHistory(format);
+        
+        res.json({
+            status: 'success',
+            message: 'Search history exported successfully',
+            exportPath: path.basename(exportPath),
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Detailed File Logs
+app.get('/api/logs/:logType', async (req, res) => {
+    try {
+        const { logType } = req.params;
+        const { limit = 100 } = req.query;
+        
+        const logs = await detailedFileLogger.readRecentLogs(logType, parseInt(limit));
+        
+        res.json({
+            status: 'success',
+            logType,
+            count: logs.length,
+            logs,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Log Files Status
+app.get('/api/logs-status', async (req, res) => {
+    try {
+        const stats = await detailedFileLogger.getLogStats();
+        
+        res.json({
+            status: 'success',
+            timestamp: new Date().toISOString(),
+            logFiles: stats
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+// ✅ Search All Logs
+app.get('/api/logs/search/:query', async (req, res) => {
+    try {
+        const { query } = req.params;
+        const { limit = 50, logTypes } = req.query;
+        
+        const options = { limit: parseInt(limit) };
+        if (logTypes) {
+            options.logTypes = logTypes.split(',');
+        }
+        
+        const results = await detailedFileLogger.searchLogs(query, options);
+        
+        res.json({
+            status: 'success',
+            query,
+            resultCount: results.length,
+            results,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
 // ✅ Browser detection test endpoint
 app.get('/test-browser', (req, res) => {
   try {
@@ -257,6 +860,11 @@ async function startServer() {
       console.log('='.repeat(65));
       console.log('📋 Available Endpoints:');
       console.log('   POST /api/extract-company-details - Main extraction endpoint');
+      console.log('   GET  /api/extraction-logs         - Real-time extraction logs');
+      console.log('   GET  /api/extraction-sessions     - Active extraction sessions');
+      console.log('   GET  /api/system-health           - System health dashboard');
+      console.log('   GET  /api/search-history          - Search history & analytics');
+      console.log('   GET  /api/logs/:type              - Detailed file logs');
       console.log('   GET  /health                      - System health check');
       console.log('   GET  /linkedin-metrics            - LinkedIn extraction metrics');
       console.log('   GET  /performance-metrics         - Performance analytics');
@@ -330,6 +938,11 @@ app.get('/status', (req, res) => {
       adaptiveSystem: adaptiveStatus,
       endpoints: {
         extraction: '/api/extract-company-details',
+        extractionLogs: '/api/extraction-logs',
+        extractionSessions: '/api/extraction-sessions',
+        systemHealth: '/api/system-health',
+        searchHistory: '/api/search-history',
+        detailedLogs: '/api/logs/:type',
         health: '/health',
         metrics: '/linkedin-metrics',
         performance: '/performance-metrics',
@@ -3269,137 +3882,270 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
 // New endpoint for extracting specific company details
 app.post('/api/extract-company-details', async (req, res) => {
     const { url } = req.body;
+    let sessionId = null;
     
-    // Check if URL is provided
-    if (!url || typeof url !== 'string') {
-        return res.status(400).json({ error: 'URL is required and must be a string' });
-    }
-    
-    const originalUrl = url.trim();
-    
-    // Check if URL is empty after trimming
-    if (!originalUrl) {
-        return res.status(400).json({ error: 'URL cannot be empty' });
-    }
-    
-    // Normalize the URL (adds https:// if missing)
-    const normalizedUrl = utils.normalizeUrl(originalUrl);
-    
-    // Check if normalization failed
-    if (!normalizedUrl) {
-        return res.status(400).json({ 
-            error: 'Invalid URL format - unable to normalize',
-            provided: originalUrl
-        });
-    }
-    
-    // Validate the normalized URL
-    if (!utils.isValidUrl(normalizedUrl)) {
-        console.log(`[DEBUG] URL validation failed for: "${originalUrl}" -> "${normalizedUrl}"`);
-        return res.status(400).json({ 
-            error: 'Invalid URL format',
-            provided: originalUrl,
-            normalized: normalizedUrl
-        });
-    }
+    try {
+        // Check if URL is provided
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({ error: 'URL is required and must be a string' });
+        }
+        
+        const originalUrl = url.trim();
+        
+        // Check if URL is empty after trimming
+        if (!originalUrl) {
+            return res.status(400).json({ error: 'URL cannot be empty' });
+        }
+        
+        // Start extraction session for logging
+        sessionId = extractionLogger.startSession(originalUrl);
+        extractionLogger.step('URL Validation', { originalUrl });
+        
+        // Track performance start time
+        const performanceStart = Date.now();
+        
+        // Normalize the URL (adds https:// if missing)
+        const normalizedUrl = utils.normalizeUrl(originalUrl);
+        
+        // Check if normalization failed
+        if (!normalizedUrl) {
+            extractionLogger.error('URL normalization failed', new Error('Invalid URL format'), { originalUrl });
+            return res.status(400).json({ 
+                error: 'Invalid URL format - unable to normalize',
+                provided: originalUrl,
+                sessionId
+            });
+        }
+        
+        extractionLogger.step('URL Normalized', { normalizedUrl });
+        
+        // Validate the normalized URL
+        if (!utils.isValidUrl(normalizedUrl)) {
+            extractionLogger.error('URL validation failed', new Error('Invalid URL format'), { originalUrl, normalizedUrl });
+            console.log(`[DEBUG] URL validation failed for: "${originalUrl}" -> "${normalizedUrl}"`);
+            return res.status(400).json({ 
+                error: 'Invalid URL format',
+                provided: originalUrl,
+                normalized: normalizedUrl,
+                sessionId
+            });
+        }
+        
+        extractionLogger.step('URL Validation Complete', { status: 'valid' });
 
-    // Check cache first for performance
-    const cacheKey = normalizedUrl.toLowerCase().trim();
-    const cachedResult = extractionCache.get(cacheKey);
-    if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_DURATION) {
-        logger.info('Returning cached result', { 
-            details: { 
+        // Check cache first for performance
+        const cacheKey = normalizedUrl.toLowerCase().trim();
+        const cachedResult = extractionCache.get(cacheKey);
+        if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_DURATION) {
+            extractionLogger.info('Cache hit - returning cached result', { 
                 url, 
                 cacheAge: Math.round((Date.now() - cachedResult.timestamp) / 1000) + 's' 
-            } 
-        });
-        return res.status(200).json({
-            ...cachedResult.data,
-            _cached: true,
-            _cacheAge: Math.round((Date.now() - cachedResult.timestamp) / 1000)
-        });
-    }
-
-    const isResolvable = await utils.isDomainResolvable(normalizedUrl);
-    if (!isResolvable) {
-        return res.status(400).json({ error: 'Domain name could not be resolved' });
-    }
-
-    let browser;
-    try {
-        const { browser: launchedBrowser, page } = await setupPuppeteerPageForCompanyDetails(normalizedUrl);
-        browser = launchedBrowser;
-
-        // Add timeout wrapper for the entire extraction process with smart timeout
-        console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
-        const companyDetails = await Promise.race([
-            extractCompanyDetailsFromPage(page, normalizedUrl, browser),
-            new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Company extraction timeout after 4 minutes')), 240000) // Balanced timeout - allows LinkedIn extraction but not too long
-            )
-        ]);
-
-        // Cache the result for future requests
-        extractionCache.set(cacheKey, {
-            data: companyDetails,
-            timestamp: Date.now()
-        });
-
-        // Clean old cache entries periodically
-        if (extractionCache.size > 100) { // Limit cache size
-            const oldestEntries = Array.from(extractionCache.entries())
-                .sort((a, b) => a[1].timestamp - b[1].timestamp)
-                .slice(0, 20); // Remove oldest 20 entries
+            }, sessionId);
+            extractionLogger.endSession(sessionId, 'completed', cachedResult.data);
             
-            oldestEntries.forEach(([key]) => extractionCache.delete(key));
+            // Log to search history for cache hit
+            await searchHistoryLogger.logSearch({
+                url: originalUrl,
+                normalizedUrl,
+                sessionId,
+                status: 'success',
+                duration: Date.now() - performanceStart,
+                cacheHit: true,
+                userAgent: getUserAgent(),
+                fieldsExtracted: Object.keys(cachedResult.data),
+                companyName: cachedResult.data.companyName,
+                industry: cachedResult.data.industry,
+                companyLogo: cachedResult.data.companyLogo,
+                bannerImage: cachedResult.data.bannerImage,
+                website: cachedResult.data.website,
+                verifiedPage: cachedResult.data.verifiedPage
+            });
+            
+            return res.status(200).json({
+                ...cachedResult.data,
+                _cached: true,
+                _cacheAge: Math.round((Date.now() - cachedResult.timestamp) / 1000),
+                _sessionId: sessionId
+            });
         }
+        
+        extractionLogger.step('Cache Check Complete', { status: 'cache_miss' });
 
-        res.status(200).json(companyDetails);
+        const isResolvable = await utils.isDomainResolvable(normalizedUrl);
+        if (!isResolvable) {
+            extractionLogger.error('Domain resolution failed', new Error('Domain name could not be resolved'), { normalizedUrl }, sessionId);
+            extractionLogger.endSession(sessionId, 'failed');
+            return res.status(400).json({ 
+                error: 'Domain name could not be resolved', 
+                sessionId 
+            });
+        }
+        
+        extractionLogger.step('Domain Resolution Complete', { status: 'resolved' });
 
-    } catch (error) {
-        logger.error('Company details extraction failed', error, { 
-            details: { 
+        let browser;
+        try {
+            extractionLogger.step('Browser Launch Starting', { userAgent: getUserAgent() });
+            const { browser: launchedBrowser, page } = await setupPuppeteerPageForCompanyDetails(normalizedUrl);
+            browser = launchedBrowser;
+            extractionLogger.step('Browser Launch Complete', { status: 'success' });
+
+            // Add timeout wrapper for the entire extraction process with smart timeout
+            extractionLogger.step('Extraction Process Starting', { timeout: '4 minutes' });
+            console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
+            
+            const companyDetails = await Promise.race([
+                extractCompanyDetailsFromPage(page, normalizedUrl, browser),
+                new Promise((_, reject) => 
+                    setTimeout(() => {
+                        extractionLogger.error('Extraction timeout', new Error('Company extraction timeout after 4 minutes'), { normalizedUrl }, sessionId);
+                        reject(new Error('Company extraction timeout after 4 minutes'));
+                    }, 240000) // Balanced timeout - allows LinkedIn extraction but not too long
+                )
+            ]);
+
+            extractionLogger.step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
+
+            // Cache the result for future requests
+            extractionCache.set(cacheKey, {
+                data: companyDetails,
+                timestamp: Date.now()
+            });
+            extractionLogger.step('Result Cached', { cacheKey });
+
+            // Clean old cache entries periodically
+            if (extractionCache.size > 100) { // Limit cache size
+                const oldestEntries = Array.from(extractionCache.entries())
+                    .sort((a, b) => a[1].timestamp - b[1].timestamp)
+                    .slice(0, 20); // Remove oldest 20 entries
+                
+                oldestEntries.forEach(([key]) => extractionCache.delete(key));
+                extractionLogger.step('Cache Cleanup', { removedEntries: 20, totalCacheSize: extractionCache.size });
+            }
+
+            extractionLogger.endSession(sessionId, 'completed', companyDetails);
+            
+            // Log to search history for successful extraction
+            await searchHistoryLogger.logSearch({
+                url: originalUrl,
+                normalizedUrl,
+                sessionId,
+                status: 'success',
+                duration: Date.now() - performanceStart,
+                cacheHit: false,
+                userAgent: getUserAgent(),
+                fieldsExtracted: Object.keys(companyDetails),
+                companyName: companyDetails.companyName,
+                industry: companyDetails.industry,
+                companyLogo: companyDetails.companyLogo,
+                bannerImage: companyDetails.bannerImage,
+                website: companyDetails.website,
+                verifiedPage: companyDetails.verifiedPage,
+                browserUsed: 'chrome'
+            });
+            
+            res.status(200).json({
+                ...companyDetails,
+                _sessionId: sessionId
+            });
+
+        } catch (error) {
+            extractionLogger.error('Company details extraction failed', error, { 
                 url: normalizedUrl, 
                 userAgent: getUserAgent(),
                 platform: os.platform()
-            } 
-        });
-        
-        // Enhanced error handling with specific error types
-        let errorMessage = 'Failed to extract company details. An unexpected error occurred.';
-        let statusCode = 500;
+            }, sessionId);
+            
+            // Enhanced error handling with specific error types
+            let errorMessage = 'Failed to extract company details. An unexpected error occurred.';
+            let statusCode = 500;
 
-        if (error.name === 'TimeoutError' || error.message.includes('timeout')) {
-            errorMessage = 'The extraction timed out. The page might be too complex or unresponsive.';
-            statusCode = 504; // Gateway Timeout
-            logger.warn('Extraction timeout occurred', { details: { url: normalizedUrl, timeout: '4 minutes' } });
-        } else if (error.message.includes('net::ERR_') || error.message.includes('navigation')) {
-            errorMessage = 'Failed to navigate to the website. Please check if the URL is accessible.';
-            statusCode = 502; // Bad Gateway
-        } else if (error.message.includes('browser') || error.message.includes('launch')) {
-            errorMessage = 'Browser initialization failed. Please try again.';
-            statusCode = 503; // Service Unavailable
-        }
+            if (error.name === 'TimeoutError' || error.message.includes('timeout')) {
+                errorMessage = 'The extraction timed out. The page might be too complex or unresponsive.';
+                statusCode = 504; // Gateway Timeout
+                extractionLogger.warn('Extraction timeout occurred', { url: normalizedUrl, timeout: '4 minutes' }, sessionId);
+            } else if (error.message.includes('net::ERR_') || error.message.includes('navigation')) {
+                errorMessage = 'Failed to navigate to the website. Please check if the URL is accessible.';
+                statusCode = 502; // Bad Gateway
+                extractionLogger.error('Navigation error', error, { url: normalizedUrl }, sessionId);
+            } else if (error.message.includes('browser') || error.message.includes('launch')) {
+                errorMessage = 'Browser initialization failed. Please try again.';
+                statusCode = 503; // Service Unavailable
+                extractionLogger.error('Browser launch error', error, { url: normalizedUrl }, sessionId);
+            }
 
-        res.status(statusCode).json({ 
-            error: errorMessage, 
-            details: error.message,
-            _timestamp: new Date().toISOString(),
-            _errorType: error.name || 'Unknown'
-        });
-    } finally {
-        if (browser) {
-            try {
-                await browser.close(); // Ensure browser is closed
-                console.log('[Browser] Browser closed successfully');
-            } catch (closeError) {
-                console.error('[Browser] Error closing browser:', closeError.message);
+            extractionLogger.endSession(sessionId, 'failed', { error: errorMessage, details: error.message });
+            
+            // Log to search history for failed extraction
+            await searchHistoryLogger.logSearch({
+                url: originalUrl,
+                normalizedUrl,
+                sessionId,
+                status: 'failed',
+                statusCode,
+                errorMessage,
+                duration: Date.now() - performanceStart,
+                cacheHit: false,
+                userAgent: getUserAgent(),
+                browserUsed: 'chrome'
+            });
+            
+            res.status(statusCode).json({ 
+                error: errorMessage, 
+                details: error.message,
+                _timestamp: new Date().toISOString(),
+                _errorType: error.name || 'Unknown',
+                _sessionId: sessionId
+            });
+        } finally {
+            if (browser) {
+                try {
+                    extractionLogger.step('Browser Cleanup Starting', null, sessionId);
+                    await browser.close(); // Ensure browser is closed
+                    console.log('[Browser] Browser closed successfully');
+                    extractionLogger.step('Browser Cleanup Complete', { status: 'success' }, sessionId);
+                } catch (closeError) {
+                    console.error('[Browser] Error closing browser:', closeError.message);
+                    extractionLogger.error('Browser cleanup failed', closeError, null, sessionId);
+                }
+            }
+            
+            // Force garbage collection if available
+            if (global.gc) {
+                global.gc();
+                extractionLogger.debug('Garbage collection triggered', null, sessionId);
             }
         }
         
-        // Force garbage collection if available
-        if (global.gc) {
-            global.gc();
+    } catch (outerError) {
+        // Handle any errors that occur outside the main try block (like session creation)
+        if (sessionId) {
+            extractionLogger.error('Outer extraction error', outerError, { url }, sessionId);
+            extractionLogger.endSession(sessionId, 'failed');
+            
+            // Log to search history for critical error
+            try {
+                await searchHistoryLogger.logSearch({
+                    url: url || 'unknown',
+                    normalizedUrl: 'unknown',
+                    sessionId,
+                    status: 'failed',
+                    statusCode: 500,
+                    errorMessage: 'Critical extraction error occurred',
+                    duration: Date.now() - (performanceStart || Date.now()),
+                    cacheHit: false,
+                    userAgent: getUserAgent()
+                });
+            } catch (logError) {
+                console.error('Failed to log search history for outer error:', logError);
+            }
         }
+        
+        res.status(500).json({
+            error: 'Critical extraction error occurred',
+            details: outerError.message,
+            _timestamp: new Date().toISOString(),
+            _sessionId: sessionId
+        });
     }
 });
