@@ -8,6 +8,9 @@ const fsSync = require('fs');
 const path = require('path');
 const os = require('os');
 
+const { exec } = require('child_process');
+const { performance } = require('perf_hooks');
+const { eventLoopUtilization } = performance;
 class SystemHealthMonitor {
     constructor() {
         this.logDir = path.join(__dirname, 'logs');
@@ -15,6 +18,7 @@ class SystemHealthMonitor {
         this.maxHistorySize = 1000;
         this.monitoringInterval = null;
         this.alerts = [];
+        this.prevElu = null; // Previous event loop utilization
         
         // Create logs directory if it doesn't exist
         this.initializeLogDirectory();
@@ -90,7 +94,8 @@ class SystemHealthMonitor {
         const systemUptime = os.uptime();
         
         // Calculate CPU percentage (approximation)
-        const cpuPercent = this.calculateCPUPercent(cpuUsage);
+        // const cpuPercent = this.calculateCPUPercent(cpuUsage);
+        const cpuPercent = await this.calculateCPUPercentAccurate();
 
         // Disk usage
         const diskUsage = await this.getDiskUsage();
@@ -100,16 +105,24 @@ class SystemHealthMonitor {
 
         // Load averages (Unix-like systems)
         const loadAvg = os.loadavg();
+const elu = await this.calculateEventLoopUtilization();
 
         return {
             // Process metrics
             process: {
-                uptime: uptime,
+            startTime: new Date(Date.now() - uptime * 1000),
+             uptime,
                 uptimeFormatted: this.formatUptime(uptime),
                 pid: process.pid,
                 version: process.version,
                 platform: process.platform,
-                arch: process.arch
+                arch: process.arch,
+             activeHandles: process._getActiveHandles().length,
+            //  eventLoopUtilization: eventLoopUtilization(),
+            eventLoopUtilization: {
+                percent: elu.percent,
+                raw: elu.raw
+            },
             },
             
             // Memory metrics
@@ -119,7 +132,9 @@ class SystemHealthMonitor {
                 rss: Math.round(memoryUsage.rss / 1024 / 1024), // MB
                 external: Math.round(memoryUsage.external / 1024 / 1024), // MB
                 arrayBuffers: Math.round(memoryUsage.arrayBuffers / 1024 / 1024), // MB
-                usagePercent: Math.round((memoryUsage.heapUsed / memoryUsage.heapTotal) * 100)
+                usagePercent: Math.round(
+               (memoryUsage.heapUsed / memoryUsage.heapTotal) * 100
+             ),             
             },
 
             // System metrics
@@ -129,9 +144,9 @@ class SystemHealthMonitor {
                 uptime: systemUptime,
                 uptimeFormatted: this.formatUptime(systemUptime),
                 loadAverage: loadAvg,
-                cpuCount: os.cpus().length,
-                cpuModel: os.cpus()[0]?.model || 'Unknown',
-                cpuPercent: cpuPercent,
+                cpuCount: Array.isArray(os.cpus()) ? os.cpus().length : 0,
+                cpuModel: os.cpus()[0]?.model || "Unknown",
+                cpuPercent,
                 hostname: os.hostname(),
                 platform: os.platform(),
                 release: os.release()
@@ -145,14 +160,26 @@ class SystemHealthMonitor {
 
             // Environment
             environment: {
-                nodeEnv: process.env.NODE_ENV || 'development',
+                nodeEnv: process.env.NODE_ENV || "development",
                 puppeteerCacheDir: process.env.PUPPETEER_CACHE_DIR,
                 renderEnv: !!process.env.RENDER,
                 port: process.env.PORT || 3000
             }
         };
     }
-
+async calculateEventLoopUtilization() {
+    if (!this.prevElu) {
+        this.prevElu = eventLoopUtilization();
+        return { raw: this.prevElu, percent: 0 };
+    }
+    const current = eventLoopUtilization();
+    const delta = eventLoopUtilization(current, this.prevElu); // difference since last call
+    this.prevElu = current;
+    return {
+        raw: current,
+        percent: Math.round((delta.utilization || 0) * 10000) / 100 // percent
+    };
+}
     /**
      * Calculate approximate CPU usage percentage
      */
@@ -174,25 +201,64 @@ class SystemHealthMonitor {
     }
 
     /**
-     * Get disk usage information
+     * Accurate CPU usage calculation over 100ms
+     */
+    async calculateCPUPercentAccurate() {
+        const startTime = performance.now();
+        const startUsage = process.cpuUsage();
+        await new Promise(res => setTimeout(res, 100)); // wait 100ms
+        const elapTime = performance.now() - startTime;
+        const elapUsage = process.cpuUsage(startUsage);
+        const elapUserMS = elapUsage.user / 1000;
+        const elapSystMS = elapUsage.system / 1000;
+        const cpuPercent = ((elapUserMS + elapSystMS) / (elapTime * os.cpus().length)) * 100;
+        return Math.round(cpuPercent * 100) / 100;
+    }
+    /**
+     * Get disk usage for root path (cross-platform)
      */
     async getDiskUsage() {
-        try {
-            const stats = await fs.stat(__dirname);
-            return {
-                available: 'N/A', // Would need platform-specific implementation
-                used: 'N/A',
-                total: 'N/A',
-                path: __dirname
-            };
-        } catch (error) {
-            return {
-                available: 'Error',
-                used: 'Error',
-                total: 'Error',
-                error: error.message
-            };
-        }
+        return new Promise((resolve) => {
+            if (process.platform === 'win32') {
+                // Windows: use 'wmic'
+                exec('wmic logicaldisk get size,freespace,caption', (err, stdout) => {
+                    if (err) return resolve({ error: err.message });
+                    const lines = stdout.trim().split('\n').slice(1);
+                    const disks = lines.map(line => {
+                        const parts = line.trim().split(/\s+/);
+                        if (parts.length < 3) return null;
+                        const [caption, free, size] = parts;
+                        return {
+                            drive: caption,
+                            total: size ? Math.round(size / 1024 / 1024 / 1024) : null,
+                            free: free ? Math.round(free / 1024 / 1024 / 1024) : null,
+                            used: (size && free) ? Math.round((size - free) / 1024 / 1024 / 1024) : null,
+                            usagePercent: (size && free) ? Math.round(((size - free) / size) * 100) : null
+                        };
+                    }).filter(Boolean);
+                    resolve(disks);
+                });
+            } else {
+                // Linux / macOS: use 'df -k'
+                exec('df -k --output=target,size,used,avail,pcent -x tmpfs -x devtmpfs', (err, stdout) => {
+                    if (err) return resolve({ error: err.message });
+                    const lines = stdout.trim().split('\n').slice(1);
+                    const disks = lines.map(line => {
+                        const parts = line.trim().split(/\s+/);
+                        if (parts.length < 5) return null;
+                        const [mount, size, used, avail, pcent] = parts;
+                        return {
+                            mount,
+                            total: Math.round(size / 1024 / 1024),
+                            used: Math.round(used / 1024 / 1024),
+                            available: Math.round(avail / 1024 / 1024),
+                            usagePercent: parseInt(pcent)
+                        };
+                    }).filter(Boolean);
+                    resolve(disks);
+                });
+            }
+        });
     }
 
     /**
@@ -201,6 +267,7 @@ class SystemHealthMonitor {
     formatNetworkInterfaces(interfaces) {
         const formatted = {};
         for (const [name, addresses] of Object.entries(interfaces)) {
+            if (!Array.isArray(addresses)) continue;
             formatted[name] = addresses
                 .filter(addr => !addr.internal)
                 .map(addr => ({
@@ -318,7 +385,11 @@ class SystemHealthMonitor {
      * Get current health summary
      */
     getCurrentHealth() {
+        if (!Array.isArray(this.healthHistory) || this.healthHistory.length === 0) {
+            return { status: 'unknown', message: 'No health data available' };
+        }
         const latest = this.healthHistory[this.healthHistory.length - 1];
+
         if (!latest) {
             return { status: 'unknown', message: 'No health data available' };
         }

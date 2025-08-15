@@ -443,101 +443,125 @@ app.get('/api/system-health', (req, res) => {
         const currentHealth = systemHealthMonitor.getCurrentHealth();
         const healthHistory = systemHealthMonitor.getHealthHistory(50);
         
-        if (format === 'html') {
-            const html = `
+if (format === 'html') {
+    const initialHistory = healthHistory.slice(-50); // send last 50 points for first render
+
+    const html = `
 <!DOCTYPE html>
 <html>
 <head>
     <title>System Health Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Arial', sans-serif; background: #f5f5f5; margin: 20px; }
-        .dashboard { max-width: 1200px; margin: 0 auto; }
-        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .status-${currentHealth.status} { border-left: 5px solid ${currentHealth.status === 'healthy' ? '#27ae60' : currentHealth.status === 'warning' ? '#f39c12' : '#e74c3c'}; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .metric { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .dashboard { max-width: 1400px; margin: 0 auto; }
+        .header { background: #2c3e50; color: white; padding: 25px; border-radius: 10px; margin-bottom: 25px; font-size: 1.2em; }
+        .status-${currentHealth.status} { border-left: 6px solid ${currentHealth.status === 'healthy' ? '#27ae60' : currentHealth.status === 'warning' ? '#f39c12' : '#e74c3c'}; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); font-size: 1.1em; }
+        .metric { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 1.1em; }
         .metric:last-child { border-bottom: none; }
-        .metric-value { font-weight: bold; color: #2c3e50; }
-        .alert { background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin: 10px 0; }
-        .alert.critical { background: #f8d7da; border-color: #f5c6cb; }
-        .refresh-btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-        .chart-placeholder { height: 200px; background: #ecf0f1; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+        .metric-value { font-weight: bold; color: #2c3e50; font-size: 1.2em; }
+        canvas { max-width: 100%; height: 250px; }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <div class="header status-${currentHealth.status}">
             <h1>🏥 System Health Dashboard</h1>
-            <p>Status: <strong>${currentHealth.status.toUpperCase()}</strong> | Last Update: ${currentHealth.lastUpdate || 'Never'}</p>
-            <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+            <p>Status: <strong id="statusText">${currentHealth.status.toUpperCase()}</strong> | Last Update: <span id="lastUpdate">${currentHealth.lastUpdate || 'Never'}</span></p>
         </div>
-        
-        ${currentHealth.alerts.length > 0 ? `
-        <div class="card">
-            <h3>🚨 Active Alerts</h3>
-            ${currentHealth.alerts.map(alert => `
-                <div class="alert ${alert.level}">
-                    <strong>${alert.type.toUpperCase()}:</strong> ${alert.message}
-                </div>
-            `).join('')}
-        </div>
-        ` : ''}
-        
+
         <div class="grid">
             <div class="card">
-                <h3>💾 Memory Usage</h3>
-                <div class="metric">
-                    <span>Process Memory:</span>
-                    <span class="metric-value">${currentHealth.summary.memory}</span>
-                </div>
-                <div class="chart-placeholder">Memory Usage Chart</div>
+                <h3>💾 Process Memory Usage (MB)</h3>
+                <canvas id="processMemChart"></canvas>
             </div>
-            
+
             <div class="card">
-                <h3>⏱️ System Uptime</h3>
-                <div class="metric">
-                    <span>Process Uptime:</span>
-                    <span class="metric-value">${currentHealth.summary.uptime}</span>
-                </div>
-                <div class="metric">
-                    <span>System Load:</span>
-                    <span class="metric-value">${currentHealth.summary.systemLoad}</span>
-                </div>
+                <h3>🖥️ System Memory Usage (GB)</h3>
+                <canvas id="systemMemChart"></canvas>
             </div>
-            
+
             <div class="card">
-                <h3>📊 Recent Activity</h3>
-                <div class="metric">
-                    <span>Health Checks:</span>
-                    <span class="metric-value">${healthHistory.length}</span>
-                </div>
-                <div class="chart-placeholder">Activity Chart</div>
-            </div>
-            
-            <div class="card">
-                <h3>🔧 System Info</h3>
-                <div class="metric">
-                    <span>Platform:</span>
-                    <span class="metric-value">${process.platform}</span>
-                </div>
-                <div class="metric">
-                    <span>Node Version:</span>
-                    <span class="metric-value">${process.version}</span>
-                </div>
-                <div class="metric">
-                    <span>Environment:</span>
-                    <span class="metric-value">${process.env.NODE_ENV || 'development'}</span>
-                </div>
+                <h3>⚡ CPU Usage (%)</h3>
+                <canvas id="cpuChart"></canvas>
             </div>
         </div>
     </div>
+
+    <script>
+        // Initial data
+        const history = ${JSON.stringify(initialHistory)};
+        
+        function formatTime(ts) {
+            return new Date(ts).toLocaleTimeString();
+        }
+
+        const processMemChart = new Chart(document.getElementById('processMemChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'Process MB', data: history.map(h => h.memory.used), borderColor: '#3498db', fill: false }]
+            }
+        });
+
+        const systemMemChart = new Chart(document.getElementById('systemMemChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'System GB', data: history.map(h => h.system.totalMemory - h.system.freeMemory), borderColor: '#e67e22', fill: false }]
+            }
+        });
+
+        const cpuChart = new Chart(document.getElementById('cpuChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'CPU %', data: history.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false }]
+            }
+        });
+
+        // Function to update charts without reloading
+        async function updateCharts() {
+            try {
+                const res = await fetch('/metrics');
+                const data = await res.json();
+                const latest = data.history.slice(-50);
+
+                // Update labels & datasets
+                processMemChart.data.labels = latest.map(h => formatTime(h.timestamp));
+                processMemChart.data.datasets[0].data = latest.map(h => h.memory.used);
+                processMemChart.update();
+
+                systemMemChart.data.labels = latest.map(h => formatTime(h.timestamp));
+                systemMemChart.data.datasets[0].data = latest.map(h => h.system.totalMemory - h.system.freeMemory);
+                systemMemChart.update();
+
+                cpuChart.data.labels = latest.map(h => formatTime(h.timestamp));
+                cpuChart.data.datasets[0].data = latest.map(h => h.system.cpuPercent);
+                cpuChart.update();
+
+                // Update status text & last update
+                document.getElementById('statusText').textContent = latest[latest.length-1]?.status?.toUpperCase() || 'UNKNOWN';
+                document.getElementById('lastUpdate').textContent = latest[latest.length-1]?.timestamp || 'Never';
+
+            } catch (err) {
+                console.error('Error updating charts:', err);
+            }
+        }
+
+        // Auto-update every 5 seconds
+        setInterval(updateCharts, 5000);
+    </script>
 </body>
 </html>`;
-            return res.send(html);
-        }
+    return res.send(html);
+}
+
+
         
         res.json({
             status: 'success',
@@ -553,6 +577,13 @@ app.get('/api/system-health', (req, res) => {
             timestamp: new Date().toISOString()
         });
     }
+});
+// Example Express endpoint
+app.get('/metrics', (req, res) => {
+    const history = systemHealthMonitor.getHealthHistory(50); // last 50 readings
+    res.json({
+        history
+    });
 });
 
 // ✅ Search History Endpoint
