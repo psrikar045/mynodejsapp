@@ -3101,3 +3101,106 @@
 2025-08-15T14:46:39.103Z - INFO: 🎯 System is ready for production use
 2025-08-15T14:46:39.103Z - INFO: =================================================================
 2025-08-15T14:51:37.934Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-15T18:17:57.330Z - INFO: ✅ System Health Check: COMPLETED (138ms)
+2025-08-15T18:17:57.330Z - INFO:    Node.js v22.17.1, Memory: 21MB, Platform: linux, Browser: ✅
+2025-08-15T18:17:57.330Z - INFO:
+🔄 Dependency Validation...
+2025-08-15T18:17:57.336Z - INFO: 📁 System health logs directory initialized
+2025-08-15T18:17:57.338Z - INFO: 📝 Starting fresh search history
+2025-08-15T18:17:57.338Z - INFO: 📚 Search history logger initialized
+2025-08-15T18:17:57.338Z - INFO: ✅ Dependency Validation: COMPLETED (8ms)
+2025-08-15T18:17:57.338Z - INFO:    All 5 dependencies validated
+2025-08-15T18:17:57.338Z - INFO:
+🔄 Adaptive System Deployment...
+2025-08-15T18:17:57.339Z - INFO: ✅ Adaptive System Deployment: COMPLETED (1ms)
+2025-08-15T18:17:57.339Z - INFO:    Adaptive system already deployed and configured
+2025-08-15T18:17:57.339Z - INFO:
+🔄 Component Initialization...
+2025-08-15T18:17:57.339Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-15T18:17:57.339Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-15T18:17:57.339Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 0863a8833d374d66601ae89570e9e7d9
+2025-08-15T18:17:57.340Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-15T18:17:57.340Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-15T18:17:57.340Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-15T18:17:57.341Z - INFO: 📝 Detailed file logger initialized
+2025-08-15T18:17:57.341Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-15T18:19:28.384Z - INFO: ✅ System Health Check: COMPLETED (136ms)
+2025-08-15T18:19:28.384Z - INFO:    Node.js v22.17.1, Memory: 21MB, Platform: linux, Browser: ✅
+2025-08-15T18:19:28.384Z - INFO:
+🔄 Dependency Validation...
+2025-08-15T18:19:28.389Z - INFO: 📁 System health logs directory initialized
+2025-08-15T18:19:28.391Z - INFO: 📝 Starting fresh search history
+2025-08-15T18:19:28.391Z - INFO: 📚 Search history logger initialized
+2025-08-15T18:19:28.391Z - INFO: ✅ Dependency Validation: COMPLETED (7ms)
+2025-08-15T18:19:28.391Z - INFO:    All 5 dependencies validated
+2025-08-15T18:19:28.391Z - INFO:
+🔄 Adaptive System Deployment...
+2025-08-15T18:19:28.392Z - INFO: ✅ Adaptive System Deployment: COMPLETED (1ms)
+2025-08-15T18:19:28.392Z - INFO:    Adaptive system already deployed and configured
+2025-08-15T18:19:28.392Z - INFO:
+🔄 Component Initialization...
+2025-08-15T18:19:28.392Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-15T18:19:28.392Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-15T18:19:28.392Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: ff07124177b7187c432cc50f6a9edbec
+2025-08-15T18:19:28.392Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-15T18:19:28.392Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-15T18:19:28.392Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-15T18:19:28.393Z - INFO: 📝 Detailed file logger initialized
+2025-08-15T18:19:28.394Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-15T18:19:28.394Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-15T18:19:28.394Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-15T18:19:28.394Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-15T18:19:28.394Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-15T18:19:28.395Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-15T18:19:28.395Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-15T18:19:28.395Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-15T18:19:28.395Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-15T18:19:28.395Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-15T18:19:28.395Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-15T18:19:28.395Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-15T18:19:28.396Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-15T18:19:28.396Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-15T18:19:28.396Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-15T18:19:28.396Z - INFO: ✅ Component Initialization: COMPLETED (4ms)
+2025-08-15T18:19:28.396Z - INFO:    6 components initialized successfully
+2025-08-15T18:19:28.396Z - INFO:
+🔄 Background Services...
+2025-08-15T18:19:28.396Z - INFO:    💓 Health monitoring active (30-minute intervals)
+2025-08-15T18:19:28.396Z - INFO: ✅ Background Services: COMPLETED (0ms)
+2025-08-15T18:19:28.396Z - INFO:    1 background services configured
+2025-08-15T18:19:28.396Z - INFO:
+🔄 Final Validation...
+2025-08-15T18:19:28.396Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-15T18:19:28.396Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-15T18:19:28.396Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: c04f3693debaa1069c34998d7dc4dbe7
+2025-08-15T18:19:28.396Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-15T18:19:28.396Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-15T18:19:28.396Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-15T18:19:28.397Z - INFO: 📊 [Pattern Manager] Loaded 0 patterns from database
+2025-08-15T18:19:28.397Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-15T18:19:28.397Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-15T18:19:28.397Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-15T18:19:28.397Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-15T18:19:28.397Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-15T18:19:28.397Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 5 API + 5 content patterns
+2025-08-15T18:19:28.397Z - INFO: 📊 [Pattern Manager] Retrieved 0 best patterns for development
+2025-08-15T18:19:28.397Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 6 total templates
+2025-08-15T18:19:28.397Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-15T18:19:28.397Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-15T18:19:28.397Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-15T18:19:28.397Z - INFO: ✅ Final Validation: COMPLETED (1ms)
+2025-08-15T18:19:28.397Z - INFO:    3 validation checks passed
+2025-08-15T18:19:28.397Z - INFO:
+=================================================================
+2025-08-15T18:19:28.397Z - INFO: ✅ AUTO-INITIALIZATION COMPLETED SUCCESSFULLY
+2025-08-15T18:19:28.397Z - INFO: =================================================================
+2025-08-15T18:19:28.397Z - INFO: ⏱️  Total Time: 0s
+2025-08-15T18:19:28.397Z - INFO: 📊 Steps Completed: 6/6
+2025-08-15T18:19:28.397Z - INFO: 🎉 System is ready for production use!
+2025-08-15T18:19:28.397Z - INFO: =================================================================
+2025-08-15T18:19:28.397Z - INFO: AFTER autoInit.initialize()
+2025-08-15T18:19:28.397Z - INFO: 🔧 Ensuring Chrome availability...
+2025-08-15T18:19:28.397Z - INFO: BEFORE ensureChrome()
+2025-08-15T18:19:28.398Z - INFO: 🔧 [Browser Checker] Checking browser availability...
+2025-08-15T18:19:28.674Z - INFO: ✅ [Chrome Installer] Chrome is working:
+2025-08-15T18:19:28.735Z - INFO: ✅ Chrome is ready for web scraping

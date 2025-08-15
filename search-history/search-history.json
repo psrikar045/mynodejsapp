@@ -1,0 +1,237 @@
+{
+  "lastUpdated": "2025-08-15T18:48:07.168Z",
+  "totalSearches": 6,
+  "searches": [
+    {
+      "searchId": "search_1755283605285_ivfdy1dwe",
+      "timestamp": "2025-08-15T18:46:45.285Z",
+      "url": "https://www.linkedin.com/company/microsoft/",
+      "normalizedUrl": "https://www.linkedin.com/company/microsoft",
+      "domain": "www.linkedin.com",
+      "sessionId": "session_1755283542209_fjzacaq17",
+      "status": "success",
+      "performance": {
+        "duration": 63075,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": true,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755283609181_82pdwnyrv",
+      "timestamp": "2025-08-15T18:46:49.181Z",
+      "url": "https://www.google.com",
+      "normalizedUrl": "https://www.google.com",
+      "domain": "www.google.com",
+      "sessionId": "session_1755283607303_pp982kb5i",
+      "status": "success",
+      "performance": {
+        "duration": 1878,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755283669163_sk4ds9lbf",
+      "timestamp": "2025-08-15T18:47:49.163Z",
+      "url": "https://www.github.com",
+      "normalizedUrl": "https://www.github.com",
+      "domain": "www.github.com",
+      "sessionId": "session_1755283611193_lck8s3iv7",
+      "status": "success",
+      "performance": {
+        "duration": 57970,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755283683134_z1tyezhiz",
+      "timestamp": "2025-08-15T18:48:03.134Z",
+      "url": "https://www.linkedin.com/company/microsoft/",
+      "normalizedUrl": "https://www.linkedin.com/company/microsoft",
+      "domain": "www.linkedin.com",
+      "sessionId": "session_1755283683133_zv680cngy",
+      "status": "success",
+      "performance": {
+        "duration": 1,
+        "cacheHit": true
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": true,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755283685158_4qvre0xip",
+      "timestamp": "2025-08-15T18:48:05.158Z",
+      "url": "https://www.google.com",
+      "normalizedUrl": "https://www.google.com",
+      "domain": "www.google.com",
+      "sessionId": "session_1755283685158_vf0nlzyom",
+      "status": "success",
+      "performance": {
+        "duration": 0,
+        "cacheHit": true
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755283687167_uaoklb1a4",
+      "timestamp": "2025-08-15T18:48:07.167Z",
+      "url": "https://www.github.com",
+      "normalizedUrl": "https://www.github.com",
+      "domain": "www.github.com",
+      "sessionId": "session_1755283687167_hedmarf53",
+      "status": "success",
+      "performance": {
+        "duration": 0,
+        "cacheHit": true
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+        "platform": "linux",
+        "nodeVersion": "v22.17.1",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    }
+  ]
+}

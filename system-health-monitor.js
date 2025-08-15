@@ -19,10 +19,14 @@ class SystemHealthMonitor {
         this.monitoringInterval = null;
         this.alerts = [];
         this.prevElu = null; // Previous event loop utilization
+        this.lastSystemCPUUsage = null;
         
         // Create logs directory if it doesn't exist
         this.initializeLogDirectory();
         
+        // Prime the pump for initial metrics.
+        setTimeout(() => this.collectHealthMetrics(), 100);
+
         // Start continuous monitoring
         this.startContinuousMonitoring();
     }
@@ -40,10 +44,10 @@ class SystemHealthMonitor {
      * Start continuous system monitoring
      */
     startContinuousMonitoring() {
-        // Monitor every 30 seconds
+        // Monitor every 4 seconds
         this.monitoringInterval = setInterval(() => {
             this.collectHealthMetrics();
-        }, 30000);
+        }, 4000);
 
         console.log('🔄 Continuous system monitoring started');
     }
@@ -93,9 +97,7 @@ class SystemHealthMonitor {
         const uptime = process.uptime();
         const systemUptime = os.uptime();
         
-        // Calculate CPU percentage (approximation)
-        // const cpuPercent = this.calculateCPUPercent(cpuUsage);
-        const cpuPercent = await this.calculateCPUPercentAccurate();
+        const cpuPercent = this.calculateSystemCPUUsage();
 
         // Disk usage
         const diskUsage = await this.getDiskUsage();
@@ -139,8 +141,8 @@ const elu = await this.calculateEventLoopUtilization();
 
             // System metrics
             system: {
-                totalMemory: Math.round(os.totalmem() / 1024 / 1024 / 1024), // GB
-                freeMemory: Math.round(os.freemem() / 1024 / 1024 / 1024), // GB
+                totalMemory: parseFloat((os.totalmem() / 1024 / 1024 / 1024).toFixed(2)), // GB
+                freeMemory: parseFloat((os.freemem() / 1024 / 1024 / 1024).toFixed(2)), // GB
                 uptime: systemUptime,
                 uptimeFormatted: this.formatUptime(systemUptime),
                 loadAverage: loadAvg,
@@ -214,6 +216,38 @@ async calculateEventLoopUtilization() {
         const cpuPercent = ((elapUserMS + elapSystMS) / (elapTime * os.cpus().length)) * 100;
         return Math.round(cpuPercent * 100) / 100;
     }
+
+    /**
+     * Calculate system-wide CPU usage percentage.
+     * It works by comparing two snapshots of os.cpus() times.
+     */
+    calculateSystemCPUUsage() {
+        const cpus = os.cpus();
+
+        if (!this.lastSystemCPUUsage) {
+            this.lastSystemCPUUsage = cpus;
+            return 0;
+        }
+
+        const lastCpus = this.lastSystemCPUUsage;
+        this.lastSystemCPUUsage = cpus;
+
+        const totalTimes = cpus.map(cpu => Object.values(cpu.times).reduce((a, b) => a + b, 0));
+        const lastTotalTimes = lastCpus.map(cpu => Object.values(cpu.times).reduce((a, b) => a + b, 0));
+
+        const idleTimes = cpus.map(cpu => cpu.times.idle);
+        const lastIdleTimes = lastCpus.map(cpu => cpu.times.idle);
+
+        const totalDiff = totalTimes.reduce((a, b) => a + b, 0) - lastTotalTimes.reduce((a, b) => a + b, 0);
+        const idleDiff = idleTimes.reduce((a, b) => a + b, 0) - lastIdleTimes.reduce((a, b) => a + b, 0);
+
+        if (totalDiff === 0) {
+            return 0;
+        }
+
+        const usage = (totalDiff - idleDiff) / totalDiff;
+        return Math.max(0, Math.round(usage * 10000) / 100);
+    }
     /**
      * Get disk usage for root path (cross-platform)
      */
@@ -228,18 +262,21 @@ async calculateEventLoopUtilization() {
                         const parts = line.trim().split(/\s+/);
                         if (parts.length < 3) return null;
                         const [caption, free, size] = parts;
+                        const totalGB = size ? parseFloat((size / 1024 / 1024 / 1024).toFixed(2)) : null;
+                        const freeGB = free ? parseFloat((free / 1024 / 1024 / 1024).toFixed(2)) : null;
+                        const usedGB = (size && free) ? parseFloat(((size - free) / 1024 / 1024 / 1024).toFixed(2)) : null;
                         return {
                             drive: caption,
-                            total: size ? Math.round(size / 1024 / 1024 / 1024) : null,
-                            free: free ? Math.round(free / 1024 / 1024 / 1024) : null,
-                            used: (size && free) ? Math.round((size - free) / 1024 / 1024 / 1024) : null,
+                            total: totalGB,
+                            free: freeGB,
+                            used: usedGB,
                             usagePercent: (size && free) ? Math.round(((size - free) / size) * 100) : null
                         };
                     }).filter(Boolean);
                     resolve(disks);
                 });
             } else {
-                // Linux / macOS: use 'df -k'
+                // Linux / macOS: use 'df -k' (sizes are in KB)
                 exec('df -k --output=target,size,used,avail,pcent -x tmpfs -x devtmpfs', (err, stdout) => {
                     if (err) return resolve({ error: err.message });
                     const lines = stdout.trim().split('\n').slice(1);
@@ -249,9 +286,9 @@ async calculateEventLoopUtilization() {
                         const [mount, size, used, avail, pcent] = parts;
                         return {
                             mount,
-                            total: Math.round(size / 1024 / 1024),
-                            used: Math.round(used / 1024 / 1024),
-                            available: Math.round(avail / 1024 / 1024),
+                            total: parseFloat((size / 1024 / 1024).toFixed(2)), // KB to GB
+                            used: parseFloat((used / 1024 / 1024).toFixed(2)), // KB to GB
+                            available: parseFloat((avail / 1024 / 1024).toFixed(2)), // KB to GB
                             usagePercent: parseInt(pcent)
                         };
                     }).filter(Boolean);
