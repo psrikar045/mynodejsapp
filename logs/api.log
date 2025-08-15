@@ -90,33 +90,4 @@
 {"timestamp":"2025-08-15T18:00:17.598Z","method":"GET","url":"/metrics","statusCode":200,"duration":0,"userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36","ip":"::1","type":"api"}
 {"timestamp":"2025-08-15T18:00:35.674Z","method":"GET","url":"/metrics","statusCode":304,"duration":1,"userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36","ip":"::1","type":"api"}
 {"timestamp":"2025-08-15T18:01:35.687Z","method":"GET","url":"/metrics","statusCode":200,"duration":1,"userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36","ip":"::1","type":"api"}
-{"timestamp":"2025-08-15T18:45:42.179Z","method":"GET","url":"/test","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:45:42.189Z","method":"GET","url":"/api/system-health","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:45:42.195Z","method":"GET","url":"/api/logs-status","statusCode":200,"duration":3,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:46:45.290Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":63080,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:46:49.186Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":1883,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:49.169Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":57975,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.178Z","method":"GET","url":"/api/extraction-logs?limit=10","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.182Z","method":"GET","url":"/api/search-history?limit=10","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.186Z","method":"GET","url":"/api/extraction-logs/session_1755283542209_fjzacaq17","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.191Z","method":"GET","url":"/api/logs/extraction?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.194Z","method":"GET","url":"/api/logs/errors?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.198Z","method":"GET","url":"/api/logs/performance?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.201Z","method":"GET","url":"/api/logs/system?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.203Z","method":"GET","url":"/api/search-analytics","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:47:51.206Z","method":"GET","url":"/api/extraction-sessions","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:03.089Z","method":"GET","url":"/test","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:03.108Z","method":"GET","url":"/api/system-health","statusCode":200,"duration":2,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:03.127Z","method":"GET","url":"/api/logs-status","statusCode":200,"duration":7,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:03.146Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":9,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:05.163Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":4,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:07.171Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":5,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.175Z","method":"GET","url":"/api/extraction-logs?limit=10","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.179Z","method":"GET","url":"/api/search-history?limit=10","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.184Z","method":"GET","url":"/api/extraction-logs/session_1755283683133_zv680cngy","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.189Z","method":"GET","url":"/api/logs/extraction?limit=5","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.192Z","method":"GET","url":"/api/logs/errors?limit=5","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.194Z","method":"GET","url":"/api/logs/performance?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.197Z","method":"GET","url":"/api/logs/system?limit=5","statusCode":200,"duration":1,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.199Z","method":"GET","url":"/api/search-analytics","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
-{"timestamp":"2025-08-15T18:48:09.200Z","method":"GET","url":"/api/extraction-sessions","statusCode":200,"duration":0,"userAgent":"axios/1.11.0","ip":"127.0.0.1","type":"api"}
+{"timestamp":"2025-08-15T19:59:12.299Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":53688,"userAgent":null,"ip":"127.0.0.1","type":"api"}

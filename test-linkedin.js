@@ -1,4 +1,4 @@
-const scraperLink = require('./scrapeLinkedIn');
+const scraperLink = require('./linkedin_scraper');
 
 async function testLinkedInScraper() {
     try {
