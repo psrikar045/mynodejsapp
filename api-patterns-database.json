@@ -2,9 +2,9 @@
   "metadata": {
     "version": "1.0.0",
     "created": "2025-08-13T12:38:16.242Z",
-    "lastUpdated": "2025-08-15T18:00:14.704Z",
-    "totalPatterns": 0,
-    "successfulPatterns": 0
+    "lastUpdated": "2025-08-15T21:18:55.826Z",
+    "totalPatterns": 7,
+    "successfulPatterns": 7
   },
   "baselinePatterns": {
     "apiEndpoints": [
@@ -22,7 +22,105 @@
       "company"
     ]
   },
-  "apiEndpoints": {},
+  "apiEndpoints": {
+    "path:/company/github/": {
+      "pattern": "/company/github/",
+      "type": "path",
+      "domain": "www.linkedin.com",
+      "method": "GET",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 2,
+      "successfulRequests": 2,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "domain:www.linkedin.com": {
+      "pattern": "www.linkedin.com",
+      "type": "domain",
+      "method": "GET",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 3,
+      "successfulRequests": 3,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "path:/organization-guest/api/": {
+      "pattern": "/organization-guest/api/",
+      "type": "path",
+      "domain": "www.linkedin.com",
+      "method": "POST",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 1,
+      "successfulRequests": 1,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "path:/api/ingraphs/": {
+      "pattern": "/api/ingraphs/",
+      "type": "path",
+      "domain": "www.linkedin.com",
+      "method": "POST",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 1,
+      "successfulRequests": 1,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "path:/ingraphs/gauge/": {
+      "pattern": "/ingraphs/gauge/",
+      "type": "path",
+      "domain": "www.linkedin.com",
+      "method": "POST",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 1,
+      "successfulRequests": 1,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "path:/api/v2/": {
+      "pattern": "/api/v2/",
+      "type": "path",
+      "domain": "collector-pxdojv695v.protechts.net",
+      "method": "OPTIONS",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 3,
+      "successfulRequests": 3,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    },
+    "path:/v2/msft/": {
+      "pattern": "/v2/msft/",
+      "type": "path",
+      "domain": "collector-pxdojv695v.protechts.net",
+      "method": "OPTIONS",
+      "discovered": "2025-08-15T18:47:21.313Z",
+      "totalRequests": 3,
+      "successfulRequests": 3,
+      "successRate": 1,
+      "lastUsed": "2025-08-15T18:47:21.313Z",
+      "lastSuccess": "2025-08-15T18:47:21.313Z",
+      "containsBannerData": false,
+      "sampleResponses": []
+    }
+  },
   "bannerPatterns": {
     "jsonPatterns": [
       "backgroundImage",
@@ -39,7 +137,15 @@
     ]
   },
   "successMetrics": {
-    "patternSuccessRates": {},
+    "patternSuccessRates": {
+      "path:/company/github/": 1,
+      "domain:www.linkedin.com": 1,
+      "path:/organization-guest/api/": 1,
+      "path:/api/ingraphs/": 1,
+      "path:/ingraphs/gauge/": 1,
+      "path:/api/v2/": 1,
+      "path:/v2/msft/": 1
+    },
     "endpointPerformance": {},
     "lastSuccessfulPatterns": [],
     "failedPatterns": []

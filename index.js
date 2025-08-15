@@ -317,6 +317,7 @@ app.get('/api/extraction-logs', (req, res) => {
                         <option value="step">Step</option>
                         <option value="debug">Debug</option>
                     </select>
+                    <button onclick="fetchLogs()">Refresh</button>
                 </div>
                 <div id="logsContainer">
                     ${logs.map(log => `
@@ -339,6 +340,27 @@ app.get('/api/extraction-logs', (req, res) => {
                             log.style.display = showByLevel && showBySession ? '' : 'none';
                         });
                     }
+
+                    async function fetchLogs() {
+                        try {
+                            const response = await fetch('/api/extraction-logs?format=json');
+                            const data = await response.json();
+                            const logsContainer = document.getElementById('logsContainer');
+                            logsContainer.innerHTML = data.logs.map(log => \`
+                                <div class="log-entry log-\${log.level}" data-level="\${log.level}" data-session="\${log.sessionId || ''}">
+                                    <div><strong>\${log.level.toUpperCase()}</strong> - <span class="timestamp">\${new Date(log.timestamp).toLocaleString()}</span></div>
+                                    \${log.sessionId ? \`<div><small>Session: \${log.sessionId}</small></div>\` : ''}
+                                    <div>\${log.message}</div>
+                                    \${log.data ? \`<details><summary>Data</summary><div class="log-data">\${JSON.stringify(log.data, null, 2)}</div></details>\` : ''}
+                                </div>
+                            \`).join('');
+                            filterLogs(); // Re-apply filters after refresh
+                        } catch (error) {
+                            console.error('Error fetching logs:', error);
+                        }
+                    }
+
+                    setInterval(fetchLogs, 15000); // Auto-refresh every 15 seconds
                 </script>
             `;
             return res.send(generateDashboardHTML('Extraction Logs', bodyContent));
