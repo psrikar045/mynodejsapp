@@ -1972,8 +1972,8 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         args: getAdvancedBrowserArgs(),
         headless: 'new', // Use new headless mode for better compatibility
         defaultViewport: antiBotSystem.getRandomViewport(),
-        timeout: 60000,
-        protocolTimeout: 180000,
+        timeout: 120000,
+        protocolTimeout: 300000,
         // Advanced stealth features
         ignoreDefaultArgs: ['--enable-automation'],
         ignoreHTTPSErrors: true
@@ -2034,9 +2034,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         
         // Smart navigation with adaptive timeouts - try fast first, fallback to slower
         const waitConditions = [
-            { condition: 'domcontentloaded', timeout: 15000 },  // Fast DOM load
-            { condition: 'load', timeout: 45000 },              // Full load with reasonable timeout
-            { condition: 'networkidle2', timeout: 60000 }       // Fallback for complex sites
+            { condition: 'domcontentloaded', timeout: 30000 },  // Fast DOM load
+            { condition: 'load', timeout: 90000 },              // Full load with reasonable timeout
+            { condition: 'networkidle2', timeout: 120000 }       // Fallback for complex sites
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2353,8 +2353,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
     const launchOptions = {
         headless: 'new',
         args: getAdvancedBrowserArgs(),
-        timeout: 60000, // Reduced browser launch timeout for LinkedIn
-        protocolTimeout: 180000, // Reduced protocol timeout for LinkedIn
+        timeout: 120000, // Reduced browser launch timeout for LinkedIn
+        protocolTimeout: 300000, // Reduced protocol timeout for LinkedIn
         defaultViewport: antiBotSystem.getRandomViewport(),
         // Advanced stealth features for LinkedIn
         ignoreDefaultArgs: ['--enable-automation'],
@@ -2421,8 +2421,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         
         // Try fast approach first, then fallback to more reliable approach
         const navigationStrategies = [
-            { waitUntil: 'domcontentloaded', timeout: 20000 },  // Fast approach
-            { waitUntil: 'load', timeout: 60000 }               // Reliable fallback
+            { waitUntil: 'domcontentloaded', timeout: 40000 },  // Fast approach
+            { waitUntil: 'load', timeout: 120000 }               // Reliable fallback
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2632,7 +2632,7 @@ const getImageFromBanner = () => {
             return result;
         }),
         new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('LinkedIn page evaluation timeout after 45 seconds')), 45000) // Balanced timeout - not too fast, not too slow
+            setTimeout(() => reject(new Error('LinkedIn page evaluation timeout after 90 seconds')), 90000) // Balanced timeout - not too fast, not too slow
         )
     ]);
         
@@ -3882,7 +3882,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 // extraction.scrapeLinkedInCompany(linkedInUrl),
                 scraperLink.main(),
                 new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 2 minutes')), 120000) // Reduced from 5 minutes to 2 minutes
+                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 5 minutes')), 300000) // Reduced from 5 minutes to 2 minutes
                 )
             ]).catch(error => {
                 logger.warn(`LinkedIn extraction failed during parallel execution`, { 
@@ -4130,15 +4130,7 @@ app.post('/api/extract-company-details', async (req, res) => {
             extractionLogger.step('Extraction Process Starting', { timeout: '4 minutes' });
             console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
             
-            const companyDetails = await Promise.race([
-                extractCompanyDetailsFromPage(page, normalizedUrl, browser),
-                new Promise((_, reject) => 
-                    setTimeout(() => {
-                        extractionLogger.error('Extraction timeout', new Error('Company extraction timeout after 4 minutes'), { normalizedUrl }, sessionId);
-                        reject(new Error('Company extraction timeout after 4 minutes'));
-                    }, 240000) // Balanced timeout - allows LinkedIn extraction but not too long
-                )
-            ]);
+            const companyDetails = await extractCompanyDetailsFromPage(page, normalizedUrl, browser);
 
             extractionLogger.step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
 
