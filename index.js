@@ -3016,7 +3016,6 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
         await cleanUpTempImageFile(localImagePath, cleanupTempFile);
     }
   }
-const extraction = require('./extraction');
 const scraperLink = require('./linkedin_scraper');
 const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
