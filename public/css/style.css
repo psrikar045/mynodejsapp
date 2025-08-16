@@ -149,3 +149,7 @@ button:hover {
 #history-table-container th, #health-table-container th {
     color: #3498db;
 }
+
+#health-table-container .card {
+    margin-top: 0;
+}

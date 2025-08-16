@@ -289,63 +289,50 @@ async function renderHealth() {
                     <canvas id="cpuChart"></canvas>
                 </div>
             </div>
-            <div class="card" id="health-table-container">
-                <h3>Details</h3>
-                Loading details...
+            <div id="health-table-container">
+                <!-- Details will be rendered here -->
             </div>
         </div>
     `;
 
-    try {
-        const response = await fetch('/api/system-health?format=json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+    let healthInterval;
+    let charts = {};
 
+    function formatTime(ts) {
+        return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function updateHealthData(data) {
         if (!data || !data.health || !data.history) {
-            throw new Error("Invalid data structure received from API.");
+            console.error("Invalid data structure for update.");
+            return;
         }
 
         const { health, history } = data;
-
-        const latest = health;
         const initialHistory = history.slice(-50);
+        const latest = initialHistory.length > 0 ? initialHistory[initialHistory.length - 1] : health;
 
         // Update header
         document.getElementById('statusText').textContent = latest.status.toUpperCase();
         document.getElementById('lastUpdate').textContent = new Date(latest.timestamp).toLocaleString();
-        document.getElementById('header').classList.add(`status-${latest.status}`);
+        const header = document.getElementById('header');
+        header.className = 'header status-' + (latest.status || 'unknown');
 
-        function formatTime(ts) {
-            return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        }
+        // Update charts
+        const labels = initialHistory.map(h => formatTime(h.timestamp));
+        charts.processMem.data.labels = labels;
+        charts.processMem.data.datasets[0].data = initialHistory.map(h => h.memory.used);
+        charts.processMem.update('none');
 
-        new Chart(document.getElementById('processMemChart'), {
-            type: 'line',
-            data: {
-                labels: initialHistory.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'Process MB', data: initialHistory.map(h => h.memory.used), borderColor: '#3498db', fill: false, tension: 0.1 }]
-            }
-        });
+        charts.systemMem.data.labels = labels;
+        charts.systemMem.data.datasets[0].data = initialHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2));
+        charts.systemMem.update('none');
 
-        new Chart(document.getElementById('systemMemChart'), {
-            type: 'line',
-            data: {
-                labels: initialHistory.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'System Used GB', data: initialHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2)), borderColor: '#e67e22', fill: false, tension: 0.1 }]
-            }
-        });
+        charts.cpu.data.labels = labels;
+        charts.cpu.data.datasets[0].data = initialHistory.map(h => h.system.cpuPercent);
+        charts.cpu.update('none');
 
-        new Chart(document.getElementById('cpuChart'), {
-            type: 'line',
-            data: {
-                labels: initialHistory.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'CPU %', data: initialHistory.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false, tension: 0.1 }]
-            }
-        });
-
-        // Render tables
+        // Update tables
         document.getElementById('health-table-container').innerHTML = `
             <div class="grid">
                 <div class="card">
@@ -404,11 +391,66 @@ async function renderHealth() {
                 </div>
             </div>
         `;
-
-    } catch (error) {
-        console.error('Error fetching or rendering system health:', error);
-        appRoot.innerHTML = `<h2>Error loading system health.</h2><p>${error.message}</p>`;
     }
+
+    async function fetchInitialData() {
+        try {
+            const response = await fetch('/api/system-health?format=json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            if (!data || !data.health || !data.history) {
+                throw new Error("Invalid data structure received from API.");
+            }
+
+            const initialHistory = data.history.slice(-50);
+
+            charts.processMem = new Chart(document.getElementById('processMemChart'), {
+                type: 'line',
+                data: {
+                    labels: initialHistory.map(h => formatTime(h.timestamp)),
+                    datasets: [{ label: 'Process MB', data: initialHistory.map(h => h.memory.used), borderColor: '#3498db', fill: false, tension: 0.1 }]
+                }
+            });
+
+            charts.systemMem = new Chart(document.getElementById('systemMemChart'), {
+                type: 'line',
+                data: {
+                    labels: initialHistory.map(h => formatTime(h.timestamp)),
+                    datasets: [{ label: 'System Used GB', data: initialHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2)), borderColor: '#e67e22', fill: false, tension: 0.1 }]
+                }
+            });
+
+            charts.cpu = new Chart(document.getElementById('cpuChart'), {
+                type: 'line',
+                data: {
+                    labels: initialHistory.map(h => formatTime(h.timestamp)),
+                    datasets: [{ label: 'CPU %', data: initialHistory.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false, tension: 0.1 }]
+                }
+            });
+
+            updateHealthData(data);
+
+            healthInterval = setInterval(async () => {
+                const response = await fetch('/api/system-health?format=json');
+                const data = await response.json();
+                updateHealthData(data);
+            }, 5000);
+
+        } catch (error) {
+            console.error('Error fetching or rendering system health:', error);
+            appRoot.innerHTML = `<h2>Error loading system health.</h2><p>${error.message}</p>`;
+        }
+    }
+
+    // Clear previous interval if it exists
+    if (window.healthInterval) {
+        clearInterval(window.healthInterval);
+    }
+    fetchInitialData();
+    window.healthInterval = healthInterval;
 }
 
 
