@@ -10,6 +10,15 @@ const router = {
     },
     loadRoute() {
         const hash = window.location.hash.slice(1) || 'dashboard';
+
+        // Update active nav link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${hash}`) {
+                link.classList.add('active');
+            }
+        });
+
         const handler = this.routes[hash];
         if (handler) {
             handler();
@@ -74,37 +83,324 @@ function renderDashboard() {
     });
 }
 
-function renderLogs() {
-    document.getElementById('app-root').innerHTML = `
+async function renderLogs() {
+    const appRoot = document.getElementById('app-root');
+    appRoot.innerHTML = `
         <div class="page active" id="logs-page">
             <div class="card">
                 <h2>Extraction Logs</h2>
-                <iframe src="/api/extraction-logs?format=html" style="width: 100%; height: 80vh; border: none;"></iframe>
+                <div id="logs-controls">
+                    <input type="text" id="sessionFilter" placeholder="Filter by Session ID...">
+                    <select id="levelFilter">
+                        <option value="">All Levels</option>
+                        <option value="error">Error</option>
+                        <option value="warn">Warning</option>
+                        <option value="info">Info</option>
+                        <option value="step">Step</option>
+                        <option value="debug">Debug</option>
+                    </select>
+                    <button id="refresh-logs-button">Refresh</button>
+                </div>
+                <div id="logs-container">Loading...</div>
             </div>
         </div>
     `;
+
+    const logsContainer = document.getElementById('logs-container');
+    const sessionFilter = document.getElementById('sessionFilter');
+    const levelFilter = document.getElementById('levelFilter');
+    const refreshButton = document.getElementById('refresh-logs-button');
+
+    let logsData = [];
+
+    async function fetchLogs() {
+        try {
+            logsContainer.textContent = 'Loading...';
+            const response = await fetch('/api/extraction-logs?format=json&limit=200');
+            const data = await response.json();
+            logsData = data.logs;
+            renderFilteredLogs();
+        } catch (error) {
+            console.error('Error fetching logs:', error);
+            logsContainer.textContent = 'Error fetching logs.';
+        }
+    }
+
+    function renderFilteredLogs() {
+        const level = levelFilter.value;
+        const sessionId = sessionFilter.value.toLowerCase();
+
+        const filteredLogs = logsData.filter(log => {
+            const showByLevel = !level || log.level === level;
+            const showBySession = !sessionId || (log.sessionId && log.sessionId.toLowerCase().includes(sessionId));
+            return showByLevel && showBySession;
+        });
+
+        if (filteredLogs.length === 0) {
+            logsContainer.innerHTML = '<p>No logs found.</p>';
+            return;
+        }
+
+        logsContainer.innerHTML = filteredLogs.map(log => `
+            <div class="log-entry log-${log.level}" data-level="${log.level}" data-session="${log.sessionId || ''}">
+                <div><strong>${log.level.toUpperCase()}</strong> - <span class="timestamp">${new Date(log.timestamp).toLocaleString()}</span></div>
+                ${log.sessionId ? `<div><small>Session: ${log.sessionId}</small></div>` : ''}
+                <div>${log.message}</div>
+                ${log.data ? `<details><summary>Data</summary><pre class="log-data">${JSON.stringify(log.data, null, 2)}</pre></details>` : ''}
+            </div>
+        `).join('');
+    }
+
+    sessionFilter.addEventListener('keyup', renderFilteredLogs);
+    levelFilter.addEventListener('change', renderFilteredLogs);
+    refreshButton.addEventListener('click', fetchLogs);
+
+    fetchLogs();
 }
 
-function renderHistory() {
-    document.getElementById('app-root').innerHTML = `
+async function renderHistory() {
+    const appRoot = document.getElementById('app-root');
+    appRoot.innerHTML = `
         <div class="page active" id="history-page">
             <div class="card">
-                <h2>Search History</h2>
-                <iframe src="/api/search-history?format=html" style="width: 100%; height: 80vh; border: none;"></iframe>
+                <h2>Search History & Analytics</h2>
+                <div class="grid" id="history-analytics">Loading analytics...</div>
+            </div>
+            <div class="card">
+                <h3>Search History</h3>
+                <div id="history-table-container">Loading history...</div>
             </div>
         </div>
     `;
+
+    try {
+        const response = await fetch('/api/search-history?format=json&limit=100');
+        const data = await response.json();
+        const { analytics, searches } = data;
+
+        // Render analytics
+        document.getElementById('history-analytics').innerHTML = `
+            <div class="card">
+                <h3>Success Rate</h3>
+                <canvas id="successRateChart"></canvas>
+            </div>
+            <div class="card">
+                <h3>Cache Performance</h3>
+                <canvas id="cacheHitChart"></canvas>
+            </div>
+            <div class="card">
+                <h3>LinkedIn vs. Other</h3>
+                <canvas id="linkedinChart"></canvas>
+            </div>
+        `;
+
+        new Chart(document.getElementById('successRateChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Success', 'Failed'],
+                datasets: [{
+                    data: [analytics.successRate, 100 - analytics.successRate],
+                    backgroundColor: ['#27ae60', '#e74c3c']
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('cacheHitChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Cache Hit', 'Cache Miss'],
+                datasets: [{
+                    data: [analytics.cacheHitRate, 100 - analytics.cacheHitRate],
+                    backgroundColor: ['#3498db', '#95a5a6']
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('linkedinChart'), {
+            type: 'bar',
+            data: {
+                labels: ['LinkedIn', 'Other Websites'],
+                datasets: [{
+                    label: 'Number of Searches',
+                    data: [analytics.linkedInStats.total, analytics.totalSearches - analytics.linkedInStats.total],
+                    backgroundColor: ['#0077b5', '#f39c12']
+                }]
+            }
+        });
+
+        // Render history table
+        const historyTableContainer = document.getElementById('history-table-container');
+        if (searches.length === 0) {
+            historyTableContainer.innerHTML = '<p>No search history found.</p>';
+            return;
+        }
+
+        historyTableContainer.innerHTML = `
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Domain</th>
+                        <th>Status</th>
+                        <th>Duration (ms)</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${searches.map(search => `
+                        <tr>
+                            <td>${new Date(search.timestamp).toLocaleString()}</td>
+                            <td>${search.domain}</td>
+                            <td>${search.status}</td>
+                            <td>${search.performance.duration || 'N/A'}</td>
+                            <td>${search.extraction.isLinkedIn ? 'LinkedIn' : 'Website'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } catch (error) {
+        console.error('Error fetching search history:', error);
+        document.getElementById('app-root').innerHTML = '<h2>Error loading search history.</h2>';
+    }
 }
 
-function renderHealth() {
-    document.getElementById('app-root').innerHTML = `
+async function renderHealth() {
+    const appRoot = document.getElementById('app-root');
+    appRoot.innerHTML = `
         <div class="page active" id="health-page">
             <div class="card">
-                <h2>System Health</h2>
-                <iframe src="/api/system-health?format=html" style="width: 100%; height: 80vh; border: none;"></iframe>
+                <div id="header" class="header">
+                    <h1>🏥 System Health Dashboard</h1>
+                    <p>Status: <strong id="statusText">...</strong> | Last Update: <span id="lastUpdate">...</span></p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <h3>💾 Process Memory (MB)</h3>
+                    <canvas id="processMemChart"></canvas>
+                </div>
+                <div class="card">
+                    <h3>🖥️ System Memory (GB)</h3>
+                    <canvas id="systemMemChart"></canvas>
+                </div>
+                <div class="card">
+                    <h3>⚡ CPU Usage (%)</h3>
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+            <div class="card" id="health-table-container">
+                <h3>Details</h3>
+                Loading details...
             </div>
         </div>
     `;
+
+    try {
+        const response = await fetch('/api/system-health?format=json');
+        const data = await response.json();
+        const { health, history } = data;
+
+        const latest = health;
+        const initialHistory = history.slice(-50);
+
+        // Update header
+        document.getElementById('statusText').textContent = latest.status.toUpperCase();
+        document.getElementById('lastUpdate').textContent = new Date(latest.timestamp).toLocaleString();
+        document.getElementById('header').classList.add(`status-${latest.status}`);
+
+        function formatTime(ts) {
+            return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        new Chart(document.getElementById('processMemChart'), {
+            type: 'line',
+            data: {
+                labels: initialHistory.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'Process MB', data: initialHistory.map(h => h.memory.used), borderColor: '#3498db', fill: false, tension: 0.1 }]
+            }
+        });
+
+        new Chart(document.getElementById('systemMemChart'), {
+            type: 'line',
+            data: {
+                labels: initialHistory.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'System Used GB', data: initialHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2)), borderColor: '#e67e22', fill: false, tension: 0.1 }]
+            }
+        });
+
+        new Chart(document.getElementById('cpuChart'), {
+            type: 'line',
+            data: {
+                labels: initialHistory.map(h => formatTime(h.timestamp)),
+                datasets: [{ label: 'CPU %', data: initialHistory.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false, tension: 0.1 }]
+            }
+        });
+
+        // Render tables
+        document.getElementById('health-table-container').innerHTML = `
+            <div class="grid">
+                <div class="card">
+                    <h3>⚙️ Process Info</h3>
+                    <table id="processInfoTable">
+                        <tr><th>PID</th><td>${latest.process.pid}</td></tr>
+                        <tr><th>Uptime</th><td>${latest.process.uptimeFormatted}</td></tr>
+                        <tr><th>Node.js</th><td>${latest.process.version}</td></tr>
+                        <tr><th>Platform</th><td>${latest.process.platform}</td></tr>
+                        <tr><th>Architecture</th><td>${latest.process.arch}</td></tr>
+                        <tr><th>Active Handles</th><td>${latest.process.activeHandles}</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>🌍 Environment</h3>
+                    <table id="environmentInfoTable">
+                        <tr><th>NODE_ENV</th><td>${latest.environment.nodeEnv}</td></tr>
+                        <tr><th>Port</th><td>${latest.environment.port}</td></tr>
+                        <tr><th>Puppeteer Cache</th><td>${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>💽 Disk Usage</h3>
+                    <table id="diskUsageTable">
+                        <thead><tr><th>Mount</th><th>Total</th><th>Used</th><th>Free</th><th>Usage %</th></tr></thead>
+                        <tbody>
+                        ${latest.disk && latest.disk.length > 0 ? latest.disk.map(d => `
+                            <tr>
+                                <td>${d.mount || d.drive}</td>
+                                <td>${d.total} GB</td>
+                                <td>${d.used} GB</td>
+                                <td>${d.available || d.free} GB</td>
+                                <td>${d.usagePercent}%</td>
+                            </tr>
+                        `).join('') : '<tr><td colspan="5">No disk data</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>📡 Network Info</h3>
+                    <table id="networkInfoTable">
+                        <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
+                        <tbody>
+                        ${Object.entries(latest.network).map(([name, interfaces]) =>
+                            interfaces.map(iface => `
+                            <tr>
+                                <td>${name}</td>
+                                <td>${iface.address}</td>
+                                <td>${iface.mac}</td>
+                                <td>${iface.family}</td>
+                            </tr>
+                            `).join('')
+                        ).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+    } catch (error) {
+        console.error('Error fetching system health:', error);
+        appRoot.innerHTML = '<h2>Error loading system health.</h2>';
+    }
 }
 
 

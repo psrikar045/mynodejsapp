@@ -90,3 +90,62 @@ button:hover {
     background: #2980b9;
     color: #fff;
 }
+
+/* Log Styles */
+#logs-controls {
+    margin-bottom: 1rem;
+}
+
+#logs-controls input, #logs-controls select {
+    margin-right: 0.5rem;
+}
+
+.log-entry {
+    margin: 10px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 5px solid #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.log-entry.log-error { border-left-color: #e74c3c; }
+.log-entry.log-warn { border-left-color: #f39c12; }
+.log-entry.log-info { border-left-color: #3498db; }
+.log-entry.log-step { border-left-color: #27ae60; }
+.log-entry.log-debug { border-left-color: #95a5a6; }
+
+.log-data {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* History & Health Page Styles */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+#history-table-container table, #health-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#history-table-container th, #history-table-container td,
+#health-table-container th, #health-table-container td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#history-table-container th, #health-table-container th {
+    color: #3498db;
+}
