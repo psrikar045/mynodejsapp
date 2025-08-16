@@ -351,20 +351,20 @@ async function renderHealth() {
                 <div class="card">
                     <h3>⚙️ Process Info</h3>
                     <table id="processInfoTable">
-                        <tr><th>PID</th><td>${latest.process.pid}</td></tr>
-                        <tr><th>Uptime</th><td>${latest.process.uptimeFormatted}</td></tr>
-                        <tr><th>Node.js</th><td>${latest.process.version}</td></tr>
-                        <tr><th>Platform</th><td>${latest.process.platform}</td></tr>
-                        <tr><th>Architecture</th><td>${latest.process.arch}</td></tr>
-                        <tr><th>Active Handles</th><td>${latest.process.activeHandles}</td></tr>
+                        <tr><th>PID</th><td>${latest.process?.pid ?? 'N/A'}</td></tr>
+                        <tr><th>Uptime</th><td>${latest.process?.uptimeFormatted ?? 'N/A'}</td></tr>
+                        <tr><th>Node.js</th><td>${latest.process?.version ?? 'N/A'}</td></tr>
+                        <tr><th>Platform</th><td>${latest.process?.platform ?? 'N/A'}</td></tr>
+                        <tr><th>Architecture</th><td>${latest.process?.arch ?? 'N/A'}</td></tr>
+                        <tr><th>Active Handles</th><td>${latest.process?.activeHandles ?? 'N/A'}</td></tr>
                     </table>
                 </div>
                 <div class="card">
                     <h3>🌍 Environment</h3>
                     <table id="environmentInfoTable">
-                        <tr><th>NODE_ENV</th><td>${latest.environment.nodeEnv}</td></tr>
-                        <tr><th>Port</th><td>${latest.environment.port}</td></tr>
-                        <tr><th>Puppeteer Cache</th><td>${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
+                        <tr><th>NODE_ENV</th><td>${latest.environment?.nodeEnv ?? 'N/A'}</td></tr>
+                        <tr><th>Port</th><td>${latest.environment?.port ?? 'N/A'}</td></tr>
+                        <tr><th>Puppeteer Cache</th><td>${latest.environment?.puppeteerCacheDir || 'Default'}</td></tr>
                     </table>
                 </div>
                 <div class="card">
@@ -389,7 +389,7 @@ async function renderHealth() {
                     <table id="networkInfoTable">
                         <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
                         <tbody>
-                        ${Object.entries(latest.network).map(([name, interfaces]) =>
+                        ${latest.network ? Object.entries(latest.network).map(([name, interfaces]) =>
                             interfaces.map(iface => `
                             <tr>
                                 <td>${name}</td>
@@ -398,7 +398,7 @@ async function renderHealth() {
                                 <td>${iface.family}</td>
                             </tr>
                             `).join('')
-                        ).join('')}
+                        ).join('') : '<tr><td colspan="4">No network data</td></tr>'}
                         </tbody>
                     </table>
                 </div>
