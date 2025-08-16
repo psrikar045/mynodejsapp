@@ -314,7 +314,8 @@ async function renderHealth() {
 
         // Update header using the 'health' object
         document.getElementById('statusText').textContent = health.status?.toUpperCase() ?? 'UNKNOWN';
-        document.getElementById('lastUpdate').textContent = new Date(health.timestamp).toLocaleString();
+        const lastUpdateTimestamp = health.timestamp ? new Date(health.timestamp).toLocaleString() : 'N/A';
+        document.getElementById('lastUpdate').textContent = lastUpdateTimestamp;
         const header = document.getElementById('header');
         header.className = 'header status-' + (health.status || 'unknown');
 
@@ -334,7 +335,7 @@ async function renderHealth() {
 
         // Update tables
         document.getElementById('health-table-container').innerHTML = `
-            <div class="grid">
+            <div class="grid details-grid">
                 <div class="card">
                     <h3>⚙️ Process Info</h3>
                     <table id="processInfoTable">

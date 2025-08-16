@@ -153,3 +153,7 @@ button:hover {
 #health-table-container .card {
     margin-top: 0;
 }
+
+.details-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
