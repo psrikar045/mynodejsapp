@@ -1,0 +1,159 @@
+/* Basic Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #1a1a1a;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #2c3e50;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #3498db;
+}
+
+nav a {
+    color: #f0f0f0;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+nav a:hover, nav a.active {
+    color: #3498db;
+}
+
+.connection-status {
+    font-size: 0.9rem;
+}
+
+#active-connections {
+    font-weight: bold;
+}
+
+main {
+    padding: 2rem;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Futuristic Styles */
+body {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+}
+
+.card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+h1, h2, h3 {
+    color: #3498db;
+    border-bottom: 1px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+input, textarea, button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #3498db;
+    color: #f0f0f0;
+    padding: 0.8rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+button {
+    cursor: pointer;
+    background: #3498db;
+    color: #1a1a1a;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+button:hover {
+    background: #2980b9;
+    color: #fff;
+}
+
+/* Log Styles */
+#logs-controls {
+    margin-bottom: 1rem;
+}
+
+#logs-controls input, #logs-controls select {
+    margin-right: 0.5rem;
+}
+
+.log-entry {
+    margin: 10px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 5px solid #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.log-entry.log-error { border-left-color: #e74c3c; }
+.log-entry.log-warn { border-left-color: #f39c12; }
+.log-entry.log-info { border-left-color: #3498db; }
+.log-entry.log-step { border-left-color: #27ae60; }
+.log-entry.log-debug { border-left-color: #95a5a6; }
+
+.log-data {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* History & Health Page Styles */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+#history-table-container table, #health-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#history-table-container th, #history-table-container td,
+#health-table-container th, #health-table-container td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#history-table-container th, #health-table-container th {
+    color: #3498db;
+}
+
+#health-table-container .card {
+    margin-top: 0;
+}
+
+.details-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
