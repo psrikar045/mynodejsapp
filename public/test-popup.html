@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page for Adaptive Interaction Handler</title>
+    <style>
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2rem;
+            border: 1px solid black;
+            background: white;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Page</h1>
+    <p>A pop-up should appear on this page after 3 seconds.</p>
+
+    <div id="popup">
+        <h2>This is a pop-up!</h2>
+        <p>The adaptive handler should close this.</p>
+        <button aria-label="close">Close</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show the pop-up after a delay
+            setTimeout(() => {
+                const popup = document.getElementById('popup');
+                popup.style.display = 'block';
+            }, 3000);
+
+            // Add a click listener to the close button
+            const closeButton = document.querySelector('#popup button');
+            closeButton.addEventListener('click', () => {
+                const popup = document.getElementById('popup');
+                popup.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
