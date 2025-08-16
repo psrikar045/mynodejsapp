@@ -97,6 +97,51 @@ app.use(async (req, res, next) => {
     next();
 });
 
+function generateDashboardHTML(title, content) {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${title}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .dashboard { max-width: 1600px; margin: 0 auto; }
+        .header { background: #2c3e50; color: white; padding: 20px 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 2em; }
+        .header p { margin: 5px 0 0; font-size: 1.2em; opacity: 0.9; }
+        .status-healthy { border-left: 8px solid #27ae60; }
+        .status-warning { border-left: 8px solid #f39c12; }
+        .status-critical { border-left: 8px solid #e74c3c; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 35px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { margin-top: 0; font-size: 1.5em; color: #2c3e50; border-bottom: 2px solid #f0f2f5; padding-bottom: 12px; }
+        canvas { max-width: 100%; height: 280px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: left; padding: 14px 10px; border-bottom: 1px solid #eee; }
+        th { font-size: 0.95em; color: #555; text-transform: uppercase; cursor: pointer; }
+        td { font-family: 'Menlo', 'Consolas', monospace; font-size: 1em; }
+        td:first-child { font-weight: bold; color: #000; }
+        .log-entry { margin: 10px 0; padding: 15px; background: #fff; border-radius: 8px; border-left: 5px solid #555; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .log-error { border-left-color: #e74c3c; }
+        .log-warn { border-left-color: #f39c12; }
+        .log-info { border-left-color: #3498db; }
+        .log-step { border-left-color: #27ae60; }
+        .log-debug { border-left-color: #95a5a6; }
+        .log-data { background: #ecf0f1; padding: 10px; margin-top: 10px; border-radius: 5px; font-size: 0.9em; overflow-x: auto; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        ${content}
+    </div>
+</body>
+</html>`;
+}
+
 // ✅ Example test endpoint
 app.get('/test', (req, res) => {
   res.json({ 
@@ -250,104 +295,75 @@ app.get('/api/extraction-logs', (req, res) => {
         const stats = extractionLogger.getStats();
 
         if (format === 'html') {
-            // Return HTML formatted logs for easy browser viewing
-            const html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Extraction Logs</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body { font-family: 'Courier New', monospace; background: #1a1a1a; color: #00ff00; margin: 20px; }
-        .header { background: #333; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: #2a2a2a; padding: 10px; border-radius: 5px; border-left: 4px solid #00ff00; }
-        .log-entry { margin: 10px 0; padding: 10px; background: #2a2a2a; border-radius: 5px; border-left: 4px solid #555; }
-        .log-error { border-left-color: #ff4444; }
-        .log-warn { border-left-color: #ffaa00; }
-        .log-info { border-left-color: #4488ff; }
-        .log-step { border-left-color: #00ff00; }
-        .log-debug { border-left-color: #888; }
-        .timestamp { color: #888; font-size: 0.9em; }
-        .session-id { color: #00aaff; font-size: 0.9em; }
-        .data { background: #1a1a1a; padding: 10px; margin: 5px 0; border-radius: 3px; font-size: 0.9em; overflow-x: auto; }
-        .refresh-btn { background: #00ff00; color: #000; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 5px; }
-        .filter-controls { margin: 10px 0; }
-        .filter-controls select, .filter-controls input { background: #333; color: #fff; border: 1px solid #555; padding: 5px; margin: 0 5px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🚀 SumNode Extraction Logs</h1>
-        <p>Real-time extraction debugging for production environment</p>
-        <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
-        <button class="refresh-btn" onclick="autoRefresh()">⏰ Auto Refresh (30s)</button>
-    </div>
-    
-    <div class="stats">
-        <div class="stat-card"><strong>Total Logs:</strong> ${stats.totalLogs}</div>
-        <div class="stat-card"><strong>Total Sessions:</strong> ${stats.totalSessions}</div>
-        <div class="stat-card"><strong>Running Sessions:</strong> ${stats.runningSessions}</div>
-        <div class="stat-card"><strong>Success Rate:</strong> ${stats.successRate}%</div>
-        <div class="stat-card"><strong>Completed:</strong> ${stats.completedSessions}</div>
-        <div class="stat-card"><strong>Failed:</strong> ${stats.failedSessions}</div>
-    </div>
+            const bodyContent = `
+                <div class="header">
+                    <h1>🚀 Extraction Logs</h1>
+                    <p>Real-time extraction debugging and session monitoring</p>
+                </div>
+                <div class="grid">
+                    <div class="card"><h3>Total Logs</h3><h2>${stats.totalLogs}</h2></div>
+                    <div class="card"><h3>Total Sessions</h3><h2>${stats.totalSessions}</h2></div>
+                    <div class="card"><h3>Running</h3><h2>${stats.runningSessions}</h2></div>
+                    <div class="card"><h3>Success Rate</h3><h2>${stats.successRate}%</h2></div>
+                </div>
+                <div class="card">
+                    <h3>Filters</h3>
+                    <input type="text" id="sessionFilter" placeholder="Filter by Session ID..." onkeyup="filterLogs()">
+                    <select id="levelFilter" onchange="filterLogs()">
+                        <option value="">All Levels</option>
+                        <option value="error">Error</option>
+                        <option value="warn">Warning</option>
+                        <option value="info">Info</option>
+                        <option value="step">Step</option>
+                        <option value="debug">Debug</option>
+                    </select>
+                    <button onclick="fetchLogs()">Refresh</button>
+                </div>
+                <div id="logsContainer">
+                    ${logs.map(log => `
+                        <div class="log-entry log-${log.level}" data-level="${log.level}" data-session="${log.sessionId || ''}">
+                            <div><strong>${log.level.toUpperCase()}</strong> - <span class="timestamp">${new Date(log.timestamp).toLocaleString()}</span></div>
+                            ${log.sessionId ? `<div><small>Session: ${log.sessionId}</small></div>` : ''}
+                            <div>${log.message}</div>
+                            ${log.data ? `<details><summary>Data</summary><div class="log-data">${JSON.stringify(log.data, null, 2)}</div></details>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                <script>
+                    function filterLogs() {
+                        const level = document.getElementById('levelFilter').value;
+                        const sessionId = document.getElementById('sessionFilter').value.toLowerCase();
+                        const logs = document.querySelectorAll('.log-entry');
+                        logs.forEach(log => {
+                            const showByLevel = !level || log.dataset.level === level;
+                            const showBySession = !sessionId || log.dataset.session.toLowerCase().includes(sessionId);
+                            log.style.display = showByLevel && showBySession ? '' : 'none';
+                        });
+                    }
 
-    <div class="filter-controls">
-        <strong>Filters:</strong>
-        <select onchange="filterLogs(this.value)" id="levelFilter">
-            <option value="">All Levels</option>
-            <option value="error">Errors Only</option>
-            <option value="warn">Warnings Only</option>
-            <option value="info">Info Only</option>
-            <option value="step">Steps Only</option>
-        </select>
-        <input type="text" placeholder="Session ID" onchange="filterBySession(this.value)" id="sessionFilter">
-        <button class="refresh-btn" onclick="clearFilters()">Clear Filters</button>
-    </div>
+                    async function fetchLogs() {
+                        try {
+                            const response = await fetch('/api/extraction-logs?format=json');
+                            const data = await response.json();
+                            const logsContainer = document.getElementById('logsContainer');
+                            logsContainer.innerHTML = data.logs.map(log => \`
+                                <div class="log-entry log-\${log.level}" data-level="\${log.level}" data-session="\${log.sessionId || ''}">
+                                    <div><strong>\${log.level.toUpperCase()}</strong> - <span class="timestamp">\${new Date(log.timestamp).toLocaleString()}</span></div>
+                                    \${log.sessionId ? \`<div><small>Session: \${log.sessionId}</small></div>\` : ''}
+                                    <div>\${log.message}</div>
+                                    \${log.data ? \`<details><summary>Data</summary><div class="log-data">\${JSON.stringify(log.data, null, 2)}</div></details>\` : ''}
+                                </div>
+                            \`).join('');
+                            filterLogs(); // Re-apply filters after refresh
+                        } catch (error) {
+                            console.error('Error fetching logs:', error);
+                        }
+                    }
 
-    <div class="logs">
-        ${logs.map(log => `
-            <div class="log-entry log-${log.level}">
-                <div class="timestamp">${log.timestamp}</div>
-                ${log.sessionId ? `<div class="session-id">Session: ${log.sessionId}</div>` : ''}
-                <div><strong>${log.level.toUpperCase()}:</strong> ${log.message}</div>
-                ${log.data ? `<div class="data">${JSON.stringify(log.data, null, 2)}</div>` : ''}
-            </div>
-        `).join('')}
-    </div>
-
-    <script>
-        function filterLogs(level) {
-            const url = new URL(window.location);
-            if (level) { url.searchParams.set('level', level); }
-            else { url.searchParams.delete('level'); }
-            window.location = url.toString();
-        }
-        
-        function filterBySession(sessionId) {
-            const url = new URL(window.location);
-            if (sessionId) { url.searchParams.set('sessionId', sessionId); }
-            else { url.searchParams.delete('sessionId'); }
-            window.location = url.toString();
-        }
-        
-        function clearFilters() {
-            const url = new URL(window.location);
-            url.searchParams.delete('level');
-            url.searchParams.delete('sessionId');
-            window.location = url.toString();
-        }
-        
-        function autoRefresh() {
-            setInterval(() => location.reload(), 30000);
-            alert('Auto-refresh enabled (30 seconds)');
-        }
-    </script>
-</body>
-</html>`;
-            return res.send(html);
+                    setInterval(fetchLogs, 15000); // Auto-refresh every 15 seconds
+                </script>
+            `;
+            return res.send(generateDashboardHTML('Extraction Logs', bodyContent));
         }
 
         res.json({
@@ -443,234 +459,202 @@ app.get('/api/system-health', (req, res) => {
         const currentHealth = systemHealthMonitor.getCurrentHealth();
         const healthHistory = systemHealthMonitor.getHealthHistory(50);
         
-if (format === 'html') {
-    const initialHistory = healthHistory.slice(-50);
-    const latest = initialHistory.length > 0 ? initialHistory[initialHistory.length - 1] : null;
+        if (format === 'html') {
+            const initialHistory = healthHistory.slice(-50);
+            const latest = initialHistory.length > 0 ? initialHistory[initialHistory.length - 1] : null;
 
-    const html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>System Health Dashboard</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
-        .dashboard { max-width: 1600px; margin: 0 auto; }
-        .header { background: #2c3e50; color: white; padding: 20px 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 2em; }
-        .header p { margin: 5px 0 0; font-size: 1.2em; opacity: 0.9; }
-        .status-healthy { border-left: 8px solid #27ae60; }
-        .status-warning { border-left: 8px solid #f39c12; }
-        .status-critical { border-left: 8px solid #e74c3c; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 35px; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { margin-top: 0; font-size: 1.5em; color: #2c3e50; border-bottom: 2px solid #f0f2f5; padding-bottom: 12px; }
-        canvas { max-width: 100%; height: 280px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { text-align: left; padding: 14px 10px; border-bottom: 1px solid #eee; }
-        th { font-size: 0.95em; color: #555; text-transform: uppercase; }
-        td { font-family: 'Menlo', 'Consolas', monospace; font-size: 1em; }
-        td:first-child { font-weight: bold; color: #000; }
-    </style>
-</head>
-<body>
-    <div class="dashboard">
-        <div id="header" class="header status-${currentHealth.status}">
-            <h1>🏥 System Health Dashboard</h1>
-            <p>Status: <strong id="statusText">${currentHealth.status.toUpperCase()}</strong> | Last Update: <span id="lastUpdate">${currentHealth.lastUpdate || 'Never'}</span></p>
-        </div>
+            const bodyContent = `
+                <div id="header" class="header status-${currentHealth.status}">
+                    <h1>🏥 System Health Dashboard</h1>
+                    <p>Status: <strong id="statusText">${currentHealth.status.toUpperCase()}</strong> | Last Update: <span id="lastUpdate">${currentHealth.lastUpdate || 'Never'}</span></p>
+                </div>
 
-        <div class="grid">
-            <div class="card">
-                <h3>💾 Process Memory (MB)</h3>
-                <canvas id="processMemChart"></canvas>
-            </div>
-            <div class="card">
-                <h3>🖥️ System Memory (GB)</h3>
-                <canvas id="systemMemChart"></canvas>
-            </div>
-            <div class="card">
-                <h3>⚡ CPU Usage (%)</h3>
-                <canvas id="cpuChart"></canvas>
-            </div>
-            <div class="card">
-                <h3>⚙️ Process Info</h3>
-                <table id="processInfoTable">
-                    ${latest ? `
-                    <tr><th>PID</th><td>${latest.process.pid}</td></tr>
-                    <tr><th>Uptime</th><td>${latest.process.uptimeFormatted}</td></tr>
-                    <tr><th>Node.js</th><td>${latest.process.version}</td></tr>
-                    <tr><th>Platform</th><td>${latest.process.platform}</td></tr>
-                    <tr><th>Architecture</th><td>${latest.process.arch}</td></tr>
-                    <tr><th>Active Handles</th><td>${latest.process.activeHandles}</td></tr>
-                    ` : '<tr><td>Loading...</td></tr>'}
-                </table>
-            </div>
-            <div class="card">
-                <h3>🌍 Environment</h3>
-                <table id="environmentInfoTable">
-                    ${latest ? `
-                    <tr><th>NODE_ENV</th><td>${latest.environment.nodeEnv}</td></tr>
-                    <tr><th>Port</th><td>${latest.environment.port}</td></tr>
-                    <tr><th>Puppeteer Cache</th><td>${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
-                    ` : '<tr><td>Loading...</td></tr>'}
-                </table>
-            </div>
-            <div class="card">
-                <h3>💽 Disk Usage</h3>
-                <table id="diskUsageTable">
-                    <thead><tr><th>Mount</th><th>Total</th><th>Used</th><th>Free</th><th>Usage %</th></tr></thead>
-                    <tbody>
-                    ${latest && latest.disk && latest.disk.length > 0 ? latest.disk.map(d => `
-                        <tr>
-                            <td>${d.mount || d.drive}</td>
-                            <td>${d.total} GB</td>
-                            <td>${d.used} GB</td>
-                            <td>${d.available || d.free} GB</td>
-                            <td>${d.usagePercent}%</td>
-                        </tr>
-                    `).join('') : '<tr><td colspan="5">No disk data</td></tr>'}
-                    </tbody>
-                </table>
-            </div>
-            <div class="card">
-                <h3>📡 Network Info</h3>
-                <table id="networkInfoTable">
-                    <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
-                    <tbody>
-                    ${latest ? Object.entries(latest.network).map(([name, interfaces]) =>
-                        interfaces.map(iface => `
-                        <tr>
-                            <td>${name}</td>
-                            <td>${iface.address}</td>
-                            <td>${iface.mac}</td>
-                            <td>${iface.family}</td>
-                        </tr>
-                        `).join('')
-                    ).join('') : '<tr><td colspan="4">No network data</td></tr>'}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3>💾 Process Memory (MB)</h3>
+                        <canvas id="processMemChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>🖥️ System Memory (GB)</h3>
+                        <canvas id="systemMemChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>⚡ CPU Usage (%)</h3>
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>⚙️ Process Info</h3>
+                        <table id="processInfoTable">
+                            ${latest ? `
+                            <tr><th>PID</th><td>${latest.process.pid}</td></tr>
+                            <tr><th>Uptime</th><td>${latest.process.uptimeFormatted}</td></tr>
+                            <tr><th>Node.js</th><td>${latest.process.version}</td></tr>
+                            <tr><th>Platform</th><td>${latest.process.platform}</td></tr>
+                            <tr><th>Architecture</th><td>${latest.process.arch}</td></tr>
+                            <tr><th>Active Handles</th><td>${latest.process.activeHandles}</td></tr>
+                            ` : '<tr><td>Loading...</td></tr>'}
+                        </table>
+                    </div>
+                    <div class="card">
+                        <h3>🌍 Environment</h3>
+                        <table id="environmentInfoTable">
+                            ${latest ? `
+                            <tr><th>NODE_ENV</th><td>${latest.environment.nodeEnv}</td></tr>
+                            <tr><th>Port</th><td>${latest.environment.port}</td></tr>
+                            <tr><th>Puppeteer Cache</th><td>${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
+                            ` : '<tr><td>Loading...</td></tr>'}
+                        </table>
+                    </div>
+                    <div class="card">
+                        <h3>💽 Disk Usage</h3>
+                        <table id="diskUsageTable">
+                            <thead><tr><th>Mount</th><th>Total</th><th>Used</th><th>Free</th><th>Usage %</th></tr></thead>
+                            <tbody>
+                            ${latest && latest.disk && latest.disk.length > 0 ? latest.disk.map(d => `
+                                <tr>
+                                    <td>${d.mount || d.drive}</td>
+                                    <td>${d.total} GB</td>
+                                    <td>${d.used} GB</td>
+                                    <td>${d.available || d.free} GB</td>
+                                    <td>${d.usagePercent}%</td>
+                                </tr>
+                            `).join('') : '<tr><td colspan="5">No disk data</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <h3>📡 Network Info</h3>
+                        <table id="networkInfoTable">
+                            <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
+                            <tbody>
+                            ${latest ? Object.entries(latest.network).map(([name, interfaces]) =>
+                                interfaces.map(iface => `
+                                <tr>
+                                    <td>${name}</td>
+                                    <td>${iface.address}</td>
+                                    <td>${iface.mac}</td>
+                                    <td>${iface.family}</td>
+                                </tr>
+                                `).join('')
+                            ).join('') : '<tr><td colspan="4">No network data</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-    <script>
-        const history = ${JSON.stringify(initialHistory)};
-        
-        function formatTime(ts) {
-            return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            <script>
+                const history = ${JSON.stringify(initialHistory)};
+
+                function formatTime(ts) {
+                    return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                }
+
+                const processMemChart = new Chart(document.getElementById('processMemChart'), {
+                    type: 'line',
+                    data: {
+                        labels: history.map(h => formatTime(h.timestamp)),
+                        datasets: [{ label: 'Process MB', data: history.map(h => h.memory.used), borderColor: '#3498db', fill: false, tension: 0.1 }]
+                    }
+                });
+
+                const systemMemChart = new Chart(document.getElementById('systemMemChart'), {
+                    type: 'line',
+                    data: {
+                        labels: history.map(h => formatTime(h.timestamp)),
+                        datasets: [{ label: 'System Used GB', data: history.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2)), borderColor: '#e67e22', fill: false, tension: 0.1 }]
+                    }
+                });
+
+                const cpuChart = new Chart(document.getElementById('cpuChart'), {
+                    type: 'line',
+                    data: {
+                        labels: history.map(h => formatTime(h.timestamp)),
+                        datasets: [{ label: 'CPU %', data: history.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false, tension: 0.1 }]
+                    }
+                });
+
+                async function updateCharts() {
+                    try {
+                        const res = await fetch('/metrics');
+                        const data = await res.json();
+                        const latestHistory = data.history.slice(-50);
+                        const latest = latestHistory.length > 0 ? latestHistory[latestHistory.length - 1] : null;
+
+                        if (!latest) return;
+
+                        // Update charts
+                        const labels = latestHistory.map(h => formatTime(h.timestamp));
+                        processMemChart.data.labels = labels;
+                        processMemChart.data.datasets[0].data = latestHistory.map(h => h.memory.used);
+                        processMemChart.update('none');
+
+                        systemMemChart.data.labels = labels;
+                        systemMemChart.data.datasets[0].data = latestHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2));
+                        systemMemChart.update('none');
+
+                        const cpuData = latestHistory.map(h => h.system.cpuPercent);
+                        const cpuColor = cpuData[cpuData.length - 1] > 80 ? '#e74c3c' : cpuData[cpuData.length - 1] > 60 ? '#f39c12' : '#2ecc71';
+                        cpuChart.data.labels = labels;
+                        cpuChart.data.datasets[0].data = cpuData;
+                        cpuChart.data.datasets[0].borderColor = cpuColor;
+                        cpuChart.update('none');
+
+                        // Update header
+                        document.getElementById('statusText').textContent = latest.status?.toUpperCase() || 'UNKNOWN';
+                        document.getElementById('lastUpdate').textContent = new Date(latest.timestamp).toLocaleString();
+                        const header = document.getElementById('header');
+                        header.className = 'header status-' + (latest.status || 'unknown');
+
+                        // Update tables
+                        document.getElementById('processInfoTable').innerHTML = \`
+                            <tr><th>PID</th><td>\${latest.process.pid}</td></tr>
+                            <tr><th>Uptime</th><td>\${latest.process.uptimeFormatted}</td></tr>
+                            <tr><th>Node.js</th><td>\${latest.process.version}</td></tr>
+                            <tr><th>Platform</th><td>\${latest.process.platform}</td></tr>
+                            <tr><th>Architecture</th><td>\${latest.process.arch}</td></tr>
+                            <tr><th>Active Handles</th><td>\${latest.process.activeHandles}</td></tr>
+                        \`;
+                        document.getElementById('environmentInfoTable').innerHTML = \`
+                            <tr><th>NODE_ENV</th><td>\${latest.environment.nodeEnv}</td></tr>
+                            <tr><th>Port</th><td>\${latest.environment.port}</td></tr>
+                            <tr><th>Puppeteer Cache</th><td>\${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
+                        \`;
+                        document.getElementById('diskUsageTable').innerHTML = \`
+                            <thead><tr><th>Mount</th><th>Total</th><th>Used</th><th>Free</th><th>Usage %</th></tr></thead>
+                            <tbody>\${latest.disk.map(d => \`
+                                <tr>
+                                    <td>\${d.mount || d.drive}</td>
+                                    <td>\${d.total} GB</td>
+                                    <td>\${d.used} GB</td>
+                                    <td>\${d.available || d.free} GB</td>
+                                    <td>\${d.usagePercent}%</td>
+                                </tr>
+                            \`).join('')}</tbody>
+                        \`;
+                        document.getElementById('networkInfoTable').innerHTML = \`
+                            <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
+                            <tbody>\${Object.entries(latest.network).map(([name, interfaces]) =>
+                                interfaces.map(iface => \`
+                                <tr>
+                                    <td>\${name}</td>
+                                    <td>\${iface.address}</td>
+                                    <td>\${iface.mac}</td>
+                                    <td>\${iface.family}</td>
+                                </tr>
+                                \`).join('')
+                            ).join('')}</tbody>
+                        \`;
+
+                    } catch (err) {
+                        console.error('Error updating charts:', err);
+                    }
+                }
+
+                setInterval(updateCharts, 5000);
+            </script>
+            `;
+            return res.send(generateDashboardHTML('System Health Dashboard', bodyContent));
         }
-
-        const processMemChart = new Chart(document.getElementById('processMemChart'), {
-            type: 'line',
-            data: {
-                labels: history.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'Process MB', data: history.map(h => h.memory.used), borderColor: '#3498db', fill: false, tension: 0.1 }]
-            }
-        });
-
-        const systemMemChart = new Chart(document.getElementById('systemMemChart'), {
-            type: 'line',
-            data: {
-                labels: history.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'System Used GB', data: history.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2)), borderColor: '#e67e22', fill: false, tension: 0.1 }]
-            }
-        });
-
-        const cpuChart = new Chart(document.getElementById('cpuChart'), {
-            type: 'line',
-            data: {
-                labels: history.map(h => formatTime(h.timestamp)),
-                datasets: [{ label: 'CPU %', data: history.map(h => h.system.cpuPercent), borderColor: '#2ecc71', fill: false, tension: 0.1 }]
-            }
-        });
-
-        async function updateCharts() {
-            try {
-                const res = await fetch('/metrics');
-                const data = await res.json();
-                const latestHistory = data.history.slice(-50);
-                const latest = latestHistory.length > 0 ? latestHistory[latestHistory.length - 1] : null;
-
-                if (!latest) return;
-
-                // Update charts
-                const labels = latestHistory.map(h => formatTime(h.timestamp));
-                processMemChart.data.labels = labels;
-                processMemChart.data.datasets[0].data = latestHistory.map(h => h.memory.used);
-                processMemChart.update('none');
-
-                systemMemChart.data.labels = labels;
-                systemMemChart.data.datasets[0].data = latestHistory.map(h => (h.system.totalMemory - h.system.freeMemory).toFixed(2));
-                systemMemChart.update('none');
-
-                const cpuData = latestHistory.map(h => h.system.cpuPercent);
-                const cpuColor = cpuData[cpuData.length - 1] > 80 ? '#e74c3c' : cpuData[cpuData.length - 1] > 60 ? '#f39c12' : '#2ecc71';
-                cpuChart.data.labels = labels;
-                cpuChart.data.datasets[0].data = cpuData;
-                cpuChart.data.datasets[0].borderColor = cpuColor;
-                cpuChart.update('none');
-
-                // Update header
-                document.getElementById('statusText').textContent = latest.status?.toUpperCase() || 'UNKNOWN';
-                document.getElementById('lastUpdate').textContent = new Date(latest.timestamp).toLocaleString();
-                const header = document.getElementById('header');
-                header.className = 'header status-' + (latest.status || 'unknown');
-
-                // Update tables
-                document.getElementById('processInfoTable').innerHTML = \`
-                    <tr><th>PID</th><td>\${latest.process.pid}</td></tr>
-                    <tr><th>Uptime</th><td>\${latest.process.uptimeFormatted}</td></tr>
-                    <tr><th>Node.js</th><td>\${latest.process.version}</td></tr>
-                    <tr><th>Platform</th><td>\${latest.process.platform}</td></tr>
-                    <tr><th>Architecture</th><td>\${latest.process.arch}</td></tr>
-                    <tr><th>Active Handles</th><td>\${latest.process.activeHandles}</td></tr>
-                \`;
-                document.getElementById('environmentInfoTable').innerHTML = \`
-                    <tr><th>NODE_ENV</th><td>\${latest.environment.nodeEnv}</td></tr>
-                    <tr><th>Port</th><td>\${latest.environment.port}</td></tr>
-                    <tr><th>Puppeteer Cache</th><td>\${latest.environment.puppeteerCacheDir || 'Default'}</td></tr>
-                \`;
-                document.getElementById('diskUsageTable').innerHTML = \`
-                    <thead><tr><th>Mount</th><th>Total</th><th>Used</th><th>Free</th><th>Usage %</th></tr></thead>
-                    <tbody>\${latest.disk.map(d => \`
-                        <tr>
-                            <td>\${d.mount || d.drive}</td>
-                            <td>\${d.total} GB</td>
-                            <td>\${d.used} GB</td>
-                            <td>\${d.available || d.free} GB</td>
-                            <td>\${d.usagePercent}%</td>
-                        </tr>
-                    \`).join('')}</tbody>
-                \`;
-                document.getElementById('networkInfoTable').innerHTML = \`
-                    <thead><tr><th>Interface</th><th>IP</th><th>MAC</th><th>Family</th></tr></thead>
-                    <tbody>\${Object.entries(latest.network).map(([name, interfaces]) =>
-                        interfaces.map(iface => \`
-                        <tr>
-                            <td>\${name}</td>
-                            <td>\${iface.address}</td>
-                            <td>\${iface.mac}</td>
-                            <td>\${iface.family}</td>
-                        </tr>
-                        \`).join('')
-                    ).join('')}</tbody>
-                \`;
-
-            } catch (err) {
-                console.error('Error updating charts:', err);
-            }
-        }
-
-        setInterval(updateCharts, 5000);
-    </script>
-</body>
-</html>`;
-    return res.send(html);
-}
         
         res.json({
             status: 'success',
@@ -715,97 +699,128 @@ app.get('/api/search-history', (req, res) => {
         const analytics = searchHistoryLogger.getSearchAnalytics();
 
         if (format === 'html') {
-            const html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search History</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body { font-family: 'Courier New', monospace; background: #1a1a2e; color: #eee; margin: 20px; }
-        .header { background: #16213e; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: #0f3460; padding: 15px; border-radius: 8px; text-align: center; }
-        .search-table { width: 100%; border-collapse: collapse; background: #16213e; }
-        .search-table th, .search-table td { padding: 12px; text-align: left; border-bottom: 1px solid #0f3460; }
-        .search-table th { background: #0f3460; position: sticky; top: 0; }
-        .status-success { color: #27ae60; }
-        .status-failed { color: #e74c3c; }
-        .status-cached { color: #3498db; }
-        .domain { color: #f39c12; }
-        .linkedin { background: #0077b5; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; }
-        .refresh-btn { background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🔍 Search History Dashboard</h1>
-        <p>Complete extraction search history and analytics</p>
-        <button class="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
-        <button class="refresh-btn" onclick="exportHistory()">📁 Export</button>
-    </div>
-    
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Total Searches</h3>
-            <h2>${analytics.totalSearches}</h2>
-        </div>
-        <div class="stat-card">
-            <h3>Success Rate</h3>
-            <h2>${analytics.successRate}%</h2>
-        </div>
-        <div class="stat-card">
-            <h3>Avg Duration</h3>
-            <h2>${analytics.avgDuration}ms</h2>
-        </div>
-        <div class="stat-card">
-            <h3>LinkedIn Success</h3>
-            <h2>${analytics.linkedInStats.successRate}%</h2>
-        </div>
-        <div class="stat-card">
-            <h3>Cache Hit Rate</h3>
-            <h2>${analytics.cacheHitRate}%</h2>
-        </div>
-        <div class="stat-card">
-            <h3>Last 24h</h3>
-            <h2>${analytics.recentActivity.last24Hours}</h2>
-        </div>
-    </div>
+            const bodyContent = `
+                <div class="header">
+                    <h1>🔍 Search History & Analytics</h1>
+                    <p>Dashboard for monitoring search and extraction history</p>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Success Rate</h3>
+                        <canvas id="successRateChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>Cache Performance</h3>
+                        <canvas id="cacheHitChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h3>LinkedIn vs. Other</h3>
+                        <canvas id="linkedinChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Search History</h3>
+                    <table id="historyTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Timestamp</th>
+                                <th onclick="sortTable(1)">Domain</th>
+                                <th onclick="sortTable(2)">Status</th>
+                                <th onclick="sortTable(3)">Duration (ms)</th>
+                                <th onclick="sortTable(4)">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${searches.map(search => `
+                                <tr>
+                                    <td>${new Date(search.timestamp).toLocaleString()}</td>
+                                    <td>${search.domain}</td>
+                                    <td>${search.status}</td>
+                                    <td>${search.performance.duration || 'N/A'}</td>
+                                    <td>${search.extraction.isLinkedIn ? 'LinkedIn' : 'Website'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <script>
+                    const analytics = ${JSON.stringify(analytics)};
 
-    <table class="search-table">
-        <thead>
-            <tr>
-                <th>Timestamp</th>
-                <th>Domain</th>
-                <th>Status</th>
-                <th>Duration</th>
-                <th>Company</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${searches.map(search => `
-                <tr>
-                    <td>${new Date(search.timestamp).toLocaleString()}</td>
-                    <td class="domain">${search.domain}</td>
-                    <td class="status-${search.status}">${search.status}</td>
-                    <td>${search.performance.duration || 'N/A'}ms</td>
-                    <td>${search.extraction.companyName || 'N/A'}</td>
-                    <td>${search.extraction.isLinkedIn ? '<span class="linkedin">LinkedIn</span>' : 'Website'}</td>
-                </tr>
-            `).join('')}
-        </tbody>
-    </table>
+                    new Chart(document.getElementById('successRateChart'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Success', 'Failed'],
+                            datasets: [{
+                                data: [analytics.successRate, 100 - analytics.successRate],
+                                backgroundColor: ['#27ae60', '#e74c3c']
+                            }]
+                        }
+                    });
 
-    <script>
-        function exportHistory() {
-            window.open('/api/search-history/export', '_blank');
-        }
-    </script>
-</body>
-</html>`;
-            return res.send(html);
+                    new Chart(document.getElementById('cacheHitChart'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Cache Hit', 'Cache Miss'],
+                            datasets: [{
+                                data: [analytics.cacheHitRate, 100 - analytics.cacheHitRate],
+                                backgroundColor: ['#3498db', '#95a5a6']
+                            }]
+                        }
+                    });
+
+                    new Chart(document.getElementById('linkedinChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['LinkedIn', 'Other Websites'],
+                            datasets: [{
+                                label: 'Number of Searches',
+                                data: [analytics.linkedInStats.total, analytics.totalSearches - analytics.linkedInStats.total],
+                                backgroundColor: ['#0077b5', '#f39c12']
+                            }]
+                        }
+                    });
+
+                    function sortTable(n) {
+                        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                        table = document.getElementById("historyTable");
+                        switching = true;
+                        dir = "asc";
+                        while (switching) {
+                            switching = false;
+                            rows = table.rows;
+                            for (i = 1; i < (rows.length - 1); i++) {
+                                shouldSwitch = false;
+                                x = rows[i].getElementsByTagName("TD")[n];
+                                y = rows[i + 1].getElementsByTagName("TD")[n];
+                                var xContent = isNaN(parseFloat(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseFloat(x.innerHTML);
+                                var yContent = isNaN(parseFloat(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseFloat(y.innerHTML);
+                                if (dir == "asc") {
+                                    if (xContent > yContent) {
+                                        shouldSwitch = true;
+                                        break;
+                                    }
+                                } else if (dir == "desc") {
+                                    if (xContent < yContent) {
+                                        shouldSwitch = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (shouldSwitch) {
+                                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                switching = true;
+                                switchcount ++;
+                            } else {
+                                if (switchcount == 0 && dir == "asc") {
+                                    dir = "desc";
+                                    switching = true;
+                                }
+                            }
+                        }
+                    }
+                </script>
+            `;
+            return res.send(generateDashboardHTML('Search History', bodyContent));
         }
 
         res.json({
@@ -1979,8 +1994,8 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         args: getAdvancedBrowserArgs(),
         headless: 'new', // Use new headless mode for better compatibility
         defaultViewport: antiBotSystem.getRandomViewport(),
-        timeout: 60000,
-        protocolTimeout: 180000,
+        timeout: 120000,
+        protocolTimeout: 300000,
         // Advanced stealth features
         ignoreDefaultArgs: ['--enable-automation'],
         ignoreHTTPSErrors: true
@@ -2041,9 +2056,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         
         // Smart navigation with adaptive timeouts - try fast first, fallback to slower
         const waitConditions = [
-            { condition: 'domcontentloaded', timeout: 15000 },  // Fast DOM load
-            { condition: 'load', timeout: 45000 },              // Full load with reasonable timeout
-            { condition: 'networkidle2', timeout: 60000 }       // Fallback for complex sites
+            { condition: 'domcontentloaded', timeout: 30000 },  // Fast DOM load
+            { condition: 'load', timeout: 90000 },              // Full load with reasonable timeout
+            { condition: 'networkidle2', timeout: 120000 }       // Fallback for complex sites
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2360,8 +2375,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
     const launchOptions = {
         headless: 'new',
         args: getAdvancedBrowserArgs(),
-        timeout: 60000, // Reduced browser launch timeout for LinkedIn
-        protocolTimeout: 180000, // Reduced protocol timeout for LinkedIn
+        timeout: 120000, // Reduced browser launch timeout for LinkedIn
+        protocolTimeout: 300000, // Reduced protocol timeout for LinkedIn
         defaultViewport: antiBotSystem.getRandomViewport(),
         // Advanced stealth features for LinkedIn
         ignoreDefaultArgs: ['--enable-automation'],
@@ -2428,8 +2443,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         
         // Try fast approach first, then fallback to more reliable approach
         const navigationStrategies = [
-            { waitUntil: 'domcontentloaded', timeout: 20000 },  // Fast approach
-            { waitUntil: 'load', timeout: 60000 }               // Reliable fallback
+            { waitUntil: 'domcontentloaded', timeout: 40000 },  // Fast approach
+            { waitUntil: 'load', timeout: 120000 }               // Reliable fallback
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2639,7 +2654,7 @@ const getImageFromBanner = () => {
             return result;
         }),
         new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('LinkedIn page evaluation timeout after 45 seconds')), 45000) // Balanced timeout - not too fast, not too slow
+            setTimeout(() => reject(new Error('LinkedIn page evaluation timeout after 90 seconds')), 90000) // Balanced timeout - not too fast, not too slow
         )
     ]);
         
@@ -3023,8 +3038,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
         await cleanUpTempImageFile(localImagePath, cleanupTempFile);
     }
   }
-const extraction = require('./extraction');
-const scraperLink = require('./scrapeLinkedIn');
+const scraperLink = require('./linkedin_scraper');
 const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
     const startTime = Date.now();
@@ -3890,7 +3904,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 // extraction.scrapeLinkedInCompany(linkedInUrl),
                 scraperLink.main(),
                 new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 2 minutes')), 120000) // Reduced from 5 minutes to 2 minutes
+                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 5 minutes')), 300000) // Reduced from 5 minutes to 2 minutes
                 )
             ]).catch(error => {
                 logger.warn(`LinkedIn extraction failed during parallel execution`, { 
@@ -4138,15 +4152,7 @@ app.post('/api/extract-company-details', async (req, res) => {
             extractionLogger.step('Extraction Process Starting', { timeout: '4 minutes' });
             console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
             
-            const companyDetails = await Promise.race([
-                extractCompanyDetailsFromPage(page, normalizedUrl, browser),
-                new Promise((_, reject) => 
-                    setTimeout(() => {
-                        extractionLogger.error('Extraction timeout', new Error('Company extraction timeout after 4 minutes'), { normalizedUrl }, sessionId);
-                        reject(new Error('Company extraction timeout after 4 minutes'));
-                    }, 240000) // Balanced timeout - allows LinkedIn extraction but not too long
-                )
-            ]);
+            const companyDetails = await extractCompanyDetailsFromPage(page, normalizedUrl, browser);
 
             extractionLogger.step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
 

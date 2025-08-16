@@ -19,7 +19,6 @@ class SystemHealthMonitor {
         this.monitoringInterval = null;
         this.alerts = [];
         this.prevElu = null; // Previous event loop utilization
-        this.lastSystemCPUUsage = null;
         
         // Create logs directory if it doesn't exist
         this.initializeLogDirectory();
@@ -97,7 +96,9 @@ class SystemHealthMonitor {
         const uptime = process.uptime();
         const systemUptime = os.uptime();
         
-        const cpuPercent = this.calculateSystemCPUUsage();
+        // Calculate CPU percentage (approximation)
+        // const cpuPercent = this.calculateCPUPercent(cpuUsage);
+        const cpuPercent = await this.calculateCPUPercentAccurate();
 
         // Disk usage
         const diskUsage = await this.getDiskUsage();
@@ -141,8 +142,8 @@ const elu = await this.calculateEventLoopUtilization();
 
             // System metrics
             system: {
-                totalMemory: parseFloat((os.totalmem() / 1024 / 1024 / 1024).toFixed(2)), // GB
-                freeMemory: parseFloat((os.freemem() / 1024 / 1024 / 1024).toFixed(2)), // GB
+                totalMemory: Math.round(os.totalmem() / 1024 / 1024 / 1024), // GB
+                freeMemory: Math.round(os.freemem() / 1024 / 1024 / 1024), // GB
                 uptime: systemUptime,
                 uptimeFormatted: this.formatUptime(systemUptime),
                 loadAverage: loadAvg,
@@ -215,38 +216,6 @@ async calculateEventLoopUtilization() {
         const elapSystMS = elapUsage.system / 1000;
         const cpuPercent = ((elapUserMS + elapSystMS) / (elapTime * os.cpus().length)) * 100;
         return Math.round(cpuPercent * 100) / 100;
-    }
-
-    /**
-     * Calculate system-wide CPU usage percentage.
-     * It works by comparing two snapshots of os.cpus() times.
-     */
-    calculateSystemCPUUsage() {
-        const cpus = os.cpus();
-
-        if (!this.lastSystemCPUUsage) {
-            this.lastSystemCPUUsage = cpus;
-            return 0;
-        }
-
-        const lastCpus = this.lastSystemCPUUsage;
-        this.lastSystemCPUUsage = cpus;
-
-        const totalTimes = cpus.map(cpu => Object.values(cpu.times).reduce((a, b) => a + b, 0));
-        const lastTotalTimes = lastCpus.map(cpu => Object.values(cpu.times).reduce((a, b) => a + b, 0));
-
-        const idleTimes = cpus.map(cpu => cpu.times.idle);
-        const lastIdleTimes = lastCpus.map(cpu => cpu.times.idle);
-
-        const totalDiff = totalTimes.reduce((a, b) => a + b, 0) - lastTotalTimes.reduce((a, b) => a + b, 0);
-        const idleDiff = idleTimes.reduce((a, b) => a + b, 0) - lastIdleTimes.reduce((a, b) => a + b, 0);
-
-        if (totalDiff === 0) {
-            return 0;
-        }
-
-        const usage = (totalDiff - idleDiff) / totalDiff;
-        return Math.max(0, Math.round(usage * 10000) / 100);
     }
     /**
      * Get disk usage for root path (cross-platform)

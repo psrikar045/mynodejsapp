@@ -10,6 +10,7 @@ const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
 const { BannerValidator } = require('./banner-validator');
 
 const LOG_FILE = 'scraper.log';
+const COOKIE_FILE_PATH = './cookies.json';
 const logger = createWriteStream(LOG_FILE, { flags: 'a' });
 
 console.log = (message) => {
@@ -59,6 +60,22 @@ function delay(time) {
 async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
   const extractionTimer = performanceMonitor.startTimer('extraction');
   const page = await browser.newPage();
+
+  // **ANTI-BOT ENHANCEMENT: Load cookies if they exist**
+  try {
+    const cookiesString = await fs.readFile(COOKIE_FILE_PATH);
+    const cookies = JSON.parse(cookiesString);
+    if (cookies.length > 0) {
+      await page.setCookie(...cookies);
+      console.log('Successfully loaded existing cookies.');
+    }
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.log('No cookie file found, starting a fresh session.');
+    } else {
+      console.warn('Error loading cookie file:', error);
+    }
+  }
   
   // Initialize LinkedIn-specific anti-bot system if not provided
   if (!linkedinAntiBot) {
@@ -107,16 +124,22 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         // Human-like delay before navigation
         await antiBotSystem.humanDelay(1000, 2000);
         
+        const navigationTimeout = 180000; // 3 minutes
+        const referer = 'https://www.google.com/';
+        console.log(`Attempting to navigate to ${url} with a ${navigationTimeout / 1000}s timeout and referer "${referer}"...`);
+        // "No Surrender" change: Increased timeout significantly
         await page.goto(url, { 
           waitUntil: 'domcontentloaded',
-          timeout: 30000 
+          timeout: navigationTimeout,
+          referer: referer
         });
         
         performanceMonitor.endTimer(navTimer, true, { url, attempts: 4 - retries });
+        console.log(`Successfully navigated to ${url}.`);
         break;
       } catch (error) {
-        console.warn(`Error loading page, retrying... (${retries} retries left)`);
         retries--;
+        console.warn(`Error loading page, retrying... (${retries} retries left). Error: ${error.message}`);
         if (retries === 0) {
           performanceMonitor.recordError('navigation', error, { url, totalAttempts: 3 });
           performanceMonitor.endTimer(navTimer, false, { url, error: error.message });
@@ -251,38 +274,75 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       console.warn('Error handling signup prompt:', error.message);
     }
 
-    // Click "Show more" button if it exists
-    const showMoreButtonSelector = '.org-about-us-organization-description__show-more-button';
-    if (await page.$(showMoreButtonSelector) !== null) {
-      await page.click(showMoreButtonSelector);
-      await page.waitForNavigation({ waitUntil: 'networkidle2' });
-    }
+    // **REFACTORED: Generic "Show More" button handler**
+    const clickShowMoreButtons = async (page) => {
+      console.log('Searching for "Show more" buttons...');
+      let buttonsClicked = 0;
+      try {
+        const buttons = await page.$$('button, a, span[role="button"]');
+        for (const button of buttons) {
+          const text = await page.evaluate(el => el.innerText.trim(), button);
+          if (/show more|see more|read more/i.test(text)) {
+            try {
+              await button.click();
+              buttonsClicked++;
+              console.log(`Clicked a "Show more" button with text: "${text}"`);
+              // Wait for content to load after click
+              await new Promise(resolve => setTimeout(resolve, 1500));
+            } catch (clickError) {
+              console.warn(`Could not click a "Show more" button: ${clickError.message}`);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error while searching for "Show more" buttons:', error);
+      }
+      if (buttonsClicked > 0) {
+        console.log(`Finished clicking ${buttonsClicked} "Show more" button(s).`);
+      } else {
+        console.log('No "Show more" buttons found.');
+      }
+    };
+
+    await clickShowMoreButtons(page);
 
     // Wait for essential elements to load and verify we're on the right page
     try {
-      await page.waitForSelector('h1, .top-card-layout__entity-info, .org-top-card-summary-info-list', { timeout: 10000 });
+      console.log(`Waiting for essential page elements with a 120s timeout...`);
+      // "No Surrender" change: Increased timeout significantly
+      await page.waitForSelector('h1, .top-card-layout__entity-info, .org-top-card-summary-info-list', { timeout: 120000 }); // 2 minutes
+      console.log('Essential page elements found.');
       
       // **CRUCIAL: Check if we're actually on a company page, not login page**
       const isCompanyPage = await page.evaluate(() => {
         const h1 = document.querySelector('h1');
         const title = document.title;
         
-        // Check if we're on a login/join page
+        // Check for strong indicators of a login/join page
         if (h1 && (/join|sign in|log in/i.test(h1.textContent) || h1.textContent.trim() === 'Join')) {
+          console.warn('Login page detected by H1 text.');
           return false;
         }
-        
-        // Check title for login indicators
         if (/join|sign in|log in/i.test(title)) {
+          console.warn('Login page detected by page title.');
+          return false;
+        }
+        if (document.querySelector('form[action*="login"], input[type="password"]')) {
+          console.warn('Login page detected by presence of login form or password field.');
           return false;
         }
         
-        // Look for company-specific elements
+        // Look for positive indicators of a company page
         const companyElements = document.querySelectorAll(
           '.top-card-layout__entity-info, .org-top-card-summary-info-list, .org-page-navigation, [data-test-id="company-name"]'
         );
         
-        return companyElements.length > 0;
+        if (companyElements.length === 0) {
+          console.warn('No company-specific elements found on the page.');
+          return false;
+        }
+
+        return true;
       });
       
       if (!isCompanyPage) {
@@ -346,29 +406,42 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     console.log('=====================');
 
     let jsonData = {};
+    console.log('Attempting to extract JSON-LD data...');
     try {
-      $('script[type="application/ld+json"]').each((i, el) => {
+      const jsonLdScripts = $('script[type="application/ld+json"]');
+      console.log(`Found ${jsonLdScripts.length} JSON-LD script(s).`);
+      jsonLdScripts.each((i, el) => {
         const scriptContent = $(el).html();
         if (scriptContent) {
           try {
             const parsedJson = JSON.parse(scriptContent);
+            // Merge properties, giving preference to 'Organization' type
             if (parsedJson['@type'] === 'Organization') {
-              jsonData = parsedJson;
+              console.log('Found "Organization" type JSON-LD. Merging as primary.');
+              jsonData = { ...parsedJson, ...jsonData };
+            } else {
+              console.log(`Found "${parsedJson['@type'] || 'unknown'}" type JSON-LD. Merging as secondary.`);
+              jsonData = { ...jsonData, ...parsedJson };
             }
           } catch (parseError) {
-            console.warn('Failed to parse JSON-LD:', parseError.message);
+            console.warn(`Failed to parse a JSON-LD script: ${parseError.message}`);
           }
         }
       });
+      if (Object.keys(jsonData).length > 0) {
+        console.log('Successfully extracted and merged JSON-LD data.');
+      } else {
+        console.log('No valid JSON-LD data found.');
+      }
     } catch (error) {
       console.warn('Error processing JSON-LD scripts:', error.message);
     }
 
-    // Enhanced data extraction with multiple fallback selectors
+    // **REFACTORED: Data extraction now prioritizes JSON-LD, then falls back to selectors**
     const companyData = {
       url,
       status: 'Success',
-      name: await page.evaluate(() => {
+      name: jsonData.name || await page.evaluate(() => {
         // **ENHANCED: Smart name extraction with bot detection**
         
         // First, check if we're on a login/signup page (bot detection triggered)
@@ -461,7 +534,7 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         console.log('❌ Could not find valid company name');
         return null;
       }),
-      logoUrl: await page.evaluate(() => {
+      logoUrl: jsonData.logo || await page.evaluate(() => {
         // Try multiple selectors for logo
         const selectors = [
           '.top-card-layout__entity-image',
@@ -480,7 +553,6 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         }
         return null;
       }),
-      // **PRIORITIZED: Network interception first, traditional methods as fallback**
       bannerUrl: await (async () => {
         const extractionStartTime = Date.now();
         
@@ -599,20 +671,20 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
           return null;
         }
       })(),
-      aboutUs: '',
-      description:'',
-      website: $('dt:contains("Website")').next('dd').text().trim() || null, //.find('a').attr('href')
+      aboutUs: jsonData.description || '',
+      description: jsonData.description || '',
+      website: jsonData.url || $('dt:contains("Website")').next('dd').text().trim() || null,
       verified: $('.org-page-verified-badge').length > 0 ? ($('.org-page-verified-badge__text').text().trim() || true) : false,
       verifiedPage: $('dt:contains("Verified Page")').next('dd').text().trim() || null,
       industry: jsonData.industry || $('dt:contains("Industry")').next('dd').text().trim(),
       type: jsonData.industry || $('dt:contains("Industry")').next('dd').text().trim(),
-      companySize: jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
-      employees: jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
-      headquarters: jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : $('dt:contains("Headquarters")').next('dd').text().trim(),
-      location: jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : $('dt:contains("Headquarters")').next('dd').text().trim(),
-      founded: '',
+      companySize: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
+      employees: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
+      headquarters: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || $('dt:contains("Headquarters")').next('dd').text().trim(),
+      location: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || $('dt:contains("Headquarters")').next('dd').text().trim(),
+      founded: jsonData.foundingDate || '',
       locations: [],
-      specialties: jsonData.keywords ? jsonData.keywords.split(', ') : ($('dt:contains("Specialties")').next('dd').text().trim().split(', ') || []),
+      specialties: (jsonData.keywords ? jsonData.keywords.split(', ') : null) || ($('dt:contains("Specialties")').next('dd').text().trim().split(', ') || []),
     };
 
     // Enhanced about us extraction
@@ -1095,6 +1167,15 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     
     // Track successful extraction
     antiBotSystem.trackRequest(url, true, extractionDuration);
+
+    // **ANTI-BOT ENHANCEMENT: Save cookies for future runs**
+    try {
+      const cookies = await page.cookies();
+      await fs.writeFile(COOKIE_FILE_PATH, JSON.stringify(cookies, null, 2));
+      console.log('Successfully saved session cookies.');
+    } catch (error) {
+      console.warn('Error saving cookies:', error);
+    }
     
     return companyData;
     
@@ -1172,7 +1253,7 @@ async function main() {
       headless: headless ? 'new' : false,
       args: antiBotSystem.getAdvancedBrowserArgs(),
       defaultViewport: antiBotSystem.getRandomViewport(),
-      timeout: 60000,
+      timeout: 300000, // 5 minutes, "No Surrender" change
       // Advanced stealth features
       ignoreDefaultArgs: ['--enable-automation'],
       ignoreHTTPSErrors: true
