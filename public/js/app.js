@@ -298,7 +298,15 @@ async function renderHealth() {
 
     try {
         const response = await fetch('/api/system-health?format=json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+
+        if (!data || !data.health || !data.history) {
+            throw new Error("Invalid data structure received from API.");
+        }
+
         const { health, history } = data;
 
         const latest = health;
@@ -398,8 +406,8 @@ async function renderHealth() {
         `;
 
     } catch (error) {
-        console.error('Error fetching system health:', error);
-        appRoot.innerHTML = '<h2>Error loading system health.</h2>';
+        console.error('Error fetching or rendering system health:', error);
+        appRoot.innerHTML = `<h2>Error loading system health.</h2><p>${error.message}</p>`;
     }
 }
 
