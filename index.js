@@ -63,6 +63,26 @@ const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes cache
 // Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
+
+// Connection Tracking Middleware
+let activeConnections = 0;
+app.use((req, res, next) => {
+    activeConnections++;
+    res.on('finish', () => {
+        activeConnections--;
+    });
+    next();
+});
+
+app.get('/api/active-connections', (req, res) => {
+    res.json({ activeConnections });
+});
+
+// UI Endpoint
+app.get('/ui', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // API Request Logging Middleware
 app.use(async (req, res, next) => {
