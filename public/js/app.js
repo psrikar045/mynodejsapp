@@ -438,7 +438,7 @@ async function renderHealth() {
                 const response = await fetch('/api/system-health?format=json');
                 const data = await response.json();
                 updateHealthData(data);
-            }, 5000);
+            }, 15000);
 
         } catch (error) {
             console.error('Error fetching or rendering system health:', error);
