@@ -310,13 +310,13 @@ async function renderHealth() {
 
         const { health, history } = data;
         const initialHistory = history.slice(-50);
-        const latest = initialHistory.length > 0 ? initialHistory[initialHistory.length - 1] : health;
+        const latest = initialHistory.length > 0 ? initialHistory[initialHistory.length - 1] : {};
 
-        // Update header
-        document.getElementById('statusText').textContent = latest.status.toUpperCase();
-        document.getElementById('lastUpdate').textContent = new Date(latest.timestamp).toLocaleString();
+        // Update header using the 'health' object
+        document.getElementById('statusText').textContent = health.status?.toUpperCase() ?? 'UNKNOWN';
+        document.getElementById('lastUpdate').textContent = new Date(health.timestamp).toLocaleString();
         const header = document.getElementById('header');
-        header.className = 'header status-' + (latest.status || 'unknown');
+        header.className = 'header status-' + (health.status || 'unknown');
 
         // Update charts
         const labels = initialHistory.map(h => formatTime(h.timestamp));
