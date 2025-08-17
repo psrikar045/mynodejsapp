@@ -382,3 +382,294 @@
 2025-08-17T09:19:46.716Z - INFO: Test assertions complete. Check console for any assertion failures.
 2025-08-17T09:19:46.832Z - INFO: Test finished.
 2025-08-17T09:24:20.419Z - INFO: ✅ [Health Check] System healthy
+2025-08-17T18:42:39.324Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-17T18:42:39.325Z - INFO: ================================
+2025-08-17T18:42:39.326Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-17T18:42:39.326Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-17T18:42:39.353Z - INFO: ⏳ Starting extraction...
+2025-08-17T18:42:39.357Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-17T18:42:39.367Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-17T18:42:39.368Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-17T18:42:39.368Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 7359c518eb692c0b5405d3eeb2d1d88a
+2025-08-17T18:42:39.368Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-17T18:42:39.368Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-17T18:42:39.368Z - INFO: 🎭 Using advanced user agent: Linux
+2025-08-17T18:42:40.908Z - INFO: ⏱️ [Performance] browser_launch: 1540ms (SUCCESS)
+2025-08-17T18:42:40.908Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-17T18:42:40.908Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/
+2025-08-17T18:42:41.054Z - INFO: No cookie file found, starting a fresh session.
+2025-08-17T18:42:41.057Z - INFO: 🛡️ [Anti-Bot] Enhanced stealth mode activated
+2025-08-17T18:42:41.057Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-17T18:42:41.063Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-17T18:42:41.064Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-17T18:42:41.064Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-17T18:42:41.064Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-17T18:42:41.068Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-17T18:42:41.068Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-17T18:42:42.794Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-17T18:42:42.810Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-17T18:42:43.869Z - INFO: ⏱️ [Performance] navigation: 2801ms (SUCCESS)
+2025-08-17T18:42:43.869Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-17T18:42:44.748Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-17T18:42:44.748Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-17T18:42:44.748Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-17T18:42:45.877Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-17T18:42:45.877Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-17T18:42:51.082Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-17T18:42:51.088Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-17T18:42:51.088Z - INFO: Searching for "Show more" buttons...
+2025-08-17T18:42:51.558Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-17T18:42:53.099Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-17T18:42:54.694Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-17T18:42:56.317Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-17T18:42:56.319Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-17T18:42:56.512Z - INFO: === PAGE DEBUG INFO ===
+2025-08-17T18:42:56.525Z - INFO: Page Title:
+2025-08-17T18:42:56.526Z - INFO: H1 Text:
+2025-08-17T18:42:56.526Z - INFO: Has Company Elements:
+2025-08-17T18:42:56.526Z - INFO: Available Navigation:
+2025-08-17T18:42:56.526Z - INFO: Has About Section:
+2025-08-17T18:42:56.526Z - INFO: Visible Text Preview:
+2025-08-17T18:42:56.526Z - INFO: =====================
+2025-08-17T18:42:56.526Z - INFO: Attempting to extract JSON-LD data...
+2025-08-17T18:42:56.533Z - INFO: Found 1 JSON-LD script(s).
+2025-08-17T18:42:56.534Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-17T18:42:56.534Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-17T18:42:56.540Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-17T18:42:56.540Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-17T18:42:56.541Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-17T18:42:56.541Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-17T18:42:56.541Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-17T18:42:56.541Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-17T18:42:56.542Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T18:42:56.542Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-17T18:42:56.542Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-17T18:42:56.542Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T18:42:56.543Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-17T18:42:56.543Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-17T18:42:56.543Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-17T18:42:56.543Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-17T18:42:56.543Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-17T18:42:56.543Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-17T18:42:56.543Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-17T18:42:58.546Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:00.548Z - INFO: 📊 [API Monitor] 4s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:02.550Z - INFO: 📊 [API Monitor] 6s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:04.553Z - INFO: 📊 [API Monitor] 8s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:06.556Z - INFO: 📊 [API Monitor] 10s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:08.559Z - INFO: 📊 [API Monitor] 12s: 0 requests, 2 responses, 2 banners
+2025-08-17T18:43:08.559Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 0 new requests, 2 responses, found 2 banner URLs.
+2025-08-17T18:43:08.559Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-17T18:43:08.562Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-17T18:43:08.562Z - INFO: 🎯 [Banner Extractor] Found 2 potential banner URLs
+2025-08-17T18:43:08.562Z - INFO: ✅ [Banner Extractor] Selected best banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T18:43:08.562Z - INFO: ✅ [PRIMARY SUCCESS] Network interception found banner:
+2025-08-17T18:43:08.563Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/company/versa-networks/
+2025-08-17T18:43:08.563Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.563Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.563Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/ingraphs/counter/
+2025-08-17T18:43:08.563Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.563Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.563Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.564Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T18:43:08.564Z - INFO: 📊 [Method Tracking] Network Interception: SUCCESS
+2025-08-17T18:43:08.564Z - INFO: 📊 [Extraction Metrics] Method: Network Interception, Time: 12021ms, Success: true
+2025-08-17T18:43:08.564Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-17T18:43:08.564Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-17T18:43:08.564Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T18:43:08.721Z - WARN: ⚠️ [LinkedIn] Network-intercepted banner failed validation:
+2025-08-17T18:43:08.721Z - INFO: 🔄 [LinkedIn] Validating 2 network-discovered URLs...
+2025-08-17T18:43:08.721Z - INFO: 🔍 [Banner Validator] Validating 2 banner URLs...
+2025-08-17T18:43:08.721Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T18:43:09.743Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&amp;v=beta&amp;t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T18:43:10.767Z - INFO: ❌ [Banner Validator] No valid banner URLs found
+2025-08-17T18:43:10.767Z - WARN: ⚠️ [LinkedIn] All network-discovered URLs failed validation
+2025-08-17T18:43:10.767Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0: Invalid content type: text/html; charset=UTF-8
+2025-08-17T18:43:10.767Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&amp;v=beta&amp;t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0: Invalid content type: text/html; charset=UTF-8
+2025-08-17T18:43:10.768Z - INFO: 🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...
+2025-08-17T18:43:10.771Z - INFO: ❌ [LinkedIn] ALL METHODS FAILED - No banner URL found
+2025-08-17T18:43:10.805Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T18:43:10.809Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-17T18:43:10.809Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T18:43:10.811Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-17T18:43:10.811Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T18:43:10.815Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-17T18:43:10.815Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-17T18:43:10.815Z - INFO: Name:
+2025-08-17T18:43:10.815Z - INFO: About Us:
+2025-08-17T18:43:10.815Z - INFO: Founded:
+2025-08-17T18:43:10.815Z - INFO: Industry:
+2025-08-17T18:43:10.815Z - INFO: Headquarters:
+2025-08-17T18:43:10.815Z - INFO: Logo URL:
+2025-08-17T18:43:10.815Z - INFO: ========================
+2025-08-17T18:43:10.815Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks/
+2025-08-17T18:43:10.815Z - INFO: ⏱️ [Performance] extraction: 29902ms (SUCCESS)
+2025-08-17T18:43:10.816Z - INFO: ✅ [Performance] LinkedIn extraction completed in 29902ms
+2025-08-17T18:43:10.816Z - INFO: [DynamicDataFinder] Extracting SEO info...
+2025-08-17T18:43:10.821Z - INFO: [DynamicDataFinder] Finding key-value pairs...
+2025-08-17T18:43:10.838Z - INFO: Successfully saved session cookies.
+2025-08-17T18:43:10.858Z - INFO: ✅ Page closed for https://www.linkedin.com/company/versa-networks/
+2025-08-17T18:43:10.859Z - INFO: Successfully saved data to output.json
+2025-08-17T18:43:11.015Z - INFO: Browser closed successfully
+2025-08-17T18:43:11.015Z - INFO: ⏱️  Extraction completed in 31.66 seconds
+2025-08-17T18:43:11.015Z - INFO:
+=== FINAL RESULT ===
+2025-08-17T18:43:11.015Z - INFO: {
+  "url": "https://www.linkedin.com/company/versa-networks/",
+  "status": "Success",
+  "linkedinVerified": false,
+  "name": "Versa Networks",
+  "logoUrl": "https://media.licdn.com/dms/image/v2/D4D0BAQGZGMc0hbvv1g/company-logo_200_200/company-logo_200_200/0/1711664330929/versa_networks_logo?e=2147483647&v=beta&t=IhG-_ursFDqk1I3UPtymRPkh0QPHbE4DwhVb-WyuYQg",
+  "bannerUrl": null,
+  "aboutUs": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+  "description": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+  "website": "http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks",
+  "verified": false,
+  "verifiedPage": null,
+  "industry": "Software Development",
+  "type": "Software Development",
+  "companySize": "501-1,000 employees",
+  "employees": "501-1,000 employees",
+  "headquarters": "Santa Clara, California",
+  "location": "Santa Clara, California",
+  "founded": "2012",
+  "locations": [
+    "2550 Great America Way",
+    "Suite 301",
+    "Santa Clara, California 95054, US"
+  ],
+  "specialties": [
+    "SDN",
+    "SD-WAN",
+    "SD-Security",
+    "Network Security",
+    "VNF",
+    "Hybrid WAN",
+    "MSP",
+    "WAN",
+    "Multicloud",
+    "SASE",
+    "Cyber Security",
+    "CASB",
+    "SWG",
+    "NGFW",
+    "RBI",
+    "ZTNA",
+    "SSE",
+    "DLP",
+    "and AI"
+  ],
+  "additionalInfo": {
+    "metaDescription": "Versa Networks | 81,328 followers on LinkedIn. A global leader in SASE, Versa enables organizations to create self-protecting networks with our Universal SASE Platform | Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.",
+    "metaKeywords": null,
+    "canonicalUrl": "https://www.linkedin.com/company/versa-networks",
+    "h1Tags": [
+      "Versa Networks"
+    ],
+    "h2Tags": [
+      "Software Development",
+      "About us",
+      "Products",
+      "Locations",
+      "Employees at Versa Networks",
+      "Updates",
+      "Join now to see what you are missing",
+      "Affiliated pages",
+      "Similar pages",
+      "Browse jobs",
+      "Funding",
+      "",
+      ""
+    ],
+    "socialLinks": {
+      "linkedin": "https://www.linkedin.com/company/versa-networks/#main-content"
+    }
+  }
+}
+2025-08-17T18:43:11.015Z - INFO:
+✅ SUCCESS: Company data extracted!
+2025-08-17T18:43:11.015Z - INFO: 📛 Company Name:
+2025-08-17T18:43:11.015Z - INFO: 📝 Description:
+2025-08-17T18:43:11.015Z - INFO: 🏭 Industry:
+2025-08-17T18:43:11.015Z - INFO: 📅 Founded:
+2025-08-17T18:43:11.015Z - INFO: 🏢 Headquarters:
+2025-08-17T18:43:11.015Z - INFO: 🖼️  Logo URL:
+2025-08-17T18:43:11.015Z - INFO:
+🎉 EXCELLENT: About Us section successfully extracted!
+2025-08-17T18:43:11.016Z - INFO:
+📄 Output.json contents:
+2025-08-17T18:43:11.016Z - INFO: [
+  {
+    "url": "https://www.linkedin.com/company/versa-networks/",
+    "status": "Success",
+    "linkedinVerified": false,
+    "name": "Versa Networks",
+    "logoUrl": "https://media.licdn.com/dms/image/v2/D4D0BAQGZGMc0hbvv1g/company-logo_200_200/company-logo_200_200/0/1711664330929/versa_networks_logo?e=2147483647&v=beta&t=IhG-_ursFDqk1I3UPtymRPkh0QPHbE4DwhVb-WyuYQg",
+    "bannerUrl": null,
+    "aboutUs": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+    "description": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+    "website": "http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks",
+    "verified": false,
+    "verifiedPage": null,
+    "industry": "Software Development",
+    "type": "Software Development",
+    "companySize": "501-1,000 employees",
+    "employees": "501-1,000 employees",
+    "headquarters": "Santa Clara, California",
+    "location": "Santa Clara, California",
+    "founded": "2012",
+    "locations": [
+      "2550 Great America Way",
+      "Suite 301",
+      "Santa Clara, California 95054, US"
+    ],
+    "specialties": [
+      "SDN",
+      "SD-WAN",
+      "SD-Security",
+      "Network Security",
+      "VNF",
+      "Hybrid WAN",
+      "MSP",
+      "WAN",
+      "Multicloud",
+      "SASE",
+      "Cyber Security",
+      "CASB",
+      "SWG",
+      "NGFW",
+      "RBI",
+      "ZTNA",
+      "SSE",
+      "DLP",
+      "and AI"
+    ],
+    "additionalInfo": {
+      "metaDescription": "Versa Networks | 81,328 followers on LinkedIn. A global leader in SASE, Versa enables organizations to create self-protecting networks with our Universal SASE Platform | Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.",
+      "metaKeywords": null,
+      "canonicalUrl": "https://www.linkedin.com/company/versa-networks",
+      "h1Tags": [
+        "Versa Networks"
+      ],
+      "h2Tags": [
+        "Software Development",
+        "About us",
+        "Products",
+        "Locations",
+        "Employees at Versa Networks",
+        "Updates",
+        "Join now to see what you are missing",
+        "Affiliated pages",
+        "Similar pages",
+        "Browse jobs",
+        "Funding",
+        "",
+        ""
+      ],
+      "socialLinks": {
+        "linkedin": "https://www.linkedin.com/company/versa-networks/#main-content"
+      }
+    }
+  }
+]
+2025-08-17T18:47:39.043Z - INFO: ✅ [Health Check] System healthy
