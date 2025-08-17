@@ -2076,9 +2076,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         
         // Smart navigation with adaptive timeouts - try fast first, fallback to slower
         const waitConditions = [
-            { condition: 'domcontentloaded', timeout: 30000 },  // Fast DOM load
+            { condition: 'networkidle2', timeout: 120000 },       // Fallback for complex sites
             { condition: 'load', timeout: 90000 },              // Full load with reasonable timeout
-            { condition: 'networkidle2', timeout: 120000 }       // Fallback for complex sites
+            { condition: 'domcontentloaded', timeout: 30000 }  // Fast DOM load
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2135,6 +2135,13 @@ async function setupPuppeteerPageForCompanyDetails(url) {
                 });
                 throw new Error(`Navigation failed completely. Last error: ${lastError.message}, Fallback error: ${fallbackError.message}`);
             }
+        }
+
+        try {
+            await page.waitForSelector('footer', { timeout: 10000 });
+            logger.info('Footer element found, proceeding with extraction.');
+        } catch (error) {
+            logger.warn('Footer element not found, proceeding anyway.');
         }
 
         if (!response) {
@@ -3802,7 +3809,12 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
                 Twitter: [
                     'a[href*="twitter.com/"][href*="intent/"]', // Less likely to be the main profile
                     'a[href*="twitter.com/"]',
+                    'a[href*="x.com/"]',
                     'a[aria-label*="Twitter"i]',
+                    'a[title*="Twitter"i]',
+                    'a[title*="X.com"i]',
+                    'a:has(svg[aria-label*="Twitter"i])',
+                    'a[aria-label*="twitter"i]',
                     'meta[property="og:see_also"][content*="twitter.com"]',
                     'meta[name="twitter:site"]' // Content is often @handle
                 ],
@@ -3810,27 +3822,44 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
                     // Prioritize specific /company/ URLs
                     'a[href*="linkedin.com/company/"]',
                     'a[href*="linkedin.com/school/"]',
+                    'a[href*="linkedin.com/in/"]',
+                    'a[href*="linkedin.com/showcase/"]',
                     // More generic selectors
                     'a[aria-label*="LinkedIn"i]',
+                    'a[title*="LinkedIn"i]',
                     'a[href*="linkedin.com"]',
                     // Fallbacks
                     'a:has(img[alt*="LinkedIn"i])',
                     'a:has(i[class*="linkedin"i])',
+                    'a:has(svg[aria-label*="LinkedIn"i])',
+                    'a[aria-label*="linkedin"i]',
                     'meta[property="og:see_also"][content*="linkedin.com"]'
                 ],
                 Facebook: [
-                    'a[href*="facebook.com/"]', 'a[href*="fb.me/"]',
+                    'a[href*="facebook.com/"]',
+                    'a[href*="fb.me/"]',
                     'a[aria-label*="Facebook"i]',
+                    'a[title*="Facebook"i]',
+                    'a:has(svg[aria-label*="Facebook"i])',
+                    'a[aria-label*="facebook"i]',
                     'meta[property="og:see_also"][content*="facebook.com"]'
                 ],
                 YouTube: [
-                    'a[href*="youtube.com/channel/"]', 'a[href*="youtube.com/user/"]', 'a[href*="youtube.com/c/"]',
+                    'a[href*="youtube.com/channel/"]',
+                    'a[href*="youtube.com/user/"]',
+                    'a[href*="youtube.com/c/"]',
                     'a[aria-label*="YouTube"i]',
+                    'a[title*="YouTube"i]',
+                    'a:has(svg[aria-label*="YouTube"i])',
+                    'a[aria-label*="youtube"i]',
                     'meta[property="og:see_also"][content*="youtube.com"]'
                 ],
                 Instagram: [
                     'a[href*="instagram.com/"]',
                     'a[aria-label*="Instagram"i]',
+                    'a[title*="Instagram"i]',
+                    'a:has(svg[aria-label*="Instagram"i])',
+                    'a[aria-label*="instagram"i]',
                     'meta[property="og:see_also"][content*="instagram.com"]'
                 ],
             };
