@@ -203,12 +203,8 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
 
     await clickShowMoreButtons(page);
 
-    // Wait for the page to be in a generally ready state.
+    // Wait for essential elements to load and verify we're on the right page
     try {
-      console.log('Waiting for page to be ready...');
-      await page.waitForFunction(() => document.readyState === 'complete', { timeout: 60000 });
-      console.log('Page is ready.');
-
       // **CRUCIAL: Check if we're actually on a company page, not login page**
       const isCompanyPage = await page.evaluate(() => {
         const h1 = document.querySelector('h1');
