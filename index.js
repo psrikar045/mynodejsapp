@@ -4197,40 +4197,38 @@ app.post('/api/extract-company-details', async (req, res) => {
         }
         
         if (normalizedUrl.includes('facebook.com')) {
-            extractionLogger.info('Facebook URL detected, starting Facebook scraper.', { url: normalizedUrl }, sessionId);
-            let browser;
+            extractionLogger.info('Facebook URL detected, routing to Facebook scraper.', { url: normalizedUrl }, sessionId);
             try {
-                const browserPath = getBrowserExecutablePath();
-                const launchOptions = {
-                    args: getAdvancedBrowserArgs(),
-                    headless: 'new',
-                    defaultViewport: antiBotSystem.getRandomViewport(),
-                    timeout: 120000,
-                };
-                if (browserPath) {
-                    launchOptions.executablePath = browserPath;
+                // The scrapeFacebookCompany function now handles its own browser launch and cleanup.
+                const facebookData = await scrapeFacebookCompany(normalizedUrl, sessionId);
+
+                // Check if the scraper returned valid data or a failure object
+                if (facebookData.status === 'Failed') {
+                    extractionLogger.error('Facebook scraping failed', new Error(facebookData.error), { url: normalizedUrl }, sessionId);
+                    extractionLogger.endSession(sessionId, 'failed');
+                    return res.status(500).json({
+                        error: 'Failed to scrape Facebook page',
+                        details: facebookData.error,
+                        _sessionId: sessionId
+                    });
                 }
-                browser = await puppeteer.launch(launchOptions);
-                const facebookData = await scrapeFacebookCompany(normalizedUrl, browser);
 
                 extractionLogger.endSession(sessionId, 'completed', facebookData);
+                // The scraper returns a flat object, so we spread it into the response.
                 return res.status(200).json({
-                    facebookInformation: facebookData,
+                    ...facebookData,
                     _sessionId: sessionId
                 });
 
             } catch (error) {
-                extractionLogger.error('Facebook scraping failed', error, { url: normalizedUrl }, sessionId);
+                // This catch block handles unexpected errors in the scraper function itself.
+                extractionLogger.error('An unexpected error occurred during Facebook scraping', error, { url: normalizedUrl }, sessionId);
                 extractionLogger.endSession(sessionId, 'failed');
                 return res.status(500).json({
-                    error: 'Failed to scrape Facebook page',
+                    error: 'An unexpected error occurred while scraping the Facebook page',
                     details: error.message,
                     _sessionId: sessionId
                 });
-            } finally {
-                if (browser) {
-                    await browser.close();
-                }
             }
         }
 
