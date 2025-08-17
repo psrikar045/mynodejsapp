@@ -5,6 +5,7 @@ const { createWriteStream } = require('fs');
 const { antiBotSystem } = require('./anti-bot-system');
 const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
 const { AdaptiveInteractionHandler } = require('./adaptive-interaction-handler');
+const { DynamicDataFinder } = require('./dynamic-data-finder.js');
 const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
@@ -1063,6 +1064,19 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     
     // Track successful extraction
     antiBotSystem.trackRequest(url, true, extractionDuration);
+
+    // **NEW: Find additional SEO and Key-Value data**
+    const dataFinder = new DynamicDataFinder(page);
+    const additionalInfo = await dataFinder.findAll();
+
+    // Filter out keys that already exist in the main data object
+    const finalAdditionalInfo = {};
+    for (const key in additionalInfo) {
+        if (!Object.prototype.hasOwnProperty.call(companyData, key)) {
+            finalAdditionalInfo[key] = additionalInfo[key];
+        }
+    }
+    companyData.additionalInfo = finalAdditionalInfo;
 
     // **ANTI-BOT ENHANCEMENT: Save cookies for future runs**
     try {

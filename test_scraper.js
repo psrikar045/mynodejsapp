@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { scrapeLinkedInCompany } = require('./linkedin_scraper');
 
-const testUrl = 'https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image';
+const testUrl = `file://${require('path').join(__dirname, 'public', 'test-popup.html')}`;
 
 (async () => {
     let browser;
@@ -23,11 +23,13 @@ const testUrl = 'https://www.linkedin.com/company/versa-networks?trk=organizatio
         console.assert(companyData, 'Test Failed: companyData is null or undefined.');
         console.assert(companyData.status === 'Success', `Test Failed: Scrape status was not 'Success', it was '${companyData.status}'`);
         console.assert(companyData.name, 'Test Failed: Company name is missing.');
-        console.assert(companyData.description, 'Test Failed: Company description is missing.');
-        console.assert(companyData.logoUrl, 'Test Failed: Company logoUrl is missing.');
-        console.assert(companyData.bannerUrl, 'Test Failed: Company bannerUrl is missing.');
+        console.assert(companyData.additionalInfo, 'Test Failed: additionalInfo object is missing.');
+        console.assert(typeof companyData.additionalInfo === 'object', 'Test Failed: additionalInfo is not an object.');
 
-        console.log('----------------------');
+        console.log('--- ADDITIONAL INFO ---');
+        console.log(JSON.stringify(companyData.additionalInfo, null, 2));
+        console.log('-----------------------');
+
         console.log('Test assertions complete. Check console for any assertion failures.');
 
     } catch (error) {

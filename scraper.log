@@ -1,0 +1,384 @@
+2025-08-17T09:11:20.030Z - INFO: Starting test...
+2025-08-17T09:11:22.447Z - INFO: Scraping test URL: https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image
+2025-08-17T09:11:22.623Z - INFO: Successfully loaded existing cookies.
+2025-08-17T09:11:22.624Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-17T09:11:22.624Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-17T09:11:22.625Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: b6235c0513bb725afe54ff03ec56bae7
+2025-08-17T09:11:22.649Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-17T09:11:22.650Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-17T09:11:22.661Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-17T09:11:22.662Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-17T09:11:22.662Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-17T09:11:22.662Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-17T09:11:22.667Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-17T09:11:22.667Z - INFO: Scraping https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image...
+2025-08-17T09:11:24.179Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image with a 180s timeout and referer "https://www.google.com/"...
+2025-08-17T09:11:24.211Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-17T09:11:25.215Z - INFO: ⏱️ [Performance] navigation: 2548ms (SUCCESS)
+2025-08-17T09:11:25.215Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image.
+2025-08-17T09:11:26.123Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-17T09:11:26.123Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-17T09:11:26.123Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-17T09:11:27.069Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-17T09:11:27.070Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-17T09:11:33.554Z - INFO: [InteractionHandler] No learned patterns file found. Starting fresh.
+2025-08-17T09:11:33.554Z - INFO: [InteractionHandler] Running initial interaction check for www.linkedin.com...
+2025-08-17T09:11:33.585Z - INFO: [InteractionHandler] Successfully handled popup with selector: "[role="dialog"] button[aria-label*="dismiss" i]".
+2025-08-17T09:11:33.585Z - INFO: [InteractionHandler] Learning new pattern for www.linkedin.com:popup: [role="dialog"] button[aria-label*="dismiss" i]
+2025-08-17T09:11:33.587Z - INFO: [InteractionHandler] Successfully saved learned patterns.
+2025-08-17T09:11:33.750Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-17T09:11:33.751Z - INFO: Searching for "Show more" buttons...
+2025-08-17T09:11:34.253Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-17T09:11:35.806Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-17T09:11:37.371Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-17T09:11:39.025Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-17T09:11:39.027Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-17T09:11:39.249Z - INFO: === PAGE DEBUG INFO ===
+2025-08-17T09:11:39.254Z - INFO: Page Title:
+2025-08-17T09:11:39.254Z - INFO: H1 Text:
+2025-08-17T09:11:39.254Z - INFO: Has Company Elements:
+2025-08-17T09:11:39.254Z - INFO: Available Navigation:
+2025-08-17T09:11:39.254Z - INFO: Has About Section:
+2025-08-17T09:11:39.255Z - INFO: Visible Text Preview:
+2025-08-17T09:11:39.255Z - INFO: =====================
+2025-08-17T09:11:39.255Z - INFO: Attempting to extract JSON-LD data...
+2025-08-17T09:11:39.262Z - INFO: Found 1 JSON-LD script(s).
+2025-08-17T09:11:39.263Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-17T09:11:39.263Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-17T09:11:39.269Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-17T09:11:39.270Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-17T09:11:39.271Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-17T09:11:39.271Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-17T09:11:39.271Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-17T09:11:39.271Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-17T09:11:39.272Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T09:11:39.272Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-17T09:11:39.272Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-17T09:11:39.272Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T09:11:39.273Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-17T09:11:39.273Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-17T09:11:39.273Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-17T09:11:39.273Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-17T09:11:39.273Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-17T09:11:39.273Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-17T09:11:39.274Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-17T09:11:41.277Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:43.279Z - INFO: 📊 [API Monitor] 4s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:45.282Z - INFO: 📊 [API Monitor] 6s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:47.283Z - INFO: 📊 [API Monitor] 8s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:49.285Z - INFO: 📊 [API Monitor] 10s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:51.288Z - INFO: 📊 [API Monitor] 12s: 0 requests, 2 responses, 2 banners
+2025-08-17T09:11:51.289Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 0 new requests, 2 responses, found 2 banner URLs.
+2025-08-17T09:11:51.289Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-17T09:11:51.293Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-17T09:11:51.294Z - INFO: 🎯 [Banner Extractor] Found 2 potential banner URLs
+2025-08-17T09:11:51.294Z - INFO: ✅ [Banner Extractor] Selected best banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T09:11:51.294Z - INFO: ✅ [PRIMARY SUCCESS] Network interception found banner:
+2025-08-17T09:11:51.295Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/company/versa-networks/
+2025-08-17T09:11:51.295Z - INFO: 🔍 [Pattern Discovery] New pattern: query:trk
+2025-08-17T09:11:51.296Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.296Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.296Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/ingraphs/counter/
+2025-08-17T09:11:51.296Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.297Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.297Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.297Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T09:11:51.297Z - INFO: 📊 [Method Tracking] Network Interception: SUCCESS
+2025-08-17T09:11:51.297Z - INFO: 📊 [Extraction Metrics] Method: Network Interception, Time: 12024ms, Success: true
+2025-08-17T09:11:51.298Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-17T09:11:51.298Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-17T09:11:51.298Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T09:11:51.529Z - WARN: ⚠️ [LinkedIn] Network-intercepted banner failed validation:
+2025-08-17T09:11:51.529Z - INFO: 🔄 [LinkedIn] Validating 2 network-discovered URLs...
+2025-08-17T09:11:51.529Z - INFO: 🔍 [Banner Validator] Validating 2 banner URLs...
+2025-08-17T09:11:51.529Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T09:11:52.556Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&amp;v=beta&amp;t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0
+2025-08-17T09:11:53.581Z - INFO: ❌ [Banner Validator] No valid banner URLs found
+2025-08-17T09:11:53.582Z - WARN: ⚠️ [LinkedIn] All network-discovered URLs failed validation
+2025-08-17T09:11:53.582Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&v=beta&t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0: Invalid content type: text/html; charset=UTF-8
+2025-08-17T09:11:53.582Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D563DAQEHSYhQWup92w/image-scale_191_1128/B56Zai88aVHUAc-/0/1746490607827/versa_networks_cover?e=2147483647&amp;v=beta&amp;t=NRRLh8nPqA7_myKV3V9SDozoKy1ojFrlLhCXpGC9lX0: Invalid content type: text/html; charset=UTF-8
+2025-08-17T09:11:53.582Z - INFO: 🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...
+2025-08-17T09:11:53.587Z - INFO: ❌ [LinkedIn] ALL METHODS FAILED - No banner URL found
+2025-08-17T09:11:53.645Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:11:53.651Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-17T09:11:53.651Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:11:53.655Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-17T09:11:53.655Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:11:53.661Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-17T09:11:53.662Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-17T09:11:53.662Z - INFO: Name:
+2025-08-17T09:11:53.662Z - INFO: About Us:
+2025-08-17T09:11:53.662Z - INFO: Founded:
+2025-08-17T09:11:53.662Z - INFO: Industry:
+2025-08-17T09:11:53.662Z - INFO: Headquarters:
+2025-08-17T09:11:53.662Z - INFO: Logo URL:
+2025-08-17T09:11:53.662Z - INFO: ========================
+2025-08-17T09:11:53.662Z - INFO: Successfully scraped https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image
+2025-08-17T09:11:53.662Z - INFO: ⏱️ [Performance] extraction: 31207ms (SUCCESS)
+2025-08-17T09:11:53.662Z - INFO: ✅ [Performance] LinkedIn extraction completed in 31207ms
+2025-08-17T09:11:53.662Z - INFO: [DynamicDataFinder] Extracting SEO info...
+2025-08-17T09:11:53.674Z - INFO: [DynamicDataFinder] Finding key-value pairs...
+2025-08-17T09:11:53.696Z - INFO: Successfully saved session cookies.
+2025-08-17T09:11:53.722Z - INFO: ✅ Page closed for https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image
+2025-08-17T09:11:53.722Z - INFO: --- SCRAPED DATA ---
+2025-08-17T09:11:53.722Z - INFO: {
+  "url": "https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image",
+  "status": "Success",
+  "name": "Versa Networks",
+  "logoUrl": "https://media.licdn.com/dms/image/v2/D4D0BAQGZGMc0hbvv1g/company-logo_200_200/company-logo_200_200/0/1711664330929/versa_networks_logo?e=2147483647&v=beta&t=IhG-_ursFDqk1I3UPtymRPkh0QPHbE4DwhVb-WyuYQg",
+  "bannerUrl": null,
+  "aboutUs": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+  "description": "Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.\n          \n\n          \n              \n    \n      \n          Website\n      \n      \n        \n                  \n    \n      http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks\n                \n      \n    \n  \n              \n    \n      \n          Industry\n      \n      \n        \n                  Software Development\n                \n      \n    \n  \n              \n    \n      \n          Company size\n      \n      \n        \n                  \n\n    \n    \n    \n    \n    \n    \n    \n    \n    \n\n        501-1,000 employees\n  \n\n                \n      \n    \n  \n              \n    \n      \n          Headquarters\n      \n      \n        \n                    Santa Clara, California\n                \n      \n    \n  \n              \n    \n      \n          Type\n      \n      \n        \n                  Privately Held\n                \n      \n    \n  \n              \n    \n      \n          Founded\n      \n      \n        \n                  2012\n                \n      \n    \n  \n\n              \n    \n      \n          Specialties\n      \n      \n        \n                  SDN, SD-WAN, SD-Security, Network Security, VNF, Hybrid WAN, MSP, WAN, Multicloud, SASE, Cyber Security, CASB, SWG, NGFW, RBI, ZTNA, SSE, DLP, and AI",
+  "website": "http://www.versa-networks.com\n      \n  \n\n    \n  \n                  External link for Versa Networks",
+  "verified": false,
+  "verifiedPage": null,
+  "industry": "Software Development",
+  "type": "Software Development",
+  "companySize": "501-1,000 employees",
+  "employees": "501-1,000 employees",
+  "headquarters": "Santa Clara, California",
+  "location": "Santa Clara, California",
+  "founded": "2012",
+  "locations": [
+    "2550 Great America Way",
+    "Suite 301",
+    "Santa Clara, California 95054, US"
+  ],
+  "specialties": [
+    "SDN",
+    "SD-WAN",
+    "SD-Security",
+    "Network Security",
+    "VNF",
+    "Hybrid WAN",
+    "MSP",
+    "WAN",
+    "Multicloud",
+    "SASE",
+    "Cyber Security",
+    "CASB",
+    "SWG",
+    "NGFW",
+    "RBI",
+    "ZTNA",
+    "SSE",
+    "DLP",
+    "and AI"
+  ],
+  "additionalInfo": {
+    "metaDescription": "Versa Networks | 81,318 followers on LinkedIn. A global leader in SASE, Versa enables organizations to create self-protecting networks with our Universal SASE Platform | Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.",
+    "metaKeywords": null,
+    "canonicalUrl": "https://www.linkedin.com/company/versa-networks",
+    "h1Tags": [
+      "Versa Networks"
+    ],
+    "h2Tags": [
+      "Software Development",
+      "About us",
+      "Products",
+      "Locations",
+      "Employees at Versa Networks",
+      "Updates",
+      "Join now to see what you are missing",
+      "Affiliated pages",
+      "Similar pages",
+      "Browse jobs",
+      "Funding",
+      "",
+      ""
+    ],
+    "socialLinks": {
+      "linkedin": "https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image#main-content"
+    }
+  }
+}
+2025-08-17T09:11:53.722Z - INFO: --------------------
+2025-08-17T09:11:53.722Z - INFO: --- VERIFYING DATA ---
+2025-08-17T09:11:53.722Z - INFO: --- ADDITIONAL INFO ---
+2025-08-17T09:11:53.722Z - INFO: {
+  "metaDescription": "Versa Networks | 81,318 followers on LinkedIn. A global leader in SASE, Versa enables organizations to create self-protecting networks with our Universal SASE Platform | Versa is the modern secure network.\n\nAvailable via the cloud, on-premises, or as a blended combination of both, Versa SASE connects Enterprise branches, teleworkers, and end users securely and reliably to applications in the cloud or data centers around the world.",
+  "metaKeywords": null,
+  "canonicalUrl": "https://www.linkedin.com/company/versa-networks",
+  "h1Tags": [
+    "Versa Networks"
+  ],
+  "h2Tags": [
+    "Software Development",
+    "About us",
+    "Products",
+    "Locations",
+    "Employees at Versa Networks",
+    "Updates",
+    "Join now to see what you are missing",
+    "Affiliated pages",
+    "Similar pages",
+    "Browse jobs",
+    "Funding",
+    "",
+    ""
+  ],
+  "socialLinks": {
+    "linkedin": "https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image#main-content"
+  }
+}
+2025-08-17T09:11:53.722Z - INFO: -----------------------
+2025-08-17T09:11:53.722Z - INFO: Test assertions complete. Check console for any assertion failures.
+2025-08-17T09:11:53.946Z - INFO: Test finished.
+2025-08-17T09:16:19.861Z - INFO: ✅ [Health Check] System healthy
+2025-08-17T09:19:20.548Z - INFO: Starting test...
+2025-08-17T09:19:21.944Z - INFO: Scraping test URL: file:///app/public/test-popup.html
+2025-08-17T09:19:22.094Z - INFO: Successfully loaded existing cookies.
+2025-08-17T09:19:22.095Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-17T09:19:22.095Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-17T09:19:22.095Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 5a70be189a7bc347b95f33430f156446
+2025-08-17T09:19:22.101Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-17T09:19:22.101Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-17T09:19:22.108Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-17T09:19:22.108Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-17T09:19:22.109Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-17T09:19:22.109Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-17T09:19:22.111Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-17T09:19:22.111Z - INFO: Scraping file:///app/public/test-popup.html...
+2025-08-17T09:19:23.835Z - INFO: Attempting to navigate to file:///app/public/test-popup.html with a 180s timeout and referer "https://www.google.com/"...
+2025-08-17T09:19:23.875Z - INFO: ⏱️ [Performance] navigation: 1764ms (SUCCESS)
+2025-08-17T09:19:23.875Z - INFO: Successfully navigated to file:///app/public/test-popup.html.
+2025-08-17T09:19:32.540Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-17T09:19:32.541Z - INFO: [InteractionHandler] Running initial interaction check for ...
+2025-08-17T09:19:32.561Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-17T09:19:32.561Z - INFO: Searching for "Show more" buttons...
+2025-08-17T09:19:32.593Z - INFO: No "Show more" buttons found.
+2025-08-17T09:19:32.595Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-17T09:19:32.608Z - INFO: === PAGE DEBUG INFO ===
+2025-08-17T09:19:32.610Z - INFO: Page Title:
+2025-08-17T09:19:32.610Z - INFO: H1 Text:
+2025-08-17T09:19:32.610Z - INFO: Has Company Elements:
+2025-08-17T09:19:32.610Z - INFO: Available Navigation:
+2025-08-17T09:19:32.610Z - INFO: Has About Section:
+2025-08-17T09:19:32.610Z - INFO: Visible Text Preview:
+2025-08-17T09:19:32.610Z - INFO: =====================
+2025-08-17T09:19:32.610Z - INFO: Attempting to extract JSON-LD data...
+2025-08-17T09:19:32.614Z - INFO: Found 0 JSON-LD script(s).
+2025-08-17T09:19:32.614Z - INFO: No valid JSON-LD data found.
+2025-08-17T09:19:32.619Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-17T09:19:32.619Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-17T09:19:32.620Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-17T09:19:32.620Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-17T09:19:32.621Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-17T09:19:32.621Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-17T09:19:32.621Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T09:19:32.621Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-17T09:19:32.622Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-17T09:19:32.622Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T09:19:32.622Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-17T09:19:32.622Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-17T09:19:32.622Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-17T09:19:32.622Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-17T09:19:32.623Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-17T09:19:32.623Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-17T09:19:32.623Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-17T09:19:34.627Z - INFO: 📊 [API Monitor] 2s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:36.630Z - INFO: 📊 [API Monitor] 4s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:38.631Z - INFO: 📊 [API Monitor] 6s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:40.635Z - INFO: 📊 [API Monitor] 8s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:42.638Z - INFO: 📊 [API Monitor] 10s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:44.641Z - INFO: 📊 [API Monitor] 12s: 0 requests, 0 responses, 0 banners
+2025-08-17T09:19:44.641Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 0 new requests, 0 responses, found 0 banner URLs.
+2025-08-17T09:19:44.641Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-17T09:19:44.644Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-17T09:19:44.644Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-17T09:19:44.644Z - INFO: ⚠️ [PRIMARY FAILED] Network interception found no banners, trying fallbacks...
+2025-08-17T09:19:44.644Z - INFO: 🔄 [FALLBACK 1] Direct API calls...
+2025-08-17T09:19:44.645Z - INFO: 🔗 [Banner Extractor] Making rate-limited direct API calls...
+2025-08-17T09:19:44.645Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-17T09:19:44.645Z - INFO: 🔄 [FALLBACK 2] Enhanced DOM analysis...
+2025-08-17T09:19:44.645Z - INFO: 🔍 [Banner Extractor] Enhanced page source analysis...
+2025-08-17T09:19:44.651Z - INFO: ❌ [Banner Extractor] No banner URLs found
+2025-08-17T09:19:44.652Z - INFO: 🔄 [FALLBACK 3] Traditional DOM scraping...
+2025-08-17T09:19:44.652Z - INFO: 🔍 [Banner Extractor] Traditional DOM scraping...
+2025-08-17T09:19:44.656Z - INFO: ❌ [ALL STRATEGIES FAILED] No banner found with any method
+2025-08-17T09:19:44.657Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/app/public/
+2025-08-17T09:19:44.658Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/public/test-popup.html/
+2025-08-17T09:19:44.658Z - INFO: 📊 [Extraction Metrics] Method: None, Time: 12034ms, Success: false
+2025-08-17T09:19:44.658Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-17T09:19:44.658Z - INFO: 🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...
+2025-08-17T09:19:44.661Z - INFO: ❌ [LinkedIn] ALL METHODS FAILED - No banner URL found
+2025-08-17T09:19:44.664Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:19:44.666Z - INFO: Direct extraction failed, trying About tab...
+2025-08-17T09:19:44.679Z - INFO: Could not extract "aboutUs" from HTML.
+2025-08-17T09:19:44.679Z - INFO: 🔄 Name extraction failed - likely bot detection. Implementing retry strategy...
+2025-08-17T09:19:44.679Z - INFO: 🔄 Retry attempt 1/2 for name extraction...
+2025-08-17T09:19:46.688Z - INFO: ✅ Retry 1 successful! Found name: Test Page
+2025-08-17T09:19:46.688Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:19:46.691Z - INFO: Could not extract "founded" from HTML.
+2025-08-17T09:19:46.691Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T09:19:46.695Z - INFO: Could not extract "locations" from HTML.
+2025-08-17T09:19:46.695Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-17T09:19:46.695Z - INFO: Name:
+2025-08-17T09:19:46.695Z - INFO: About Us:
+2025-08-17T09:19:46.695Z - INFO: Founded:
+2025-08-17T09:19:46.695Z - INFO: Industry:
+2025-08-17T09:19:46.695Z - INFO: Headquarters:
+2025-08-17T09:19:46.695Z - INFO: Logo URL:
+2025-08-17T09:19:46.695Z - INFO: ========================
+2025-08-17T09:19:46.695Z - INFO: Successfully scraped file:///app/public/test-popup.html
+2025-08-17T09:19:46.695Z - INFO: ⏱️ [Performance] extraction: 24746ms (SUCCESS)
+2025-08-17T09:19:46.695Z - INFO: ✅ [Performance] LinkedIn extraction completed in 24746ms
+2025-08-17T09:19:46.695Z - INFO: [DynamicDataFinder] Extracting SEO info...
+2025-08-17T09:19:46.698Z - INFO: [DynamicDataFinder] Finding key-value pairs...
+2025-08-17T09:19:46.705Z - INFO: Successfully saved session cookies.
+2025-08-17T09:19:46.716Z - INFO: ✅ Page closed for file:///app/public/test-popup.html
+2025-08-17T09:19:46.716Z - INFO: --- SCRAPED DATA ---
+2025-08-17T09:19:46.716Z - INFO: {
+  "url": "file:///app/public/test-popup.html",
+  "status": "Success",
+  "name": "Test Page",
+  "logoUrl": null,
+  "bannerUrl": null,
+  "aboutUs": "",
+  "description": "",
+  "website": null,
+  "verified": false,
+  "verifiedPage": null,
+  "industry": "",
+  "type": "",
+  "companySize": "",
+  "employees": "",
+  "headquarters": "",
+  "location": "",
+  "founded": "",
+  "locations": [],
+  "specialties": [
+    ""
+  ],
+  "additionalInfo": {
+    "metaDescription": null,
+    "metaKeywords": null,
+    "canonicalUrl": null,
+    "h1Tags": [
+      "Test Page"
+    ],
+    "h2Tags": [
+      "This is a pop-up!"
+    ],
+    "socialLinks": {}
+  }
+}
+2025-08-17T09:19:46.716Z - INFO: --------------------
+2025-08-17T09:19:46.716Z - INFO: --- VERIFYING DATA ---
+2025-08-17T09:19:46.716Z - INFO: --- ADDITIONAL INFO ---
+2025-08-17T09:19:46.716Z - INFO: {
+  "metaDescription": null,
+  "metaKeywords": null,
+  "canonicalUrl": null,
+  "h1Tags": [
+    "Test Page"
+  ],
+  "h2Tags": [
+    "This is a pop-up!"
+  ],
+  "socialLinks": {}
+}
+2025-08-17T09:19:46.716Z - INFO: -----------------------
+2025-08-17T09:19:46.716Z - INFO: Test assertions complete. Check console for any assertion failures.
+2025-08-17T09:19:46.832Z - INFO: Test finished.
+2025-08-17T09:24:20.419Z - INFO: ✅ [Health Check] System healthy
