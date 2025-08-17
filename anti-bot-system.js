@@ -35,26 +35,25 @@ class AntiBotSystem {
         const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
         const platform = os.platform();
 
-        // Chrome versions with realistic distribution
-        const chromeVersions = [
-            '120.0.0.0', '119.0.0.0', '118.0.0.0', '117.0.0.0', '116.0.0.0',
-            '121.0.0.0', '122.0.0.0' // Newer versions for realism
-        ];
+        // Generate a recent, realistic Chrome version
+        const recentMajorVersion = Math.floor(Math.random() * 10) + 115; // e.g., 115-124
+        const chromeVersion = `${recentMajorVersion}.0.0.0`;
+        this.currentChromeVersion = recentMajorVersion.toString(); // Store for header synchronization
 
         // Windows user agents (for local development)
         const windowsUserAgents = [
-            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36`,
-            `Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36`,
+            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36`,
+            `Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36`,
             `Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0`,
-            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36 Edg/120.0.0.0`,
-            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36 OPR/106.0.0.0`
+            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36 Edg/120.0.0.0`,
+            `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36 OPR/106.0.0.0`
         ];
 
         // Linux user agents (for production)
         const linuxUserAgents = [
-            `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36`,
+            `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36`,
             `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0`,
-            `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomChoice(chromeVersions)} Safari/537.36`,
+            `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chromeVersion} Safari/537.36`,
             `Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0`
         ];
 
@@ -86,7 +85,8 @@ class AntiBotSystem {
 
         // Add Chrome-specific headers if using Chrome user agent
         if (this.currentUserAgent && this.currentUserAgent.includes('Chrome')) {
-            const version = this.currentUserAgent.match(/Chrome\/(\d+)/)?.[1] || '120';
+            // Use the synchronized Chrome version
+            const version = this.currentChromeVersion || this.currentUserAgent.match(/Chrome\/(\d+)/)?.[1] || '124';
             baseHeaders['Sec-Ch-Ua'] = `"Not_A Brand";v="8", "Chromium";v="${version}", "Google Chrome";v="${version}"`;
             baseHeaders['Sec-Ch-Ua-Mobile'] = '?0';
             baseHeaders['Sec-Ch-Ua-Platform'] = this.getChromePlatformHeader();
