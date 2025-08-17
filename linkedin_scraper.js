@@ -335,13 +335,36 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       url,
       status: 'Success',
       linkedinVerified: await page.evaluate(() => {
-        const selectors = [
-            '[data-test-id="verified-badge"]',
-            '[data-test-id="verified-profile-badge"]',
-            '.org-page-verified-badge',
+        const companyNameEl = document.querySelector('h1.top-card-layout__title, h1[data-test-id="company-name"]');
+        if (!companyNameEl) return false;
+
+        // Search within the parent container of the company name
+        const container = companyNameEl.parentElement;
+        if (!container) return false;
+
+        const checkSelectors = [
+            '[data-test-id*="verified"]',
             '[aria-label*="Verified"]',
+            '[title*="Verified"]',
+            '.org-page-verified-badge',
+            '[class*="verified-badge"]',
         ];
-        return selectors.some(selector => document.querySelector(selector));
+
+        // Check for an element that matches any of the selectors
+        if (checkSelectors.some(selector => container.querySelector(selector))) {
+            return true;
+        }
+
+        // As a fallback, check for any element that contains the text "Verified"
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while(node = walker.nextNode()) {
+            if (node.textContent.toLowerCase().includes('verified')) {
+                return true;
+            }
+        }
+
+        return false;
       }),
       name: jsonData.name || await page.evaluate(() => {
         // **ENHANCED: Smart name extraction with bot detection**
