@@ -3066,7 +3066,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
     }
   }
 const scraperLink = require('./linkedin_scraper');
-const { scrapeFacebookCompany } = require('./facebook_scraper.js');
+const { scrapeFacebookCompany } = require('./facebook_scraper/facebook_scraper.js');
 const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
     const startTime = Date.now();
