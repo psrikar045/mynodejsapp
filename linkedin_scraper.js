@@ -697,17 +697,15 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       try {
         // First try to extract description directly without clicking tabs
         companyData.aboutUs = await page.evaluate(() => {
-          // Try multiple selectors for the company description
+          // Try multiple selectors for the company description, from most specific to most general
           const descriptionSelectors = [
-            '.top-card-layout__card .break-words',
-            '.org-top-card-summary__tagline',
-            '.top-card-layout__summary-info .break-words',
+            'section.about-us__description p', // A common pattern for the main description text
             '.org-about-us-organization-description__text',
             '[data-test-id="about-us-description"]',
+            '.about-us-description-content',
+            '.top-card-layout__card .break-words', // More generic container
             '.top-card__summary',
-            '.org-page-details__description',
-            '.company-overview-description',
-            '.about-us-description-content'
+            // '.org-top-card-summary__tagline', // This was causing the bug, so it's removed.
           ];
           
           for (const selector of descriptionSelectors) {

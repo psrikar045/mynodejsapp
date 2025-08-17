@@ -6446,3 +6446,207 @@
 2025-08-16T21:01:00.331Z - INFO: ------------------------
 2025-08-16T21:01:00.464Z - INFO: --- Debug Run Finished ---
 2025-08-16T21:04:13.391Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-17T06:05:03.774Z - INFO: Starting test...
+2025-08-17T06:05:08.231Z - INFO: Scraping test URL: https://www.linkedin.com/company/fosroc
+2025-08-17T06:05:08.468Z - INFO: Successfully loaded existing cookies.
+2025-08-17T06:05:08.470Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-17T06:05:08.470Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-17T06:05:08.470Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: afc10f745c83d79d0e5eba225528c73a
+2025-08-17T06:05:08.481Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-17T06:05:08.481Z - INFO: 🎭 [Anti-Bot] User agent rotated: Ubuntu;
+2025-08-17T06:05:08.488Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-17T06:05:08.489Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-17T06:05:08.489Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-17T06:05:08.489Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-17T06:05:08.493Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-17T06:05:08.493Z - INFO: Scraping https://www.linkedin.com/company/fosroc...
+2025-08-17T06:05:10.053Z - INFO: Attempting to navigate to https://www.linkedin.com/company/fosroc with a 180s timeout and referer "https://www.google.com/"...
+2025-08-17T06:05:10.117Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/fosroc/
+2025-08-17T06:05:11.146Z - INFO: ⏱️ [Performance] navigation: 2653ms (SUCCESS)
+2025-08-17T06:05:11.146Z - INFO: Successfully navigated to https://www.linkedin.com/company/fosroc.
+2025-08-17T06:05:12.335Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-17T06:05:12.336Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-17T06:05:12.336Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-17T06:05:13.568Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-17T06:05:13.568Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-17T06:05:19.259Z - INFO: Checking for login popup...
+2025-08-17T06:05:19.276Z - INFO: Login popup closed, waiting for content to load...
+2025-08-17T06:05:22.290Z - INFO: Signup prompt dismissed, waiting...
+2025-08-17T06:05:24.290Z - INFO: Searching for "Show more" buttons...
+2025-08-17T06:05:24.570Z - INFO: Clicked a "Show more" button with text: "Show more locations"
+2025-08-17T06:05:26.291Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-17T06:05:27.834Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-17T06:05:29.460Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-17T06:05:29.460Z - INFO: Waiting for essential page elements with a 120s timeout...
+2025-08-17T06:05:29.469Z - INFO: Essential page elements found.
+2025-08-17T06:05:29.472Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-17T06:05:29.656Z - INFO: === PAGE DEBUG INFO ===
+2025-08-17T06:05:29.661Z - INFO: Page Title:
+2025-08-17T06:05:29.661Z - INFO: H1 Text:
+2025-08-17T06:05:29.661Z - INFO: Has Company Elements:
+2025-08-17T06:05:29.661Z - INFO: Available Navigation:
+2025-08-17T06:05:29.661Z - INFO: Has About Section:
+2025-08-17T06:05:29.661Z - INFO: Visible Text Preview:
+2025-08-17T06:05:29.661Z - INFO: =====================
+2025-08-17T06:05:29.661Z - INFO: Attempting to extract JSON-LD data...
+2025-08-17T06:05:29.675Z - INFO: Found 1 JSON-LD script(s).
+2025-08-17T06:05:29.676Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-17T06:05:29.676Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-17T06:05:29.681Z - INFO: 🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...
+2025-08-17T06:05:29.681Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-17T06:05:29.682Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-17T06:05:29.682Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-17T06:05:29.683Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-17T06:05:29.683Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-17T06:05:29.683Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T06:05:29.683Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-17T06:05:29.683Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-17T06:05:29.684Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-17T06:05:29.684Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-17T06:05:29.684Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-17T06:05:29.684Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-17T06:05:29.684Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-17T06:05:29.684Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-17T06:05:29.684Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-17T06:05:29.685Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-17T06:05:31.688Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 8 banners
+2025-08-17T06:05:33.691Z - INFO: 📊 [API Monitor] 4s: 0 requests, 2 responses, 8 banners
+2025-08-17T06:05:35.695Z - INFO: 📊 [API Monitor] 6s: 0 requests, 2 responses, 8 banners
+2025-08-17T06:05:37.696Z - INFO: 📊 [API Monitor] 8s: 2 requests, 3 responses, 8 banners
+2025-08-17T06:05:39.699Z - INFO: 📊 [API Monitor] 10s: 2 requests, 3 responses, 8 banners
+2025-08-17T06:05:41.704Z - INFO: 📊 [API Monitor] 12s: 2 requests, 3 responses, 8 banners
+2025-08-17T06:05:41.704Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 2 new requests, 3 responses, found 8 banner URLs.
+2025-08-17T06:05:41.704Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-17T06:05:41.707Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-17T06:05:41.707Z - INFO: 🎯 [Banner Extractor] Found 8 potential banner URLs
+2025-08-17T06:05:41.707Z - INFO: ✅ [Banner Extractor] Selected best banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&v=beta&t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ
+2025-08-17T06:05:41.707Z - INFO: ✅ [PRIMARY SUCCESS] Network interception found banner:
+2025-08-17T06:05:41.708Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/company/fosroc/
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 🔍 [Pattern Discovery] New pattern: path:/ingraphs/counter/
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.708Z - INFO: 📊 [Method Tracking] network_interception: SUCCESS
+2025-08-17T06:05:41.709Z - INFO: 📊 [Method Tracking] Network Interception: SUCCESS
+2025-08-17T06:05:41.709Z - INFO: 📊 [Extraction Metrics] Method: Network Interception, Time: 12025ms, Success: true
+2025-08-17T06:05:41.709Z - INFO: 📊 [LinkedIn] Extraction summary:
+2025-08-17T06:05:41.709Z - INFO: 🔍 [LinkedIn] Validating network-intercepted banner...
+2025-08-17T06:05:41.709Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&v=beta&t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ
+2025-08-17T06:05:41.948Z - WARN: ⚠️ [LinkedIn] Network-intercepted banner failed validation:
+2025-08-17T06:05:41.948Z - INFO: 🔄 [LinkedIn] Validating 8 network-discovered URLs...
+2025-08-17T06:05:41.948Z - INFO: 🔍 [Banner Validator] Validating 8 banner URLs...
+2025-08-17T06:05:41.948Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&v=beta&t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ
+2025-08-17T06:05:42.969Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&amp;v=beta&amp;t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ
+2025-08-17T06:05:43.990Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQEMQYWnx2pLlQ/videocover-high/B4EZiEP8i2HgCQ-/0/1754565437007?e=2147483647&amp;v=beta&amp;t=iaxGLjSdpRkpbn-Lk7yXeyDAbpwouE1Y123Z0xAFQJ4
+2025-08-17T06:05:45.013Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQHiE5M9O5mtkw/videocover-high/B4EZhgKfelHECM-/0/1753960025266?e=2147483647&amp;v=beta&amp;t=RXHWIx9wgCGfYlvgc_QRby30h0LTTGEbmKwv7b59lbc
+2025-08-17T06:05:46.035Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQGa2IY1j5qjWQ/videocover-high/B4EZf4JGvrHwCI-/0/1752214836541?e=2147483647&amp;v=beta&amp;t=jrgKMpVqe9fKuFAWigvH8jbeUqLad3T-IoEEa6wFJVI
+2025-08-17T06:05:47.059Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQEMQYWnx2pLlQ/videocover-high/B4EZiEP8i2HgCQ-/0/1754565437007?e=2147483647&v=beta&t=iaxGLjSdpRkpbn-Lk7yXeyDAbpwouE1Y123Z0xAFQJ4
+2025-08-17T06:05:48.080Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQHiE5M9O5mtkw/videocover-high/B4EZhgKfelHECM-/0/1753960025266?e=2147483647&v=beta&t=RXHWIx9wgCGfYlvgc_QRby30h0LTTGEbmKwv7b59lbc
+2025-08-17T06:05:49.103Z - INFO: 🔍 [Banner Validator] Validating banner URL: https://media.licdn.com/dms/image/v2/D4E05AQGa2IY1j5qjWQ/videocover-high/B4EZf4JGvrHwCI-/0/1752214836541?e=2147483647&v=beta&t=jrgKMpVqe9fKuFAWigvH8jbeUqLad3T-IoEEa6wFJVI
+2025-08-17T06:05:50.126Z - INFO: ❌ [Banner Validator] No valid banner URLs found
+2025-08-17T06:05:50.126Z - WARN: ⚠️ [LinkedIn] All network-discovered URLs failed validation
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&v=beta&t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E3DAQECoQKLrZkjAg/image-scale_191_1128/image-scale_191_1128/0/1688561150054/fosroc_cover?e=2147483647&amp;v=beta&amp;t=4cqj2lSo-JQbLnLLaKcdnQJH-DkHLVIiLxAAbU2oDbQ: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQEMQYWnx2pLlQ/videocover-high/B4EZiEP8i2HgCQ-/0/1754565437007?e=2147483647&amp;v=beta&amp;t=iaxGLjSdpRkpbn-Lk7yXeyDAbpwouE1Y123Z0xAFQJ4: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQHiE5M9O5mtkw/videocover-high/B4EZhgKfelHECM-/0/1753960025266?e=2147483647&amp;v=beta&amp;t=RXHWIx9wgCGfYlvgc_QRby30h0LTTGEbmKwv7b59lbc: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQGa2IY1j5qjWQ/videocover-high/B4EZf4JGvrHwCI-/0/1752214836541?e=2147483647&amp;v=beta&amp;t=jrgKMpVqe9fKuFAWigvH8jbeUqLad3T-IoEEa6wFJVI: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQEMQYWnx2pLlQ/videocover-high/B4EZiEP8i2HgCQ-/0/1754565437007?e=2147483647&v=beta&t=iaxGLjSdpRkpbn-Lk7yXeyDAbpwouE1Y123Z0xAFQJ4: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQHiE5M9O5mtkw/videocover-high/B4EZhgKfelHECM-/0/1753960025266?e=2147483647&v=beta&t=RXHWIx9wgCGfYlvgc_QRby30h0LTTGEbmKwv7b59lbc: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - WARN: ❌ [Validation Failed] https://media.licdn.com/dms/image/v2/D4E05AQGa2IY1j5qjWQ/videocover-high/B4EZf4JGvrHwCI-/0/1752214836541?e=2147483647&v=beta&t=jrgKMpVqe9fKuFAWigvH8jbeUqLad3T-IoEEa6wFJVI: Invalid content type: text/html; charset=UTF-8
+2025-08-17T06:05:50.126Z - INFO: 🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...
+2025-08-17T06:05:50.130Z - INFO: ❌ [LinkedIn] ALL METHODS FAILED - No banner URL found
+2025-08-17T06:05:50.165Z - INFO: Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T06:05:50.168Z - INFO: Successfully extracted "aboutUs" from HTML.
+2025-08-17T06:05:50.168Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T06:05:50.172Z - INFO: Could not extract "founded" from HTML.
+2025-08-17T06:05:50.172Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-17T06:05:50.177Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-17T06:05:50.177Z - INFO: === EXTRACTION SUMMARY ===
+2025-08-17T06:05:50.177Z - INFO: Name:
+2025-08-17T06:05:50.177Z - INFO: About Us:
+2025-08-17T06:05:50.177Z - INFO: Founded:
+2025-08-17T06:05:50.177Z - INFO: Industry:
+2025-08-17T06:05:50.177Z - INFO: Headquarters:
+2025-08-17T06:05:50.177Z - INFO: Logo URL:
+2025-08-17T06:05:50.177Z - INFO: ========================
+2025-08-17T06:05:50.177Z - INFO: Successfully scraped https://www.linkedin.com/company/fosroc
+2025-08-17T06:05:50.177Z - INFO: ⏱️ [Performance] extraction: 41931ms (SUCCESS)
+2025-08-17T06:05:50.177Z - INFO: ✅ [Performance] LinkedIn extraction completed in 41931ms
+2025-08-17T06:05:50.181Z - INFO: Successfully saved session cookies.
+2025-08-17T06:05:50.207Z - INFO: ✅ Page closed for https://www.linkedin.com/company/fosroc
+2025-08-17T06:05:50.207Z - INFO: --- SCRAPED DATA ---
+2025-08-17T06:05:50.207Z - INFO: {
+  "url": "https://www.linkedin.com/company/fosroc",
+  "status": "Success",
+  "name": "Fosroc",
+  "logoUrl": "https://media.licdn.com/dms/image/v2/C560BAQEBxXCk2JEkMg/company-logo_200_200/company-logo_200_200/0/1631330377806?e=2147483647&v=beta&t=FYuVp_2-5nCXwaTC1UF3CZxV7Uj2vXf4D8w1ZjguSVo",
+  "bannerUrl": null,
+  "aboutUs": "Chemical Manufacturing",
+  "description": "Chemical Manufacturing",
+  "website": "http://www.fosroc.com\n      \n  \n\n    \n  \n                  External link for Fosroc",
+  "verified": false,
+  "verifiedPage": null,
+  "industry": "Chemical Manufacturing",
+  "type": "Chemical Manufacturing",
+  "companySize": "1,001-5,000 employees",
+  "employees": "1,001-5,000 employees",
+  "headquarters": "Dubai",
+  "location": "Dubai",
+  "founded": "",
+  "locations": [
+    "PO Box 12276",
+    "Dubai, -------, AE",
+    "2001 Pacific Plaza",
+    "410 Des Voeux Road West",
+    "Hong Kong, na, HK",
+    "Coleshill Road",
+    "Tamworth, England B78 3XN, GB",
+    "Lower Baggot Street",
+    "Dublin, D02 Y754, IE",
+    "Gasteiz Bidea, 11",
+    "Bizkaia, 48213, ES",
+    "Units 6-8 Laxmanbhai Complex",
+    "Mombasa Road",
+    "Kenya, KE",
+    "Jeddah Industrial Area, Phase 4",
+    "Road 102, Street 82, P.O Box 11081",
+    "Jeddah, 21453, SA",
+    "Aydınevler Mah.Sanayi Cad",
+    "Demirtaş Plaza İş Merkezi No:13 K:3 7-8",
+    "Maltepe, TR",
+    "Embassy Point, No 150, 2nd Floor",
+    "Infantry Road",
+    "Bangalore, 560001, IN",
+    "11/24 Moo 9",
+    "BangChaLong BangPlee",
+    "Samutprakarn, 10540, TH",
+    "4 Defu South Street 1",
+    "Hougang, North-East Region 533756, SG",
+    "Jl Akasia II, Delta Silicon Industrial Park",
+    "Lippo Cikarang",
+    "Bekasi, 17550, ID"
+  ],
+  "specialties": [
+    "Admixtures",
+    "Adhesives",
+    "Protective Coatings",
+    "Concrete Repairs",
+    "Industrial Flooring",
+    "Grouts & Anchor",
+    "Joint Sealants",
+    "Surface Treatments",
+    "Grinding Aids",
+    "and Waterproofing"
+  ]
+}
+2025-08-17T06:05:50.208Z - INFO: --------------------
+2025-08-17T06:05:50.208Z - INFO: --- VERIFYING DATA ---
+2025-08-17T06:05:50.208Z - WARN: Assertion failed: Test Failed: Company bannerUrl is missing.
+2025-08-17T06:05:50.208Z - INFO: ----------------------
+2025-08-17T06:05:50.208Z - INFO: Test assertions complete. Check console for any assertion failures.
+2025-08-17T06:05:50.349Z - INFO: Test finished.
+2025-08-17T06:10:03.423Z - INFO: ✅ [Health Check] System healthy

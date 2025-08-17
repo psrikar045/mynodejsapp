@@ -1,42 +1,42 @@
 const puppeteer = require('puppeteer');
 const { scrapeLinkedInCompany } = require('./linkedin_scraper');
 
-// Use the URL provided by the user for debugging
-const testUrl = 'https://www.linkedin.com/company/versa-networks/mycompany/';
+const testUrl = 'https://www.linkedin.com/company/fosroc';
 
 (async () => {
     let browser;
     try {
-        console.log('--- Starting Debug Run ---');
+        console.log('Starting test...');
         browser = await puppeteer.launch({
-            headless: true,
+            headless: true, // Use headless mode for testing
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
-        console.log(`Scraping debug URL in DRY RUN mode: ${testUrl}`);
+        console.log(`Scraping test URL: ${testUrl}`);
+        const companyData = await scrapeLinkedInCompany(testUrl, browser);
 
-        const scrapingPromise = scrapeLinkedInCompany(testUrl, browser, null, { dryRun: true });
-
-        const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Scraping function timed out after 3 minutes')), 180000)
-        );
-
-        const companyData = await Promise.race([
-            scrapingPromise,
-            timeoutPromise
-        ]);
-
-        console.log('--- DEBUG RUN OUTPUT ---');
+        console.log('--- SCRAPED DATA ---');
         console.log(JSON.stringify(companyData, null, 2));
-        console.log('------------------------');
+        console.log('--------------------');
+
+        console.log('--- VERIFYING DATA ---');
+        console.assert(companyData, 'Test Failed: companyData is null or undefined.');
+        console.assert(companyData.status === 'Success', `Test Failed: Scrape status was not 'Success', it was '${companyData.status}'`);
+        console.assert(companyData.name, 'Test Failed: Company name is missing.');
+        console.assert(companyData.description, 'Test Failed: Company description is missing.');
+        console.assert(companyData.logoUrl, 'Test Failed: Company logoUrl is missing.');
+        console.assert(companyData.bannerUrl, 'Test Failed: Company bannerUrl is missing.');
+
+        console.log('----------------------');
+        console.log('Test assertions complete. Check console for any assertion failures.');
 
     } catch (error) {
-        console.error('Debug script failed with an error:', error);
+        console.error('Test script failed with an error:', error);
         process.exit(1);
     } finally {
         if (browser) {
             await browser.close();
         }
-        console.log('--- Debug Run Finished ---');
+        console.log('Test finished.');
     }
 })();
