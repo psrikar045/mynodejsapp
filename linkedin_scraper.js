@@ -4,6 +4,7 @@ const fs = require('fs').promises;
 const { createWriteStream } = require('fs');
 const { antiBotSystem } = require('./anti-bot-system');
 const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
+const { AdaptiveInteractionHandler } = require('./adaptive-interaction-handler');
 const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
@@ -81,7 +82,6 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
   if (!linkedinAntiBot) {
     linkedinAntiBot = new LinkedInImageAntiBotSystem();
   }
-  
   try {
     // **ENHANCED: Advanced anti-detection with stealth mode**
     await antiBotSystem.setupStealthMode(page);
@@ -164,115 +164,12 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     // Track successful navigation behavior
     antiBotSystem.trackRequest(url, true, Date.now());
 
-    // **CRUCIAL: Handle login popup first**
-    console.log('Checking for login popup...');
-    try {
-      // Try to find and close login popup by clicking X button
-      const loginPopupClosed = await page.evaluate(() => {
-        // Look for various close button selectors for login popups
-        const closeSelectors = [
-          '[data-test-id="login-form"] button[aria-label="Dismiss"]',
-          '[data-test-id="login-form"] button[aria-label="Close"]',
-          '.modal button[aria-label="Dismiss"]',
-          '.modal button[aria-label="Close"]', 
-          '.artdeco-modal__dismiss',
-          'button[data-test-id="modal-close-button"]',
-          'button.modal-wormhole-close',
-          'svg[data-test-id="close-icon"]',
-          '[role="dialog"] button[aria-label="Dismiss"]',
-          '[role="dialog"] button[aria-label="Close"]',
-          '.artdeco-modal-overlay button.artdeco-button--circle'
-        ];
-        
-        for (const selector of closeSelectors) {
-          try {
-            const closeButton = document.querySelector(selector);
-            if (closeButton && closeButton.offsetParent !== null) { // Check if visible
-              closeButton.click();
-              return true;
-            }
-          } catch (e) {
-            // Continue to next selector
-          }
-        }
-        
-        // Look for buttons containing close icons (replacement for :has() selector)
-        const allButtons = document.querySelectorAll('button');
-        for (const button of allButtons) {
-          if (button.offsetParent !== null) { // Check if visible
-            const closeIcon = button.querySelector('svg[data-test-id="close-icon"]');
-            if (closeIcon) {
-              button.click();
-              return true;
-            }
-          }
-        }
-        
-        // Also try clicking on overlay to close modal
-        const overlay = document.querySelector('.artdeco-modal-overlay, .modal-backdrop');
-        if (overlay) {
-          overlay.click();
-          return true;
-        }
-        
-        return false;
-      });
-
-      if (loginPopupClosed) {
-        console.log('Login popup closed, waiting for content to load...');
-        await delay(3000); // Wait for popup to close and content to appear
-      } else {
-        console.log('No login popup detected or already closed');
-      }
-    } catch (error) {
-      console.warn('Error handling login popup:', error.message);
-    }
-
-    // **Handle "Not Now" or "Skip" buttons for signup prompts**
-    try {
-      const skipClicked = await page.evaluate(() => {
-        // Use standard CSS selectors only, then check text content
-        const skipSelectors = [
-          '[data-test-id="cold-signup-dismiss"]',
-          'button[aria-label="Dismiss"]',
-          'button[aria-label="Not now"]',
-          'button[aria-label="Skip"]',
-          'button[aria-label="Maybe later"]'
-        ];
-        
-        for (const selector of skipSelectors) {
-          try {
-            const button = document.querySelector(selector);
-            if (button && button.offsetParent !== null) { // Check if visible
-              button.click();
-              return true;
-            }
-          } catch (e) {
-            // Continue
-          }
-        }
-        
-        // Also check all buttons for text-based matching
-        const allButtons = document.querySelectorAll('button');
-        for (const button of allButtons) {
-          if (button.offsetParent !== null && // Check if visible
-              button.textContent && 
-              /not now|skip|maybe later|dismiss/i.test(button.textContent.trim())) {
-            button.click();
-            return true;
-          }
-        }
-        
-        return false;
-      });
-
-      if (skipClicked) {
-        console.log('Signup prompt dismissed, waiting...');
-        await delay(2000);
-      }
-    } catch (error) {
-      console.warn('Error handling signup prompt:', error.message);
-    }
+    // **NEW: Adaptive Interaction Handling**
+    const interactionHandler = new AdaptiveInteractionHandler(page);
+    await interactionHandler.initialize();
+    await interactionHandler.handleAllInteractions(url);
+    await interactionHandler.startObserver();
+    console.log('[+] Adaptive Interaction Handler is active.');
 
     // **REFACTORED: Generic "Show More" button handler**
     const clickShowMoreButtons = async (page) => {
@@ -308,11 +205,6 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
 
     // Wait for essential elements to load and verify we're on the right page
     try {
-      console.log(`Waiting for essential page elements with a 120s timeout...`);
-      // "No Surrender" change: Increased timeout significantly
-      await page.waitForSelector('h1, .top-card-layout__entity-info, .org-top-card-summary-info-list', { timeout: 120000 }); // 2 minutes
-      console.log('Essential page elements found.');
-      
       // **CRUCIAL: Check if we're actually on a company page, not login page**
       const isCompanyPage = await page.evaluate(() => {
         const h1 = document.querySelector('h1');
@@ -697,24 +589,21 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       try {
         // First try to extract description directly without clicking tabs
         companyData.aboutUs = await page.evaluate(() => {
-          // Try multiple selectors for the company description
+          // Try multiple selectors for the company description, from most specific to most general
           const descriptionSelectors = [
-            '.top-card-layout__card .break-words',
-            '.org-top-card-summary__tagline',
-            '.top-card-layout__summary-info .break-words',
+            'section.about-us__description p', // A common pattern for the main description text
             '.org-about-us-organization-description__text',
             '[data-test-id="about-us-description"]',
+            '.about-us-description-content',
+            '.top-card-layout__card .break-words', // More generic container
             '.top-card__summary',
-            '.org-page-details__description',
-            '.company-overview-description',
-            '.about-us-description-content'
           ];
           
           for (const selector of descriptionSelectors) {
             const element = document.querySelector(selector);
             if (element && element.textContent.trim()) {
               const text = element.textContent.trim();
-              if (text.length > 20) { // Make sure it's substantial content
+              if (text.length > 50) { // A good description should have some length
                 return text;
               }
             }
@@ -1143,6 +1032,13 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
             console.error('Error while scraping "locations" from HTML:', error);
           }
       }
+    }
+
+    // **Safeguard:** If the description is the same as the industry, it's wrong. Nullify it.
+    if (companyData.description && companyData.industry && companyData.description === companyData.industry) {
+        console.warn(`[Safeguard] Description was identical to industry. Nullifying description.`);
+        companyData.description = null;
+        companyData.aboutUs = null;
     }
 
     // **DEBUG: Log what we actually extracted**
