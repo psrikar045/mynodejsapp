@@ -3066,6 +3066,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
     }
   }
 const scraperLink = require('./linkedin_scraper');
+const { scrapeFacebookCompany } = require('./facebook_scraper.js');
 const fss = require('fs').promises;
 async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
     const startTime = Date.now();
@@ -4195,6 +4196,44 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
+        if (normalizedUrl.includes('facebook.com')) {
+            extractionLogger.info('Facebook URL detected, starting Facebook scraper.', { url: normalizedUrl }, sessionId);
+            let browser;
+            try {
+                const browserPath = getBrowserExecutablePath();
+                const launchOptions = {
+                    args: getAdvancedBrowserArgs(),
+                    headless: 'new',
+                    defaultViewport: antiBotSystem.getRandomViewport(),
+                    timeout: 120000,
+                };
+                if (browserPath) {
+                    launchOptions.executablePath = browserPath;
+                }
+                browser = await puppeteer.launch(launchOptions);
+                const facebookData = await scrapeFacebookCompany(normalizedUrl, browser);
+
+                extractionLogger.endSession(sessionId, 'completed', facebookData);
+                return res.status(200).json({
+                    facebookInformation: facebookData,
+                    _sessionId: sessionId
+                });
+
+            } catch (error) {
+                extractionLogger.error('Facebook scraping failed', error, { url: normalizedUrl }, sessionId);
+                extractionLogger.endSession(sessionId, 'failed');
+                return res.status(500).json({
+                    error: 'Failed to scrape Facebook page',
+                    details: error.message,
+                    _sessionId: sessionId
+                });
+            } finally {
+                if (browser) {
+                    await browser.close();
+                }
+            }
+        }
+
         extractionLogger.step('Domain Resolution Complete', { status: 'resolved' });
 
         let browser;

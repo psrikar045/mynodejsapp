@@ -226,55 +226,113 @@ class AntiBotSystem {
     }
 
     /**
+     * Intelligently scrolls down a page to trigger dynamic content loading.
+     * @param {object} page - The Puppeteer page object.
+     * @param {object} options - Options for scrolling behavior.
+     * @param {number} [options.maxScrolls=20] - The maximum number of scrolls to prevent infinite loops.
+     * @param {number} [options.scrollDelayMin=1000] - Minimum delay between scrolls.
+     * @param {number} [options.scrollDelayMax=2500] - Maximum delay between scrolls.
+     * @param {string} [options.scrollContainerSelector] - Optional selector for a specific scrollable element.
+     */
+    async intelligentScroll(page, options = {}) {
+        const {
+            maxScrolls = 20,
+            scrollDelayMin = 1000,
+            scrollDelayMax = 2500,
+            scrollContainerSelector,
+        } = options;
+
+        console.log('🤖 [Anti-Bot] Starting intelligent scroll...');
+
+        try {
+            let previousHeight = await page.evaluate(selector => {
+                const element = selector ? document.querySelector(selector) : document.body;
+                return element.scrollHeight;
+            }, scrollContainerSelector);
+
+            for (let i = 0; i < maxScrolls; i++) {
+                // Scroll down a variable amount
+                await page.evaluate(selector => {
+                    const element = selector ? document.querySelector(selector) : window;
+                    element.scrollBy(0, window.innerHeight * (Math.random() * 0.4 + 0.8)); // scroll 80-120% of viewport height
+                }, scrollContainerSelector);
+
+                // Wait for content to load
+                await this.humanDelay(scrollDelayMin, scrollDelayMax);
+
+                let newHeight = await page.evaluate(selector => {
+                    const element = selector ? document.querySelector(selector) : document.body;
+                    return element.scrollHeight;
+                }, scrollContainerSelector);
+
+                if (newHeight === previousHeight) {
+                    console.log('✅ [Anti-Bot] Reached the bottom of the page.');
+                    break;
+                }
+                previousHeight = newHeight;
+                console.log(`📜 [Anti-Bot] Scrolled down, new height: ${newHeight}px`);
+
+                if (i === maxScrolls - 1) {
+                    console.log('⚠️ [Anti-Bot] Reached max scrolls limit.');
+                }
+            }
+        } catch (error) {
+            console.warn('⚠️ [Anti-Bot] Intelligent scroll error:', error.message);
+        }
+    }
+
+    /**
      * Enhanced stealth mode setup
      */
     async setupStealthMode(page) {
         try {
-            // Remove navigator.webdriver property
             await page.evaluateOnNewDocument(() => {
+                // Pass webdriver check
                 Object.defineProperty(navigator, 'webdriver', {
-                    get: () => undefined,
+                    get: () => false,
                 });
-            });
 
-            // Mock navigator properties
-            await page.evaluateOnNewDocument(() => {
-                const originalQuery = window.navigator.permissions.query;
-                return window.navigator.permissions.query = (parameters) => (
-                    parameters.name === 'notifications' ?
-                        Promise.resolve({ state: Denial.denied }) :
-                        originalQuery(parameters)
-                );
-            });
+                // Pass chrome check
+                window.chrome = {
+                    runtime: {},
+                    // etc.
+                };
 
-            // Override plugin detection
-            await page.evaluateOnNewDocument(() => {
+                // Pass plugins check
+                const plugins = [
+                    { name: 'Chrome PDF Plugin', filename: 'internal-pdf-viewer', description: 'Portable Document Format' },
+                    { name: 'Chrome PDF Viewer', filename: 'mhjfbmdgcfjbbpaeojofohoefgiehjai', description: '' },
+                    { name: 'Native Client', filename: 'internal-nacl-plugin', description: '' },
+                ];
                 Object.defineProperty(navigator, 'plugins', {
-                    get: () => [1, 2, 3, 4, 5],
+                    get: () => plugins,
                 });
-            });
 
-            // Mock canvas fingerprint
-            await page.evaluateOnNewDocument(() => {
-                const getContext = HTMLCanvasElement.prototype.getContext;
-                HTMLCanvasElement.prototype.getContext = function(type) {
-                    if (type === '2d') {
-                        const context = getContext.call(this, type);
-                        const originalFillText = context.fillText;
-                        context.fillText = function(...args) {
-                            // Add noise to canvas fingerprint
-                            const noise = Math.random() * 0.1;
-                            args[1] += noise;
-                            args[2] += noise;
-                            return originalFillText.apply(this, args);
-                        };
-                        return context;
+                // Pass languages check
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en'],
+                });
+
+                // Pass permissions check
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) =>
+                    parameters.name === 'notifications'
+                        ? Promise.resolve({ state: Notification.permission })
+                        : originalQuery(parameters);
+
+                // Spoof WebGL vendor and renderer
+                const getParameter = WebGLRenderingContext.prototype.getParameter;
+                WebGLRenderingContext.prototype.getParameter = function(parameter) {
+                    if (parameter === 37445) { // VENDOR
+                        return 'Intel Open Source Technology Center';
                     }
-                    return getContext.call(this, type);
+                    if (parameter === 37446) { // RENDERER
+                        return 'Mesa DRI Intel(R) Ivybridge Mobile ';
+                    }
+                    return getParameter.apply(this, arguments);
                 };
             });
-
-            console.log('🛡️ [Anti-Bot] Stealth mode activated');
+            console.log('🛡️ [Anti-Bot] Enhanced stealth mode activated');
         } catch (error) {
             console.warn('[Anti-Bot] Stealth mode setup error:', error.message);
         }
