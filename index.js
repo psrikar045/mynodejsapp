@@ -4196,42 +4196,6 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
-        if (normalizedUrl.includes('facebook.com')) {
-            extractionLogger.info('Facebook URL detected, routing to Facebook scraper.', { url: normalizedUrl }, sessionId);
-            try {
-                // The scrapeFacebookCompany function now handles its own browser launch and cleanup.
-                const facebookData = await scrapeFacebookCompany(normalizedUrl, sessionId);
-
-                // Check if the scraper returned valid data or a failure object
-                if (facebookData.status === 'Failed') {
-                    extractionLogger.error('Facebook scraping failed', new Error(facebookData.error), { url: normalizedUrl }, sessionId);
-                    extractionLogger.endSession(sessionId, 'failed');
-                    return res.status(500).json({
-                        error: 'Failed to scrape Facebook page',
-                        details: facebookData.error,
-                        _sessionId: sessionId
-                    });
-                }
-
-                extractionLogger.endSession(sessionId, 'completed', facebookData);
-                // The scraper returns a flat object, so we spread it into the response.
-                return res.status(200).json({
-                    ...facebookData,
-                    _sessionId: sessionId
-                });
-
-            } catch (error) {
-                // This catch block handles unexpected errors in the scraper function itself.
-                extractionLogger.error('An unexpected error occurred during Facebook scraping', error, { url: normalizedUrl }, sessionId);
-                extractionLogger.endSession(sessionId, 'failed');
-                return res.status(500).json({
-                    error: 'An unexpected error occurred while scraping the Facebook page',
-                    details: error.message,
-                    _sessionId: sessionId
-                });
-            }
-        }
-
         extractionLogger.step('Domain Resolution Complete', { status: 'resolved' });
 
         let browser;

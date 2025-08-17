@@ -2,16 +2,13 @@ const puppeteer = require('puppeteer-extra');
 const puppeteerCore = require('puppeteer');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const { antiBotSystem } = require('../anti-bot-system');
-const { extractionLogger } = require('../extraction-logger'); // Import the logger
-const fs = require('fs').promises;
-
-const COOKIE_FILE_PATH = './facebook-cookies.json';
+const { extractionLogger } = require('../extraction-logger');
 
 // Use puppeteer-extra with stealth plugin
 puppeteer.use(StealthPlugin());
 
-async function scrapeFacebookCompany(url, sessionId) { // Added sessionId
-    extractionLogger.step('Starting Facebook meta tag extraction...', null, sessionId);
+async function scrapeFacebookCompany(url, sessionId) {
+    extractionLogger.step('Starting Facebook meta tag extraction', { url }, sessionId);
     let browser;
     try {
         browser = await puppeteer.launch({
@@ -26,18 +23,16 @@ async function scrapeFacebookCompany(url, sessionId) { // Added sessionId
     const page = await browser.newPage();
 
     try {
-        // Use a desktop profile for best results with meta tags
-        await page.setViewport({ width: 1920, height: 1080 });
+        await page.setViewport({ width: 1280, height: 720 });
         await page.setUserAgent(antiBotSystem.getRandomUserAgent());
 
-        extractionLogger.step('Navigating to URL for meta tag extraction', { url }, sessionId);
+        extractionLogger.step('Navigating to URL', { url }, sessionId);
         await page.goto(url, {
             waitUntil: 'domcontentloaded',
             timeout: 60000,
-            referer: 'https://www.google.com/'
         });
 
-        extractionLogger.step('Extracting data from meta tags...', null, sessionId);
+        extractionLogger.step('Extracting data from meta tags', null, sessionId);
         const metaData = await page.evaluate(() => {
             const data = {
                 url: window.location.href,
@@ -69,28 +64,20 @@ async function scrapeFacebookCompany(url, sessionId) { // Added sessionId
 
             const desc = data.description || '';
             const likesMatch = desc.match(/([\d,.]+[KMB]?)\s+likes/i);
-            const followersMatch = desc.match(/([\d,.]+[KMB]?)\s+followers/i);
             if (likesMatch) data.likes = likesMatch[1];
-            if (followersMatch) data.followers = followersMatch[1];
 
             if (data.companyName) {
-                data.companyName = data.companyName.split(' | ')[0].trim();
+                data.companyName = data.companyName.split('|')[0].trim();
             }
 
             return data;
         });
 
-        extractionLogger.step('Successfully extracted meta data', { extractedFields: Object.keys(metaData).length }, sessionId);
+        extractionLogger.step('Meta data extraction successful', { fields: Object.keys(metaData).length }, sessionId);
         return metaData;
 
     } catch (error) {
         extractionLogger.error('Facebook scraping failed', error, { url }, sessionId);
-        try {
-            await page.screenshot({ path: 'facebook-error.png' });
-            extractionLogger.debug('Saved error screenshot to facebook-error.png', null, sessionId);
-        } catch (screenshotError) {
-            extractionLogger.error('Failed to save error screenshot', screenshotError, { url }, sessionId);
-        }
         return { url, status: 'Failed', error: error.message };
     } finally {
         if (browser) {
