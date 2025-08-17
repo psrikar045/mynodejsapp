@@ -3807,8 +3807,15 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
                     'meta[name="twitter:site"]' // Content is often @handle
                 ],
                 LinkedIn: [
-                    'a[href*="linkedin.com/company/"]', 'a[href*="linkedin.com/school/"]', 'a[href*="linkedin.com/showcase/"]', 'a[href*="linkedin.com/in/"]',
+                    // Prioritize specific /company/ URLs
+                    'a[href*="linkedin.com/company/"]',
+                    'a[href*="linkedin.com/school/"]',
+                    // More generic selectors
                     'a[aria-label*="LinkedIn"i]',
+                    'a[href*="linkedin.com"]',
+                    // Fallbacks
+                    'a:has(img[alt*="LinkedIn"i])',
+                    'a:has(i[class*="linkedin"i])',
                     'meta[property="og:see_also"][content*="linkedin.com"]'
                 ],
                 Facebook: [

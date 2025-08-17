@@ -5,6 +5,7 @@ const { createWriteStream } = require('fs');
 const { antiBotSystem } = require('./anti-bot-system');
 const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
 const { AdaptiveInteractionHandler } = require('./adaptive-interaction-handler');
+const { DynamicDataFinder } = require('./dynamic-data-finder.js');
 const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
@@ -167,7 +168,7 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     // **NEW: Adaptive Interaction Handling**
     const interactionHandler = new AdaptiveInteractionHandler(page);
     await interactionHandler.initialize();
-    await interactionHandler.handleAllInteractions(url);
+    // await interactionHandler.handleAllInteractions(url); // Disabled to prevent race conditions. Relying on the observer.
     await interactionHandler.startObserver();
     console.log('[+] Adaptive Interaction Handler is active.');
 
@@ -333,6 +334,38 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     const companyData = {
       url,
       status: 'Success',
+      linkedinVerified: await page.evaluate(() => {
+        const companyNameEl = document.querySelector('h1.top-card-layout__title, h1[data-test-id="company-name"]');
+        if (!companyNameEl) return false;
+
+        // Search within the parent container of the company name
+        const container = companyNameEl.parentElement;
+        if (!container) return false;
+
+        const checkSelectors = [
+            '[data-test-id*="verified"]',
+            '[aria-label*="Verified"]',
+            '[title*="Verified"]',
+            '.org-page-verified-badge',
+            '[class*="verified-badge"]',
+        ];
+
+        // Check for an element that matches any of the selectors
+        if (checkSelectors.some(selector => container.querySelector(selector))) {
+            return true;
+        }
+
+        // As a fallback, check for any element that contains the text "Verified"
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while(node = walker.nextNode()) {
+            if (node.textContent.toLowerCase().includes('verified')) {
+                return true;
+            }
+        }
+
+        return false;
+      }),
       name: jsonData.name || await page.evaluate(() => {
         // **ENHANCED: Smart name extraction with bot detection**
         
@@ -1063,6 +1096,19 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     
     // Track successful extraction
     antiBotSystem.trackRequest(url, true, extractionDuration);
+
+    // **NEW: Find additional SEO and Key-Value data**
+    const dataFinder = new DynamicDataFinder(page);
+    const additionalInfo = await dataFinder.findAll();
+
+    // Filter out keys that already exist in the main data object
+    const finalAdditionalInfo = {};
+    for (const key in additionalInfo) {
+        if (!Object.prototype.hasOwnProperty.call(companyData, key)) {
+            finalAdditionalInfo[key] = additionalInfo[key];
+        }
+    }
+    companyData.additionalInfo = finalAdditionalInfo;
 
     // **ANTI-BOT ENHANCEMENT: Save cookies for future runs**
     try {
