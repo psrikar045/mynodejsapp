@@ -168,7 +168,7 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     // **NEW: Adaptive Interaction Handling**
     const interactionHandler = new AdaptiveInteractionHandler(page);
     await interactionHandler.initialize();
-    await interactionHandler.handleAllInteractions(url);
+    // await interactionHandler.handleAllInteractions(url); // Disabled to prevent race conditions. Relying on the observer.
     await interactionHandler.startObserver();
     console.log('[+] Adaptive Interaction Handler is active.');
 
