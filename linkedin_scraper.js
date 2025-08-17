@@ -334,6 +334,15 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     const companyData = {
       url,
       status: 'Success',
+      linkedinVerified: await page.evaluate(() => {
+        const selectors = [
+            '[data-test-id="verified-badge"]',
+            '[data-test-id="verified-profile-badge"]',
+            '.org-page-verified-badge',
+            '[aria-label*="Verified"]',
+        ];
+        return selectors.some(selector => document.querySelector(selector));
+      }),
       name: jsonData.name || await page.evaluate(() => {
         // **ENHANCED: Smart name extraction with bot detection**
         
