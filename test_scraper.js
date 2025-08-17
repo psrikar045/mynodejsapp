@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { scrapeLinkedInCompany } = require('./linkedin_scraper');
 
-const testUrl = 'https://www.linkedin.com/company/fosroc';
+const testUrl = 'https://www.linkedin.com/company/versa-networks?trk=organization_guest_main-feed-card_feed-actor-image';
 
 (async () => {
     let browser;

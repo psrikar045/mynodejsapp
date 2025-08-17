@@ -9,24 +9,19 @@ async function runTest() {
         browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
 
-        // Navigate to the local test HTML file
         const testPagePath = `file://${path.join(__dirname, 'public', 'test-popup.html')}`;
         console.log(`Navigating to test page: ${testPagePath}`);
         await page.goto(testPagePath);
 
-        // Initialize the handler
         const interactionHandler = new AdaptiveInteractionHandler(page);
         await interactionHandler.initialize();
 
-        // Start the observer to watch for the delayed pop-up
         console.log('Starting MutationObserver to watch for pop-ups...');
         await interactionHandler.startObserver();
 
-        // Wait long enough for the pop-up to appear and be handled
         console.log('Waiting for 5 seconds to allow pop-up to appear and be handled...');
         await new Promise(resolve => setTimeout(resolve, 5000));
 
-        // Check if the pop-up was successfully closed
         const isPopupVisible = await page.evaluate(() => {
             const popup = document.getElementById('popup');
             return popup && popup.style.display !== 'none';

@@ -16,12 +16,9 @@ class AdaptiveInteractionHandler {
         this.page = page;
         this.learnedPatterns = new Map();
         this.observerAttached = false;
-        this.dryRun = options.dryRun || false; // Add dryRun option
+        this.dryRun = options.dryRun || false;
     }
 
-    /**
-     * Initializes the handler by loading learned patterns from a file.
-     */
     async initialize() {
         try {
             const data = await fs.readFile(LEARNED_PATTERNS_PATH, 'utf-8');
@@ -37,9 +34,6 @@ class AdaptiveInteractionHandler {
         }
     }
 
-    /**
-     * Saves the currently learned patterns to a file.
-     */
     async savePatterns() {
         try {
             const patterns = Object.fromEntries(this.learnedPatterns);
@@ -50,32 +44,25 @@ class AdaptiveInteractionHandler {
         }
     }
 
-    /**
-     * Starts the MutationObserver to watch for dynamic pop-ups and other interruptions.
-     * This is the core of the real-time, delayed pop-up handling.
-     */
     async startObserver() {
         if (this.observerAttached) {
             return;
         }
 
-        // Expose a function from Node.js to the browser context for logging.
         await this.page.exposeFunction('onInteractionFound', (log) => {
             console.log(`[InteractionHandler] Observer: ${log}`);
         });
 
-        // Inject the MutationObserver into the page, passing the dryRun status.
         await this.page.evaluate((dryRun) => {
             const keywords = {
                 cookie: ['accept', 'agree', 'allow', 'got it', 'ok', 'continue'],
                 popup: ['close', 'dismiss', 'no thanks', 'maybe later', 'not now'],
-                chat: ['close', 'end chat']
             };
 
             const clickElement = (element, reason) => {
                 if (element && element.offsetParent !== null && !element.disabled) {
                     if (dryRun) {
-                        window.onInteractionFound(`[DRY RUN] Would have clicked ${reason} element with selector: ${element.outerHTML}`);
+                        window.onInteractionFound(`[DRY RUN] Would have clicked ${reason} element: ${element.outerHTML}`);
                     } else {
                         element.click();
                         window.onInteractionFound(`Clicked ${reason} element.`);
@@ -88,30 +75,24 @@ class AdaptiveInteractionHandler {
             const checkAndClick = (element) => {
                 if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
 
-                // Only consider elements that are likely to be modals or banners
                 const role = element.getAttribute('role');
                 const isLikelyContainer = role === 'dialog' || role === 'alertdialog' || element.id.includes('cookie') || element.className.includes('consent');
 
                 if (!isLikelyContainer) return false;
 
-                const checkButtons = (buttons) => {
-                    for (const button of buttons) {
-                        const text = (button.textContent || '').toLowerCase().trim();
-                        const ariaLabel = (button.getAttribute('aria-label') || '').toLowerCase();
+                const buttons = Array.from(element.querySelectorAll('button'));
+                for (const button of buttons) {
+                    const text = (button.textContent || '').toLowerCase().trim();
+                    const ariaLabel = (button.getAttribute('aria-label') || '').toLowerCase();
 
-                        // More specific keyword matching
-                        if (keywords.popup.some(k => text === k || ariaLabel.includes(k))) {
-                            if (clickElement(button, 'pop-up')) return true;
-                        }
-                        if (keywords.cookie.some(k => text === k || ariaLabel.includes(k))) {
-                            if (clickElement(button, 'cookie banner')) return true;
-                        }
+                    if (keywords.popup.some(k => text === k || ariaLabel.includes(k))) {
+                        if (clickElement(button, 'pop-up')) return true;
                     }
-                    return false;
-                };
-
-                const buttons = element.querySelectorAll('button');
-                return checkButtons(buttons);
+                    if (keywords.cookie.some(k => text === k || ariaLabel.includes(k))) {
+                        if (clickElement(button, 'cookie banner')) return true;
+                    }
+                }
+                return false;
             };
 
             const observer = new MutationObserver((mutations) => {
@@ -130,94 +111,40 @@ class AdaptiveInteractionHandler {
                 childList: true,
                 subtree: true,
                 attributes: true,
-                attributeFilter: ['style', 'class', 'hidden', 'disabled']
+                attributeFilter: ['style', 'class', 'hidden']
             });
             console.log('[InteractionHandler] Advanced MutationObserver started.');
-        }, this.dryRun); // Pass dryRun status to the browser context
+        }, this.dryRun);
 
         this.observerAttached = true;
     }
 
-    /**
-     * A general-purpose handler that attempts to clear all known interruptions.
-     * This can be called once after page load for elements that are present immediately.
-     */
     async handleAllInteractions(url) {
         const domain = new URL(url).hostname;
         console.log(`[InteractionHandler] Running initial interaction check for ${domain}...`);
 
-        let handled = await this.handleCookieBanners(domain);
-        if (handled) {
-            console.log('[InteractionHandler] Handled a cookie banner.');
-        }
-
-        handled = await this.handlePopups(domain);
-        if (handled) {
-            console.log('[InteractionHandler] Handled a pop-up.');
-        }
-        // Add more handlers here as needed (e.g., for chat widgets).
-    }
-
-    /**
-     * Specifically handles cookie consent banners by trying a list of selectors.
-     */
-    async handleCookieBanners(domain) {
-        const selectors = [
-            // Prioritize selectors with specific roles and ARIA labels
+        let handled = await this.tryToClick('cookie-banner', domain, [
             '[data-testid="cookie-policy-banner-accept-button"]',
             '#onetrust-accept-btn-handler',
             'button[aria-label*="accept all" i]',
-            'button[aria-label*="allow all" i]',
-            // Then, text-based selectors which are quite reliable
             'button:has-text(/^Accept all$/i)',
-            'button:has-text(/^Allow all$/i)',
             'button:has-text(/^I agree$/i)',
-            'button:has-text(/^Accept$/i)',
-            // Less specific selectors
-            '[id*="cookie"] button:has-text(/accept/i)',
-            '[class*="cookie"] button:has-text(/agree/i)',
-            '[id*="consent"] button:has-text(/allow/i)',
-            '[class*="consent"] button:has-text(/ok/i)',
-        ];
+        ]);
 
-        return this.tryToClick(selectors, 'cookie-banner', domain);
+        if (!handled) {
+          handled = await this.tryToClick('popup', domain, [
+              '[role="dialog"] button[aria-label*="close" i]',
+              '[role="dialog"] button[aria-label*="dismiss" i]',
+              'button.modal-close',
+              'button:has-text(/^Not now$/i)',
+          ]);
+        }
     }
 
-    /**
-     * Specifically handles generic pop-ups by looking for close buttons.
-     */
-    async handlePopups(domain) {
-        const selectors = [
-            // Prioritize specific ARIA labels within dialogs
-            '[role="dialog"] button[aria-label*="close" i]',
-            '[role="dialog"] button[aria-label*="dismiss" i]',
-            // Generic ARIA labels
-            'button[aria-label*="close" i]',
-            'button[aria-label*="dismiss" i]',
-            // Common class names for close buttons, often within a modal
-            '.modal-header .close',
-            '.modal-close',
-            '.close-button',
-            'button.close',
-            // Text-based dismissal buttons
-            'button:has-text(/^Not now$/i)',
-            'button:has-text(/^Maybe later$/i)',
-        ];
-
-        return this.tryToClick(selectors, 'popup', domain);
-    }
-
-    /**
-     * Tries to find and click an element from a list of selectors.
-     * @param {string[]} selectors - A list of selectors to try in order.
-     * @param {string} interactionType - The type of interaction (e.g., 'cookie-banner').
-     * @param {string} domain - The domain of the current page.
-     * @returns {boolean} - True if an element was clicked, false otherwise.
-     */
-    async tryToClick(selectors, interactionType, domain) {
+    async tryToClick(interactionType, domain, selectors) {
         const learnedSelector = this.learnedPatterns.get(`${domain}:${interactionType}`);
         if (learnedSelector) {
-            selectors.unshift(learnedSelector); // Prioritize the learned selector
+            selectors.unshift(learnedSelector);
         }
 
         for (const selector of selectors) {
@@ -226,12 +153,11 @@ class AdaptiveInteractionHandler {
                     const element = document.querySelector(sel);
                     if (element && element.offsetParent !== null && !element.disabled) {
                         if (dryRun) {
-                            console.log(`[InteractionHandler DEBUG] [DRY RUN] Would click element with selector: "${sel}". OuterHTML: ${element.outerHTML}`);
+                            console.log(`[InteractionHandler DEBUG] [DRY RUN] Would click element with selector: "${sel}".`);
                         } else {
-                            console.log(`[InteractionHandler DEBUG] Found element with selector: "${sel}". OuterHTML: ${element.outerHTML}`);
                             element.click();
                         }
-                        return { clicked: true, outerHTML: element.outerHTML };
+                        return { clicked: true };
                     }
                     return { clicked: false };
                 }, selector, this.dryRun);
@@ -239,29 +165,23 @@ class AdaptiveInteractionHandler {
                 if (clickResult.clicked) {
                     if (this.dryRun) {
                         console.log(`[InteractionHandler] [DRY RUN] Would have handled ${interactionType} with selector: "${selector}".`);
-                        // In a dry run, we can't be sure it was successful, but we proceed as if it was handled to see the next steps.
-                        return true;
+                    } else {
+                        console.log(`[InteractionHandler] Successfully handled ${interactionType} with selector: "${selector}".`);
+                        await this.learnInteraction(domain, interactionType, selector);
                     }
-                    console.log(`[InteractionHandler] Successfully clicked element for ${interactionType} with selector: "${selector}".`);
-                    await this.learnInteraction(domain, interactionType, selector);
                     return true;
                 }
             } catch (error) {
-                // Ignore errors, just means the selector didn't work.
+                // Ignore errors
             }
         }
         return false;
     }
 
-    /**
-     * The core of the self-learning mechanism. It records a successful selector for a given
-     * domain and interaction type, and then persists the learned patterns to a file.
-     */
     async learnInteraction(domain, interactionType, successfulSelector) {
         const key = `${domain}:${interactionType}`;
         const existingPattern = this.learnedPatterns.get(key);
 
-        // Only save if the pattern is new or has changed.
         if (existingPattern !== successfulSelector) {
             console.log(`[InteractionHandler] Learning new pattern for ${key}: ${successfulSelector}`);
             this.learnedPatterns.set(key, successfulSelector);

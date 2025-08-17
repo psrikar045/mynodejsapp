@@ -29,13 +29,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Show the pop-up after a delay
             setTimeout(() => {
                 const popup = document.getElementById('popup');
                 popup.style.display = 'block';
             }, 3000);
 
-            // Add a click listener to the close button
             const closeButton = document.querySelector('#popup button');
             closeButton.addEventListener('click', () => {
                 const popup = document.getElementById('popup');
