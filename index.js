@@ -2076,9 +2076,9 @@ async function setupPuppeteerPageForCompanyDetails(url) {
         
         // Smart navigation with adaptive timeouts - try fast first, fallback to slower
         const waitConditions = [
-            { condition: 'domcontentloaded', timeout: 30000 },  // Fast DOM load
+            { condition: 'networkidle2', timeout: 120000 },       // Fallback for complex sites
             { condition: 'load', timeout: 90000 },              // Full load with reasonable timeout
-            { condition: 'networkidle2', timeout: 120000 }       // Fallback for complex sites
+            { condition: 'domcontentloaded', timeout: 30000 }  // Fast DOM load
         ];
         
         for (let attempt = 1; attempt <= 2; attempt++) {
@@ -2135,6 +2135,13 @@ async function setupPuppeteerPageForCompanyDetails(url) {
                 });
                 throw new Error(`Navigation failed completely. Last error: ${lastError.message}, Fallback error: ${fallbackError.message}`);
             }
+        }
+
+        try {
+            await page.waitForSelector('footer', { timeout: 10000 });
+            logger.info('Footer element found, proceeding with extraction.');
+        } catch (error) {
+            logger.warn('Footer element not found, proceeding anyway.');
         }
 
         if (!response) {
