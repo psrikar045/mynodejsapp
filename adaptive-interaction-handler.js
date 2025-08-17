@@ -12,10 +12,11 @@ const path = require('path');
 const LEARNED_PATTERNS_PATH = path.join(__dirname, 'interaction-patterns.json');
 
 class AdaptiveInteractionHandler {
-    constructor(page) {
+    constructor(page, options = {}) {
         this.page = page;
         this.learnedPatterns = new Map();
         this.observerAttached = false;
+        this.dryRun = options.dryRun || false; // Add dryRun option
     }
 
     /**
@@ -63,8 +64,8 @@ class AdaptiveInteractionHandler {
             console.log(`[InteractionHandler] Observer: ${log}`);
         });
 
-        // Inject the MutationObserver into the page.
-        await this.page.evaluate(() => {
+        // Inject the MutationObserver into the page, passing the dryRun status.
+        await this.page.evaluate((dryRun) => {
             const keywords = {
                 cookie: ['accept', 'agree', 'allow', 'got it', 'ok', 'continue'],
                 popup: ['close', 'dismiss', 'no thanks', 'maybe later', 'not now'],
@@ -73,8 +74,12 @@ class AdaptiveInteractionHandler {
 
             const clickElement = (element, reason) => {
                 if (element && element.offsetParent !== null && !element.disabled) {
-                    element.click();
-                    window.onInteractionFound(`Clicked ${reason} element.`);
+                    if (dryRun) {
+                        window.onInteractionFound(`[DRY RUN] Would have clicked ${reason} element with selector: ${element.outerHTML}`);
+                    } else {
+                        element.click();
+                        window.onInteractionFound(`Clicked ${reason} element.`);
+                    }
                     return true;
                 }
                 return false;
@@ -83,15 +88,22 @@ class AdaptiveInteractionHandler {
             const checkAndClick = (element) => {
                 if (!element || element.nodeType !== Node.ELEMENT_NODE) return;
 
+                // Only consider elements that are likely to be modals or banners
+                const role = element.getAttribute('role');
+                const isLikelyContainer = role === 'dialog' || role === 'alertdialog' || element.id.includes('cookie') || element.className.includes('consent');
+
+                if (!isLikelyContainer) return false;
+
                 const checkButtons = (buttons) => {
                     for (const button of buttons) {
-                        const text = button.textContent.toLowerCase();
+                        const text = (button.textContent || '').toLowerCase().trim();
                         const ariaLabel = (button.getAttribute('aria-label') || '').toLowerCase();
 
-                        if (keywords.popup.some(k => text.includes(k) || ariaLabel.includes(k))) {
+                        // More specific keyword matching
+                        if (keywords.popup.some(k => text === k || ariaLabel.includes(k))) {
                             if (clickElement(button, 'pop-up')) return true;
                         }
-                        if (keywords.cookie.some(k => text.includes(k) || ariaLabel.includes(k))) {
+                        if (keywords.cookie.some(k => text === k || ariaLabel.includes(k))) {
                             if (clickElement(button, 'cookie banner')) return true;
                         }
                     }
@@ -121,7 +133,7 @@ class AdaptiveInteractionHandler {
                 attributeFilter: ['style', 'class', 'hidden', 'disabled']
             });
             console.log('[InteractionHandler] Advanced MutationObserver started.');
-        });
+        }, this.dryRun); // Pass dryRun status to the browser context
 
         this.observerAttached = true;
     }
@@ -151,23 +163,21 @@ class AdaptiveInteractionHandler {
      */
     async handleCookieBanners(domain) {
         const selectors = [
-            // High-confidence selectors
-            'button:has-text("Accept all")',
-            'button:has-text("Allow all")',
-            'button:has-text("I agree")',
-            'button:has-text("Accept")',
-            'button:has-text("Agree")',
-            'button:has-text("Allow")',
-            // Common IDs and classes
-            '#onetrust-accept-btn-handler',
-            '#cookie-accept',
-            '.cookie-accept-button',
+            // Prioritize selectors with specific roles and ARIA labels
             '[data-testid="cookie-policy-banner-accept-button"]',
-            // Generic container selectors
-            '[id*="cookie"] button',
-            '[class*="cookie"] button',
-            '[id*="consent"] button',
-            '[class*="consent"] button',
+            '#onetrust-accept-btn-handler',
+            'button[aria-label*="accept all" i]',
+            'button[aria-label*="allow all" i]',
+            // Then, text-based selectors which are quite reliable
+            'button:has-text(/^Accept all$/i)',
+            'button:has-text(/^Allow all$/i)',
+            'button:has-text(/^I agree$/i)',
+            'button:has-text(/^Accept$/i)',
+            // Less specific selectors
+            '[id*="cookie"] button:has-text(/accept/i)',
+            '[class*="cookie"] button:has-text(/agree/i)',
+            '[id*="consent"] button:has-text(/allow/i)',
+            '[class*="consent"] button:has-text(/ok/i)',
         ];
 
         return this.tryToClick(selectors, 'cookie-banner', domain);
@@ -178,19 +188,20 @@ class AdaptiveInteractionHandler {
      */
     async handlePopups(domain) {
         const selectors = [
-            // High-confidence selectors for pop-up close buttons
+            // Prioritize specific ARIA labels within dialogs
+            '[role="dialog"] button[aria-label*="close" i]',
+            '[role="dialog"] button[aria-label*="dismiss" i]',
+            // Generic ARIA labels
             'button[aria-label*="close" i]',
             'button[aria-label*="dismiss" i]',
-            '[role="dialog"] button[class*="close"]',
-            // Common classes and IDs
-            '.close-button',
-            '#pop-up-close-button',
+            // Common class names for close buttons, often within a modal
+            '.modal-header .close',
             '.modal-close',
-            // More generic selectors
-            '[class*="close"]',
-            '[id*="close"]',
-            'button:has-text("Not now")',
-            'button:has-text("Maybe later")',
+            '.close-button',
+            'button.close',
+            // Text-based dismissal buttons
+            'button:has-text(/^Not now$/i)',
+            'button:has-text(/^Maybe later$/i)',
         ];
 
         return this.tryToClick(selectors, 'popup', domain);
@@ -211,18 +222,27 @@ class AdaptiveInteractionHandler {
 
         for (const selector of selectors) {
             try {
-                const clicked = await this.page.evaluate((sel) => {
+                const clickResult = await this.page.evaluate((sel, dryRun) => {
                     const element = document.querySelector(sel);
-                    // Check if the element is visible and clickable
                     if (element && element.offsetParent !== null && !element.disabled) {
-                        element.click();
+                        if (dryRun) {
+                            console.log(`[InteractionHandler DEBUG] [DRY RUN] Would click element with selector: "${sel}". OuterHTML: ${element.outerHTML}`);
+                        } else {
+                            console.log(`[InteractionHandler DEBUG] Found element with selector: "${sel}". OuterHTML: ${element.outerHTML}`);
+                            element.click();
+                        }
+                        return { clicked: true, outerHTML: element.outerHTML };
+                    }
+                    return { clicked: false };
+                }, selector, this.dryRun);
+
+                if (clickResult.clicked) {
+                    if (this.dryRun) {
+                        console.log(`[InteractionHandler] [DRY RUN] Would have handled ${interactionType} with selector: "${selector}".`);
+                        // In a dry run, we can't be sure it was successful, but we proceed as if it was handled to see the next steps.
                         return true;
                     }
-                    return false;
-                }, selector);
-
-                if (clicked) {
-                    console.log(`[InteractionHandler] Successfully clicked element for ${interactionType} with selector: ${selector}`);
+                    console.log(`[InteractionHandler] Successfully clicked element for ${interactionType} with selector: "${selector}".`);
                     await this.learnInteraction(domain, interactionType, selector);
                     return true;
                 }
