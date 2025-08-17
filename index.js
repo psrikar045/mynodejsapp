@@ -4198,6 +4198,38 @@ app.post('/api/extract-company-details', async (req, res) => {
         
         extractionLogger.step('Domain Resolution Complete', { status: 'resolved' });
 
+        if (normalizedUrl.includes('facebook.com')) {
+            extractionLogger.info('Facebook URL detected, routing to Facebook scraper.', { url: normalizedUrl }, sessionId);
+            try {
+                const facebookData = await scrapeFacebookCompany(normalizedUrl, sessionId);
+
+                if (facebookData.status && facebookData.status.startsWith('Failed')) {
+                    extractionLogger.error('Facebook scraping failed', new Error(facebookData.error), { url: normalizedUrl }, sessionId);
+                    extractionLogger.endSession(sessionId, 'failed');
+                    return res.status(500).json({
+                        error: 'Failed to scrape Facebook page',
+                        details: facebookData.error,
+                        _sessionId: sessionId
+                    });
+                }
+
+                extractionLogger.endSession(sessionId, 'completed', facebookData);
+                return res.status(200).json({
+                    ...facebookData,
+                    _sessionId: sessionId
+                });
+
+            } catch (error) {
+                extractionLogger.error('An unexpected error occurred during Facebook scraping', error, { url: normalizedUrl }, sessionId);
+                extractionLogger.endSession(sessionId, 'failed');
+                return res.status(500).json({
+                    error: 'An unexpected error occurred while scraping the Facebook page',
+                    details: error.message,
+                    _sessionId: sessionId
+                });
+            }
+        }
+
         let browser;
         try {
             extractionLogger.step('Browser Launch Starting', { userAgent: getUserAgent() });
