@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Test Page for Navigation Handler</h1>
+
+    <div id="test-container">
+        <a href="#" id="link-by-id">ID Link</a>
+        <button class="btn-class">Class Button</button>
+        <p aria-label="aria-label-p">Paragraph with ARIA label</p>
+        <span>This is a text span.</span>
+        <div role="button" id="div-role-button">Div with role=button</div>
+    </div>
+
+    <div id="click-test-container">
+        <button id="click-me" onclick="document.getElementById('click-result').innerText = 'Clicked!'">Click Me</button>
+        <p id="click-result"></p>
+    </div>
+
+    <div style="height: 2000px;"></div>
+
+    <div id="offscreen-container">
+        <button id="offscreen-btn" onclick="document.getElementById('offscreen-result').innerText = 'Offscreen Clicked!'">Offscreen Button</button>
+        <p id="offscreen-result"></p>
+    </div>
+
+</body>
+</html>
