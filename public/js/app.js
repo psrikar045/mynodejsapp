@@ -33,10 +33,11 @@ async function updateActiveConnections() {
     try {
         const response = await fetch('/api/active-connections');
         const data = await response.json();
-        document.getElementById('active-connections').textContent = data.activeConnections;
+        const connections = data.activeConnections || 0;
+        document.getElementById('active-connections').textContent = connections;
     } catch (error) {
         console.error('Error fetching active connections:', error);
-        document.getElementById('active-connections').textContent = 'N/A';
+        document.getElementById('active-connections').textContent = 'Error';
     }
 }
 
@@ -99,7 +100,9 @@ async function renderLogs() {
                         <option value="step">Step</option>
                         <option value="debug">Debug</option>
                     </select>
+                    <input type="number" id="limitFilter" placeholder="Limit" value="200" min="10" max="1000">
                     <button id="refresh-logs-button">Refresh</button>
+                    <button id="load-older-logs-button">Load Older</button>
                 </div>
                 <div id="logs-container">Loading...</div>
             </div>
@@ -109,17 +112,43 @@ async function renderLogs() {
     const logsContainer = document.getElementById('logs-container');
     const sessionFilter = document.getElementById('sessionFilter');
     const levelFilter = document.getElementById('levelFilter');
+    const limitFilter = document.getElementById('limitFilter');
     const refreshButton = document.getElementById('refresh-logs-button');
+    const loadOlderButton = document.getElementById('load-older-logs-button');
 
     let logsData = [];
+    let currentOffset = 0;
 
-    async function fetchLogs() {
+    async function fetchLogs(append = false) {
         try {
-            logsContainer.textContent = 'Loading...';
-            const response = await fetch('/api/extraction-logs?format=json&limit=200');
+            if (!append) {
+                logsContainer.textContent = 'Loading...';
+                currentOffset = 0;
+            }
+            
+            const limit = parseInt(limitFilter.value) || 200;
+            const level = levelFilter.value;
+            const sessionId = sessionFilter.value;
+            
+            let url = `/api/extraction-logs?format=json&limit=${limit}&offset=${currentOffset}`;
+            if (level) url += `&level=${level}`;
+            if (sessionId) url += `&sessionId=${sessionId}`;
+            
+            const response = await fetch(url);
             const data = await response.json();
-            logsData = data.logs;
+            
+            if (append) {
+                logsData = [...logsData, ...data.logs];
+                currentOffset += data.logs.length;
+            } else {
+                logsData = data.logs;
+                currentOffset = data.logs.length;
+            }
+            
             renderFilteredLogs();
+            
+            // Hide load older button if no more logs
+            loadOlderButton.style.display = data.logs.length < limit ? 'none' : 'inline-block';
         } catch (error) {
             console.error('Error fetching logs:', error);
             logsContainer.textContent = 'Error fetching logs.';
@@ -130,32 +159,100 @@ async function renderLogs() {
         const level = levelFilter.value;
         const sessionId = sessionFilter.value.toLowerCase();
 
-        const filteredLogs = logsData.filter(log => {
-            const showByLevel = !level || log.level === level;
-            const showBySession = !sessionId || (log.sessionId && log.sessionId.toLowerCase().includes(sessionId));
-            return showByLevel && showBySession;
-        });
+        let filteredLogs = logsData;
+        if (level || sessionId) {
+            filteredLogs = logsData.filter(log => {
+                const showByLevel = !level || log.level === level;
+                const showBySession = !sessionId || (log.sessionId && log.sessionId.toLowerCase().includes(sessionId));
+                return showByLevel && showBySession;
+            });
+        }
 
         if (filteredLogs.length === 0) {
-            logsContainer.innerHTML = '<p>No logs found.</p>';
+            logsContainer.innerHTML = '<p>No logs found matching the current filters.</p>';
             return;
         }
 
         logsContainer.innerHTML = filteredLogs.map(log => `
             <div class="log-entry log-${log.level}" data-level="${log.level}" data-session="${log.sessionId || ''}">
                 <div><strong>${log.level.toUpperCase()}</strong> - <span class="timestamp">${new Date(log.timestamp).toLocaleString()}</span></div>
-                ${log.sessionId ? `<div><small>Session: ${log.sessionId}</small></div>` : ''}
+                ${log.sessionId ? `<div><small>Session: <a href="#" onclick="openSessionLogs('${log.sessionId}')">${log.sessionId}</a></small></div>` : ''}
                 <div>${log.message}</div>
                 ${log.data ? `<details><summary>Data</summary><pre class="log-data">${JSON.stringify(log.data, null, 2)}</pre></details>` : ''}
             </div>
         `).join('');
     }
 
-    sessionFilter.addEventListener('keyup', renderFilteredLogs);
-    levelFilter.addEventListener('change', renderFilteredLogs);
-    refreshButton.addEventListener('click', fetchLogs);
+    sessionFilter.addEventListener('input', () => {
+        currentOffset = 0;
+        fetchLogs();
+    });
+    levelFilter.addEventListener('change', () => {
+        currentOffset = 0;
+        fetchLogs();
+    });
+    refreshButton.addEventListener('click', () => fetchLogs());
+    loadOlderButton.addEventListener('click', () => fetchLogs(true));
 
     fetchLogs();
+}
+
+// Function to open session logs in new tab
+function openSessionLogs(sessionId) {
+    const url = `/api/extraction-logs/${sessionId}?format=html`;
+    window.open(url, '_blank');
+}
+
+// New Sessions page
+async function renderSessions() {
+    const appRoot = document.getElementById('app-root');
+    appRoot.innerHTML = `
+        <div class="page active" id="sessions-page">
+            <div class="card">
+                <h2>Active Sessions</h2>
+                <button id="refresh-sessions-button">Refresh</button>
+                <div id="sessions-container">Loading...</div>
+            </div>
+        </div>
+    `;
+
+    const sessionsContainer = document.getElementById('sessions-container');
+    const refreshButton = document.getElementById('refresh-sessions-button');
+
+    async function fetchSessions() {
+        try {
+            sessionsContainer.textContent = 'Loading...';
+            const response = await fetch('/api/extraction-sessions');
+            const data = await response.json();
+            
+            if (!data.sessions || data.sessions.length === 0) {
+                sessionsContainer.innerHTML = '<p>No active sessions found.</p>';
+                return;
+            }
+
+            sessionsContainer.innerHTML = `
+                <div class="grid">
+                    ${data.sessions.map(session => `
+                        <div class="card">
+                            <h3>Session: ${session.sessionId}</h3>
+                            <p><strong>URL:</strong> ${session.url}</p>
+                            <p><strong>Status:</strong> ${session.status}</p>
+                            <p><strong>Started:</strong> ${new Date(session.startTime).toLocaleString()}</p>
+                            <p><strong>Duration:</strong> ${session.duration || 'In progress'}</p>
+                            <p><strong>Steps:</strong> ${session.steps || 0}</p>
+                            <button onclick="openSessionLogs('${session.sessionId}')">View Logs</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error fetching sessions:', error);
+            sessionsContainer.textContent = 'Error fetching sessions.';
+        }
+    }
+
+    refreshButton.addEventListener('click', fetchSessions);
+    fetchSessions();
 }
 
 async function renderHistory() {
@@ -350,7 +447,7 @@ async function renderHealth() {
                 <div class="card">
                     <h3>🌍 Environment</h3>
                     <table id="environmentInfoTable">
-                        <tr><th>NODE_ENV</th><td>${latest.environment?.nodeEnv ?? 'N/A'}</td></tr>
+                        <tr><th>NODE_ENV</th><td>${latest.environment?.nodeEnv || 'development'}</td></tr>
                         <tr><th>Port</th><td>${latest.environment?.port ?? 'N/A'}</td></tr>
                         <tr><th>Puppeteer Cache</th><td>${latest.environment?.puppeteerCacheDir || 'Default'}</td></tr>
                     </table>
@@ -455,14 +552,128 @@ async function renderHealth() {
 }
 
 
+// API Endpoints testing page
+async function renderEndpoints() {
+    const appRoot = document.getElementById('app-root');
+    appRoot.innerHTML = `
+        <div class="page active" id="endpoints-page">
+            <div class="card">
+                <h2>🚀 API Endpoints Tester</h2>
+                <p>Test and explore all available API endpoints</p>
+            </div>
+            <div class="endpoints-grid">
+                <div class="card endpoint-card">
+                    <h3>📊 System Health</h3>
+                    <p>Check system status and performance</p>
+                    <button onclick="testEndpoint('/health', 'GET')">GET /health</button>
+                    <button onclick="testEndpoint('/learning-system-status', 'GET')">GET /learning-system-status</button>
+                    <button onclick="testEndpoint('/force-maintenance', 'POST')">POST /force-maintenance</button>
+                </div>
+                <div class="card endpoint-card">
+                    <h3>🔍 Extraction</h3>
+                    <p>Company data extraction endpoints</p>
+                    <input type="text" id="extract-url" placeholder="https://example.com" style="width: 100%; margin: 5px 0;">
+                    <button onclick="testExtraction()">POST /api/extract-company-details</button>
+                </div>
+                <div class="card endpoint-card">
+                    <h3>📝 Logs & Sessions</h3>
+                    <p>View extraction logs and sessions</p>
+                    <button onclick="testEndpoint('/api/extraction-logs?limit=10', 'GET')">GET /api/extraction-logs</button>
+                    <button onclick="testEndpoint('/api/extraction-sessions', 'GET')">GET /api/extraction-sessions</button>
+                    <button onclick="testEndpoint('/api/logs/extraction', 'GET')">GET /api/logs/extraction</button>
+                </div>
+                <div class="card endpoint-card">
+                    <h3>📈 Analytics</h3>
+                    <p>Performance and search analytics</p>
+                    <button onclick="testEndpoint('/api/search-history?limit=5', 'GET')">GET /api/search-history</button>
+                    <button onclick="testEndpoint('/api/search-analytics', 'GET')">GET /api/search-analytics</button>
+                    <button onclick="testEndpoint('/performance-metrics', 'GET')">GET /performance-metrics</button>
+                </div>
+                <div class="card endpoint-card">
+                    <h3>🤖 Anti-Bot & LinkedIn</h3>
+                    <p>Anti-bot system and LinkedIn metrics</p>
+                    <button onclick="testEndpoint('/anti-bot-status', 'GET')">GET /anti-bot-status</button>
+                    <button onclick="testEndpoint('/linkedin-metrics', 'GET')">GET /linkedin-metrics</button>
+                    <button onclick="testEndpoint('/facebook-anti-bot-status', 'GET')">GET /facebook-anti-bot-status</button>
+                </div>
+                <div class="card endpoint-card">
+                    <h3>🔧 Utilities</h3>
+                    <p>System utilities and testing</p>
+                    <button onclick="testEndpoint('/test', 'GET')">GET /test</button>
+                    <button onclick="testEndpoint('/test-browser', 'GET')">GET /test-browser</button>
+                    <button onclick="testEndpoint('/api/active-connections', 'GET')">GET /api/active-connections</button>
+                </div>
+            </div>
+            <div class="card" id="endpoint-results">
+                <h3>📋 Results</h3>
+                <div id="results-content">Click any endpoint button above to test it</div>
+            </div>
+        </div>
+    `;
+}
+
+function testEndpoint(url, method = 'GET', body = null) {
+    const resultsContent = document.getElementById('results-content');
+    resultsContent.innerHTML = `<div class="loading">Testing ${method} ${url}...</div>`;
+    
+    const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+    };
+    
+    if (body) {
+        options.body = JSON.stringify(body);
+    }
+    
+    fetch(url, options)
+        .then(response => {
+            const status = response.status;
+            const statusClass = status >= 200 && status < 300 ? 'success' : 'error';
+            return response.json().then(data => ({ status, data, statusClass }));
+        })
+        .then(({ status, data, statusClass }) => {
+            resultsContent.innerHTML = `
+                <div class="endpoint-result ${statusClass}">
+                    <div class="result-header">
+                        <strong>${method} ${url}</strong>
+                        <span class="status-badge status-${status}">${status}</span>
+                    </div>
+                    <pre class="result-body">${JSON.stringify(data, null, 2)}</pre>
+                </div>
+            `;
+        })
+        .catch(error => {
+            resultsContent.innerHTML = `
+                <div class="endpoint-result error">
+                    <div class="result-header">
+                        <strong>${method} ${url}</strong>
+                        <span class="status-badge status-error">ERROR</span>
+                    </div>
+                    <pre class="result-body">${error.message}</pre>
+                </div>
+            `;
+        });
+}
+
+function testExtraction() {
+    const url = document.getElementById('extract-url').value;
+    if (!url) {
+        alert('Please enter a URL to extract');
+        return;
+    }
+    testEndpoint('/api/extract-company-details', 'POST', { url });
+}
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     router.addRoute('dashboard', renderDashboard);
     router.addRoute('logs', renderLogs);
+    router.addRoute('sessions', renderSessions);
     router.addRoute('history', renderHistory);
     router.addRoute('health', renderHealth);
+    router.addRoute('endpoints', renderEndpoints);
     router.init();
 
     updateActiveConnections();
-    setInterval(updateActiveConnections, 5000); // Update every 5 seconds
+    setInterval(updateActiveConnections, 90000); // Update every 90 seconds
 });

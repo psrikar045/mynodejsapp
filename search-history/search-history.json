@@ -1,0 +1,417 @@
+{
+  "lastUpdated": "2025-08-22T09:34:51.782Z",
+  "totalSearches": 11,
+  "searches": [
+    {
+      "searchId": "search_1755773748555_66gnmo2jt",
+      "timestamp": "2025-08-21T10:55:48.555Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755773739417_hcjx7wj0m",
+      "status": "failed",
+      "statusCode": 500,
+      "errorMessage": "Failed to extract company details. An unexpected error occurred.",
+      "performance": {
+        "duration": 9134,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755774425966_87ic2puqk",
+      "timestamp": "2025-08-21T11:07:05.966Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755774367134_d2a3ig8wb",
+      "status": "success",
+      "performance": {
+        "duration": 58829,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/120.0.0.0",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755775147541_tgf6xwlxh",
+      "timestamp": "2025-08-21T11:19:07.541Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755775075611_gohdlmpxm",
+      "status": "success",
+      "performance": {
+        "duration": 71926,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/120.0.0.0",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755798530144_gautrtn7u",
+      "timestamp": "2025-08-21T17:48:50.144Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755798459983_4hl69dbsj",
+      "status": "success",
+      "performance": {
+        "duration": 70159,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755803392999_wotj65o7d",
+      "timestamp": "2025-08-21T19:09:52.999Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755803319873_mm7fwh2xv",
+      "status": "success",
+      "performance": {
+        "duration": 73116,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/120.0.0.0",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755804217026_hlf57fnq4",
+      "timestamp": "2025-08-21T19:23:37.026Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755804146202_6dqmad168",
+      "status": "success",
+      "performance": {
+        "duration": 70816,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/120.0.0.0",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755839261869_q4vkqegrs",
+      "timestamp": "2025-08-22T05:07:41.868Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755839254320_5uqhlcahf",
+      "status": "failed",
+      "statusCode": 503,
+      "errorMessage": "Browser initialization failed. Please try again.",
+      "performance": {
+        "duration": 7545,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755839611956_7e00yakns",
+      "timestamp": "2025-08-22T05:13:31.956Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755839603874_2yibs4h5g",
+      "status": "failed",
+      "statusCode": 503,
+      "errorMessage": "Browser initialization failed. Please try again.",
+      "performance": {
+        "duration": 8079,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755842700336_yhifbeqnq",
+      "timestamp": "2025-08-22T06:05:00.336Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755842562989_24iycptf3",
+      "status": "success",
+      "performance": {
+        "duration": 137344,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755846493457_sqhpw53tj",
+      "timestamp": "2025-08-22T07:08:13.457Z",
+      "url": "https://versa-networks.com/",
+      "normalizedUrl": "https://versa-networks.com",
+      "domain": "versa-networks.com",
+      "sessionId": "session_1755846415856_4u638tdih",
+      "status": "success",
+      "performance": {
+        "duration": 77598,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    },
+    {
+      "searchId": "search_1755855291779_ghz947t55",
+      "timestamp": "2025-08-22T09:34:51.779Z",
+      "url": "https://www.amdocs.com/",
+      "normalizedUrl": "https://www.amdocs.com",
+      "domain": "www.amdocs.com",
+      "sessionId": "session_1755855217565_3w5l32dju",
+      "status": "success",
+      "performance": {
+        "duration": 74210,
+        "cacheHit": false
+      },
+      "extraction": {
+        "fieldsExtracted": [
+          "Logo",
+          "Colors",
+          "Fonts",
+          "Images",
+          "Company",
+          "_performance",
+          "_message"
+        ],
+        "hasLogo": false,
+        "hasBanner": false,
+        "hasWebsite": false,
+        "isLinkedIn": false,
+        "isVerified": false
+      },
+      "technical": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+        "browserUsed": "chrome",
+        "platform": "win32",
+        "nodeVersion": "v20.19.4",
+        "retryCount": 0
+      },
+      "context": {
+        "source": "api"
+      }
+    }
+  ]
+}

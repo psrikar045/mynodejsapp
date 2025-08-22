@@ -30,6 +30,9 @@ With new changes we have added few endpoints:
 | GET | `/linkedin-metrics` | LinkedIn extraction metrics |
 | GET | `/performance-metrics` | Performance analytics |
 | GET | `/anti-bot-status` | Anti-bot system status |
+| GET | `/facebook-anti-bot-status` | Facebook anti-bot learning status |
+| GET | `/facebook-learning-analytics` | Facebook learning system analytics |
+| GET | `/facebook-platform-test` | Facebook scraper platform compatibility test |
 
 ### Monitoring & Logging Endpoints
 

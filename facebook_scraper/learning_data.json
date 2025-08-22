@@ -1,0 +1,26 @@
+{
+  "selectors": {
+    "profileImage": [],
+    "bannerImage": []
+  },
+  "navigationPatterns": {},
+  "extractionStrategies": {},
+  "pageLayouts": {},
+  "successRates": {},
+  "lastUpdated": 1755803339479,
+  "insights": {
+    "topPerformingSelectors": [],
+    "problematicPatterns": [],
+    "recommendations": [
+      "Limited high-performing selectors - increase learning data collection"
+    ],
+    "statistics": {
+      "totalSelectors": 0,
+      "averageSuccessRate": null,
+      "highPerformers": 0,
+      "lowPerformers": 0,
+      "totalAttempts": 0
+    },
+    "generatedAt": 1755803294796
+  }
+}
