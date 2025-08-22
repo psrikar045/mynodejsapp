@@ -1,4 +1,4 @@
-const Vibrant = require('node-vibrant');
+const Vibrant = require('node-vibrant/node');
 const sharp = require('sharp');
 const axios = require('axios');
 const express = require('express');
@@ -17,6 +17,8 @@ const { extractionLogger } = require('./extraction-logger');
 const { systemHealthMonitor } = require('./system-health-monitor');
 const { searchHistoryLogger } = require('./search-history-logger');
 const { detailedFileLogger } = require('./detailed-file-logger');
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
+const { cleanLinkedInUrl, enhancedNameExtraction, mergeFacebookData, enhancedCompanyDetailsExtraction } = require('./company-extraction-fixes');
 
 // Initialize LinkedIn-specific anti-bot system
 const linkedinAntiBot = new LinkedInImageAntiBotSystem();
@@ -67,17 +69,37 @@ app.use(express.static('public'));
 
 // Connection Tracking Middleware
 let activeConnections = 0;
+let totalConnections = 0;
+
 app.use((req, res, next) => {
     activeConnections++;
-    res.on('finish', () => {
-        activeConnections--;
-    });
+    totalConnections++;
+    
+    const cleanup = () => {
+        activeConnections = Math.max(0, activeConnections - 1);
+    };
+    
+    res.on('finish', cleanup);
+    res.on('close', cleanup);
+    res.on('error', cleanup);
+    
     next();
 });
 
 app.get('/api/active-connections', (req, res) => {
-    res.json({ activeConnections });
+    res.json({ 
+        activeConnections: Math.max(0, activeConnections),
+        totalConnections,
+        timestamp: new Date().toISOString()
+    });
 });
+
+// Reset connections counter periodically to prevent drift
+setInterval(() => {
+    if (activeConnections < 0) {
+        activeConnections = 0;
+    }
+}, 60000); // Every minute
 
 // UI Endpoint
 app.get('/ui', (req, res) => {
@@ -234,11 +256,20 @@ app.get('/anti-bot-status', (req, res) => {
     }
 });
 
-// ✅ System Health Check Endpoint
+// ✅ System Health Check Endpoint with Self-Learning System
 app.get('/health', (req, res) => {
     try {
         const memoryUsage = process.memoryUsage();
         const uptime = process.uptime();
+        
+        // Get self-learning system status
+        let selfLearningStatus = { status: 'not_available' };
+        try {
+            const { autoMaintenance } = require('./facebook_scraper/auto_maintenance');
+            selfLearningStatus = autoMaintenance.getSystemHealth();
+        } catch (e) {
+            selfLearningStatus = { status: 'not_installed', error: e.message };
+        }
         
         // Perform basic health checks
         const healthStatus = {
@@ -253,13 +284,19 @@ app.get('/health', (req, res) => {
             platform: os.platform(),
             nodeVersion: process.version,
             performanceMetrics: performanceMonitor.getAnalytics(),
-            antiBotMetrics: antiBotSystem.getAnalytics()
+            antiBotMetrics: antiBotSystem.getAnalytics(),
+            selfLearningSystem: selfLearningStatus
         };
 
         // Check for warning conditions
         const warnings = [];
         if (memoryUsage.heapUsed / 1024 / 1024 > 400) {
             warnings.push('High memory usage detected');
+            healthStatus.status = 'warning';
+        }
+        
+        if (selfLearningStatus.status === 'critical') {
+            warnings.push('Self-learning system needs attention');
             healthStatus.status = 'warning';
         }
 
@@ -274,6 +311,35 @@ app.get('/health', (req, res) => {
             error: error.message,
             _timestamp: new Date().toISOString()
         });
+    }
+});
+
+// Self-learning system status endpoint
+app.get('/learning-system-status', (req, res) => {
+    try {
+        const { autoMaintenance } = require('./facebook_scraper/auto_maintenance');
+        const health = autoMaintenance.getSystemHealth();
+        res.json({
+            ...health,
+            maintenanceRunning: autoMaintenance.isRunning
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            error: 'Self-learning system not available',
+            details: error.message
+        });
+    }
+});
+
+// Force maintenance endpoint (for debugging)
+app.post('/force-maintenance', async (req, res) => {
+    try {
+        const { autoMaintenance } = require('./facebook_scraper/auto_maintenance');
+        await autoMaintenance.forceMaintenance();
+        res.json({ success: true, message: 'Maintenance completed' });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
@@ -301,6 +367,7 @@ app.get('/api/extraction-logs', (req, res) => {
     try {
         const {
             limit = 100,
+            offset = 0,
             level = null,
             sessionId = null,
             format = 'json'
@@ -309,7 +376,8 @@ app.get('/api/extraction-logs', (req, res) => {
         const logs = extractionLogger.getRecentLogs(
             parseInt(limit),
             level,
-            sessionId
+            sessionId,
+            parseInt(offset)
         );
 
         const stats = extractionLogger.getStats();
@@ -971,6 +1039,10 @@ app.get('/api/logs/search/:query', async (req, res) => {
         });
     }
 });
+
+// Facebook learning system endpoints
+const facebookEndpoints = require('./facebook-endpoints');
+app.use('/', facebookEndpoints);
 
 // ✅ Browser detection test endpoint
 app.get('/test-browser', (req, res) => {
@@ -2549,10 +2621,53 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
             page.evaluate(() => {
             console.log('[LinkedIn Eval] Starting data extraction...');
             const getByLabel = (label) => {
-                const items = Array.from(document.querySelectorAll('dt'));
-                for (const dt of items) {
-                    if (dt.innerText.trim().toLowerCase() === label.toLowerCase()) {
-                        return dt.nextElementSibling?.innerText?.trim() || null;
+                // Try multiple selector strategies for better compatibility
+                const strategies = [
+                    // Strategy 1: Standard dt/dd pairs
+                    () => {
+                        const items = Array.from(document.querySelectorAll('dt'));
+                        for (const dt of items) {
+                            if (dt.innerText && dt.innerText.trim().toLowerCase() === label.toLowerCase()) {
+                                return dt.nextElementSibling?.innerText?.trim() || null;
+                            }
+                        }
+                        return null;
+                    },
+                    // Strategy 2: Look for spans or divs with the label text
+                    () => {
+                        const elements = Array.from(document.querySelectorAll('span, div, strong, b'));
+                        for (const el of elements) {
+                            if (el.innerText && el.innerText.trim().toLowerCase().includes(label.toLowerCase())) {
+                                const parent = el.parentElement;
+                                if (parent) {
+                                    const nextSibling = el.nextElementSibling;
+                                    if (nextSibling && nextSibling.innerText) {
+                                        return nextSibling.innerText.trim();
+                                    }
+                                    // Try to find text after the label in the same parent
+                                    const parentText = parent.innerText.trim();
+                                    const labelIndex = parentText.toLowerCase().indexOf(label.toLowerCase());
+                                    if (labelIndex !== -1) {
+                                        const afterLabel = parentText.substring(labelIndex + label.length).trim();
+                                        if (afterLabel.startsWith(':') || afterLabel.startsWith('-')) {
+                                            return afterLabel.substring(1).trim();
+                                        }
+                                        return afterLabel;
+                                    }
+                                }
+                            }
+                        }
+                        return null;
+                    }
+                ];
+                
+                // Try each strategy until one works
+                for (const strategy of strategies) {
+                    try {
+                        const result = strategy();
+                        if (result) return result;
+                    } catch (e) {
+                        continue;
                     }
                 }
                 return null;
@@ -2977,7 +3092,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       
       const imageWidth = metadata.width;
       const imageHeight = metadata.height;
-      
+        // Extract colors using Vibrant
       try {
           palette = await Vibrant.from(localImagePath).getPalette();
       } catch (vibrantError) {
@@ -3027,7 +3142,9 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       height: imageHeight,
       colors: topColors,
       hex: topColors[0],
-      rgb: `rgb(${rgb.r},${rgb.g},${rgb.b})`
+      rgb: rgb ? `rgb(${rgb.r},${rgb.g},${rgb.b})` : 'rgb(0,0,0)',
+      format: metadata.format,
+      size: metadata.size
     };
         
     } catch (error) {
@@ -3067,7 +3184,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
   }
 const scraperLink = require('./linkedin_scraper');
 const fss = require('fs').promises;
-async function extractCompanyDetailsFromPage(page, url, browser) { // Added browser argument here
+async function extractCompanyDetailsFromPage(page, url, browser, sessionId) { // Added browser and sessionId arguments
     const startTime = Date.now();
     logger.info('Starting company details extraction from page', { details: { url } });
     // Helper to get content from meta tags more reliably
@@ -3942,9 +4059,16 @@ async function extractCompanyDetailsFromPage(page, url, browser) { // Added brow
 colorAnalysis = colorData; // Use the colorData directly, no need to merge with logo colors
     let finalCompanyInfo = { ...companyInfoData, SocialLinks: socialLinkData };
 
-    // Smart LinkedIn data extraction - run in parallel with main extraction, with timeout
+    // Smart LinkedIn and Facebook data extraction - run in parallel with main extraction, with timeout
     let linkedInDataPromise = null;
     let linkedInData = null;
+    let facebookDataPromise = null;
+    let facebookData = null;
+
+    // Import full Facebook scraper
+    const { scrapeFacebookCompany } = require('./facebook_scraper/facebook_scraper');
+
+    // Start LinkedIn extraction if available
     if (socialLinkData && socialLinkData.LinkedIn) {
         const linkedInUrl = socialLinkData.LinkedIn;
         // Basic validation for a LinkedIn company URL structure
@@ -3953,37 +4077,56 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
             
             // Start LinkedIn extraction in parallel with reduced timeout
             await fss.writeFile('urls.txt', linkedInUrl);
-            // const newLogicData = scraperLink.main();
-            // console.log('[extractCompanyDetailsFromPage] New logic data:', newLogicData);
             linkedInDataPromise = Promise.race([
-                // extractCompanyDataFromLinkedIn(linkedInUrl),
-                // extraction.scrapeLinkedInCompany(linkedInUrl),
                 scraperLink.main(),
                 new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 5 minutes')), 300000) // Reduced from 5 minutes to 2 minutes
+                    setTimeout(() => reject(new Error('LinkedIn extraction timeout after 5 minutes')), 300000)
                 )
             ]).catch(error => {
                 logger.warn(`LinkedIn extraction failed during parallel execution`, { 
                     details: { error: error.message, isTimeout: error.message.includes('timeout') } 
                 });
-                return { error: error.message }; // Return error object instead of throwing
+                return { error: error.message };
             });
         }
     }
 
-    // If LinkedIn extraction was started, wait for it with a reasonable timeout
+    // Start Facebook extraction if available
+    if (socialLinkData && socialLinkData.Facebook) {
+        const fbUrl = socialLinkData.Facebook;
+        if (fbUrl.includes('facebook.com')) {
+            logger.info('Found Facebook URL, starting parallel extraction', { details: { fbUrl } });
+            facebookDataPromise = Promise.race([
+                scrapeFacebookCompany(fbUrl, sessionId),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Facebook extraction timeout after 2 minutes')), 120000))
+            ]).catch(error => {
+                logger.warn('Facebook extraction failed during parallel execution', { details: { error: error.message } });
+                return { error: error.message };
+            });
+        }
+    } else if (typeof url === 'string' && url.includes('facebook.com')) {
+        // Fallback: if the requested URL itself is a Facebook page, scrape it
+        const fbUrl = url;
+        logger.info('Input URL is a Facebook page, starting extraction', { details: { fbUrl } });
+        facebookDataPromise = Promise.race([
+            scrapeFacebookCompany(fbUrl, sessionId),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Facebook extraction timeout after 2 minutes')), 120000))
+        ]).catch(error => {
+            logger.warn('Facebook extraction failed during parallel execution', { details: { error: error.message } });
+            return { error: error.message };
+        });
+    }
+
+    // Await LinkedIn result if started
     if (linkedInDataPromise) {
         try {
             console.log('[LinkedIn] Waiting for LinkedIn data extraction to complete...');
-            // const linkedInData = await linkedInDataPromise;
-            // AWAIT this promise to get its resolved value.
-        // Execution will pause here until the promise settles.
-        linkedInData = await linkedInDataPromise;
+            linkedInData = await linkedInDataPromise;
 
             if (linkedInData && !linkedInData.error) {
                 logger.info('Merging LinkedIn data successfully', { details: { hasData: !!linkedInData } });
                 // **FIXED: Correct field mapping from LinkedIn scraper response**
-                finalCompanyInfo.Name = linkedInData.name || finalCompanyInfo.Name; // LinkedIn uses lowercase 'name'
+                finalCompanyInfo.Name = linkedInData.name || finalCompanyInfo.Name;
                 finalCompanyInfo.Description = linkedInData.description || linkedInData.aboutUs || finalCompanyInfo.Description;
                 finalCompanyInfo.Industry = linkedInData.industry || finalCompanyInfo.Industry;
                 finalCompanyInfo.CompanySize = linkedInData.companySize || linkedInData.employees || finalCompanyInfo.Employees;
@@ -4002,13 +4145,20 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                     finalCompanyInfo.Locations = linkedInData.locations.filter(l => l && l.trim() !== '');
                 }
                 
-                // **ENHANCED: Better logging**
+                // **ENHANCED: Better logging with actual LinkedIn data**
                 console.log("[LinkedIn] Successfully merged data:");
-                console.log("- Name:", finalCompanyInfo.Name);
+                console.log("- Name:", finalCompanyInfo.Name || "❌ Missing");
                 console.log("- Description:", finalCompanyInfo.Description ? "✅ Found" : "❌ Missing");
                 console.log("- Industry:", finalCompanyInfo.Industry || "❌ Missing");
                 console.log("- Founded:", finalCompanyInfo.Founded || "❌ Missing");
                 console.log("- Headquarters:", finalCompanyInfo.Headquarters || "❌ Missing");
+                console.log("- LinkedIn Raw Data:", JSON.stringify({
+                    name: linkedInData.name,
+                    industry: linkedInData.industry,
+                    headquarters: linkedInData.headquarters,
+                    founded: linkedInData.founded,
+                    companySize: linkedInData.companySize
+                }, null, 2));
                 // Potentially add LinkedIn banner to Logo object if found and not already present
                 if (linkedInData.bannerUrl) {
                     logoData.LinkedInBanner = linkedInData.bannerUrl; // Add as a new property or replace
@@ -4022,10 +4172,10 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                     });
                     colorData.LinkedInBannerData = {
                         hex: bannerColors.hex,
-                        rgb: bannerColors.rgb,//`rgb(${bannerColors.rgb.r},${bannerColors.rgb.g},${bannerColors.rgb.b})`,
+                        rgb: bannerColors.rgb,
                         width: bannerColors.width,
                         height: bannerColors.height,
-                        colors: bannerColors.colors, // This is the array of hex colors 
+                        colors: bannerColors.colors,
                         name: 'Banner Image' 
                     };
                 }
@@ -4039,9 +4189,9 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                             hasError: !!logoColors?.error
                         } 
                     });
-                     colorData.LinkedInLogoData = {
+                    colorData.LinkedInLogoData = {
                         hex: logoColors.hex,
-                        rgb: logoColors.rgb,//`rgb(${logoColors.rgb.r},${logoColors.rgb.g},${logoColors.rgb.b})`,
+                        rgb: logoColors.rgb,
                         width: logoColors.width,
                         height: logoColors.height,
                         colors: logoColors.colors,
@@ -4050,20 +4200,57 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                 }
                 const colorAnalysis2 = [
                     bannerColors,
-                     logoColors
-                ]
+                    logoColors
+                ];
                 colorAnalysis = [...colorData, ...colorAnalysis2];
             } else if (linkedInData && linkedInData.error) {
                 logger.warn('LinkedIn extraction failed, continuing without LinkedIn data', { 
                     details: { error: linkedInData.error, gracefulDegradation: true } 
                 });
-                finalCompanyInfo.LinkedInError = linkedInData.error; // Add error info for debugging
+                finalCompanyInfo.LinkedInError = linkedInData.error;
+            } else {
+                logger.warn('LinkedIn extraction returned no data', { 
+                    details: { linkedInData: JSON.stringify(linkedInData), gracefulDegradation: true } 
+                });
+                finalCompanyInfo.LinkedInError = 'No data returned from LinkedIn extraction';
             }
         } catch (liError) {
             logger.error('Exception while processing LinkedIn data', liError, { 
-                details: { url: linkedInUrl, gracefulDegradation: true } 
+                details: { gracefulDegradation: true } 
             });
             finalCompanyInfo.LinkedInError = liError.message;
+        }
+    }
+
+    // Await Facebook result if started and merge minimally
+    if (facebookDataPromise) {
+        try {
+            console.log('[Facebook] Waiting for Facebook data extraction to complete...');
+            facebookData = await facebookDataPromise;
+            if (facebookData && !facebookData.error) {
+                logger.info('Merging Facebook data successfully', { details: { hasData: !!facebookData } });
+                finalCompanyInfo.Facebook = {
+                    url: socialLinkData.Facebook,
+                    ...facebookData
+                };
+                // Backfill core fields if missing
+                finalCompanyInfo.Name = finalCompanyInfo.Name || facebookData.companyName || finalCompanyInfo.Name;
+                finalCompanyInfo.Description = finalCompanyInfo.Description || facebookData.description || finalCompanyInfo.Description;
+                finalCompanyInfo.Website = finalCompanyInfo.Website || facebookData.website || finalCompanyInfo.Website;
+                // Attach images to Logo section if found
+                if (facebookData.profileImage) {
+                    logoData.FacebookLogo = facebookData.profileImage;
+                }
+                if (facebookData.bannerImage) {
+                    logoData.FacebookBanner = facebookData.bannerImage;
+                }
+            } else if (facebookData && facebookData.error) {
+                logger.warn('Facebook extraction failed, continuing without Facebook data', { details: { error: facebookData.error } });
+                finalCompanyInfo.FacebookError = facebookData.error;
+            }
+        } catch (fbErr) {
+            logger.error('Exception while processing Facebook data', fbErr, { details: { gracefulDegradation: true } });
+            finalCompanyInfo.FacebookError = fbErr.message;
         }
     }
 
@@ -4113,7 +4300,7 @@ app.post('/api/extract-company-details', async (req, res) => {
         
         // Start extraction session for logging
         sessionId = extractionLogger.startSession(originalUrl);
-        extractionLogger.step('URL Validation', { originalUrl });
+        extractionLogger.step('URL Validation', { originalUrl: sanitizeForLogging(originalUrl) });
         
         // Track performance start time
         const performanceStart = Date.now();
@@ -4123,7 +4310,7 @@ app.post('/api/extract-company-details', async (req, res) => {
         
         // Check if normalization failed
         if (!normalizedUrl) {
-            extractionLogger.error('URL normalization failed', new Error('Invalid URL format'), { originalUrl });
+            extractionLogger.error('URL normalization failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl) });
             return res.status(400).json({ 
                 error: 'Invalid URL format - unable to normalize',
                 provided: originalUrl,
@@ -4131,12 +4318,12 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
-        extractionLogger.step('URL Normalized', { normalizedUrl });
+        extractionLogger.step('URL Normalized', { normalizedUrl: sanitizeForLogging(normalizedUrl) });
         
         // Validate the normalized URL
         if (!utils.isValidUrl(normalizedUrl)) {
-            extractionLogger.error('URL validation failed', new Error('Invalid URL format'), { originalUrl, normalizedUrl });
-            console.log(`[DEBUG] URL validation failed for: "${originalUrl}" -> "${normalizedUrl}"`);
+            extractionLogger.error('URL validation failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl), normalizedUrl: sanitizeForLogging(normalizedUrl) });
+            console.log(`[DEBUG] URL validation failed for: "${sanitizeForLogging(originalUrl)}" -> "${sanitizeForLogging(normalizedUrl)}"`);
             return res.status(400).json({ 
                 error: 'Invalid URL format',
                 provided: originalUrl,
@@ -4208,7 +4395,30 @@ app.post('/api/extract-company-details', async (req, res) => {
             extractionLogger.step('Extraction Process Starting', { timeout: '4 minutes' });
             console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
             
-            const companyDetails = await extractCompanyDetailsFromPage(page, normalizedUrl, browser);
+            let companyDetails;
+            try {
+                companyDetails = await extractCompanyDetailsFromPage(page, normalizedUrl, browser, sessionId);
+            } catch (extractionError) {
+                logger.warn('Main extraction failed, returning partial data', extractionError, { details: { gracefulDegradation: true } });
+                // Return minimal structure with error info but don't fail completely
+                companyDetails = {
+                    Logo: {},
+                    Colors: [],
+                    Fonts: [],
+                    Images: [],
+                    Company: {
+                        Name: null,
+                        Description: null,
+                        Website: normalizedUrl,
+                        ExtractionError: extractionError.message
+                    },
+                    _performance: {
+                        extractionTimeSeconds: (Date.now() - performanceStart) / 1000,
+                        timestamp: new Date().toISOString()
+                    },
+                    _message: "Partial extraction completed with errors. Some data may be missing."
+                };
+            }
 
             extractionLogger.step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
 

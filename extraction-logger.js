@@ -198,7 +198,7 @@ class ExtractionLogger {
     /**
      * Get recent logs (global)
      */
-    getRecentLogs(limit = 100, level = null, sessionId = null) {
+    getRecentLogs(limit = 100, level = null, sessionId = null, offset = 0) {
         let filteredLogs = [...this.logs];
 
         // Filter by level
@@ -211,10 +211,14 @@ class ExtractionLogger {
             filteredLogs = filteredLogs.filter(log => log.sessionId === sessionId);
         }
 
-        // Return most recent logs
-        return filteredLogs
-            .slice(-limit)
-            .reverse(); // Most recent first
+        // Sort by timestamp (most recent first)
+        filteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        // Apply offset and limit for pagination
+        const startIndex = offset;
+        const endIndex = startIndex + limit;
+        
+        return filteredLogs.slice(startIndex, endIndex);
     }
 
     /**

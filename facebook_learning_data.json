@@ -1,0 +1,113 @@
+{
+  "userAgents": {
+    "success": {},
+    "blocked": {
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36": 2,
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36": 4,
+      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36": 2
+    }
+  },
+  "selectors": {
+    "working": [],
+    "failed": []
+  },
+  "strategies": {
+    "effective": [],
+    "ineffective": [
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755798481604
+      },
+      {
+        "strategy": "extraction",
+        "error": "Failed to navigate to Facebook page with anti-bot measures",
+        "timestamp": 1755798481631
+      },
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755803337651
+      },
+      {
+        "strategy": "extraction",
+        "error": "Failed to navigate to Facebook page with anti-bot measures",
+        "timestamp": 1755803337672
+      },
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755804163041
+      },
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755842578040
+      },
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755846434999
+      },
+      {
+        "strategy": "navigation",
+        "error": "page.waitForTimeout is not a function",
+        "timestamp": 1755855228914
+      }
+    ]
+  },
+  "patterns": {
+    "blocks": [
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755798481605,
+        "error": "page.waitForTimeout is not a function"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755798481631,
+        "error": "Failed to navigate to Facebook page with anti-bot measures"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755803337651,
+        "error": "page.waitForTimeout is not a function"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755803337672,
+        "error": "Failed to navigate to Facebook page with anti-bot measures"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755804163041,
+        "error": "page.waitForTimeout is not a function"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755842578040,
+        "error": "page.waitForTimeout is not a function"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755846434999,
+        "error": "page.waitForTimeout is not a function"
+      },
+      {
+        "url": "www.facebook.com",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "timestamp": 1755855228914,
+        "error": "page.waitForTimeout is not a function"
+      }
+    ],
+    "successes": []
+  },
+  "lastUpdate": 1755855228914
+}

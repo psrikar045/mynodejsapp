@@ -10,6 +10,7 @@ const { performanceMonitor } = require('./performance-monitor');
 const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
 const { BannerValidator } = require('./banner-validator');
+const { LinkedInAdaptiveScraper } = require('./linkedin-adaptive-scraper');
 
 const LOG_FILE = 'scraper.log';
 const COOKIE_FILE_PATH = './cookies.json';
@@ -83,6 +84,10 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
   if (!linkedinAntiBot) {
     linkedinAntiBot = new LinkedInImageAntiBotSystem();
   }
+  
+  // **RE-ENABLED: Adaptive scraper for improved results**
+  const adaptiveScraper = new LinkedInAdaptiveScraper();
+  console.log('🧠 [LinkedIn] Initialized adaptive self-learning scraper');
   try {
     // **ENHANCED: Advanced anti-detection with stealth mode**
     await antiBotSystem.setupStealthMode(page);
@@ -102,6 +107,8 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
     const bannerExtractor = new LinkedInBannerExtractor(linkedinAntiBot);
     const bannerValidator = new BannerValidator(linkedinAntiBot);
     await bannerExtractor.setupNetworkInterception(page);
+    
+    // Store bannerExtractor reference for logo extraction fallback
     
     // Record stealth activation
     performanceMonitor.recordAntiBotEvent('stealth_activation', { 
@@ -459,25 +466,185 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         console.log('❌ Could not find valid company name');
         return null;
       }),
-      logoUrl: jsonData.logo || await page.evaluate(() => {
-        // Try multiple selectors for logo
-        const selectors = [
-          '.top-card-layout__entity-image',
-          'img[data-test-id="company-logo"]',
-          '.org-top-card-primary-content__logo img',
-          '.top-card__entity-image',
-          '.company-logo img',
-          'img.EntityPhoto-circle-1'
-        ];
+      logoUrl: jsonData.logo || await (async () => {
+        console.log('🔍 [LinkedIn Logo] Starting enhanced logo extraction with anti-bot measures...');
         
-        for (const selector of selectors) {
-          const element = document.querySelector(selector);
-          if (element && element.src) {
-            return element.src;
+        try {
+          // Apply LinkedIn-specific anti-bot measures
+          await linkedinAntiBot.implementHumanDelay();
+          
+          // Log the logo extraction attempt
+          linkedinAntiBot.logActivity('LinkedIn logo extraction started', { 
+            url, 
+            sessionId: linkedinAntiBot.sessionId,
+            environment: linkedinAntiBot.isProduction() ? 'production' : 'development'
+          });
+          
+          // Enhanced logo extraction with network interception awareness
+          const logoUrl = await page.evaluate(() => {
+            console.log('📋 [LinkedIn Logo] Searching for logo with enhanced selectors...');
+            
+            // Enhanced selectors with priority order (most specific first)
+            const prioritizedSelectors = [
+              // Highest priority: LinkedIn-specific company logo selectors
+              { selector: 'img[src*="media.licdn.com/dms/image/"][src*="company-logo"]', type: 'src', priority: 10 },
+              { selector: 'img[data-test-id="company-logo"]', type: 'src', priority: 9 },
+              { selector: '.top-card-layout__entity-image img', type: 'src', priority: 8 },
+              { selector: '.org-top-card-primary-content__logo img', type: 'src', priority: 8 },
+              { selector: 'img.org-top-card-primary-content__logo', type: 'src', priority: 7 },
+              { selector: '.top-card__entity-image img', type: 'src', priority: 7 },
+              { selector: 'img.EntityPhoto-circle-1', type: 'src', priority: 6 },
+              { selector: '.company-logo img', type: 'src', priority: 6 },
+              { selector: 'img[alt*="logo"i]', type: 'src', priority: 5 },
+              { selector: '.org-top-card-summary__logo img', type: 'src', priority: 5 },
+              
+              // Background image selectors for logo containers
+              { selector: '.top-card-layout__entity-image', type: 'bg', priority: 4 },
+              { selector: '.org-top-card-primary-content__logo', type: 'bg', priority: 4 },
+              { selector: '.company-logo', type: 'bg', priority: 3 }
+            ];
+
+            for (const s of prioritizedSelectors) {
+              const element = document.querySelector(s.selector);
+              if (element && element.offsetParent !== null) { // Must be visible
+                let imageUrl = null;
+                
+                if (s.type === 'bg') {
+                  const style = window.getComputedStyle(element);
+                  const backgroundImage = style.backgroundImage;
+                  if (backgroundImage && backgroundImage !== 'none') {
+                    imageUrl = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
+                  }
+                } else if (s.type === 'src') {
+                  imageUrl = element.src || element.getAttribute('src');
+                }
+
+                // Enhanced validation for LinkedIn logo URLs
+                if (imageUrl && imageUrl.startsWith('http') && 
+                    (imageUrl.includes('media.licdn.com') || imageUrl.includes('static.licdn.com'))) {
+                  
+                  // Additional validation to ensure it's actually a logo, not a banner
+                  const isLogo = imageUrl.includes('company-logo') || 
+                                imageUrl.includes('profile-photo') ||
+                                s.selector.toLowerCase().includes('logo') ||
+                                element.alt?.toLowerCase().includes('logo');
+                  
+                  if (isLogo || s.priority >= 7) { // High priority selectors are trusted
+                    console.log(`✅ [LinkedIn Logo] Found logo with selector "${s.selector}": ${imageUrl}`);
+                    return imageUrl;
+                  }
+                }
+              }
+            }
+            
+            console.log('❌ [LinkedIn Logo] No logo URLs found with enhanced selectors');
+            return null;
+          });
+          
+          if (logoUrl) {
+            console.log('✅ [LinkedIn Logo] Enhanced extraction SUCCESS:', logoUrl);
+            linkedinAntiBot.logActivity('Logo extraction successful', { logoUrl, method: 'DOM selectors' });
+            
+            // Small delay after successful extraction to avoid being too aggressive
+            await linkedinAntiBot.implementHumanDelay();
+            return logoUrl;
           }
+          
+          // Fallback: Try to extract from intercepted network requests (similar to banner)
+          console.log('🔄 [LinkedIn Logo] Trying network interception fallback...');
+          
+          // Look for logo URLs in any intercepted API responses
+          if (bannerExtractor && bannerExtractor.apiResponses) {
+            for (const response of bannerExtractor.apiResponses) {
+              if (response.data) {
+                const jsonString = JSON.stringify(response.data);
+                const logoPatterns = [
+                  /"(https:\/\/media\.licdn\.com\/dms\/image\/[^"]*company-logo[^"]*)"/g,
+                  /"(https:\/\/static\.licdn\.com\/[^"]*logo[^"]*)"/g,
+                  /"logo"\s*:\s*"(https:\/\/[^"]+)"/g,
+                  /"logoUrl"\s*:\s*"(https:\/\/[^"]+)"/g,
+                  /"companyLogo"\s*:\s*"(https:\/\/[^"]+)"/g
+                ];
+                
+                for (const pattern of logoPatterns) {
+                  let match;
+                  while ((match = pattern.exec(jsonString)) !== null) {
+                    const url = match[1];
+                    if (url && linkedinAntiBot.isLinkedInImageUrl(url) && 
+                        !url.includes('banner') && !url.includes('background') && !url.includes('cover')) {
+                      console.log('✅ [LinkedIn Logo] Found logo via network interception:', url);
+                      linkedinAntiBot.logActivity('Logo found via network interception', { logoUrl: url });
+                      return url;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          
+          // Final fallback: Try alternative URL generation if we found any potential logo URL
+          console.log('🔄 [LinkedIn Logo] Trying alternative URL generation...');
+          
+          // Look for any LinkedIn image URL that might be a logo in the page content
+          const potentialLogoUrl = await page.evaluate(() => {
+            const allImages = Array.from(document.querySelectorAll('img[src*="linkedin"]'));
+            for (const img of allImages) {
+              const src = img.src;
+              if (src && (src.includes('company') || src.includes('logo') || src.includes('profile'))) {
+                return src;
+              }
+            }
+            return null;
+          });
+          
+          if (potentialLogoUrl && linkedinAntiBot.isLinkedInImageUrl(potentialLogoUrl)) {
+            console.log('🔄 [LinkedIn Logo] Found potential logo URL, generating alternatives:', potentialLogoUrl);
+            const alternativeUrls = linkedinAntiBot.generateAlternativeLinkedInUrls(potentialLogoUrl);
+            
+            // Test each alternative URL
+            for (const altUrl of alternativeUrls.slice(0, 3)) { // Test only first 3 to avoid too many requests
+              try {
+                console.log('🧪 [LinkedIn Logo] Testing alternative URL:', altUrl);
+                
+                // Quick HEAD request to check if URL is valid
+                const testResponse = await page.evaluate(async (testUrl) => {
+                  try {
+                    const response = await fetch(testUrl, { method: 'HEAD' });
+                    return { status: response.status, contentType: response.headers.get('content-type') };
+                  } catch (e) {
+                    return { error: e.message };
+                  }
+                }, altUrl);
+                
+                if (testResponse.status === 200 && testResponse.contentType?.startsWith('image/')) {
+                  console.log('✅ [LinkedIn Logo] Alternative URL test successful:', altUrl);
+                  linkedinAntiBot.logActivity('Logo found via alternative URL', { originalUrl: potentialLogoUrl, alternativeUrl: altUrl });
+                  return altUrl;
+                }
+              } catch (testError) {
+                console.log('❌ [LinkedIn Logo] Alternative URL test failed:', altUrl, testError.message);
+              }
+            }
+          }
+          
+          console.log('❌ [LinkedIn Logo] All extraction methods failed');
+          linkedinAntiBot.logActivity('Logo extraction failed - all methods exhausted', { 
+            url, 
+            methodsTried: ['DOM selectors', 'network interception', 'alternative URLs'],
+            apiResponsesCount: bannerExtractor?.apiResponses?.length || 0
+          });
+          return null;
+          
+        } catch (error) {
+          console.error('❌ [LinkedIn Logo] Critical logo extraction error:', error.message);
+          linkedinAntiBot.logActivity('Logo extraction error', { 
+            url, 
+            error: error.message,
+            stack: error.stack?.split('\n').slice(0, 3).join('\n')
+          });
+          return null;
         }
-        return null;
-      }),
+      })(),
       bannerUrl: await (async () => {
         const extractionStartTime = Date.now();
         
@@ -598,28 +765,79 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       })(),
       aboutUs: jsonData.description || '',
       description: jsonData.description || '',
-      website: jsonData.url || $('dt:contains("Website")').next('dd').text().trim() || null,
+      website: jsonData.url || await adaptiveScraper.adaptiveElementExtraction(page, 'website').then(result => result?.value).catch(() => null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const websiteDt = dtElements.find(dt => /website/i.test(dt.textContent));
+        const websiteText = websiteDt?.nextElementSibling?.textContent?.trim();
+        if (websiteText) return websiteText;
+        
+        // Fallback: look for external links
+        const links = Array.from(document.querySelectorAll('a[href]'));
+        const externalLink = links.find(link => {
+          const href = link.href;
+          return href && !href.includes('linkedin.com') && (href.startsWith('http://') || href.startsWith('https://'));
+        });
+        return externalLink?.href || null;
+      }),
       verified: $('.org-page-verified-badge').length > 0 ? ($('.org-page-verified-badge__text').text().trim() || true) : false,
       verifiedPage: $('dt:contains("Verified Page")').next('dd').text().trim() || null,
-      industry: jsonData.industry || $('dt:contains("Industry")').next('dd').text().trim(),
-      type: jsonData.industry || $('dt:contains("Industry")').next('dd').text().trim(),
-      companySize: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
-      employees: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || ($('dt:contains("Company size")').next('dd').text().trim() + ' ' + $('dt:contains("Company size")').next('dd').next('dd').text().trim()).trim(),
-      headquarters: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || $('dt:contains("Headquarters")').next('dd').text().trim(),
-      location: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || $('dt:contains("Headquarters")').next('dd').text().trim(),
+      industry: jsonData.industry || await adaptiveScraper.adaptiveElementExtraction(page, 'industry').then(result => result?.value).catch(() => null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const industryDt = dtElements.find(dt => /industry/i.test(dt.textContent));
+        return industryDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
+      type: jsonData.industry || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const industryDt = dtElements.find(dt => /industry/i.test(dt.textContent));
+        return industryDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
+      companySize: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const sizeDt = dtElements.find(dt => /company size/i.test(dt.textContent));
+        return sizeDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
+      employees: (jsonData.numberOfEmployees ? `${jsonData.numberOfEmployees.minValue}-${jsonData.numberOfEmployees.maxValue} employees` : null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const sizeDt = dtElements.find(dt => /company size/i.test(dt.textContent));
+        return sizeDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
+      headquarters: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const hqDt = dtElements.find(dt => /headquarters/i.test(dt.textContent));
+        return hqDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
+      location: (jsonData.address ? `${jsonData.address.streetAddress}, ${jsonData.address.addressLocality}, ${jsonData.address.addressRegion}` : null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const hqDt = dtElements.find(dt => /headquarters/i.test(dt.textContent));
+        return hqDt?.nextElementSibling?.textContent?.trim() || null;
+      }),
       founded: jsonData.foundingDate || '',
       locations: [],
-      specialties: (jsonData.keywords ? jsonData.keywords.split(', ') : null) || ($('dt:contains("Specialties")').next('dd').text().trim().split(', ') || []),
+      specialties: (jsonData.keywords ? jsonData.keywords.split(', ') : null) || await page.evaluate(() => {
+        const dtElements = Array.from(document.querySelectorAll('dt'));
+        const specialtiesDt = dtElements.find(dt => /specialties/i.test(dt.textContent));
+        const specialtiesText = specialtiesDt?.nextElementSibling?.textContent?.trim();
+        return specialtiesText ? specialtiesText.split(', ').filter(s => s.trim()) : [];
+      }),
     };
 
-    // Enhanced about us extraction
+    // **ENHANCED: Adaptive description extraction with learning**
     if (jsonData.description) {
       companyData.aboutUs = jsonData.description;
       companyData.description = jsonData.description;
       console.log('Extracted "aboutUs" from JSON-LD.');
     } else {
-      console.log('Could not find "aboutUs" in JSON-LD, attempting to scrape from HTML.');
-      try {
+      console.log('Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...');
+      
+      // Try adaptive extraction first
+      const adaptiveDescription = await adaptiveScraper.adaptiveElementExtraction(page, 'description').catch(() => ({ value: null }));
+      if (adaptiveDescription?.value) {
+        companyData.aboutUs = adaptiveDescription.value;
+        companyData.description = adaptiveDescription.value;
+        console.log('✅ [LinkedIn Adaptive] Description extracted via adaptive learning');
+      } else {
+        console.log('Adaptive extraction failed, attempting manual scraping from HTML.');
+        try {
         // First try to extract description directly without clicking tabs
         companyData.aboutUs = await page.evaluate(() => {
           // Try multiple selectors for the company description, from most specific to most general
@@ -837,30 +1055,91 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
       } catch (error) {
         console.error('Error while scraping "aboutUs" from HTML:', error);
       }
+      }
 
       // **CRUCIAL: Bot detection and retry logic for name extraction**
       if (!companyData.name) {
         console.log('🔄 Name extraction failed - likely bot detection. Implementing retry strategy...');
         
-        // Try different approaches to bypass bot detection
+        // Try emergency fallback extraction before giving up
+        console.log('🚨 Attempting emergency fallback extraction...');
+        
+        const emergencyData = await page.evaluate(() => {
+          // Very basic extraction as last resort
+          const title = document.title;
+          const h1 = document.querySelector('h1');
+          const metaDescription = document.querySelector('meta[name="description"]');
+          
+          // Try to extract company name from title or URL
+          let companyName = null;
+          if (title && !title.toLowerCase().includes('linkedin')) {
+            companyName = title.split('|')[0].split('-')[0].trim();
+          }
+          
+          if (!companyName && h1) {
+            companyName = h1.textContent.trim();
+          }
+          
+          // Extract from URL as absolute last resort
+          if (!companyName) {
+            const urlMatch = window.location.href.match(/\/company\/([^\/\?]+)/);
+            if (urlMatch && urlMatch[1] && urlMatch[1] !== 'mycompany') {
+              companyName = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            }
+          }
+          
+          return {
+            name: companyName,
+            description: metaDescription ? metaDescription.content : null,
+            extractionMethod: 'emergency_fallback'
+          };
+        });
+        
+        if (emergencyData.name) {
+          console.log('✅ Emergency fallback found company name:', emergencyData.name);
+          companyData.name = emergencyData.name;
+          if (emergencyData.description) {
+            companyData.description = emergencyData.description;
+            companyData.aboutUs = emergencyData.description;
+          }
+          companyData.extractionMethod = 'emergency_fallback';
+        } else {
+          // Return error object only if emergency fallback also fails
+          return {
+            url,
+            status: 'Failed',
+            error: 'Bot detection triggered - no company name found even with fallback',
+            errorCategory: 'bot_detection',
+            debugInfo: {
+              pageTitle: debugInfo.title,
+              h1Text: debugInfo.h1Text,
+              hasCompanyElements: debugInfo.hasCompanyElements,
+              emergencyFallbackAttempted: true
+            }
+          };
+        }
+        
+        // **ENHANCED: Adaptive bot detection bypass with learning**
         for (let retryAttempt = 1; retryAttempt <= 2; retryAttempt++) {
-          console.log(`🔄 Retry attempt ${retryAttempt}/2 for name extraction...`);
+          console.log(`🔄 [LinkedIn Adaptive] Retry attempt ${retryAttempt}/2 for name extraction...`);
           
           try {
-            // Strategy 1: Try direct navigation to clean URL
+            // Strategy 1: Try direct navigation to clean URL with adaptive delay
             if (retryAttempt === 1) {
               const cleanUrl = url.replace('/mycompany/', '/').replace('/mycompany', '').split('?')[0];
               if (cleanUrl !== url) {
-                console.log(`🔄 Trying clean URL: ${cleanUrl}`);
+                console.log(`🔄 [LinkedIn Adaptive] Trying clean URL: ${cleanUrl}`);
+                await adaptiveScraper.implementAdaptiveDelay('clean_url_retry', false);
                 await page.goto(cleanUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-                await delay(3000);
+                await adaptiveScraper.implementAdaptiveDelay('after_clean_url_retry', null);
               }
             } 
-            // Strategy 2: Refresh current page and try again
+            // Strategy 2: Refresh current page and try again with adaptive delay
             else {
-              console.log('🔄 Refreshing page to bypass detection...');
+              console.log('🔄 [LinkedIn Adaptive] Refreshing page to bypass detection...');
+              await adaptiveScraper.implementAdaptiveDelay('before_refresh_retry', false);
               await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 });
-              await delay(4000);
+              await adaptiveScraper.implementAdaptiveDelay('after_refresh_retry', null);
             }
             
             // Handle popups again after navigation/refresh
@@ -881,7 +1160,7 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
               }
             });
             
-            await delay(2000);
+            await adaptiveScraper.implementAdaptiveDelay('after_modal_close_retry', null);
             
             // Try extracting name again
             const retryName = await page.evaluate(() => {
@@ -938,11 +1217,15 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
             
           } catch (retryError) {
             console.warn(`⚠️ Retry ${retryAttempt} error:`, retryError.message);
+            
+            // **RESTORED: Progressive delay and user agent rotation on retry**
+            await antiBotSystem.humanDelay(2000, 4000);
+            await page.setUserAgent(getUserAgent(true)); // Rotate on retry
           }
           
-          // Wait before next retry
+          // Adaptive wait before next retry
           if (retryAttempt < 2) {
-            await delay(3000);
+            await adaptiveScraper.implementAdaptiveDelay('between_retries', false);
           }
         }
         
@@ -1074,6 +1357,23 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         companyData.aboutUs = null;
     }
 
+    // **CRITICAL: Final validation before returning data**
+    if (!companyData.name && !companyData.description && !companyData.industry) {
+      console.log('❌ CRITICAL: No essential data extracted - likely bot detection or page structure changed');
+      return {
+        url,
+        status: 'Failed',
+        error: 'No essential company data found - possible bot detection',
+        errorCategory: 'no_data_extracted',
+        debugInfo: {
+          pageTitle: debugInfo.title,
+          h1Text: debugInfo.h1Text,
+          hasCompanyElements: debugInfo.hasCompanyElements,
+          visibleTextPreview: debugInfo.visibleText
+        }
+      };
+    }
+    
     // **DEBUG: Log what we actually extracted**
     console.log('=== EXTRACTION SUMMARY ===');
     console.log('Name:', companyData.name || 'NOT FOUND');
@@ -1109,6 +1409,15 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         }
     }
     companyData.additionalInfo = finalAdditionalInfo;
+    
+    // **NEW: Add adaptive scraper metrics and learning data**
+    companyData.adaptiveMetrics = adaptiveScraper.getMetrics();
+    console.log('📊 [LinkedIn Adaptive] Extraction metrics:', {
+      totalAttempts: companyData.adaptiveMetrics.totalAttempts,
+      successfulExtractions: companyData.adaptiveMetrics.successfulExtractions,
+      botDetections: companyData.adaptiveMetrics.botDetections,
+      adaptiveImprovements: companyData.adaptiveMetrics.adaptiveImprovements
+    });
 
     // **ANTI-BOT ENHANCEMENT: Save cookies for future runs**
     try {
