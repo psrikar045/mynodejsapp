@@ -7,6 +7,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { MaintenanceManager } = require('./maintenance-script');
 const { AdaptiveConfigManager } = require('./adaptive-config-manager');
+const { APIPatternManager } = require('./api-pattern-manager');
 
 class DeploymentManager {
     constructor() {
@@ -164,7 +165,6 @@ class DeploymentManager {
     async initializePatternDatabase() {
         console.log('📊 Initializing pattern database...');
         
-        const { APIPatternManager } = require('./api-pattern-manager');
         const patternManager = new APIPatternManager();
         
         await patternManager.initialize();
@@ -244,7 +244,6 @@ class DeploymentManager {
         
         // Test pattern manager
         try {
-            const { APIPatternManager } = require('./api-pattern-manager');
             const patternManager = new APIPatternManager();
             await patternManager.initialize();
             

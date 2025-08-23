@@ -20,10 +20,11 @@ class ExtractionLogger {
         const session = sessionId || this._generateSessionId();
         this.currentSessionId = session;
         
+        const now = Date.now();
         const sessionLog = {
             sessionId: session,
             url: url,
-            startTime: new Date().toISOString(),
+            startTime: new Date(now).toISOString(),
             endTime: null,
             status: 'running',
             logs: [],
@@ -31,7 +32,7 @@ class ExtractionLogger {
             errors: [],
             warnings: [],
             performance: {
-                startTime: Date.now(),
+                startTime: now,
                 endTime: null,
                 duration: null
             }
@@ -85,7 +86,8 @@ class ExtractionLogger {
         }
 
         // Add to global logs
-        this.log('step', `📋 STEP: ${stepName}`, { ...stepData, sessionId: session });
+        stepData.sessionId = session;
+        this.log('step', `📋 STEP: ${stepName}`, stepData);
         
         console.log(`📋 [${timestamp}] STEP: ${stepName}${details ? ` - ${JSON.stringify(details)}` : ''}`);
     }

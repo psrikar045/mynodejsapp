@@ -2,10 +2,10 @@
 // Automatically discovers and maintains selectors, navigation patterns, and extraction strategies
 
 const fs = require('fs').promises;
-const path = require('path');
 
 class SelfLearningSystem {
     constructor() {
+        const path = require('path'); // Lazy load when needed
         this.learningDataFile = path.resolve(__dirname, 'learning_data.json');
         this.selectorCacheFile = path.resolve(__dirname, 'selector_cache.json');
         this.learningData = {};

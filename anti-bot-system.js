@@ -4,7 +4,7 @@
  */
 
 const os = require('os');
-const crypto = require('crypto');
+let crypto;
 
 class AntiBotSystem {
     constructor() {
@@ -17,6 +17,7 @@ class AntiBotSystem {
     }
 
     generateSessionId() {
+        if (!crypto) crypto = require('crypto');
         return crypto.randomBytes(16).toString('hex');
     }
 
