@@ -4,6 +4,7 @@
  */
 
 const axios = require('axios');
+const { sanitizeForLogging } = require('./utils/input-sanitizer');
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -27,7 +28,7 @@ async function testDetailedIntegration() {
         console.log('\n2️⃣ Running extraction with full logging...');
         const testUrl = 'https://www.linkedin.com/company/microsoft/';
         
-        console.log(`📋 Starting extraction for: ${testUrl}`);
+        console.log(`📋 Starting extraction for: ${sanitizeForLogging(testUrl)}`);
         const extractionStart = Date.now();
         
         let extractionResult;

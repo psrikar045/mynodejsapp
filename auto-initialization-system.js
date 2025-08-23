@@ -5,6 +5,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
 
 class AutoInitializationSystem {
     constructor() {
@@ -111,7 +112,7 @@ class AutoInitializationSystem {
             if (this.isCriticalStep(stepName)) {
                 throw error;
             } else {
-                console.warn(`⚠️  ${stepName} failed but continuing with fallback...`);
+                console.warn( sanitizeForLogging(stepName),` ⚠️failed but continuing with fallback...`);
             }
         }
     }

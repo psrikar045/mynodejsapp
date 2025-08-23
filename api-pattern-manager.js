@@ -6,6 +6,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
 
 class APIPatternManager {
     constructor() {
@@ -176,7 +177,7 @@ class APIPatternManager {
             }
             
         } catch (error) {
-            console.warn('⚠️ [Pattern Manager] Failed to learn pattern:', error.message);
+            console.warn('⚠️ [Pattern Manager] Failed to learn pattern:', sanitizeForLogging(error.message));
         }
     }
 
@@ -249,7 +250,7 @@ class APIPatternManager {
             };
             
             this.stats.patternDiscoveries++;
-            console.log(`🔍 [Pattern Discovery] New pattern: ${patternKey}`);
+            console.log(`🔍 [Pattern Discovery] New pattern:`, sanitizeForLogging(patternKey));
         }
         
         const pattern = this.patterns.apiEndpoints[patternKey];

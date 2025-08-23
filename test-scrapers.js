@@ -2,6 +2,7 @@
 const { main: linkedinMain } = require('./linkedin_scraper');
 const { scrapeFacebookCompany } = require('./facebook_scraper/facebook_scraper');
 const fs = require('fs').promises;
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
 
 async function testLinkedInScraper() {
     console.log('🔍 Testing LinkedIn Scraper...');
@@ -20,7 +21,7 @@ async function testLinkedInScraper() {
         });
         return result;
     } catch (error) {
-        console.error('❌ LinkedIn Scraper Error:', error.message);
+        console.error('❌ LinkedIn Scraper Error:', sanitizeForLogging(error.message));
         return { error: error.message };
     }
 }

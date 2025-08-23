@@ -7,6 +7,7 @@
 const fs = require('fs').promises;
 const fsSync = require('fs');
 const path = require('path');
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
 
 class DetailedFileLogger {
     constructor() {
@@ -259,8 +260,8 @@ class DetailedFileLogger {
             // Create new empty log file
             const logType = fileName.replace(/[-_]/g, ' ').toUpperCase();
             await fs.writeFile(filePath, `# ${logType} LOG - Started at ${new Date().toISOString()}\n`, 'utf8');
-            
-            console.log(`🔄 Rotated log file: ${fileName}.log`);
+
+            console.log(`🔄 Rotated log file:`, sanitizeForLogging(fileName.log));
         } catch (error) {
             console.error(`❌ Failed to rotate log file ${filePath}:`, error);
         }

@@ -38,8 +38,36 @@ class SearchHistoryLogger {
     async loadExistingHistory() {
         try {
             const data = await fs.readFile(this.historyFile, 'utf8');
-            const history = JSON.parse(data);
-            this.searchHistory = history.searches || [];
+            
+            // Try to detect old JSON format and migrate if needed
+            if (data.trim().startsWith('{')) {
+                console.log('🔄 Migrating from old JSON format to line-delimited format...');
+                try {
+                    const oldFormat = JSON.parse(data);
+                    const searches = oldFormat.searches || [];
+                    
+                    // Convert to new format
+                    const newContent = searches.map(entry => JSON.stringify(entry)).join('\n') + '\n';
+                    await fs.writeFile(this.historyFile, newContent, 'utf8');
+                    
+                    this.searchHistory = searches;
+                    console.log(`✅ Migrated ${searches.length} searches to new format`);
+                } catch (migrationError) {
+                    console.warn('⚠️ Migration failed, starting fresh:', migrationError.message);
+                    this.searchHistory = [];
+                }
+            } else {
+                // New line-delimited format
+                const lines = data.trim().split('\n').filter(line => line.trim());
+                
+                this.searchHistory = lines.map(line => {
+                    try {
+                        return JSON.parse(line);
+                    } catch (parseError) {
+                        return null;
+                    }
+                }).filter(Boolean);
+            }
             
             // Keep only recent searches in memory
             if (this.searchHistory.length > this.maxMemoryHistory) {
@@ -130,32 +158,12 @@ class SearchHistoryLogger {
     }
 
     /**
-     * Save search entry to main history file
+     * Save search entry to main history file (append-only for performance)
      */
     async saveSearchEntry(searchEntry) {
         try {
-            // Load current history
-            let fullHistory = [];
-            try {
-                const data = await fs.readFile(this.historyFile, 'utf8');
-                const historyData = JSON.parse(data);
-                fullHistory = historyData.searches || [];
-            } catch (error) {
-                // File doesn't exist - start fresh
-                fullHistory = [];
-            }
-
-            // Add new entry
-            fullHistory.push(searchEntry);
-
-            // Save back to file
-            const historyData = {
-                lastUpdated: new Date().toISOString(),
-                totalSearches: fullHistory.length,
-                searches: fullHistory
-            };
-
-            await fs.writeFile(this.historyFile, JSON.stringify(historyData, null, 2), 'utf8');
+            const entryLine = JSON.stringify(searchEntry) + '\n';
+            await fs.appendFile(this.historyFile, entryLine, 'utf8');
         } catch (error) {
             console.error('❌ Failed to save search history:', error);
         }
@@ -166,24 +174,11 @@ class SearchHistoryLogger {
      */
     async logToDailyFile(searchEntry) {
         const dateString = searchEntry.timestamp.split('T')[0]; // YYYY-MM-DD
-        const dailyFile = path.join(this.dailyLogDir, `searches-${dateString}.json`);
+        const dailyFile = path.join(this.dailyLogDir, `searches-${dateString}.jsonl`);
 
         try {
-            // Load existing daily data
-            let dailyData = [];
-            try {
-                const data = await fs.readFile(dailyFile, 'utf8');
-                dailyData = JSON.parse(data);
-            } catch (error) {
-                // File doesn't exist - start fresh
-                dailyData = [];
-            }
-
-            // Add new entry
-            dailyData.push(searchEntry);
-
-            // Save daily file
-            await fs.writeFile(dailyFile, JSON.stringify(dailyData, null, 2), 'utf8');
+            const entryLine = JSON.stringify(searchEntry) + '\n';
+            await fs.appendFile(dailyFile, entryLine, 'utf8');
         } catch (error) {
             console.error('❌ Failed to save daily search log:', error);
         }
@@ -262,66 +257,96 @@ class SearchHistoryLogger {
      */
     getSearchAnalytics() {
         if (this.searchHistory.length === 0) {
-            return {
-                totalSearches: 0,
-                successRate: 0,
-                avgDuration: 0,
-                topDomains: [],
-                statusBreakdown: {},
-                linkedInStats: { total: 0, successful: 0 }
-            };
+            return this.getEmptyAnalytics();
         }
 
-        const total = this.searchHistory.length;
+        return {
+            totalSearches: this.searchHistory.length,
+            successRate: this.calculateSuccessRate(),
+            avgDuration: this.calculateAverageDuration(),
+            topDomains: this.getTopDomains(),
+            statusBreakdown: this.getStatusBreakdown(),
+            linkedInStats: this.getLinkedInStats(),
+            cacheHitRate: this.calculateCacheHitRate(),
+            recentActivity: this.getRecentActivity()
+        };
+    }
+
+    /**
+     * Get empty analytics structure
+     */
+    getEmptyAnalytics() {
+        return {
+            totalSearches: 0,
+            successRate: 0,
+            avgDuration: 0,
+            topDomains: [],
+            statusBreakdown: {},
+            linkedInStats: { total: 0, successful: 0 }
+        };
+    }
+
+    /**
+     * Calculate success rate percentage
+     */
+    calculateSuccessRate() {
         const successful = this.searchHistory.filter(s => s.status === 'success').length;
-        const successRate = (successful / total * 100).toFixed(1);
+        return parseFloat((successful / this.searchHistory.length * 100).toFixed(1));
+    }
 
-        // Calculate average duration
-        const durations = this.searchHistory
-            .filter(s => s.performance.duration)
-            .map(s => s.performance.duration);
-        const avgDuration = durations.length > 0 
-            ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
-            : 0;
+    /**
+     * Calculate average duration in milliseconds
+     */
+    calculateAverageDuration() {
+        const { sum, count } = this.searchHistory.reduce((acc, s) => {
+            if (s.performance.duration) {
+                acc.sum += s.performance.duration;
+                acc.count++;
+            }
+            return acc;
+        }, { sum: 0, count: 0 });
+        
+        return count > 0 ? Math.round(sum / count) : 0;
+    }
 
-        // Top domains
-        const domainCounts = {};
-        this.searchHistory.forEach(search => {
-            const domain = search.domain;
-            domainCounts[domain] = (domainCounts[domain] || 0) + 1;
-        });
+    /**
+     * Get top domains by search count
+     */
+    getTopDomains() {
+        const domainCounts = this.searchHistory.reduce((counts, search) => {
+            counts[search.domain] = (counts[search.domain] || 0) + 1;
+            return counts;
+        }, {});
 
-        const topDomains = Object.entries(domainCounts)
+        return Object.entries(domainCounts)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10)
             .map(([domain, count]) => ({ domain, count }));
+    }
 
-        // Status breakdown
-        const statusBreakdown = {};
-        this.searchHistory.forEach(search => {
-            const status = search.status;
-            statusBreakdown[status] = (statusBreakdown[status] || 0) + 1;
-        });
+    /**
+     * Get status breakdown counts
+     */
+    getStatusBreakdown() {
+        return this.searchHistory.reduce((breakdown, search) => {
+            breakdown[search.status] = (breakdown[search.status] || 0) + 1;
+            return breakdown;
+        }, {});
+    }
 
-        // LinkedIn specific stats
+    /**
+     * Get LinkedIn-specific statistics
+     */
+    getLinkedInStats() {
         const linkedInSearches = this.searchHistory.filter(s => s.extraction.isLinkedIn);
         const linkedInSuccessful = linkedInSearches.filter(s => s.status === 'success');
 
         return {
-            totalSearches: total,
-            successRate: parseFloat(successRate),
-            avgDuration: avgDuration,
-            topDomains,
-            statusBreakdown,
-            linkedInStats: {
-                total: linkedInSearches.length,
-                successful: linkedInSuccessful.length,
-                successRate: linkedInSearches.length > 0 
-                    ? (linkedInSuccessful.length / linkedInSearches.length * 100).toFixed(1)
-                    : 0
-            },
-            cacheHitRate: this.calculateCacheHitRate(),
-            recentActivity: this.getRecentActivity()
+            total: linkedInSearches.length,
+            successful: linkedInSuccessful.length,
+            successRate: linkedInSearches.length > 0 
+                ? parseFloat((linkedInSuccessful.length / linkedInSearches.length * 100).toFixed(1))
+                : 0
         };
     }
 
@@ -391,14 +416,13 @@ class SearchHistoryLogger {
     }
 
     /**
-     * Export search history to file
+     * Export search history data for download
      */
-    async exportSearchHistory(format = 'json', filename = null) {
+    exportSearchHistory(format = 'json', filename = null) {
         if (!filename) {
             filename = `search-history-export-${Date.now()}.${format}`;
         }
 
-        const exportFile = path.join(this.historyDir, filename);
         const exportData = {
             exportTimestamp: new Date().toISOString(),
             analytics: this.getSearchAnalytics(),
@@ -408,13 +432,20 @@ class SearchHistoryLogger {
 
         try {
             if (format === 'json') {
-                await fs.writeFile(exportFile, JSON.stringify(exportData, null, 2), 'utf8');
+                return {
+                    data: JSON.stringify(exportData, null, 2),
+                    filename,
+                    contentType: 'application/json'
+                };
             } else if (format === 'csv') {
-                const csv = this.convertToCSV(exportData.searches);
-                await fs.writeFile(exportFile, csv, 'utf8');
+                return {
+                    data: this.convertToCSV(exportData.searches),
+                    filename,
+                    contentType: 'text/csv'
+                };
             }
             
-            return exportFile;
+            throw new Error(`Unsupported format: ${format}`);
         } catch (error) {
             throw new Error(`Failed to export search history: ${error.message}`);
         }
@@ -468,23 +499,26 @@ class SearchHistoryLogger {
         const cutoffDate = new Date(Date.now() - daysToKeep * 24 * 60 * 60 * 1000).toISOString();
         
         try {
-            // Load full history
             const data = await fs.readFile(this.historyFile, 'utf8');
-            const historyData = JSON.parse(data);
-            const allSearches = historyData.searches || [];
+            const lines = data.trim().split('\n').filter(line => line.trim());
+            
+            const allSearches = lines.map(line => {
+                try {
+                    return JSON.parse(line);
+                } catch (parseError) {
+                    return null;
+                }
+            }).filter(Boolean);
 
             // Filter out old entries
-            const recentSearches = allSearches.filter(search => search.timestamp >= cutoffDate);
+            const recentSearches = allSearches.filter(search => 
+                search && search.timestamp && search.timestamp >= cutoffDate
+            );
             const removedCount = allSearches.length - recentSearches.length;
 
-            // Save updated history
-            const updatedHistoryData = {
-                lastUpdated: new Date().toISOString(),
-                totalSearches: recentSearches.length,
-                searches: recentSearches
-            };
-
-            await fs.writeFile(this.historyFile, JSON.stringify(updatedHistoryData, null, 2), 'utf8');
+            // Rewrite file with recent entries only
+            const newContent = recentSearches.map(entry => JSON.stringify(entry)).join('\n') + '\n';
+            await fs.writeFile(this.historyFile, newContent, 'utf8');
 
             console.log(`🧹 Cleaned up ${removedCount} old search entries (keeping ${daysToKeep} days)`);
             return removedCount;
