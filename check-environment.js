@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
+const os = require('os');
+
 /**
  * Environment Configuration Checker
  * Displays current environment settings and provides setup guidance
  */
-
-const fs = require('fs');
-const os = require('os');
 
 class EnvironmentChecker {
     constructor() {

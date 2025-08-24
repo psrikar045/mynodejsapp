@@ -1,13 +1,13 @@
-/**
- * Deployment Script for Adaptive Banner Extraction System
- * Handles deployment, configuration sync, and system updates
- */
-
 const fs = require('fs').promises;
 const path = require('path');
 const { MaintenanceManager } = require('./maintenance-script');
 const { AdaptiveConfigManager } = require('./adaptive-config-manager');
 const { APIPatternManager } = require('./api-pattern-manager');
+
+/**
+ * Deployment Script for Adaptive Banner Extraction System
+ * Handles deployment, configuration sync, and system updates
+ */
 
 class DeploymentManager {
     constructor() {

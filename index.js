@@ -1,27 +1,47 @@
-const Vibrant = require('node-vibrant/node');
-const sharp = require('sharp');
-const axios = require('axios');
+// Core modules - loaded immediately
 const express = require('express');
 const cors = require('cors');
-const puppeteer = require('puppeteer');
 const dns = require('dns').promises;
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
-const { ensureChrome } = require('./ensure-chrome');
-const { antiBotSystem } = require('./anti-bot-system');
-const { performanceMonitor } = require('./performance-monitor');
-const { enhancedFileOps } = require('./enhanced-file-operations');
-const { LinkedInImageAntiBotSystem } = require('./linkedin-image-anti-bot');
-const { extractionLogger } = require('./extraction-logger');
-const { systemHealthMonitor } = require('./system-health-monitor');
-const { searchHistoryLogger } = require('./search-history-logger');
-const { detailedFileLogger } = require('./detailed-file-logger');
-const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = require('./utils/input-sanitizer');
-const { cleanLinkedInUrl, enhancedNameExtraction, mergeFacebookData, enhancedCompanyDetailsExtraction } = require('./company-extraction-fixes');
 
-// Initialize LinkedIn-specific anti-bot system
-const linkedinAntiBot = new LinkedInImageAntiBotSystem();
+// Heavy modules - lazy loaded when needed
+let Vibrant, sharp, axios, puppeteer;
+let ensureChrome, antiBotSystem, performanceMonitor, enhancedFileOps;
+let LinkedInImageAntiBotSystem, extractionLogger, systemHealthMonitor;
+let searchHistoryLogger, detailedFileLogger, inputSanitizer, companyExtractionFixes;
+
+// Lazy loading functions
+const loadVibrant = () => Vibrant || (Vibrant = require('node-vibrant/node'));
+const loadSharp = () => sharp || (sharp = require('sharp'));
+const loadAxios = () => axios || (axios = require('axios'));
+const loadPuppeteer = () => puppeteer || (puppeteer = require('puppeteer'));
+const loadEnsureChrome = () => ensureChrome || (ensureChrome = require('./ensure-chrome').ensureChrome);
+const loadAntiBotSystem = () => antiBotSystem || (antiBotSystem = require('./anti-bot-system').antiBotSystem);
+const loadPerformanceMonitor = () => performanceMonitor || (performanceMonitor = require('./performance-monitor').performanceMonitor);
+const loadEnhancedFileOps = () => enhancedFileOps || (enhancedFileOps = require('./enhanced-file-operations').enhancedFileOps);
+const loadLinkedInImageAntiBotSystem = () => LinkedInImageAntiBotSystem || (LinkedInImageAntiBotSystem = require('./linkedin-image-anti-bot').LinkedInImageAntiBotSystem);
+const loadExtractionLogger = () => extractionLogger || (extractionLogger = require('./extraction-logger').extractionLogger);
+const loadSystemHealthMonitor = () => systemHealthMonitor || (systemHealthMonitor = require('./system-health-monitor').systemHealthMonitor);
+const loadSearchHistoryLogger = () => searchHistoryLogger || (searchHistoryLogger = require('./search-history-logger').searchHistoryLogger);
+const loadDetailedFileLogger = () => detailedFileLogger || (detailedFileLogger = require('./detailed-file-logger').detailedFileLogger);
+const loadInputSanitizer = () => inputSanitizer || (inputSanitizer = require('./utils/input-sanitizer'));
+const loadCompanyExtractionFixes = () => companyExtractionFixes || (companyExtractionFixes = require('./company-extraction-fixes'));
+
+// Initialize commonly used modules
+const { sanitizeForLogging, sanitizeUrl, sanitizeObjectForLogging } = loadInputSanitizer();
+const { cleanLinkedInUrl, enhancedNameExtraction, mergeFacebookData, enhancedCompanyDetailsExtraction } = loadCompanyExtractionFixes();
+
+// Initialize LinkedIn-specific anti-bot system (lazy loaded)
+let linkedinAntiBot;
+const getLinkedInAntiBot = () => {
+    if (!linkedinAntiBot) {
+        const LinkedInImageAntiBotSystemClass = loadLinkedInImageAntiBotSystem();
+        linkedinAntiBot = new LinkedInImageAntiBotSystemClass();
+    }
+    return linkedinAntiBot;
+};
 
 /**
  * LinkedIn extraction tracking for monitoring success rates
@@ -120,7 +140,7 @@ app.use(async (req, res, next) => {
         // Log API request asynchronously
         setImmediate(async () => {
             try {
-                await detailedFileLogger.logAPI(
+                await loadDetailedFileLogger().logAPI(
                     req.method,
                     req.originalUrl,
                     res.statusCode,
@@ -223,7 +243,7 @@ app.get('/linkedin-metrics', (req, res) => {
 // ✅ Advanced Performance Monitoring Endpoint
 app.get('/performance-metrics', (req, res) => {
     try {
-        const analytics = performanceMonitor.getAnalytics();
+        const analytics = loadPerformanceMonitor().getAnalytics();
         res.json({
             status: 'active',
             ...analytics,
@@ -241,7 +261,7 @@ app.get('/performance-metrics', (req, res) => {
 // ✅ Anti-Bot System Status Endpoint
 app.get('/anti-bot-status', (req, res) => {
     try {
-        const analytics = antiBotSystem.getAnalytics();
+        const analytics = loadAntiBotSystem().getAnalytics();
         res.json({
             status: 'active',
             antiBotSystem: analytics,
@@ -283,8 +303,8 @@ app.get('/health', (req, res) => {
             environment: process.env.NODE_ENV || 'development',
             platform: os.platform(),
             nodeVersion: process.version,
-            performanceMetrics: performanceMonitor.getAnalytics(),
-            antiBotMetrics: antiBotSystem.getAnalytics(),
+            performanceMetrics: loadPerformanceMonitor().getAnalytics(),
+            antiBotMetrics: loadAntiBotSystem().getAnalytics(),
             selfLearningSystem: selfLearningStatus
         };
 
@@ -346,7 +366,7 @@ app.post('/force-maintenance', async (req, res) => {
 // ✅ Export Performance Data Endpoint
 app.post('/export-performance', async (req, res) => {
     try {
-        const filePath = await performanceMonitor.exportPerformanceData();
+        const filePath = await loadPerformanceMonitor().exportPerformanceData();
         res.json({
             success: true,
             message: 'Performance data exported successfully',
@@ -373,14 +393,14 @@ app.get('/api/extraction-logs', (req, res) => {
             format = 'json'
         } = req.query;
 
-        const logs = extractionLogger.getRecentLogs(
+        const logs = loadExtractionLogger().getRecentLogs(
             parseInt(limit),
             level,
             sessionId,
             parseInt(offset)
         );
 
-        const stats = extractionLogger.getStats();
+        const stats = loadExtractionLogger().getStats();
 
         if (format === 'html') {
             const bodyContent = `
@@ -475,7 +495,7 @@ app.get('/api/extraction-logs', (req, res) => {
 app.get('/api/extraction-logs/:sessionId', (req, res) => {
     try {
         const { sessionId } = req.params;
-        const sessionLogs = extractionLogger.getSessionLogs(sessionId);
+        const sessionLogs = loadExtractionLogger().getSessionLogs(sessionId);
         
         if (!sessionLogs) {
             return res.status(404).json({
@@ -502,8 +522,8 @@ app.get('/api/extraction-logs/:sessionId', (req, res) => {
 // ✅ Get Active Sessions
 app.get('/api/extraction-sessions', (req, res) => {
     try {
-        const sessions = extractionLogger.getActiveSessions();
-        const stats = extractionLogger.getStats();
+        const sessions = loadExtractionLogger().getActiveSessions();
+        const stats = loadExtractionLogger().getStats();
 
         res.json({
             status: 'success',
@@ -523,7 +543,7 @@ app.get('/api/extraction-sessions', (req, res) => {
 // ✅ Clear Extraction Logs (Emergency)
 app.post('/api/extraction-logs/clear', (req, res) => {
     try {
-        const clearedCount = extractionLogger.clearAllLogs();
+        const clearedCount = loadExtractionLogger().clearAllLogs();
         
         res.json({
             status: 'success',
@@ -544,8 +564,8 @@ app.post('/api/extraction-logs/clear', (req, res) => {
 app.get('/api/system-health', (req, res) => {
     try {
         const { format = 'json' } = req.query;
-        const currentHealth = systemHealthMonitor.getCurrentHealth();
-        const healthHistory = systemHealthMonitor.getHealthHistory(50);
+        const currentHealth = loadSystemHealthMonitor().getCurrentHealth();
+        const healthHistory = loadSystemHealthMonitor().getHealthHistory(50);
         
         if (format === 'html') {
             const initialHistory = healthHistory.slice(-50);
@@ -761,7 +781,7 @@ app.get('/api/system-health', (req, res) => {
 });
 // Example Express endpoint
 app.get('/metrics', (req, res) => {
-    const history = systemHealthMonitor.getHealthHistory(50); // last 50 readings
+    const history = loadSystemHealthMonitor().getHealthHistory(50); // last 50 readings
     res.json({
         history
     });
@@ -783,8 +803,8 @@ app.get('/api/search-history', (req, res) => {
             options.isLinkedIn = isLinkedIn === 'true';
         }
 
-        const searches = searchHistoryLogger.getRecentSearches(options);
-        const analytics = searchHistoryLogger.getSearchAnalytics();
+        const searches = loadSearchHistoryLogger().getRecentSearches(options);
+        const analytics = loadSearchHistoryLogger().getSearchAnalytics();
 
         if (format === 'html') {
             const bodyContent = `
@@ -931,7 +951,7 @@ app.get('/api/search-history', (req, res) => {
 // ✅ Search History Analytics
 app.get('/api/search-analytics', (req, res) => {
     try {
-        const analytics = searchHistoryLogger.getSearchAnalytics();
+        const analytics = loadSearchHistoryLogger().getSearchAnalytics();
         
         res.json({
             status: 'success',
@@ -951,7 +971,7 @@ app.get('/api/search-analytics', (req, res) => {
 app.get('/api/search-history/export', async (req, res) => {
     try {
         const { format = 'json' } = req.query;
-        const exportPath = await searchHistoryLogger.exportSearchHistory(format);
+        const exportPath = await loadSearchHistoryLogger().exportSearchHistory(format);
         
         res.json({
             status: 'success',
@@ -974,7 +994,7 @@ app.get('/api/logs/:logType', async (req, res) => {
         const { logType } = req.params;
         const { limit = 100 } = req.query;
         
-        const logs = await detailedFileLogger.readRecentLogs(logType, parseInt(limit));
+        const logs = await loadDetailedFileLogger().readRecentLogs(logType, parseInt(limit));
         
         res.json({
             status: 'success',
@@ -995,7 +1015,7 @@ app.get('/api/logs/:logType', async (req, res) => {
 // ✅ Log Files Status
 app.get('/api/logs-status', async (req, res) => {
     try {
-        const stats = await detailedFileLogger.getLogStats();
+        const stats = await loadDetailedFileLogger().getLogStats();
         
         res.json({
             status: 'success',
@@ -1022,7 +1042,7 @@ app.get('/api/logs/search/:query', async (req, res) => {
             options.logTypes = logTypes.split(',');
         }
         
-        const results = await detailedFileLogger.searchLogs(query, options);
+        const results = await loadDetailedFileLogger().searchLogs(query, options);
         
         res.json({
             status: 'success',
@@ -1091,7 +1111,7 @@ async function startServer() {
     // Step 2: Ensure Chrome is available
     console.log('🔧 Ensuring Chrome availability...');
     console.log('BEFORE ensureChrome()');
-    const chromeReady = await ensureChrome();
+    const chromeReady = await loadEnsureChrome();
     console.log('AFTER ensureChrome()');
     
     if (!chromeReady) {
@@ -1483,21 +1503,21 @@ const utils = {
  * Get advanced rotating user agent with anti-bot features
  */
 function getUserAgent(forceRotation = false) {
-    return antiBotSystem.getRandomUserAgent(forceRotation);
+    return loadAntiBotSystem().getRandomUserAgent(forceRotation);
 }
 
 /**
  * Get comprehensive browser headers for anti-detection
  */
 function getBrowserHeaders() {
-    return antiBotSystem.getBrowserHeaders();
+    return loadAntiBotSystem().getBrowserHeaders();
 }
 
 /**
  * Get advanced browser arguments with stealth features
  */
 function getAdvancedBrowserArgs() {
-    return antiBotSystem.getAdvancedBrowserArgs();
+    return loadAntiBotSystem().getAdvancedBrowserArgs();
 }
 
 /**
@@ -1690,9 +1710,10 @@ async function extractImageWithBrowser(imageUrl, context = 'image') {
         const browserPath = getBrowserExecutablePath();
         
         // Use LinkedIn-specific browser args if it's a LinkedIn image
-        const isLinkedInImage = linkedinAntiBot.isLinkedInImageUrl(imageUrl);
+        const linkedInAntiBot = getLinkedInAntiBot();
+        const isLinkedInImage = linkedInAntiBot.isLinkedInImageUrl(imageUrl);
         const browserArgs = isLinkedInImage ? 
-            linkedinAntiBot.getLinkedInBrowserArgs() : 
+            linkedInAntiBot.getLinkedInBrowserArgs() : 
             [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -1722,7 +1743,7 @@ async function extractImageWithBrowser(imageUrl, context = 'image') {
         
         // Add timeout wrapper to prevent hanging
         browser = await Promise.race([
-            puppeteer.launch(launchOptions),
+            loadPuppeteer().launch(launchOptions),
             new Promise((_, reject) => 
                 setTimeout(() => reject(new Error('Browser launch timeout')), 30000)
             )
@@ -1738,27 +1759,27 @@ async function extractImageWithBrowser(imageUrl, context = 'image') {
         await page.setDefaultTimeout(timeout);
         
         // **ENHANCED: LinkedIn-specific anti-bot measures**
-        if (linkedinAntiBot.isLinkedInImageUrl(imageUrl)) {
+        if (linkedInAntiBot.isLinkedInImageUrl(imageUrl)) {
             logger.debug('Applying advanced LinkedIn-specific anti-bot measures');
             
             // Setup LinkedIn stealth mode
-            await linkedinAntiBot.setupLinkedInStealthMode(page);
+            await linkedInAntiBot.setupLinkedInStealthMode(page);
             
             // Set LinkedIn-optimized headers
-            const linkedinHeaders = linkedinAntiBot.getLinkedInImageHeaders(imageUrl);
+            const linkedinHeaders = linkedInAntiBot.getLinkedInImageHeaders(imageUrl);
             await page.setExtraHTTPHeaders(linkedinHeaders);
             
             // Set LinkedIn-optimized user agent
-            const linkedinUserAgent = linkedinAntiBot.getLinkedInOptimizedUserAgent();
+            const linkedinUserAgent = linkedInAntiBot.getLinkedInOptimizedUserAgent();
             await page.setUserAgent(linkedinUserAgent);
             
             // Implement human-like delay
-            await linkedinAntiBot.implementHumanDelay();
+            await linkedInAntiBot.implementHumanDelay();
             
-            linkedinAntiBot.logActivity('LinkedIn image extraction initiated', { 
+            linkedInAntiBot.logActivity('LinkedIn image extraction initiated', { 
                 imageUrl, 
                 userAgent: linkedinUserAgent.split(' ')[2],
-                environment: linkedinAntiBot.isProduction() ? 'production' : 'development'
+                environment: linkedInAntiBot.isProduction() ? 'production' : 'development'
             });
         }
         
@@ -1998,7 +2019,7 @@ async function launchBrowserWithRetry(launchOptions, context = '') {
         });
         
         try {
-            const browser = await puppeteer.launch(launchOptions);
+            const browser = await loadPuppeteer().launch(launchOptions);
             logger.info(`Browser launched successfully ${context}`);
             return browser;
         } catch (error) {
@@ -2085,7 +2106,7 @@ async function setupPuppeteerPageForCompanyDetails(url) {
     const launchOptions = {
         args: getAdvancedBrowserArgs(),
         headless: 'new', // Use new headless mode for better compatibility
-        defaultViewport: antiBotSystem.getRandomViewport(),
+        defaultViewport: loadAntiBotSystem().getRandomViewport(),
         timeout: 120000,
         protocolTimeout: 300000,
         // Advanced stealth features
@@ -2476,7 +2497,7 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         args: getAdvancedBrowserArgs(),
         timeout: 120000, // Reduced browser launch timeout for LinkedIn
         protocolTimeout: 300000, // Reduced protocol timeout for LinkedIn
-        defaultViewport: antiBotSystem.getRandomViewport(),
+        defaultViewport: loadAntiBotSystem().getRandomViewport(),
         // Advanced stealth features for LinkedIn
         ignoreDefaultArgs: ['--enable-automation'],
         ignoreHTTPSErrors: true
@@ -2502,10 +2523,10 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
         await page.setExtraHTTPHeaders(getBrowserHeaders());
         
         // Advanced stealth mode setup
-        await antiBotSystem.setupStealthMode(page);
+        await loadAntiBotSystem().setupStealthMode(page);
         
         // Record anti-bot event
-        performanceMonitor.recordAntiBotEvent('stealth_activation', { context: 'LinkedIn extraction' });
+        loadPerformanceMonitor().recordAntiBotEvent('stealth_activation', { context: 'LinkedIn extraction' });
         
         // Enhanced anti-detection measures
         await page.evaluateOnNewDocument(() => {
@@ -2561,8 +2582,8 @@ async function extractCompanyDataFromLinkedIn(linkedinUrl) {
                     logger.info(`LinkedIn navigation successful with ${strategy.waitUntil} on attempt ${attempt}`);
                     
                     // Human-like behavior simulation after navigation
-                    await antiBotSystem.humanDelay(2000, 4000);
-                    await antiBotSystem.simulateHumanBehavior(page, {
+                    await loadAntiBotSystem().humanDelay(2000, 4000);
+                    await loadAntiBotSystem().simulateHumanBehavior(page, {
                         enableMouseMovement: true,
                         enableScrolling: true
                     });
@@ -2920,14 +2941,15 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
                     // **ENHANCED: LinkedIn-specific headers for HTTP requests**
                     let headers;
                     
-                    if (linkedinAntiBot.isLinkedInImageUrl(imagePath)) {
+                    const linkedInAntiBot = getLinkedInAntiBot();
+                    if (linkedInAntiBot.isLinkedInImageUrl(imagePath)) {
                         // Use LinkedIn-optimized headers
-                        headers = linkedinAntiBot.getLinkedInImageHeaders(imagePath);
+                        headers = linkedInAntiBot.getLinkedInImageHeaders(imagePath);
                         
                         // Implement human delay for LinkedIn requests
-                        await linkedinAntiBot.implementHumanDelay();
+                        await linkedInAntiBot.implementHumanDelay();
                         
-                        linkedinAntiBot.logActivity('LinkedIn HTTP image request', { 
+                        linkedInAntiBot.logActivity('LinkedIn HTTP image request', { 
                             imageUrl: imagePath,
                             userAgent: headers['User-Agent'].split(' ')[2]
                         });
@@ -2941,7 +2963,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
                         };
                     }
                     
-                    return await axios({
+                    return await loadAxios()({
                         method: 'get',
                         url: imagePath,
                         responseType: 'arraybuffer',
@@ -2983,7 +3005,8 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
                         });
                         
                         // Try alternative LinkedIn image strategies using advanced anti-bot system
-                        const alternativeUrls = linkedinAntiBot.generateAlternativeLinkedInUrls(imagePath);
+                        const linkedInAntiBot = getLinkedInAntiBot();
+                        const alternativeUrls = linkedInAntiBot.generateAlternativeLinkedInUrls(imagePath);
                         
                         for (const alternativeUrl of alternativeUrls) {
                             try {
@@ -2993,7 +3016,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
                                 
                                 // Test the alternative URL with a HEAD request first
                                 const testHeaders = linkedinAntiBot.getLinkedInImageHeaders(alternativeUrl);
-                                const testResponse = await axios({
+                                const testResponse = await loadAxios()({
                                     method: 'head',
                                     url: alternativeUrl,
                                     timeout: 5000,
@@ -3052,7 +3075,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       
       try {
           // First, validate that the file is actually an image
-          metadata = await sharp(localImagePath).metadata();
+          metadata = await loadSharp()(localImagePath).metadata();
           
           if (!metadata.width || !metadata.height) {
               throw new Error('Invalid image: no dimensions found');
@@ -3094,13 +3117,13 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       const imageHeight = metadata.height;
         // Extract colors using Vibrant
       try {
-          palette = await Vibrant.from(localImagePath).getPalette();
+          palette = await loadVibrant().from(localImagePath).getPalette();
       } catch (vibrantError) {
           logger.warn(`Vibrant color extraction failed for ${context}, trying Sharp color analysis`, vibrantError);
           
           // Fallback: use Sharp to get dominant colors
           try {
-              const { dominant } = await sharp(localImagePath).stats();
+              const { dominant } = await loadSharp()(localImagePath).stats();
               palette = {
                   Vibrant: { getHex: () => `#${dominant.r.toString(16).padStart(2, '0')}${dominant.g.toString(16).padStart(2, '0')}${dominant.b.toString(16).padStart(2, '0')}`, getPopulation: () => 100 }
               };
@@ -3136,6 +3159,37 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       //   .slice(0, 5)
       //   .map(color => color.hex);
       cleanupTempFile = true; // Set cleanup flag to true if we downloaded a temp file
+      
+      // Fix: Ensure we have colors before processing
+      if (topColors.length === 0) {
+          // If no colors found, provide fallback colors based on context
+          if (context && context.toLowerCase().includes('linkedin')) {
+              const fallbackColors = getLinkedInFallbackColors(context);
+              return {
+                  width: imageWidth,
+                  height: imageHeight,
+                  colors: fallbackColors.colors,
+                  hex: fallbackColors.hex,
+                  rgb: fallbackColors.rgb,
+                  format: metadata.format,
+                  size: metadata.size || imageWidth * imageHeight,
+                  fallback: true
+              };
+          } else {
+              // Generic fallback for non-LinkedIn images
+              return {
+                  width: imageWidth,
+                  height: imageHeight,
+                  colors: ['#333333', '#666666', '#999999', '#CCCCCC', '#FFFFFF'],
+                  hex: '#333333',
+                  rgb: 'rgb(51,51,51)',
+                  format: metadata.format,
+                  size: metadata.size || imageWidth * imageHeight,
+                  fallback: true
+              };
+          }
+      }
+      
       const rgb = hexToRgb(topColors[0]);
       return {
       width: imageWidth,
@@ -3144,7 +3198,7 @@ async function cleanUpTempImageFile(filePath, shouldCleanUp) {
       hex: topColors[0],
       rgb: rgb ? `rgb(${rgb.r},${rgb.g},${rgb.b})` : 'rgb(0,0,0)',
       format: metadata.format,
-      size: metadata.size
+      size: metadata.size || imageWidth * imageHeight
     };
         
     } catch (error) {
@@ -4176,6 +4230,7 @@ colorAnalysis = colorData; // Use the colorData directly, no need to merge with 
                         width: bannerColors.width,
                         height: bannerColors.height,
                         colors: bannerColors.colors,
+                        size: bannerColors.size || (bannerColors.width && bannerColors.height ? bannerColors.width * bannerColors.height : null),
                         name: 'Banner Image' 
                     };
                 }
@@ -4299,8 +4354,8 @@ app.post('/api/extract-company-details', async (req, res) => {
         }
         
         // Start extraction session for logging
-        sessionId = extractionLogger.startSession(originalUrl);
-        extractionLogger.step('URL Validation', { originalUrl: sanitizeForLogging(originalUrl) });
+        sessionId = loadExtractionLogger().startSession(originalUrl);
+        loadExtractionLogger().step('URL Validation', { originalUrl: sanitizeForLogging(originalUrl) });
         
         // Track performance start time
         const performanceStart = Date.now();
@@ -4310,7 +4365,7 @@ app.post('/api/extract-company-details', async (req, res) => {
         
         // Check if normalization failed
         if (!normalizedUrl) {
-            extractionLogger.error('URL normalization failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl) });
+            loadExtractionLogger().error('URL normalization failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl) });
             return res.status(400).json({ 
                 error: 'Invalid URL format - unable to normalize',
                 provided: originalUrl,
@@ -4318,11 +4373,11 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
-        extractionLogger.step('URL Normalized', { normalizedUrl: sanitizeForLogging(normalizedUrl) });
+        loadExtractionLogger().step('URL Normalized', { normalizedUrl: sanitizeForLogging(normalizedUrl) });
         
         // Validate the normalized URL
         if (!utils.isValidUrl(normalizedUrl)) {
-            extractionLogger.error('URL validation failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl), normalizedUrl: sanitizeForLogging(normalizedUrl) });
+            loadExtractionLogger().error('URL validation failed', new Error('Invalid URL format'), { originalUrl: sanitizeForLogging(originalUrl), normalizedUrl: sanitizeForLogging(normalizedUrl) });
             console.log(`[DEBUG] URL validation failed for: "${sanitizeForLogging(originalUrl)}" -> "${sanitizeForLogging(normalizedUrl)}"`);
             return res.status(400).json({ 
                 error: 'Invalid URL format',
@@ -4332,20 +4387,20 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
-        extractionLogger.step('URL Validation Complete', { status: 'valid' });
+        loadExtractionLogger().step('URL Validation Complete', { status: 'valid' });
 
         // Check cache first for performance
         const cacheKey = normalizedUrl.toLowerCase().trim();
         const cachedResult = extractionCache.get(cacheKey);
         if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_DURATION) {
-            extractionLogger.info('Cache hit - returning cached result', { 
+            loadExtractionLogger().info('Cache hit - returning cached result', { 
                 url, 
                 cacheAge: Math.round((Date.now() - cachedResult.timestamp) / 1000) + 's' 
             }, sessionId);
-            extractionLogger.endSession(sessionId, 'completed', cachedResult.data);
+            loadExtractionLogger().endSession(sessionId, 'completed', cachedResult.data);
             
             // Log to search history for cache hit
-            await searchHistoryLogger.logSearch({
+            await loadSearchHistoryLogger().logSearch({
                 url: originalUrl,
                 normalizedUrl,
                 sessionId,
@@ -4370,29 +4425,29 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
         }
         
-        extractionLogger.step('Cache Check Complete', { status: 'cache_miss' });
+        loadExtractionLogger().step('Cache Check Complete', { status: 'cache_miss' });
 
         const isResolvable = await utils.isDomainResolvable(normalizedUrl);
         if (!isResolvable) {
-            extractionLogger.error('Domain resolution failed', new Error('Domain name could not be resolved'), { normalizedUrl }, sessionId);
-            extractionLogger.endSession(sessionId, 'failed');
+            loadExtractionLogger().error('Domain resolution failed', new Error('Domain name could not be resolved'), { normalizedUrl }, sessionId);
+            loadExtractionLogger().endSession(sessionId, 'failed');
             return res.status(400).json({ 
                 error: 'Domain name could not be resolved', 
                 sessionId 
             });
         }
         
-        extractionLogger.step('Domain Resolution Complete', { status: 'resolved' });
+        loadExtractionLogger().step('Domain Resolution Complete', { status: 'resolved' });
 
         let browser;
         try {
-            extractionLogger.step('Browser Launch Starting', { userAgent: getUserAgent() });
+            loadExtractionLogger().step('Browser Launch Starting', { userAgent: getUserAgent() });
             const { browser: launchedBrowser, page } = await setupPuppeteerPageForCompanyDetails(normalizedUrl);
             browser = launchedBrowser;
-            extractionLogger.step('Browser Launch Complete', { status: 'success' });
+            loadExtractionLogger().step('Browser Launch Complete', { status: 'success' });
 
             // Add timeout wrapper for the entire extraction process with smart timeout
-            extractionLogger.step('Extraction Process Starting', { timeout: '4 minutes' });
+            loadExtractionLogger().step('Extraction Process Starting', { timeout: '4 minutes' });
             console.log('[Extraction] Starting company details extraction with 4-minute timeout...');
             
             let companyDetails;
@@ -4420,14 +4475,14 @@ app.post('/api/extract-company-details', async (req, res) => {
                 };
             }
 
-            extractionLogger.step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
+            loadExtractionLogger().step('Extraction Process Complete', { status: 'success', dataFields: Object.keys(companyDetails).length });
 
             // Cache the result for future requests
             extractionCache.set(cacheKey, {
                 data: companyDetails,
                 timestamp: Date.now()
             });
-            extractionLogger.step('Result Cached', { cacheKey });
+            loadExtractionLogger().step('Result Cached', { cacheKey });
 
             // Clean old cache entries periodically
             if (extractionCache.size > 100) { // Limit cache size
@@ -4436,13 +4491,13 @@ app.post('/api/extract-company-details', async (req, res) => {
                     .slice(0, 20); // Remove oldest 20 entries
                 
                 oldestEntries.forEach(([key]) => extractionCache.delete(key));
-                extractionLogger.step('Cache Cleanup', { removedEntries: 20, totalCacheSize: extractionCache.size });
+                loadExtractionLogger().step('Cache Cleanup', { removedEntries: 20, totalCacheSize: extractionCache.size });
             }
 
-            extractionLogger.endSession(sessionId, 'completed', companyDetails);
+            loadExtractionLogger().endSession(sessionId, 'completed', companyDetails);
             
             // Log to search history for successful extraction
-            await searchHistoryLogger.logSearch({
+            await loadSearchHistoryLogger().logSearch({
                 url: originalUrl,
                 normalizedUrl,
                 sessionId,
@@ -4466,7 +4521,7 @@ app.post('/api/extract-company-details', async (req, res) => {
             });
 
         } catch (error) {
-            extractionLogger.error('Company details extraction failed', error, { 
+            loadExtractionLogger().error('Company details extraction failed', error, { 
                 url: normalizedUrl, 
                 userAgent: getUserAgent(),
                 platform: os.platform()

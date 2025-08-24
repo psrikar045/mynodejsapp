@@ -20,7 +20,7 @@ class BannerValidator {
             return { isValid: false, reason: 'Invalid URL format' };
         }
 
-        console.log(`🔍 [Banner Validator] Validating banner URL: ${url}`);
+        console.log('🔍 [Banner Validator] Validating banner URL:', String(url));
 
         try {
             // Step 1: Check URL patterns for obvious dummies
@@ -40,10 +40,10 @@ class BannerValidator {
             return contentValidation;
 
         } catch (error) {
-            console.warn(`⚠️ [Banner Validator] Validation error for ${url}:`, error.message);
+            console.warn('⚠️ [Banner Validator] Validation error for', String(url) + ':', error.message);
             return { 
                 isValid: false, 
-                reason: `Validation error: ${error.message}`,
+                reason: 'Validation error: ' + String(error.message),
                 error: error.message 
             };
         }
@@ -73,7 +73,7 @@ class BannerValidator {
             if (lowerUrl.includes(pattern)) {
                 return { 
                     isValid: false, 
-                    reason: `URL contains dummy pattern: ${pattern}` 
+                    reason: 'URL contains dummy pattern: ' + String(pattern) 
                 };
             }
         }
@@ -134,7 +134,7 @@ class BannerValidator {
             if (!contentType.startsWith('image/')) {
                 return { 
                     isValid: false, 
-                    reason: `Invalid content type: ${contentType}` 
+                    reason: 'Invalid content type: ' + String(contentType) 
                 };
             }
 
@@ -143,7 +143,7 @@ class BannerValidator {
             if (contentLength > 0 && contentLength < 1000) { // Less than 1KB
                 return { 
                     isValid: false, 
-                    reason: `Image too small: ${contentLength} bytes (likely a dummy)` 
+                    reason: 'Image too small: ' + String(contentLength) + ' bytes (likely a dummy)' 
                 };
             }
 
@@ -210,7 +210,7 @@ class BannerValidator {
             
             const { width, height, format, size } = metadata;
             
-            console.log(`📏 [Banner Validator] Image dimensions: ${width}x${height}, format: ${format}, size: ${size} bytes`);
+            console.log('📏 [Banner Validator] Image dimensions:', String(width) + 'x' + String(height) + ', format:', String(format) + ', size:', String(size), 'bytes');
 
             // Validate dimensions for banner images
             if (!width || !height) {
@@ -224,14 +224,14 @@ class BannerValidator {
             if (width < 100 || height < 50) {
                 return { 
                     isValid: false, 
-                    reason: `Image too small: ${width}x${height} (likely a dummy)` 
+                    reason: 'Image too small: ' + String(width) + 'x' + String(height) + ' (likely a dummy)' 
                 };
             }
 
             // Check aspect ratio (banners are typically wide)
             const aspectRatio = width / height;
             if (aspectRatio < 1.5) {
-                console.warn(`⚠️ [Banner Validator] Unusual aspect ratio for banner: ${aspectRatio.toFixed(2)}`);
+                console.warn('⚠️ [Banner Validator] Unusual aspect ratio for banner:', String(aspectRatio.toFixed(2)));
             }
 
             // Check for single-color images (common dummy pattern)
@@ -239,7 +239,7 @@ class BannerValidator {
             if (colorAnalysis.isSingleColor) {
                 return { 
                     isValid: false, 
-                    reason: `Single color image detected (likely dummy): ${colorAnalysis.dominantColor}` 
+                    reason: 'Single color image detected (likely dummy): ' + String(colorAnalysis.dominantColor) 
                 };
             }
 
@@ -292,7 +292,11 @@ class BannerValidator {
                 const b = data[pixelIndex + 2];
                 
                 // Group similar colors (tolerance of 10)
-                const colorKey = `${Math.floor(r/10)*10},${Math.floor(g/10)*10},${Math.floor(b/10)*10}`;
+                const tolerance = 10;
+                const rValue = Math.floor(Number(r) / tolerance) * tolerance;
+                const gValue = Math.floor(Number(g) / tolerance) * tolerance;
+                const bValue = Math.floor(Number(b) / tolerance) * tolerance;
+                const colorKey = `${rValue},${gValue},${bValue}`;
                 colors.set(colorKey, (colors.get(colorKey) || 0) + 1);
             }
 
@@ -303,11 +307,17 @@ class BannerValidator {
             // Consider it a single color if less than 3 unique color groups
             const isSingleColor = uniqueColors < 3;
 
+            const getColorVariety = (count) => {
+                if (count > 10) return 'high';
+                if (count > 5) return 'medium';
+                return 'low';
+            };
+
             return {
                 uniqueColors,
                 dominantColor,
                 isSingleColor,
-                colorVariety: uniqueColors > 10 ? 'high' : uniqueColors > 5 ? 'medium' : 'low'
+                colorVariety: getColorVariety(uniqueColors)
             };
 
         } catch (error) {
@@ -330,7 +340,7 @@ class BannerValidator {
             return { bestUrl: null, validations: [] };
         }
 
-        console.log(`🔍 [Banner Validator] Validating ${urls.length} banner URLs...`);
+        console.log('🔍 [Banner Validator] Validating', String(urls.length), 'banner URLs...');
 
         const validations = [];
         
@@ -359,7 +369,7 @@ class BannerValidator {
         scoredUrls.sort((a, b) => b.score - a.score);
         const bestUrl = scoredUrls[0].url;
 
-        console.log(`✅ [Banner Validator] Best banner URL selected: ${bestUrl}`);
+        console.log('✅ [Banner Validator] Best banner URL selected:', String(bestUrl));
         
         return { bestUrl, validations };
     }
