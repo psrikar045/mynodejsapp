@@ -11,6 +11,7 @@ const { enhancedFileOps } = require('./enhanced-file-operations');
 const { LinkedInBannerExtractor } = require('./linkedin-banner-extractor');
 const { BannerValidator } = require('./banner-validator');
 const { LinkedInAdaptiveScraper } = require('./linkedin-adaptive-scraper');
+const { ColorExtractor } = require('./color-extractor');
 
 const LOG_FILE = 'scraper.log';
 const COOKIE_FILE_PATH = './cookies.json';
@@ -466,303 +467,10 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
         console.log('❌ Could not find valid company name');
         return null;
       }),
-      logoUrl: jsonData.logo || await (async () => {
-        console.log('🔍 [LinkedIn Logo] Starting enhanced logo extraction with anti-bot measures...');
-        
-        try {
-          // Apply LinkedIn-specific anti-bot measures
-          await linkedinAntiBot.implementHumanDelay();
-          
-          // Log the logo extraction attempt
-          linkedinAntiBot.logActivity('LinkedIn logo extraction started', { 
-            url, 
-            sessionId: linkedinAntiBot.sessionId,
-            environment: linkedinAntiBot.isProduction() ? 'production' : 'development'
-          });
-          
-          // Enhanced logo extraction with network interception awareness
-          const logoUrl = await page.evaluate(() => {
-            console.log('📋 [LinkedIn Logo] Searching for logo with enhanced selectors...');
-            
-            // Enhanced selectors with priority order (most specific first)
-            const prioritizedSelectors = [
-              // Highest priority: LinkedIn-specific company logo selectors
-              { selector: 'img[src*="media.licdn.com/dms/image/"][src*="company-logo"]', type: 'src', priority: 10 },
-              { selector: 'img[data-test-id="company-logo"]', type: 'src', priority: 9 },
-              { selector: '.top-card-layout__entity-image img', type: 'src', priority: 8 },
-              { selector: '.org-top-card-primary-content__logo img', type: 'src', priority: 8 },
-              { selector: 'img.org-top-card-primary-content__logo', type: 'src', priority: 7 },
-              { selector: '.top-card__entity-image img', type: 'src', priority: 7 },
-              { selector: 'img.EntityPhoto-circle-1', type: 'src', priority: 6 },
-              { selector: '.company-logo img', type: 'src', priority: 6 },
-              { selector: 'img[alt*="logo"i]', type: 'src', priority: 5 },
-              { selector: '.org-top-card-summary__logo img', type: 'src', priority: 5 },
-              
-              // Background image selectors for logo containers
-              { selector: '.top-card-layout__entity-image', type: 'bg', priority: 4 },
-              { selector: '.org-top-card-primary-content__logo', type: 'bg', priority: 4 },
-              { selector: '.company-logo', type: 'bg', priority: 3 }
-            ];
-
-            for (const s of prioritizedSelectors) {
-              const element = document.querySelector(s.selector);
-              if (element && element.offsetParent !== null) { // Must be visible
-                let imageUrl = null;
-                
-                if (s.type === 'bg') {
-                  const style = window.getComputedStyle(element);
-                  const backgroundImage = style.backgroundImage;
-                  if (backgroundImage && backgroundImage !== 'none') {
-                    imageUrl = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
-                  }
-                } else if (s.type === 'src') {
-                  imageUrl = element.src || element.getAttribute('src');
-                }
-
-                // Enhanced validation for LinkedIn logo URLs
-                if (imageUrl && imageUrl.startsWith('http') && 
-                    (imageUrl.includes('media.licdn.com') || imageUrl.includes('static.licdn.com'))) {
-                  
-                  // Additional validation to ensure it's actually a logo, not a banner
-                  const isLogo = imageUrl.includes('company-logo') || 
-                                imageUrl.includes('profile-photo') ||
-                                s.selector.toLowerCase().includes('logo') ||
-                                element.alt?.toLowerCase().includes('logo');
-                  
-                  if (isLogo || s.priority >= 7) { // High priority selectors are trusted
-                    console.log(`✅ [LinkedIn Logo] Found logo with selector "${s.selector}": ${imageUrl}`);
-                    return imageUrl;
-                  }
-                }
-              }
-            }
-            
-            console.log('❌ [LinkedIn Logo] No logo URLs found with enhanced selectors');
-            return null;
-          });
-          
-          if (logoUrl) {
-            console.log('✅ [LinkedIn Logo] Enhanced extraction SUCCESS:', logoUrl);
-            linkedinAntiBot.logActivity('Logo extraction successful', { logoUrl, method: 'DOM selectors' });
-            
-            // Small delay after successful extraction to avoid being too aggressive
-            await linkedinAntiBot.implementHumanDelay();
-            return logoUrl;
-          }
-          
-          // Fallback: Try to extract from intercepted network requests (similar to banner)
-          console.log('🔄 [LinkedIn Logo] Trying network interception fallback...');
-          
-          // Look for logo URLs in any intercepted API responses
-          if (bannerExtractor && bannerExtractor.apiResponses) {
-            for (const response of bannerExtractor.apiResponses) {
-              if (response.data) {
-                const jsonString = JSON.stringify(response.data);
-                const logoPatterns = [
-                  /"(https:\/\/media\.licdn\.com\/dms\/image\/[^"]*company-logo[^"]*)"/g,
-                  /"(https:\/\/static\.licdn\.com\/[^"]*logo[^"]*)"/g,
-                  /"logo"\s*:\s*"(https:\/\/[^"]+)"/g,
-                  /"logoUrl"\s*:\s*"(https:\/\/[^"]+)"/g,
-                  /"companyLogo"\s*:\s*"(https:\/\/[^"]+)"/g
-                ];
-                
-                for (const pattern of logoPatterns) {
-                  let match;
-                  while ((match = pattern.exec(jsonString)) !== null) {
-                    const url = match[1];
-                    if (url && linkedinAntiBot.isLinkedInImageUrl(url) && 
-                        !url.includes('banner') && !url.includes('background') && !url.includes('cover')) {
-                      console.log('✅ [LinkedIn Logo] Found logo via network interception:', url);
-                      linkedinAntiBot.logActivity('Logo found via network interception', { logoUrl: url });
-                      return url;
-                    }
-                  }
-                }
-              }
-            }
-          }
-          
-          // Final fallback: Try alternative URL generation if we found any potential logo URL
-          console.log('🔄 [LinkedIn Logo] Trying alternative URL generation...');
-          
-          // Look for any LinkedIn image URL that might be a logo in the page content
-          const potentialLogoUrl = await page.evaluate(() => {
-            const allImages = Array.from(document.querySelectorAll('img[src*="linkedin"]'));
-            for (const img of allImages) {
-              const src = img.src;
-              if (src && (src.includes('company') || src.includes('logo') || src.includes('profile'))) {
-                return src;
-              }
-            }
-            return null;
-          });
-          
-          if (potentialLogoUrl && linkedinAntiBot.isLinkedInImageUrl(potentialLogoUrl)) {
-            console.log('🔄 [LinkedIn Logo] Found potential logo URL, generating alternatives:', potentialLogoUrl);
-            const alternativeUrls = linkedinAntiBot.generateAlternativeLinkedInUrls(potentialLogoUrl);
-            
-            // Test each alternative URL
-            for (const altUrl of alternativeUrls.slice(0, 3)) { // Test only first 3 to avoid too many requests
-              try {
-                console.log('🧪 [LinkedIn Logo] Testing alternative URL:', altUrl);
-                
-                // Quick HEAD request to check if URL is valid
-                const testResponse = await page.evaluate(async (testUrl) => {
-                  try {
-                    const response = await fetch(testUrl, { method: 'HEAD' });
-                    return { status: response.status, contentType: response.headers.get('content-type') };
-                  } catch (e) {
-                    return { error: e.message };
-                  }
-                }, altUrl);
-                
-                if (testResponse.status === 200 && testResponse.contentType?.startsWith('image/')) {
-                  console.log('✅ [LinkedIn Logo] Alternative URL test successful:', altUrl);
-                  linkedinAntiBot.logActivity('Logo found via alternative URL', { originalUrl: potentialLogoUrl, alternativeUrl: altUrl });
-                  return altUrl;
-                }
-              } catch (testError) {
-                console.log('❌ [LinkedIn Logo] Alternative URL test failed:', altUrl, testError.message);
-              }
-            }
-          }
-          
-          console.log('❌ [LinkedIn Logo] All extraction methods failed');
-          linkedinAntiBot.logActivity('Logo extraction failed - all methods exhausted', { 
-            url, 
-            methodsTried: ['DOM selectors', 'network interception', 'alternative URLs'],
-            apiResponsesCount: bannerExtractor?.apiResponses?.length || 0
-          });
-          return null;
-          
-        } catch (error) {
-          console.error('❌ [LinkedIn Logo] Critical logo extraction error:', error.message);
-          linkedinAntiBot.logActivity('Logo extraction error', { 
-            url, 
-            error: error.message,
-            stack: error.stack?.split('\n').slice(0, 3).join('\n')
-          });
-          return null;
-        }
-      })(),
-      bannerUrl: await (async () => {
-        const extractionStartTime = Date.now();
-        
-        try {
-          console.log('🚀 [LinkedIn] Starting prioritized banner extraction (Network → API → DOM)...');
-          
-          // PRIMARY: Advanced network interception method
-          const primaryBannerUrl = await bannerExtractor.extractBannerWithAdvancedMethods(page, url);
-          const extractionSummary = bannerExtractor.getSummary();
-          
-          console.log('📊 [LinkedIn] Extraction summary:', {
-            method: primaryBannerUrl ? 'Network Interception' : 'Fallback Methods',
-            networkRequests: extractionSummary.interceptedRequests,
-            apiResponses: extractionSummary.apiResponses,
-            discoveredPatterns: extractionSummary.discoveredPatternsCount,
-            sessionHealth: extractionSummary.sessionHealth.isValid ? 'Healthy' : 'Degraded',
-            extractionTime: `${Date.now() - extractionStartTime}ms`
-          });
-          
-          if (primaryBannerUrl) {
-            // Validate the primary result
-            console.log('🔍 [LinkedIn] Validating network-intercepted banner...');
-            const validation = await bannerValidator.validateBannerUrl(primaryBannerUrl, url);
-            
-            if (validation.isValid) {
-              console.log('✅ [LinkedIn] Network interception SUCCESS - High quality banner found:', primaryBannerUrl);
-              console.log('📏 [LinkedIn] Banner quality metrics:', {
-                dimensions: validation.width && validation.height ? `${validation.width}x${validation.height}` : 'unknown',
-                size: validation.size ? `${Math.round(validation.size / 1024)}KB` : 'unknown',
-                format: validation.format || 'unknown',
-                aspectRatio: validation.aspectRatio || 'unknown',
-                colorVariety: validation.colorAnalysis?.colorVariety || 'unknown'
-              });
-              return primaryBannerUrl;
-            } else {
-              console.warn('⚠️ [LinkedIn] Network-intercepted banner failed validation:', validation.reason);
-            }
-          }
-          
-          // FALLBACK: Validate all discovered URLs from network interception
-          if (extractionSummary.bannerUrls && extractionSummary.bannerUrls.length > 0) {
-            console.log(`🔄 [LinkedIn] Validating ${extractionSummary.bannerUrls.length} network-discovered URLs...`);
-            
-            const networkValidation = await bannerValidator.validateMultipleBannerUrls(extractionSummary.bannerUrls, url);
-            
-            if (networkValidation.bestUrl) {
-              console.log('✅ [LinkedIn] Network validation SUCCESS - Best URL selected:', networkValidation.bestUrl);
-              return networkValidation.bestUrl;
-            } else {
-              console.warn('⚠️ [LinkedIn] All network-discovered URLs failed validation');
-              
-              // Log validation failures for debugging
-              networkValidation.validations.filter(v => !v.isValid).forEach(v => {
-                console.warn(`❌ [Validation Failed] ${v.url}: ${v.reason}`);
-              });
-            }
-          }
-          
-          console.log('🔄 [LinkedIn] Network methods failed, falling back to traditional DOM scraping...');
-          
-          // FINAL FALLBACK: Traditional DOM scraping (unvalidated but reliable)
-          const fallbackBannerUrl = await page.evaluate(() => {
-            const prioritizedSelectors = [
-              // Highest priority: LinkedIn-specific company banner selectors
-              { selector: 'img[src*="media.licdn.com/dms/image/"][src*="company-background"]', type: 'src', priority: 10 },
-              { selector: 'div.org-top-card-primary-content__hero-image', type: 'bg', priority: 9 },
-              { selector: 'div.org-top-card-module__hero', type: 'bg', priority: 8 },
-              { selector: 'img.org-top-card-primary-content__cover', type: 'src', priority: 8 },
-              { selector: 'img[data-test-id*="cover-photo"]', type: 'src', priority: 7 },
-              { selector: 'div.profile-background-image__image', type: 'bg', priority: 6 }
-            ];
-
-            for (const s of prioritizedSelectors) {
-              const element = document.querySelector(s.selector);
-              if (element && element.offsetParent !== null) { // Must be visible
-                let imageUrl = null;
-                
-                if (s.type === 'bg') {
-                  const style = window.getComputedStyle(element);
-                  const backgroundImage = style.backgroundImage;
-                  if (backgroundImage && backgroundImage !== 'none') {
-                    imageUrl = backgroundImage.match(/url\(['"]?(.*?)['"]?\)/)?.[1];
-                  }
-                } else if (s.type === 'src') {
-                  imageUrl = element.src || element.getAttribute('src');
-                }
-
-                // Basic quality check
-                if (imageUrl && imageUrl.startsWith('http') && 
-                    (imageUrl.includes('media.licdn.com') || imageUrl.includes('static.licdn.com'))) {
-                  console.log(`✅ [Fallback DOM] Found banner with selector "${s.selector}": ${imageUrl}`);
-                  return imageUrl;
-                }
-              }
-            }
-            
-            console.log('❌ [Fallback DOM] No banner URLs found');
-            return null;
-          });
-          
-          if (fallbackBannerUrl) {
-            console.log('✅ [LinkedIn] Fallback DOM SUCCESS - Banner found:', fallbackBannerUrl);
-            return fallbackBannerUrl;
-          }
-          
-          console.log('❌ [LinkedIn] ALL METHODS FAILED - No banner URL found');
-          return null;
-          
-        } catch (error) {
-          const errorContext = bannerExtractor.logErrorContext('banner_extraction', error, {
-            url,
-            extractionTime: `${Date.now() - extractionStartTime}ms`
-          });
-          
-          console.error('❌ [LinkedIn] Critical banner extraction error:', errorContext);
-          return null;
-        }
-      })(),
+      logoUrl: null,
+      bannerUrl: null,
+      logoColor: null,
+      bannerColor: null,
       aboutUs: jsonData.description || '',
       description: jsonData.description || '',
       website: jsonData.url || await adaptiveScraper.adaptiveElementExtraction(page, 'website').then(result => result?.value).catch(() => null) || await page.evaluate(() => {
@@ -1349,6 +1057,14 @@ async function scrapeLinkedInCompany(url, browser, linkedinAntiBot = null) {
           }
       }
     }
+
+    const { bannerUrl, logoUrl } = await bannerExtractor.extractBannerAndLogo(page, url);
+    companyData.bannerUrl = bannerUrl;
+    companyData.logoUrl = logoUrl;
+
+    const colorExtractor = new ColorExtractor();
+    companyData.bannerColor = await colorExtractor.extractColor(bannerUrl);
+    companyData.logoColor = await colorExtractor.extractColor(logoUrl);
 
     // **Safeguard:** If the description is the same as the industry, it's wrong. Nullify it.
     if (companyData.description && companyData.industry && companyData.description === companyData.industry) {

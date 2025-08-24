@@ -1,19 +1,20 @@
 const scraperLink = require('./linkedin_scraper');
+const puppeteer = require('puppeteer');
 
 async function testLinkedInScraper() {
+    let browser;
     try {
         console.log('🚀 Testing LinkedIn scraper with enhanced fixes...');
         console.log('🔍 Testing URL: https://www.linkedin.com/company/versa-networks/');
         
-        // Write test URL to urls.txt (try both URLs)
-        const fs = require('fs').promises;
-        await fs.writeFile('urls.txt', 'https://www.linkedin.com/company/versa-networks/');
-        
+        browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+
         console.log('⏳ Starting extraction...');
         const startTime = Date.now();
         
         // Run the scraper
-        const result = await scraperLink.main();
+        const result = await scraperLink.scrapeLinkedInCompany('https://www.linkedin.com/company/versa-networks/', browser);
         
         const duration = ((Date.now() - startTime) / 1000).toFixed(2);
         console.log(`⏱️  Extraction completed in ${duration} seconds`);
@@ -57,6 +58,18 @@ async function testLinkedInScraper() {
         } catch (e) {
             console.log('❌ Could not read output.json');
         }
+
+        if (result.logoColor) {
+            console.log('✅ Logo color extracted:', result.logoColor);
+        } else {
+            console.log('❌ Logo color not extracted');
+        }
+
+        if (result.bannerColor) {
+            console.log('✅ Banner color extracted:', result.bannerColor);
+        } else {
+            console.log('❌ Banner color not extracted');
+        }
         
     } catch (error) {
         console.error('\n💥 CRITICAL ERROR:', error);
@@ -65,6 +78,10 @@ async function testLinkedInScraper() {
         console.log('2. Verify internet connection');
         console.log('3. Try running with --headful to see browser behavior');
         console.log('4. Check if LinkedIn is blocking your IP');
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
     }
 }
 

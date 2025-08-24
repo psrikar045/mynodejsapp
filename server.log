@@ -1,0 +1,112 @@
+🚀 Starting LinkedIn Banner Extraction System...
+BEFORE autoInit.initialize()
+🚀 LinkedIn Banner Extraction System - Auto-Initialization
+=================================================================
+📊 Environment: DEVELOPMENT
+🔧 Adaptive Mode: ENABLED
+📝 Verbose Logging: DISABLED
+=================================================================
+
+🔄 System Health Check...
+📊 [Performance] System monitoring started
+🏥 [Performance] Health monitoring started
+✅ System Health Check: COMPLETED (1222ms)
+   Node.js v22.17.1, Memory: 8MB, Platform: linux, Browser: ✅
+
+🔄 Dependency Validation...
+✅ Dependency Validation: COMPLETED (7ms)
+   All 5 dependencies validated
+
+🔄 Adaptive System Deployment...
+✅ Adaptive System Deployment: COMPLETED (1ms)
+   Adaptive system already deployed and configured
+
+🔄 Component Initialization...
+🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+🆔 [LinkedIn Anti-Bot] Session ID: c4a134be5f7c5cd1868b003e8e1c2570
+✅ [Config] Configuration validation passed
+✅ [Banner Extractor] Initialized with adaptive configuration system
+📊 [Banner Extractor] Logging level: Production
+📊 [Pattern Manager] Loaded 7 patterns from database
+✅ [Pattern Manager] Initialized with
+⏰ [Pattern Manager] Scheduled maintenance tasks
+🔄 [Adaptive Config] Updating configurations...
+📊 [Pattern Manager] Retrieved 7 best patterns for development
+🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+📊 [Pattern Manager] Retrieved 7 best patterns for development
+🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+✅ [Adaptive Config] Configurations updated successfully
+⏰ [Adaptive Config] Scheduled periodic updates
+✅ [Adaptive Config] Initialized successfully
+📊 [Pattern Manager] Loaded 7 patterns from database
+✅ [Pattern Manager] Initialized with
+⏰ [Pattern Manager] Scheduled maintenance tasks
+✅ Component Initialization: COMPLETED (11ms)
+   6 components initialized successfully
+
+🔄 Background Services...
+   💓 Health monitoring active (30-minute intervals)
+✅ Background Services: COMPLETED (0ms)
+   1 background services configured
+
+🔄 Final Validation...
+🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+🆔 [LinkedIn Anti-Bot] Session ID: 31f6174051ff796c8d2c9e0294c5512f
+✅ [Config] Configuration validation passed
+✅ [Banner Extractor] Initialized with adaptive configuration system
+📊 [Banner Extractor] Logging level: Production
+📊 [Pattern Manager] Loaded 7 patterns from database
+✅ [Pattern Manager] Initialized with
+⏰ [Pattern Manager] Scheduled maintenance tasks
+🔄 [Adaptive Config] Updating configurations...
+📊 [Pattern Manager] Retrieved 7 best patterns for development
+🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+📊 [Pattern Manager] Retrieved 7 best patterns for development
+🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+✅ [Adaptive Config] Configurations updated successfully
+⏰ [Adaptive Config] Scheduled periodic updates
+✅ [Adaptive Config] Initialized successfully
+✅ Final Validation: COMPLETED (2ms)
+   3 validation checks passed
+
+=================================================================
+✅ AUTO-INITIALIZATION COMPLETED SUCCESSFULLY
+=================================================================
+⏱️  Total Time: 1s
+📊 Steps Completed: 6/6
+🎉 System is ready for production use!
+=================================================================
+AFTER autoInit.initialize()
+🔧 Ensuring Chrome availability...
+BEFORE ensureChrome()
+AFTER ensureChrome()
+
+=================================================================
+🎉 LINKEDIN BANNER EXTRACTION SYSTEM READY
+=================================================================
+🌐 Server running on port 3000
+📊 Environment: development
+🔧 Chrome Status: ✅ Ready
+🧠 Adaptive Mode: ✅ Enabled
+=================================================================
+📋 Available Endpoints:
+   POST /api/extract-company-details - Main extraction endpoint
+   GET  /api/extraction-logs         - Real-time extraction logs
+   GET  /api/extraction-sessions     - Active extraction sessions
+   GET  /api/system-health           - System health dashboard
+   GET  /api/search-history          - Search history & analytics
+   GET  /api/logs/:type              - Detailed file logs
+   GET  /health                      - System health check
+   GET  /linkedin-metrics            - LinkedIn extraction metrics
+   GET  /performance-metrics         - Performance analytics
+   GET  /anti-bot-status             - Anti-bot system status
+   GET  /test                        - Basic API test
+   GET  /test-browser                - Browser compatibility test
+=================================================================
+✅ All systems initialized successfully!
+🎯 System is ready for production use
+=================================================================

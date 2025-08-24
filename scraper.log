@@ -382,3 +382,714 @@
 2025-08-17T09:19:46.716Z - INFO: Test assertions complete. Check console for any assertion failures.
 2025-08-17T09:19:46.832Z - INFO: Test finished.
 2025-08-17T09:24:20.419Z - INFO: ✅ [Health Check] System healthy
+2025-08-24T12:41:37.440Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-24T12:41:37.441Z - INFO: ================================
+2025-08-24T12:41:37.441Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-24T12:41:37.441Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:41:37.444Z - INFO: ⏳ Starting extraction...
+2025-08-24T12:41:37.446Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-24T12:41:37.447Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:41:37.447Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:41:37.447Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 6cd0211214513a97769eff598f6b319d
+2025-08-24T12:41:37.447Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-24T12:41:37.447Z - INFO: 🎭 [Anti-Bot] User agent rotated: Ubuntu;
+2025-08-24T12:41:37.447Z - INFO: 🎭 Using advanced user agent: Ubuntu;
+2025-08-24T12:41:40.570Z - INFO: ⏱️ [Performance] browser_launch: 3123ms (SUCCESS)
+2025-08-24T12:41:40.570Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-24T12:41:40.570Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:41:40.615Z - INFO: No cookie file found, starting a fresh session.
+2025-08-24T12:41:40.616Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:41:40.616Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:41:40.616Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: c2baf28c6c472e135bc1c74516fa5131
+2025-08-24T12:41:40.616Z - INFO: 🧠 [LinkedIn Adaptive] Initialized self-learning scraper system
+2025-08-24T12:41:40.616Z - INFO: 🧠 [LinkedIn] Initialized adaptive self-learning scraper
+2025-08-24T12:41:40.620Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-24T12:41:40.620Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:41:40.624Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T12:41:40.624Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T12:41:40.624Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T12:41:40.624Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-24T12:41:40.627Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-24T12:41:40.627Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-24T12:41:42.123Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-24T12:41:42.134Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-24T12:41:42.937Z - INFO: ⏱️ [Performance] navigation: 2310ms (SUCCESS)
+2025-08-24T12:41:42.937Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-24T12:41:43.576Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-24T12:41:43.576Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-24T12:41:43.576Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-24T12:41:43.978Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-24T12:41:43.978Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-24T12:41:51.205Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-24T12:41:51.211Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-24T12:41:51.212Z - INFO: Searching for "Show more" buttons...
+2025-08-24T12:41:51.643Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-24T12:41:53.182Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-24T12:41:54.732Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-24T12:41:56.351Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-24T12:41:56.353Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-24T12:41:56.586Z - INFO: === PAGE DEBUG INFO ===
+2025-08-24T12:41:56.589Z - INFO: Page Title:
+2025-08-24T12:41:56.589Z - INFO: H1 Text:
+2025-08-24T12:41:56.589Z - INFO: Has Company Elements:
+2025-08-24T12:41:56.589Z - INFO: Available Navigation:
+2025-08-24T12:41:56.589Z - INFO: Has About Section:
+2025-08-24T12:41:56.589Z - INFO: Visible Text Preview:
+2025-08-24T12:41:56.589Z - INFO: =====================
+2025-08-24T12:41:56.589Z - INFO: Attempting to extract JSON-LD data...
+2025-08-24T12:41:56.597Z - INFO: Found 1 JSON-LD script(s).
+2025-08-24T12:41:56.598Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-24T12:41:56.598Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-24T12:41:56.605Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 1/2
+2025-08-24T12:41:56.606Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_1 delay: 1106ms
+2025-08-24T12:41:57.713Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_retry_1 delay: 1353ms
+2025-08-24T12:41:59.067Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 2/2
+2025-08-24T12:41:59.067Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_2 delay: 1170ms
+2025-08-24T12:42:00.238Z - ERROR: ❌ [LinkedIn Adaptive] extraction_website failed after 2 attempts
+2025-08-24T12:42:00.252Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 1/2
+2025-08-24T12:42:00.252Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_1 delay: 1000ms
+2025-08-24T12:42:01.254Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_retry_1 delay: 1352ms
+2025-08-24T12:42:02.607Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 2/2
+2025-08-24T12:42:02.607Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_2 delay: 1552ms
+2025-08-24T12:42:04.160Z - ERROR: ❌ [LinkedIn Adaptive] extraction_industry failed after 2 attempts
+2025-08-24T12:42:04.170Z - INFO: Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...
+2025-08-24T12:42:04.170Z - INFO: 🔄 [LinkedIn Adaptive] extraction_description attempt 1/2
+2025-08-24T12:42:04.170Z - INFO: ⏳ [LinkedIn Adaptive] extraction_description_attempt_1 delay: 1000ms
+2025-08-24T12:42:05.177Z - INFO: ✅ [LinkedIn Adaptive] description extracted with selector: .top-card-layout__card .break-words
+2025-08-24T12:42:05.178Z - INFO: ✅ [LinkedIn Adaptive] extraction_description succeeded on attempt 1
+2025-08-24T12:42:05.178Z - INFO: ✅ [LinkedIn Adaptive] Description extracted via adaptive learning
+2025-08-24T12:42:05.178Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:42:05.180Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-24T12:42:05.180Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:42:05.183Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-24T12:42:05.183Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-24T12:42:05.184Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T12:42:05.184Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T12:42:05.184Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T12:42:05.184Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T12:42:05.185Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:42:05.185Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T12:42:05.185Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T12:42:05.185Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:42:05.186Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T12:42:05.186Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T12:42:05.186Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T12:42:05.186Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T12:42:05.186Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-24T12:42:05.186Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-24T12:42:05.186Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-24T12:42:34.278Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-24T12:42:34.278Z - INFO: ================================
+2025-08-24T12:42:34.279Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-24T12:42:34.279Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:42:34.282Z - INFO: ⏳ Starting extraction...
+2025-08-24T12:42:34.283Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-24T12:42:34.284Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:42:34.284Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:42:34.284Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 7049710f9cb009f5a68ffc369f70fa1a
+2025-08-24T12:42:34.284Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-24T12:42:34.284Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:42:34.284Z - INFO: 🎭 Using advanced user agent: Linux
+2025-08-24T12:42:34.683Z - INFO: ⏱️ [Performance] browser_launch: 398ms (SUCCESS)
+2025-08-24T12:42:34.683Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-24T12:42:34.683Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:42:34.728Z - INFO: No cookie file found, starting a fresh session.
+2025-08-24T12:42:34.728Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:42:34.728Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:42:34.729Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 6c4b455effcc26d571f61139efc81769
+2025-08-24T12:42:34.729Z - INFO: 🧠 [LinkedIn Adaptive] Initialized self-learning scraper system
+2025-08-24T12:42:34.729Z - INFO: 🧠 [LinkedIn] Initialized adaptive self-learning scraper
+2025-08-24T12:42:34.733Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-24T12:42:34.733Z - INFO: 🎭 [Anti-Bot] User agent rotated: Fedora;
+2025-08-24T12:42:34.741Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T12:42:34.742Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T12:42:34.742Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T12:42:34.742Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-24T12:42:34.744Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-24T12:42:34.745Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-24T12:42:36.414Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-24T12:42:36.425Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-24T12:42:37.236Z - INFO: ⏱️ [Performance] navigation: 2491ms (SUCCESS)
+2025-08-24T12:42:37.236Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-24T12:42:37.864Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-24T12:42:37.864Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-24T12:42:37.864Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-24T12:42:38.219Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-24T12:42:38.219Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-24T12:42:45.367Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-24T12:42:45.375Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-24T12:42:45.375Z - INFO: Searching for "Show more" buttons...
+2025-08-24T12:42:45.794Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-24T12:42:47.331Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-24T12:42:48.848Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-24T12:42:50.466Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-24T12:42:50.468Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-24T12:42:50.594Z - INFO: === PAGE DEBUG INFO ===
+2025-08-24T12:42:50.604Z - INFO: Page Title:
+2025-08-24T12:42:50.604Z - INFO: H1 Text:
+2025-08-24T12:42:50.604Z - INFO: Has Company Elements:
+2025-08-24T12:42:50.604Z - INFO: Available Navigation:
+2025-08-24T12:42:50.604Z - INFO: Has About Section:
+2025-08-24T12:42:50.604Z - INFO: Visible Text Preview:
+2025-08-24T12:42:50.604Z - INFO: =====================
+2025-08-24T12:42:50.604Z - INFO: Attempting to extract JSON-LD data...
+2025-08-24T12:42:50.611Z - INFO: Found 1 JSON-LD script(s).
+2025-08-24T12:42:50.612Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-24T12:42:50.612Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-24T12:42:50.617Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 1/2
+2025-08-24T12:42:50.617Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_1 delay: 1006ms
+2025-08-24T12:42:51.624Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_retry_1 delay: 1534ms
+2025-08-24T12:42:53.159Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 2/2
+2025-08-24T12:42:53.159Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_2 delay: 1056ms
+2025-08-24T12:42:54.216Z - ERROR: ❌ [LinkedIn Adaptive] extraction_website failed after 2 attempts
+2025-08-24T12:42:54.230Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 1/2
+2025-08-24T12:42:54.230Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_1 delay: 1082ms
+2025-08-24T12:42:55.312Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_retry_1 delay: 1266ms
+2025-08-24T12:42:56.578Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 2/2
+2025-08-24T12:42:56.578Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_2 delay: 1123ms
+2025-08-24T12:42:57.701Z - ERROR: ❌ [LinkedIn Adaptive] extraction_industry failed after 2 attempts
+2025-08-24T12:42:57.711Z - INFO: Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...
+2025-08-24T12:42:57.711Z - INFO: 🔄 [LinkedIn Adaptive] extraction_description attempt 1/2
+2025-08-24T12:42:57.711Z - INFO: ⏳ [LinkedIn Adaptive] extraction_description_attempt_1 delay: 1000ms
+2025-08-24T12:42:58.718Z - INFO: ✅ [LinkedIn Adaptive] description extracted with selector: .top-card-layout__card .break-words
+2025-08-24T12:42:58.718Z - INFO: ✅ [LinkedIn Adaptive] extraction_description succeeded on attempt 1
+2025-08-24T12:42:58.718Z - INFO: ✅ [LinkedIn Adaptive] Description extracted via adaptive learning
+2025-08-24T12:42:58.718Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:42:58.720Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-24T12:42:58.720Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:42:58.723Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-24T12:42:58.723Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-24T12:42:58.724Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T12:42:58.724Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T12:42:58.724Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T12:42:58.724Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T12:42:58.725Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:42:58.725Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T12:42:58.725Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T12:42:58.725Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:42:58.726Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T12:42:58.726Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T12:42:58.726Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T12:42:58.726Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T12:42:58.726Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-24T12:42:58.726Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-24T12:42:58.726Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-24T12:43:00.728Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 91 banners
+2025-08-24T12:43:02.730Z - INFO: 📊 [API Monitor] 4s: 2 requests, 3 responses, 91 banners
+2025-08-24T12:43:04.730Z - INFO: 📊 [API Monitor] 6s: 2 requests, 3 responses, 91 banners
+2025-08-24T12:43:29.997Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-24T12:43:29.997Z - INFO: ================================
+2025-08-24T12:43:29.998Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-24T12:43:29.998Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:43:30.001Z - INFO: ⏳ Starting extraction...
+2025-08-24T12:43:30.002Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-24T12:43:30.003Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:43:30.003Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:43:30.003Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: abac8a59f80adb147882537cac53fca3
+2025-08-24T12:43:30.003Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-24T12:43:30.003Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:43:30.003Z - INFO: 🎭 Using advanced user agent: Linux
+2025-08-24T12:43:30.407Z - INFO: ⏱️ [Performance] browser_launch: 404ms (SUCCESS)
+2025-08-24T12:43:30.407Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-24T12:43:30.407Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:43:30.460Z - INFO: No cookie file found, starting a fresh session.
+2025-08-24T12:43:30.460Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:43:30.460Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:43:30.460Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 641ef320c51b9dfc07df62b981d9ea06
+2025-08-24T12:43:30.460Z - INFO: 🧠 [LinkedIn Adaptive] Initialized self-learning scraper system
+2025-08-24T12:43:30.460Z - INFO: 🧠 [LinkedIn] Initialized adaptive self-learning scraper
+2025-08-24T12:43:30.466Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-24T12:43:30.466Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:43:30.472Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T12:43:30.473Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T12:43:30.473Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T12:43:30.473Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-24T12:43:30.474Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-24T12:43:30.475Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-24T12:43:32.400Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-24T12:43:32.410Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-24T12:43:33.181Z - INFO: ⏱️ [Performance] navigation: 2706ms (SUCCESS)
+2025-08-24T12:43:33.181Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-24T12:43:33.786Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-24T12:43:33.786Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-24T12:43:33.786Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-24T12:43:34.115Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-24T12:43:34.115Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-24T12:43:41.757Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-24T12:43:41.764Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-24T12:43:41.764Z - INFO: Searching for "Show more" buttons...
+2025-08-24T12:43:42.190Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-24T12:43:43.729Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-24T12:43:45.279Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-24T12:43:46.892Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-24T12:43:46.894Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-24T12:43:47.031Z - INFO: === PAGE DEBUG INFO ===
+2025-08-24T12:43:47.041Z - INFO: Page Title:
+2025-08-24T12:43:47.041Z - INFO: H1 Text:
+2025-08-24T12:43:47.041Z - INFO: Has Company Elements:
+2025-08-24T12:43:47.041Z - INFO: Available Navigation:
+2025-08-24T12:43:47.042Z - INFO: Has About Section:
+2025-08-24T12:43:47.042Z - INFO: Visible Text Preview:
+2025-08-24T12:43:47.042Z - INFO: =====================
+2025-08-24T12:43:47.042Z - INFO: Attempting to extract JSON-LD data...
+2025-08-24T12:43:47.049Z - INFO: Found 1 JSON-LD script(s).
+2025-08-24T12:43:47.050Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-24T12:43:47.050Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-24T12:43:47.074Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 1/2
+2025-08-24T12:43:47.074Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_1 delay: 1048ms
+2025-08-24T12:43:48.124Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_retry_1 delay: 1258ms
+2025-08-24T12:43:49.382Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 2/2
+2025-08-24T12:43:49.383Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_2 delay: 1529ms
+2025-08-24T12:43:50.913Z - ERROR: ❌ [LinkedIn Adaptive] extraction_website failed after 2 attempts
+2025-08-24T12:43:50.927Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 1/2
+2025-08-24T12:43:50.927Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_1 delay: 1057ms
+2025-08-24T12:43:51.985Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_retry_1 delay: 1274ms
+2025-08-24T12:43:53.260Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 2/2
+2025-08-24T12:43:53.260Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_2 delay: 1319ms
+2025-08-24T12:43:54.580Z - ERROR: ❌ [LinkedIn Adaptive] extraction_industry failed after 2 attempts
+2025-08-24T12:43:54.589Z - INFO: Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...
+2025-08-24T12:43:54.590Z - INFO: 🔄 [LinkedIn Adaptive] extraction_description attempt 1/2
+2025-08-24T12:43:54.590Z - INFO: ⏳ [LinkedIn Adaptive] extraction_description_attempt_1 delay: 1000ms
+2025-08-24T12:43:55.596Z - INFO: ✅ [LinkedIn Adaptive] description extracted with selector: .top-card-layout__card .break-words
+2025-08-24T12:43:55.597Z - INFO: ✅ [LinkedIn Adaptive] extraction_description succeeded on attempt 1
+2025-08-24T12:43:55.597Z - INFO: ✅ [LinkedIn Adaptive] Description extracted via adaptive learning
+2025-08-24T12:43:55.597Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:43:55.598Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-24T12:43:55.598Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:43:55.601Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-24T12:43:55.602Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-24T12:43:55.603Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T12:43:55.603Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T12:43:55.603Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T12:43:55.603Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T12:43:55.603Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:43:55.604Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T12:43:55.604Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T12:43:55.604Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:43:55.604Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T12:43:55.604Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T12:43:55.604Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T12:43:55.604Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T12:43:55.605Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-24T12:43:55.605Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-24T12:43:55.605Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-24T12:43:57.606Z - INFO: 📊 [API Monitor] 2s: 2 requests, 3 responses, 95 banners
+2025-08-24T12:43:59.609Z - INFO: 📊 [API Monitor] 4s: 2 requests, 3 responses, 95 banners
+2025-08-24T12:44:01.110Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 2 new requests, 3 responses, found 95 banner URLs.
+2025-08-24T12:44:01.110Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-24T12:44:01.113Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-24T12:44:01.114Z - INFO: 🔍 [Pattern Discovery] New pattern:
+2025-08-24T12:44:01.114Z - INFO: 📊 [Extraction Metrics] Method: None, Time: 5508ms, Success: false
+2025-08-24T12:44:01.114Z - ERROR: Error scraping https://www.linkedin.com/company/versa-networks/:: TypeError: this.selectBestBannerUrl is not a function
+    at LinkedInBannerExtractor.extractBannerWithAdvancedMethods (/app/linkedin-banner-extractor.js:403:38)
+    at async LinkedInBannerExtractor.extractBannerAndLogo (/app/linkedin-banner-extractor.js:1097:27)
+    at async scrapeLinkedInCompany (/app/linkedin_scraper.js:1061:36)
+    at async Object.main (/app/linkedin_scraper.js:1247:29)
+    at async testLinkedInScraper (/app/test-linkedin.js:16:24)
+2025-08-24T12:44:01.114Z - ERROR: ❌ [Performance] Error in parsing:: this.selectBestBannerUrl is not a function
+2025-08-24T12:44:01.114Z - INFO: ⏱️ [Performance] extraction: 30705ms (FAILED)
+2025-08-24T12:44:01.130Z - INFO: ✅ Page closed for https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:44:01.131Z - INFO: Successfully saved data to output.json
+2025-08-24T12:44:01.131Z - WARN: First URL failed to scrape:
+2025-08-24T12:44:01.288Z - INFO: Browser closed successfully
+2025-08-24T12:44:01.288Z - INFO: ⏱️  Extraction completed in 31.29 seconds
+2025-08-24T12:44:01.288Z - INFO:
+=== FINAL RESULT ===
+2025-08-24T12:44:01.288Z - INFO: {
+  "url": "https://www.linkedin.com/company/versa-networks/",
+  "status": "Failed",
+  "error": "this.selectBestBannerUrl is not a function",
+  "errorCategory": "parsing"
+}
+2025-08-24T12:44:01.288Z - INFO:
+❌ FAILED: No meaningful data extracted
+2025-08-24T12:44:01.288Z - INFO: ❓ Possible issues:
+2025-08-24T12:44:01.288Z - INFO:   - Login popup not properly dismissed
+2025-08-24T12:44:01.288Z - INFO:   - Page structure changed
+2025-08-24T12:44:01.288Z - INFO:   - IP blocked by LinkedIn
+2025-08-24T12:44:01.288Z - INFO:   - About tab navigation failed
+2025-08-24T12:44:01.288Z - INFO: 🚨 Error:
+2025-08-24T12:44:01.289Z - INFO:
+📄 Output.json contents:
+2025-08-24T12:44:01.289Z - INFO: [
+  {
+    "url": "https://www.linkedin.com/company/versa-networks/",
+    "status": "Failed",
+    "error": "this.selectBestBannerUrl is not a function",
+    "errorCategory": "parsing"
+  }
+]
+2025-08-24T12:48:29.850Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-24T12:50:44.902Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-24T12:50:44.902Z - INFO: ================================
+2025-08-24T12:50:44.903Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-24T12:50:44.903Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:50:44.908Z - INFO: ⏳ Starting extraction...
+2025-08-24T12:50:44.910Z - INFO: Starting LinkedIn scraping for 1 URL(s)...
+2025-08-24T12:50:44.910Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:50:44.911Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:50:44.911Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 32cb15086a93893dde895af72ea9e27f
+2025-08-24T12:50:44.911Z - INFO: ✅ [LinkedIn] Initialized LinkedIn-specific anti-bot system
+2025-08-24T12:50:44.911Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:50:44.911Z - INFO: 🎭 Using advanced user agent: Linux
+2025-08-24T12:50:46.162Z - INFO: ⏱️ [Performance] browser_launch: 1251ms (SUCCESS)
+2025-08-24T12:50:46.162Z - INFO: 🛡️ [Performance] Anti-bot event: browser_launch
+2025-08-24T12:50:46.163Z - INFO: Processing URL 1/1: https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:50:46.314Z - INFO: No cookie file found, starting a fresh session.
+2025-08-24T12:50:46.315Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T12:50:46.315Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T12:50:46.315Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: c67416d016b3ca0b7482d178fcff3aa3
+2025-08-24T12:50:46.315Z - INFO: 🧠 [LinkedIn Adaptive] Initialized self-learning scraper system
+2025-08-24T12:50:46.315Z - INFO: 🧠 [LinkedIn] Initialized adaptive self-learning scraper
+2025-08-24T12:50:46.326Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-24T12:50:46.326Z - INFO: 🎭 [Anti-Bot] User agent rotated: Linux
+2025-08-24T12:50:46.331Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T12:50:46.332Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T12:50:46.332Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T12:50:46.332Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-24T12:50:46.335Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-24T12:50:46.335Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-24T12:50:47.786Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-24T12:50:47.800Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-24T12:50:48.679Z - INFO: ⏱️ [Performance] navigation: 2344ms (SUCCESS)
+2025-08-24T12:50:48.680Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-24T12:50:49.612Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-24T12:50:49.613Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-24T12:50:49.613Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-24T12:50:50.314Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-24T12:50:50.314Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-24T12:50:58.042Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-24T12:50:58.051Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-24T12:50:58.051Z - INFO: Searching for "Show more" buttons...
+2025-08-24T12:50:58.500Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-24T12:51:00.058Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-24T12:51:01.618Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-24T12:51:03.234Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-24T12:51:03.236Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-24T12:51:03.417Z - INFO: === PAGE DEBUG INFO ===
+2025-08-24T12:51:03.421Z - INFO: Page Title:
+2025-08-24T12:51:03.421Z - INFO: H1 Text:
+2025-08-24T12:51:03.421Z - INFO: Has Company Elements:
+2025-08-24T12:51:03.421Z - INFO: Available Navigation:
+2025-08-24T12:51:03.421Z - INFO: Has About Section:
+2025-08-24T12:51:03.421Z - INFO: Visible Text Preview:
+2025-08-24T12:51:03.421Z - INFO: =====================
+2025-08-24T12:51:03.421Z - INFO: Attempting to extract JSON-LD data...
+2025-08-24T12:51:03.428Z - INFO: Found 1 JSON-LD script(s).
+2025-08-24T12:51:03.428Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-24T12:51:03.429Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-24T12:51:03.434Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 1/2
+2025-08-24T12:51:03.434Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_1 delay: 1029ms
+2025-08-24T12:51:04.464Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_retry_1 delay: 1356ms
+2025-08-24T12:51:05.821Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 2/2
+2025-08-24T12:51:05.821Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_2 delay: 1303ms
+2025-08-24T12:51:07.125Z - ERROR: ❌ [LinkedIn Adaptive] extraction_website failed after 2 attempts
+2025-08-24T12:51:07.143Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 1/2
+2025-08-24T12:51:07.143Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_1 delay: 1099ms
+2025-08-24T12:51:08.243Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_retry_1 delay: 1053ms
+2025-08-24T12:51:09.297Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 2/2
+2025-08-24T12:51:09.297Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_2 delay: 1328ms
+2025-08-24T12:51:10.625Z - ERROR: ❌ [LinkedIn Adaptive] extraction_industry failed after 2 attempts
+2025-08-24T12:51:10.642Z - INFO: Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...
+2025-08-24T12:51:10.643Z - INFO: 🔄 [LinkedIn Adaptive] extraction_description attempt 1/2
+2025-08-24T12:51:10.643Z - INFO: ⏳ [LinkedIn Adaptive] extraction_description_attempt_1 delay: 1000ms
+2025-08-24T12:51:11.654Z - INFO: ✅ [LinkedIn Adaptive] description extracted with selector: .top-card-layout__card .break-words
+2025-08-24T12:51:11.655Z - INFO: ✅ [LinkedIn Adaptive] extraction_description succeeded on attempt 1
+2025-08-24T12:51:11.655Z - INFO: ✅ [LinkedIn Adaptive] Description extracted via adaptive learning
+2025-08-24T12:51:11.655Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:51:11.658Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-24T12:51:11.658Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T12:51:11.662Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-24T12:51:11.663Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-24T12:51:11.664Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T12:51:11.664Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T12:51:11.664Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T12:51:11.664Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T12:51:11.665Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:51:11.666Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T12:51:11.666Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T12:51:11.666Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T12:51:11.667Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T12:51:11.667Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T12:51:11.667Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T12:51:11.667Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T12:51:11.668Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-24T12:51:11.668Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-24T12:51:11.668Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-24T12:51:13.672Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 94 banners
+2025-08-24T12:51:15.674Z - INFO: 📊 [API Monitor] 4s: 2 requests, 3 responses, 94 banners
+2025-08-24T12:51:17.677Z - INFO: 📊 [API Monitor] 6s: 2 requests, 3 responses, 94 banners
+2025-08-24T12:51:18.177Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 2 new requests, 3 responses, found 94 banner URLs.
+2025-08-24T12:51:18.177Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-24T12:51:18.182Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-24T12:51:18.183Z - INFO: 🔍 [Pattern Discovery] New pattern:
+2025-08-24T12:51:18.183Z - INFO: 📊 [Extraction Metrics] Method: None, Time: 6514ms, Success: false
+2025-08-24T12:51:18.184Z - ERROR: Error scraping https://www.linkedin.com/company/versa-networks/:: TypeError: this.selectBestBannerUrl is not a function
+    at LinkedInBannerExtractor.extractBannerWithAdvancedMethods (/app/linkedin-banner-extractor.js:403:38)
+    at async LinkedInBannerExtractor.extractBannerAndLogo (/app/linkedin-banner-extractor.js:1097:27)
+    at async scrapeLinkedInCompany (/app/linkedin_scraper.js:1061:36)
+    at async Object.main (/app/linkedin_scraper.js:1247:29)
+    at async testLinkedInScraper (/app/test-linkedin.js:16:24)
+2025-08-24T12:51:18.184Z - ERROR: ❌ [Performance] Error in parsing:: this.selectBestBannerUrl is not a function
+2025-08-24T12:51:18.184Z - INFO: ⏱️ [Performance] extraction: 32019ms (FAILED)
+2025-08-24T12:51:18.224Z - INFO: ✅ Page closed for https://www.linkedin.com/company/versa-networks/
+2025-08-24T12:51:18.226Z - INFO: Successfully saved data to output.json
+2025-08-24T12:51:18.226Z - WARN: First URL failed to scrape:
+2025-08-24T12:51:18.548Z - INFO: Browser closed successfully
+2025-08-24T12:51:18.548Z - INFO: ⏱️  Extraction completed in 33.64 seconds
+2025-08-24T12:51:18.548Z - INFO:
+=== FINAL RESULT ===
+2025-08-24T12:51:18.548Z - INFO: {
+  "url": "https://www.linkedin.com/company/versa-networks/",
+  "status": "Failed",
+  "error": "this.selectBestBannerUrl is not a function",
+  "errorCategory": "parsing"
+}
+2025-08-24T12:51:18.549Z - INFO:
+❌ FAILED: No meaningful data extracted
+2025-08-24T12:51:18.549Z - INFO: ❓ Possible issues:
+2025-08-24T12:51:18.549Z - INFO:   - Login popup not properly dismissed
+2025-08-24T12:51:18.549Z - INFO:   - Page structure changed
+2025-08-24T12:51:18.549Z - INFO:   - IP blocked by LinkedIn
+2025-08-24T12:51:18.549Z - INFO:   - About tab navigation failed
+2025-08-24T12:51:18.549Z - INFO: 🚨 Error:
+2025-08-24T12:51:18.550Z - INFO:
+📄 Output.json contents:
+2025-08-24T12:51:18.550Z - INFO: [
+  {
+    "url": "https://www.linkedin.com/company/versa-networks/",
+    "status": "Failed",
+    "error": "this.selectBestBannerUrl is not a function",
+    "errorCategory": "parsing"
+  }
+]
+2025-08-24T12:51:18.550Z - INFO: ❌ Logo color not extracted
+2025-08-24T12:51:18.550Z - INFO: ❌ Banner color not extracted
+2025-08-24T12:55:44.519Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-24T13:02:06.985Z - INFO: 🔧 Enhanced LinkedIn Scraper Test
+2025-08-24T13:02:06.986Z - INFO: ================================
+2025-08-24T13:02:06.986Z - INFO: 🚀 Testing LinkedIn scraper with enhanced fixes...
+2025-08-24T13:02:06.986Z - INFO: 🔍 Testing URL: https://www.linkedin.com/company/versa-networks/
+2025-08-24T13:02:08.239Z - INFO: ⏳ Starting extraction...
+2025-08-24T13:02:08.311Z - INFO: No cookie file found, starting a fresh session.
+2025-08-24T13:02:08.312Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T13:02:08.312Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T13:02:08.312Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 3f52735b514458c602a0b693856837bb
+2025-08-24T13:02:08.313Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T13:02:08.313Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T13:02:08.313Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 9a56c74467552e47a96e6490381a4b70
+2025-08-24T13:02:08.313Z - INFO: 🧠 [LinkedIn Adaptive] Initialized self-learning scraper system
+2025-08-24T13:02:08.313Z - INFO: 🧠 [LinkedIn] Initialized adaptive self-learning scraper
+2025-08-24T13:02:08.318Z - INFO: 🛡️ [Anti-Bot] Stealth mode activated
+2025-08-24T13:02:08.319Z - INFO: 🎭 [Anti-Bot] User agent rotated: Fedora;
+2025-08-24T13:02:08.327Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T13:02:08.328Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T13:02:08.328Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T13:02:08.328Z - INFO: 🕸️ [Banner Extractor] Setting up network interception...
+2025-08-24T13:02:08.330Z - INFO: 🛡️ [Performance] Anti-bot event: stealth_activation
+2025-08-24T13:02:08.330Z - INFO: Scraping https://www.linkedin.com/company/versa-networks/...
+2025-08-24T13:02:10.301Z - INFO: Attempting to navigate to https://www.linkedin.com/company/versa-networks/ with a 180s timeout and referer "https://www.google.com/"...
+2025-08-24T13:02:10.315Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /company/versa-networks/
+2025-08-24T13:02:11.267Z - INFO: ⏱️ [Performance] navigation: 2937ms (SUCCESS)
+2025-08-24T13:02:11.268Z - INFO: Successfully navigated to https://www.linkedin.com/company/versa-networks/.
+2025-08-24T13:02:12.182Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /organization-guest/api/
+2025-08-24T13:02:12.182Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/ingraphs/
+2025-08-24T13:02:12.182Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /ingraphs/gauge/
+2025-08-24T13:02:12.923Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /api/v2/
+2025-08-24T13:02:12.923Z - INFO: 🔍 [Pattern Discovery] New API pattern learned: /v2/msft/
+2025-08-24T13:02:16.216Z - INFO: [InteractionHandler] Successfully loaded learned patterns.
+2025-08-24T13:02:16.224Z - INFO: [+] Adaptive Interaction Handler is active.
+2025-08-24T13:02:16.224Z - INFO: Searching for "Show more" buttons...
+2025-08-24T13:02:16.678Z - INFO: Clicked a "Show more" button with text: "Show more similar pages"
+2025-08-24T13:02:18.224Z - INFO: Clicked a "Show more" button with text: "Show more jobs like this"
+2025-08-24T13:02:19.790Z - INFO: Clicked a "Show more" button with text: "See more info on crunchbase"
+2025-08-24T13:02:21.411Z - INFO: Finished clicking 3 "Show more" button(s).
+2025-08-24T13:02:21.413Z - WARN: Detected login/join page instead of company page. Attempting to access company directly...
+2025-08-24T13:02:21.574Z - INFO: === PAGE DEBUG INFO ===
+2025-08-24T13:02:21.577Z - INFO: Page Title:
+2025-08-24T13:02:21.577Z - INFO: H1 Text:
+2025-08-24T13:02:21.577Z - INFO: Has Company Elements:
+2025-08-24T13:02:21.577Z - INFO: Available Navigation:
+2025-08-24T13:02:21.577Z - INFO: Has About Section:
+2025-08-24T13:02:21.577Z - INFO: Visible Text Preview:
+2025-08-24T13:02:21.577Z - INFO: =====================
+2025-08-24T13:02:21.577Z - INFO: Attempting to extract JSON-LD data...
+2025-08-24T13:02:21.584Z - INFO: Found 1 JSON-LD script(s).
+2025-08-24T13:02:21.585Z - INFO: Found "unknown" type JSON-LD. Merging as secondary.
+2025-08-24T13:02:21.585Z - INFO: Successfully extracted and merged JSON-LD data.
+2025-08-24T13:02:21.591Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 1/2
+2025-08-24T13:02:21.591Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_1 delay: 1162ms
+2025-08-24T13:02:22.754Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_retry_1 delay: 1182ms
+2025-08-24T13:02:23.936Z - INFO: 🔄 [LinkedIn Adaptive] extraction_website attempt 2/2
+2025-08-24T13:02:23.936Z - INFO: ⏳ [LinkedIn Adaptive] extraction_website_attempt_2 delay: 1556ms
+2025-08-24T13:02:25.493Z - ERROR: ❌ [LinkedIn Adaptive] extraction_website failed after 2 attempts
+2025-08-24T13:02:25.509Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 1/2
+2025-08-24T13:02:25.509Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_1 delay: 1000ms
+2025-08-24T13:02:26.511Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_retry_1 delay: 1504ms
+2025-08-24T13:02:28.014Z - INFO: 🔄 [LinkedIn Adaptive] extraction_industry attempt 2/2
+2025-08-24T13:02:28.015Z - INFO: ⏳ [LinkedIn Adaptive] extraction_industry_attempt_2 delay: 1314ms
+2025-08-24T13:02:29.330Z - ERROR: ❌ [LinkedIn Adaptive] extraction_industry failed after 2 attempts
+2025-08-24T13:02:29.341Z - INFO: Could not find "aboutUs" in JSON-LD, attempting adaptive extraction...
+2025-08-24T13:02:29.341Z - INFO: 🔄 [LinkedIn Adaptive] extraction_description attempt 1/2
+2025-08-24T13:02:29.341Z - INFO: ⏳ [LinkedIn Adaptive] extraction_description_attempt_1 delay: 1000ms
+2025-08-24T13:02:30.349Z - INFO: ✅ [LinkedIn Adaptive] description extracted with selector: .top-card-layout__card .break-words
+2025-08-24T13:02:30.350Z - INFO: ✅ [LinkedIn Adaptive] extraction_description succeeded on attempt 1
+2025-08-24T13:02:30.350Z - INFO: ✅ [LinkedIn Adaptive] Description extracted via adaptive learning
+2025-08-24T13:02:30.350Z - INFO: Could not find "founded" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T13:02:30.351Z - INFO: Successfully extracted "founded" from HTML:
+2025-08-24T13:02:30.351Z - INFO: Could not find "locations" in JSON-LD, attempting to scrape from HTML.
+2025-08-24T13:02:30.354Z - INFO: Successfully extracted "locations" from HTML.
+2025-08-24T13:02:30.355Z - INFO: 🚀 [Banner Extractor] Starting prioritized banner extraction with adaptive learning...
+2025-08-24T13:02:30.356Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T13:02:30.356Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T13:02:30.356Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T13:02:30.356Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T13:02:30.357Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T13:02:30.357Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T13:02:30.357Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T13:02:30.357Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T13:02:30.358Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T13:02:30.358Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T13:02:30.358Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T13:02:30.358Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T13:02:30.358Z - INFO: 🧠 [Banner Extractor] Adaptive configuration loaded successfully
+2025-08-24T13:02:30.358Z - INFO: 🎯 [PRIMARY] Network interception strategy...
+2025-08-24T13:02:30.358Z - INFO: ⏳ [Banner Extractor] Waiting for API calls...
+2025-08-24T13:02:32.361Z - INFO: 📊 [API Monitor] 2s: 0 requests, 2 responses, 94 banners
+2025-08-24T13:02:34.364Z - INFO: 📊 [API Monitor] 4s: 0 requests, 2 responses, 94 banners
+2025-08-24T13:02:36.367Z - INFO: 📊 [API Monitor] 6s: 2 requests, 3 responses, 94 banners
+2025-08-24T13:02:38.370Z - INFO: 📊 [API Monitor] 8s: 2 requests, 3 responses, 94 banners
+2025-08-24T13:02:39.873Z - INFO: ✅ [Banner Extractor] API call monitoring complete. Captured 2 new requests, 3 responses, found 94 banner URLs.
+2025-08-24T13:02:39.873Z - INFO: 🎯 [Banner Extractor] Triggering additional API calls...
+2025-08-24T13:02:39.876Z - WARN: ⚠️ [Banner Extractor] Error triggering API calls:
+2025-08-24T13:02:39.877Z - INFO: 🔍 [Pattern Discovery] New pattern:
+2025-08-24T13:02:39.877Z - INFO: 📊 [Extraction Metrics] Method: None, Time: 9518ms, Success: false
+2025-08-24T13:02:39.877Z - ERROR: Error scraping https://www.linkedin.com/company/versa-networks/:: TypeError: this.selectBestBannerUrl is not a function
+    at LinkedInBannerExtractor.extractBannerWithAdvancedMethods (/app/linkedin-banner-extractor.js:403:38)
+    at async LinkedInBannerExtractor.extractBannerAndLogo (/app/linkedin-banner-extractor.js:1097:27)
+    at async Object.scrapeLinkedInCompany (/app/linkedin_scraper.js:1061:36)
+    at async testLinkedInScraper (/app/test-linkedin.js:17:24)
+2025-08-24T13:02:39.877Z - ERROR: ❌ [Performance] Error in parsing:: this.selectBestBannerUrl is not a function
+2025-08-24T13:02:39.877Z - INFO: ⏱️ [Performance] extraction: 31634ms (FAILED)
+2025-08-24T13:02:39.893Z - INFO: ✅ Page closed for https://www.linkedin.com/company/versa-networks/
+2025-08-24T13:02:39.893Z - INFO: ⏱️  Extraction completed in 31.65 seconds
+2025-08-24T13:02:39.893Z - INFO:
+=== FINAL RESULT ===
+2025-08-24T13:02:39.893Z - INFO: {
+  "url": "https://www.linkedin.com/company/versa-networks/",
+  "status": "Failed",
+  "error": "this.selectBestBannerUrl is not a function",
+  "errorCategory": "parsing"
+}
+2025-08-24T13:02:39.893Z - INFO:
+❌ FAILED: No meaningful data extracted
+2025-08-24T13:02:39.893Z - INFO: ❓ Possible issues:
+2025-08-24T13:02:39.893Z - INFO:   - Login popup not properly dismissed
+2025-08-24T13:02:39.893Z - INFO:   - Page structure changed
+2025-08-24T13:02:39.893Z - INFO:   - IP blocked by LinkedIn
+2025-08-24T13:02:39.893Z - INFO:   - About tab navigation failed
+2025-08-24T13:02:39.893Z - INFO: 🚨 Error:
+2025-08-24T13:02:39.893Z - INFO: ❌ Could not read output.json
+2025-08-24T13:02:39.893Z - INFO: ❌ Logo color not extracted
+2025-08-24T13:02:39.893Z - INFO: ❌ Banner color not extracted
+2025-08-24T13:07:06.554Z - WARN: 🚨 [Health Check] Issues detected:
+2025-08-24T14:36:09.980Z - INFO: ✅ System Health Check: COMPLETED (1222ms)
+2025-08-24T14:36:09.980Z - INFO:    Node.js v22.17.1, Memory: 8MB, Platform: linux, Browser: ✅
+2025-08-24T14:36:09.980Z - INFO:
+🔄 Dependency Validation...
+2025-08-24T14:36:09.987Z - INFO: ✅ Dependency Validation: COMPLETED (7ms)
+2025-08-24T14:36:09.987Z - INFO:    All 5 dependencies validated
+2025-08-24T14:36:09.987Z - INFO:
+🔄 Adaptive System Deployment...
+2025-08-24T14:36:09.988Z - INFO: ✅ Adaptive System Deployment: COMPLETED (1ms)
+2025-08-24T14:36:09.988Z - INFO:    Adaptive system already deployed and configured
+2025-08-24T14:36:09.988Z - INFO:
+🔄 Component Initialization...
+2025-08-24T14:36:09.989Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T14:36:09.989Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T14:36:09.989Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: c4a134be5f7c5cd1868b003e8e1c2570
+2025-08-24T14:36:09.990Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T14:36:09.990Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T14:36:09.990Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T14:36:09.994Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T14:36:09.995Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T14:36:09.995Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T14:36:09.995Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T14:36:09.996Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T14:36:09.997Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T14:36:09.997Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T14:36:09.997Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T14:36:09.997Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T14:36:09.998Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T14:36:09.998Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T14:36:09.998Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T14:36:09.998Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T14:36:09.998Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T14:36:09.999Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T14:36:09.999Z - INFO: ✅ Component Initialization: COMPLETED (11ms)
+2025-08-24T14:36:09.999Z - INFO:    6 components initialized successfully
+2025-08-24T14:36:09.999Z - INFO:
+🔄 Background Services...
+2025-08-24T14:36:09.999Z - INFO:    💓 Health monitoring active (30-minute intervals)
+2025-08-24T14:36:09.999Z - INFO: ✅ Background Services: COMPLETED (0ms)
+2025-08-24T14:36:09.999Z - INFO:    1 background services configured
+2025-08-24T14:36:09.999Z - INFO:
+🔄 Final Validation...
+2025-08-24T14:36:10.000Z - INFO: 🛡️ [LinkedIn Anti-Bot] Initializing advanced LinkedIn image anti-bot system
+2025-08-24T14:36:10.000Z - INFO: 🔧 [LinkedIn Anti-Bot] Environment: Production (Linux)
+2025-08-24T14:36:10.000Z - INFO: 🆔 [LinkedIn Anti-Bot] Session ID: 31f6174051ff796c8d2c9e0294c5512f
+2025-08-24T14:36:10.000Z - INFO: ✅ [Config] Configuration validation passed
+2025-08-24T14:36:10.000Z - INFO: ✅ [Banner Extractor] Initialized with adaptive configuration system
+2025-08-24T14:36:10.000Z - INFO: 📊 [Banner Extractor] Logging level: Production
+2025-08-24T14:36:10.001Z - INFO: 📊 [Pattern Manager] Loaded 7 patterns from database
+2025-08-24T14:36:10.001Z - INFO: ✅ [Pattern Manager] Initialized with
+2025-08-24T14:36:10.001Z - INFO: ⏰ [Pattern Manager] Scheduled maintenance tasks
+2025-08-24T14:36:10.001Z - INFO: 🔄 [Adaptive Config] Updating configurations...
+2025-08-24T14:36:10.001Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T14:36:10.001Z - INFO: 🛡️ [Pattern Manager] Fallback patterns: 5 baseline + 0 historical
+2025-08-24T14:36:10.001Z - INFO: 🧠 [Adaptive Config] Generated network patterns: 11 API + 5 content patterns
+2025-08-24T14:36:10.001Z - INFO: 📊 [Pattern Manager] Retrieved 7 best patterns for development
+2025-08-24T14:36:10.001Z - INFO: 🧠 [Adaptive Config] Generated API endpoints: 12 total templates
+2025-08-24T14:36:10.001Z - INFO: ✅ [Adaptive Config] Configurations updated successfully
+2025-08-24T14:36:10.001Z - INFO: ⏰ [Adaptive Config] Scheduled periodic updates
+2025-08-24T14:36:10.001Z - INFO: ✅ [Adaptive Config] Initialized successfully
+2025-08-24T14:36:10.001Z - INFO: ✅ Final Validation: COMPLETED (2ms)
+2025-08-24T14:36:10.001Z - INFO:    3 validation checks passed
+2025-08-24T14:36:10.001Z - INFO:
+=================================================================
+2025-08-24T14:36:10.001Z - INFO: ✅ AUTO-INITIALIZATION COMPLETED SUCCESSFULLY
+2025-08-24T14:36:10.001Z - INFO: =================================================================
+2025-08-24T14:36:10.001Z - INFO: ⏱️  Total Time: 1s
+2025-08-24T14:36:10.001Z - INFO: 📊 Steps Completed: 6/6
+2025-08-24T14:36:10.001Z - INFO: 🎉 System is ready for production use!
+2025-08-24T14:36:10.001Z - INFO: =================================================================
+2025-08-24T14:36:10.001Z - INFO: AFTER autoInit.initialize()
+2025-08-24T14:36:10.001Z - INFO: 🔧 Ensuring Chrome availability...
+2025-08-24T14:36:10.001Z - INFO: BEFORE ensureChrome()
+2025-08-24T14:36:10.003Z - INFO: AFTER ensureChrome()
+2025-08-24T14:36:10.010Z - INFO:
+=================================================================
+2025-08-24T14:36:10.010Z - INFO: 🎉 LINKEDIN BANNER EXTRACTION SYSTEM READY
+2025-08-24T14:36:10.010Z - INFO: =================================================================
+2025-08-24T14:36:10.010Z - INFO: 🌐 Server running on port 3000
+2025-08-24T14:36:10.010Z - INFO: 📊 Environment: development
+2025-08-24T14:36:10.010Z - INFO: 🔧 Chrome Status: ✅ Ready
+2025-08-24T14:36:10.010Z - INFO: 🧠 Adaptive Mode: ✅ Enabled
+2025-08-24T14:36:10.010Z - INFO: =================================================================
+2025-08-24T14:36:10.010Z - INFO: 📋 Available Endpoints:
+2025-08-24T14:36:10.010Z - INFO:    POST /api/extract-company-details - Main extraction endpoint
+2025-08-24T14:36:10.010Z - INFO:    GET  /api/extraction-logs         - Real-time extraction logs
+2025-08-24T14:36:10.010Z - INFO:    GET  /api/extraction-sessions     - Active extraction sessions
+2025-08-24T14:36:10.010Z - INFO:    GET  /api/system-health           - System health dashboard
+2025-08-24T14:36:10.010Z - INFO:    GET  /api/search-history          - Search history & analytics
+2025-08-24T14:36:10.010Z - INFO:    GET  /api/logs/:type              - Detailed file logs
+2025-08-24T14:36:10.010Z - INFO:    GET  /health                      - System health check
+2025-08-24T14:36:10.010Z - INFO:    GET  /linkedin-metrics            - LinkedIn extraction metrics
+2025-08-24T14:36:10.010Z - INFO:    GET  /performance-metrics         - Performance analytics
+2025-08-24T14:36:10.010Z - INFO:    GET  /anti-bot-status             - Anti-bot system status
+2025-08-24T14:36:10.010Z - INFO:    GET  /test                        - Basic API test
+2025-08-24T14:36:10.010Z - INFO:    GET  /test-browser                - Browser compatibility test
+2025-08-24T14:36:10.010Z - INFO: =================================================================
+2025-08-24T14:36:10.010Z - INFO: ✅ All systems initialized successfully!
+2025-08-24T14:36:10.010Z - INFO: 🎯 System is ready for production use
+2025-08-24T14:36:10.010Z - INFO: =================================================================

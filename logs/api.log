@@ -96,3 +96,4 @@
 {"timestamp":"2025-08-15T20:58:49.915Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":50541,"userAgent":null,"ip":"127.0.0.1","type":"api"}
 {"timestamp":"2025-08-15T21:09:31.203Z","method":"GET","url":"/health","statusCode":200,"duration":16,"userAgent":"curl/8.5.0","ip":"127.0.0.1","type":"api"}
 {"timestamp":"2025-08-15T21:11:14.015Z","method":"GET","url":"/health","statusCode":200,"duration":1,"userAgent":"curl/8.5.0","ip":"127.0.0.1","type":"api"}
+{"timestamp":"2025-08-24T14:37:36.923Z","method":"POST","url":"/api/extract-company-details","statusCode":200,"duration":44621,"userAgent":"curl/8.5.0","ip":"127.0.0.1","type":"api"}

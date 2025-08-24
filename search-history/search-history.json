@@ -414,4 +414,4 @@
       }
     }
   ]
-}
+}{"searchId":"search_1756046256915_t66cmffsf","timestamp":"2025-08-24T14:37:36.915Z","url":"https://www.linkedin.com/company/versa-networks/","normalizedUrl":"https://www.linkedin.com/company/versa-networks","domain":"www.linkedin.com","sessionId":"session_1756046212299_k758j6at0","status":"success","performance":{"duration":44611,"cacheHit":false},"extraction":{"fieldsExtracted":["Logo","Colors","Fonts","Images","Company","_performance","_message"],"hasLogo":false,"hasBanner":false,"hasWebsite":false,"isLinkedIn":true,"isVerified":false},"technical":{"userAgent":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0","browserUsed":"chrome","platform":"linux","nodeVersion":"v22.17.1","retryCount":0},"context":{"source":"api"}}
